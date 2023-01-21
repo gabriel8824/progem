@@ -229,7 +229,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           AutoSizeText(
-                            'Cobranças',
+                            'Cobranças 1',
                             style: FlutterFlowTheme.of(context)
                                 .bodyText1
                                 .override(
