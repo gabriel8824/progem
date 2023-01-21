@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "367356848086",
+    "project_id": "progem-eb73e",
+    "storage_bucket": "progem-eb73e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:367356848086:android:a5d15b6ceae52b8bbda677",
+        "android_client_info": {
+          "package_name": "com.spaceapps.progem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "367356848086-8lm1eq915hac1e82r69tk7m453irf2lm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.spaceapps.progem",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "367356848086-aa3jcb9vhj7rpcu3b2f5qcpnu488kgps.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnTUIyh-qR7EWztB81lL0wzsxKMHncYtA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "367356848086-aa3jcb9vhj7rpcu3b2f5qcpnu488kgps.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "367356848086-q5cs3i7mpidm3iu7s30qefe2728asdr3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.spaceapps.progem"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
