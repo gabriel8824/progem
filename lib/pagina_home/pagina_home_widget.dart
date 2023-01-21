@@ -8,6 +8,7 @@ import '../components/menu_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/instant_timer.dart';
+import '../custom_code/actions/index.dart' as actions;
 import '../flutter_flow/custom_functions.dart' as functions;
 import '../flutter_flow/random_data_util.dart' as random_data;
 import 'package:auto_size_text/auto_size_text.dart';
@@ -35,8 +36,8 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
   InstantTimer? LoopSicCa;
   ApiCallResponse? apiResultCaixa;
   ApiCallResponse? apiResultsfm;
-  ApiCallResponse? apiResultConector;
   ApiCallResponse? apiResultDados;
+  bool? net;
   final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -60,10 +61,8 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
       ).then((value) => setState(() {}));
 
       if (FFAppState().token != null && FFAppState().token != '') {
-        apiResultConector = await ApiProgemGroup.dadosCall.call(
-          token: FFAppState().token,
-        );
-        if ((apiResultConector?.succeeded ?? true)) {
+        net = await actions.checkInternet();
+        if (net!) {
           apiResultDados = await ApiProgemGroup.dadosCall.call(
             token: FFAppState().token,
           );
