@@ -1,10 +1,10 @@
 import '../auth/auth_util.dart';
 import '../backend/api_requests/api_calls.dart';
 import '../backend/backend.dart';
+import '../components/cobrancas_vazia_widget.dart';
 import '../components/dados_cobranca_widget.dart';
 import '../components/filtros_widget.dart';
 import '../components/menu_widget.dart';
-import '../components/vazio_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/custom_functions.dart' as functions;
@@ -402,10 +402,10 @@ class _PaginaCobrancasV3WidgetState extends State<PaginaCobrancasV3Widget> {
                                                   child: Container(
                                                     width:
                                                         MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            10,
-                                                    child: VazioWidget(),
+                                                            .size
+                                                            .width,
+                                                    child:
+                                                        CobrancasVaziaWidget(),
                                                   ),
                                                 ),
                                                 itemBuilder: (context, _,

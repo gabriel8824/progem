@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class VazioWidget extends StatefulWidget {
-  const VazioWidget({Key? key}) : super(key: key);
+class CobrancasVaziaWidget extends StatefulWidget {
+  const CobrancasVaziaWidget({Key? key}) : super(key: key);
 
   @override
-  _VazioWidgetState createState() => _VazioWidgetState();
+  _CobrancasVaziaWidgetState createState() => _CobrancasVaziaWidgetState();
 }
 
-class _VazioWidgetState extends State<VazioWidget> {
+class _CobrancasVaziaWidgetState extends State<CobrancasVaziaWidget> {
   @override
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
@@ -44,7 +44,7 @@ class _VazioWidgetState extends State<VazioWidget> {
             child: Padding(
               padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 0),
               child: Text(
-                'Nenhum cupom foi encontrado!',
+                'Nenhum cobrança foi encontrado!',
                 textAlign: TextAlign.center,
                 style: FlutterFlowTheme.of(context).bodyText1.override(
                       fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
