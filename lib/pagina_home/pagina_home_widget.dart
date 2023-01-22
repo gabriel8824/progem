@@ -30,6 +30,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
   ApiCallResponse? apiReceberCo;
   InstantTimer? instantTimer3;
   ApiCallResponse? apiResultCobrancas;
+  bool? net2;
   InstantTimer? LoopSicC;
   List<CobrancasRecord> simpleSearchResults2 = [];
   ApiCallResponse? apiResultCaixa;
@@ -347,7 +348,8 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                   },
                                 ).then((value) => setState(() {}));
 
-                                if (FFAppState().IsConnected) {
+                                net2 = await actions.checkInternet();
+                                if (net2!) {
                                   apiResultCobrancas = await ApiProgemGroup
                                       .listarCobrancasCall
                                       .call(
