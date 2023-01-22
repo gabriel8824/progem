@@ -289,9 +289,9 @@ class _PaginaCobrancasV3WidgetState extends State<PaginaCobrancasV3Widget> {
                                                     queryBuilder =
                                                     (cobrancasRecord) =>
                                                         cobrancasRecord.where(
-                                                            'Usuario',
+                                                            'EmailUsuario',
                                                             isEqualTo:
-                                                                currentUserReference);
+                                                                currentUserEmail);
                                                 if (_pagingController != null) {
                                                   final query = queryBuilder(
                                                       CobrancasRecord
@@ -321,9 +321,9 @@ class _PaginaCobrancasV3WidgetState extends State<PaginaCobrancasV3Widget> {
                                                   queryCobrancasRecordPage(
                                                     queryBuilder: (cobrancasRecord) =>
                                                         cobrancasRecord.where(
-                                                            'Usuario',
+                                                            'EmailUsuario',
                                                             isEqualTo:
-                                                                currentUserReference),
+                                                                currentUserEmail),
                                                     nextPageMarker:
                                                         nextPageMarker,
                                                     pageSize: 25,

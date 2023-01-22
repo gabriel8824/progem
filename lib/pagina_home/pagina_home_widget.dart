@@ -214,7 +214,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
     return StreamBuilder<List<CobrancasRecord>>(
       stream: queryCobrancasRecord(
         queryBuilder: (cobrancasRecord) =>
-            cobrancasRecord.where('Usuario', isEqualTo: currentUserReference),
+            cobrancasRecord.where('EmailUsuario', isEqualTo: currentUserEmail),
       ),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
