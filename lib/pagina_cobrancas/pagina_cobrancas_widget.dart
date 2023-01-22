@@ -1,6 +1,7 @@
 import '../backend/api_requests/api_calls.dart';
 import '../components/filtros_widget.dart';
 import '../components/menu_widget.dart';
+import '../components/vazio_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/custom_functions.dart' as functions;
@@ -356,7 +357,16 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                     ),
                                                   ),
                                                 ),
-
+                                                noItemsFoundIndicatorBuilder:
+                                                    (_) => Center(
+                                                  child: Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                    child: VazioWidget(),
+                                                  ),
+                                                ),
                                                 itemBuilder:
                                                     (context, _, dadosIndex) {
                                                   final dadosItem =
