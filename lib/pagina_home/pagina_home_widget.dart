@@ -29,11 +29,9 @@ class PaginaHomeWidget extends StatefulWidget {
 class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
   ApiCallResponse? apiReceberCo;
   InstantTimer? instantTimer3;
-  ApiCallResponse? apiResultCaixas;
   ApiCallResponse? apiResultCobrancas;
   InstantTimer? LoopSicC;
   List<CobrancasRecord> simpleSearchResults2 = [];
-  InstantTimer? LoopSicCa;
   ApiCallResponse? apiResultCaixa;
   ApiCallResponse? apiResultsfm;
   ApiCallResponse? apiResultCaixas1;
@@ -202,7 +200,6 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
     LoopCaixa?.cancel();
     _unfocusNode.dispose();
     LoopSicC?.cancel();
-    LoopSicCa?.cancel();
     instantTimer3?.cancel();
     super.dispose();
   }
@@ -487,120 +484,10 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                             });
                                           }
                                         } else {
-                                          LoopSicC?.cancel();
-                                          apiResultCaixas = await ApiProgemGroup
-                                              .caixasCall
-                                              .call(
-                                            token: FFAppState().token,
-                                          );
-                                          if ((apiResultCaixas?.succeeded ??
-                                              true)) {
-                                            FFAppState().update(() {
-                                              FFAppState().Caixas =
-                                                  ApiProgemGroup.caixasCall
-                                                      .body(
-                                                        (apiResultCaixas
-                                                                ?.jsonBody ??
-                                                            ''),
-                                                      )!
-                                                      .toList();
-                                            });
-                                            LoopSicCa = InstantTimer.periodic(
-                                              duration:
-                                                  Duration(milliseconds: 1000),
-                                              callback: (timer) async {
-                                                if (FFAppState()
-                                                        .Caixas
-                                                        .length >=
-                                                    1) {
-                                                  FFAppState().update(() {
-                                                    FFAppState().CaixaAtual =
-                                                        FFAppState()
-                                                            .Caixas
-                                                            .first;
-                                                  });
+                                          Navigator.pop(context);
 
-                                                  final caixasCreateData =
-                                                      createCaixasRecordData(
-                                                    uid:
-                                                        '${random_data.randomString(
-                                                      10,
-                                                      10,
-                                                      false,
-                                                      false,
-                                                      true,
-                                                    )}x${random_data.randomString(
-                                                      10,
-                                                      10,
-                                                      false,
-                                                      false,
-                                                      true,
-                                                    )}',
-                                                    descricao: getJsonField(
-                                                      FFAppState().CaixaAtual,
-                                                      r'''$.descricao''',
-                                                    ).toString(),
-                                                    id: getJsonField(
-                                                      FFAppState().CaixaAtual,
-                                                      r'''$.id''',
-                                                    ).toString(),
-                                                    saldo: getJsonField(
-                                                      FFAppState().CaixaAtual,
-                                                      r'''$.saldo''',
-                                                    ),
-                                                    status: getJsonField(
-                                                      FFAppState().CaixaAtual,
-                                                      r'''$.status''',
-                                                    ).toString(),
-                                                    usuario:
-                                                        currentUserReference,
-                                                    emailUsuario:
-                                                        currentUserEmail,
-                                                  );
-                                                  await CaixasRecord.collection
-                                                      .doc()
-                                                      .set(caixasCreateData);
-                                                  FFAppState().update(() {
-                                                    FFAppState()
-                                                        .removeFromCaixas(
-                                                            FFAppState()
-                                                                .CaixaAtual);
-                                                  });
-                                                  FFAppState().update(() {
-                                                    FFAppState().CaixaAtual =
-                                                        null;
-                                                  });
-                                                } else {
-                                                  LoopSicCa?.cancel();
-                                                  Navigator.pop(context);
-
-                                                  context.pushNamed(
-                                                      'PaginaCobrancasV3');
-                                                }
-                                              },
-                                              startImmediately: false,
-                                            );
-                                          } else {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              SnackBar(
-                                                content: Text(
-                                                  'Algo deu errado',
-                                                  style: TextStyle(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryBackground,
-                                                  ),
-                                                ),
-                                                duration: Duration(
-                                                    milliseconds: 4000),
-                                                backgroundColor:
-                                                    FlutterFlowTheme.of(context)
-                                                        .alternate,
-                                              ),
-                                            );
-                                            Navigator.pop(context);
-                                          }
+                                          context
+                                              .pushNamed('PaginaCobrancasV3');
                                         }
                                       },
                                       startImmediately: false,
