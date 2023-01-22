@@ -448,15 +448,6 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                               dataSincronia:
                                                   getCurrentTimestamp,
                                               usuario: currentUserReference,
-                                              localizacao: functions
-                                                  .converterStringEmLocalizacao(
-                                                      '${getJsonField(
-                                                FFAppState().CobrancaAtual,
-                                                r'''$.cliente.coordenadas.latitude''',
-                                              ).toString()},${getJsonField(
-                                                FFAppState().CobrancaAtual,
-                                                r'''$.cliente.coordenadas.longitude''',
-                                              ).toString()}'),
                                               emailUsuario: currentUserEmail,
                                               uId: '${random_data.randomString(
                                                 10,
