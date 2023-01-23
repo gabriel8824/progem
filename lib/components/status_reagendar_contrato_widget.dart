@@ -344,8 +344,6 @@ class _StatusReagendarContratoWidgetState
                                                 widget.cobranca!.reference,
                                             sincronizado: true,
                                             status: 'REAGENDADA',
-                                            localizacao:
-                                                currentUserLocationValue,
                                           );
                                           await CobrancasRealizadasRecord
                                               .collection
