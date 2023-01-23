@@ -1,4 +1,3 @@
-import '../auth/auth_util.dart';
 import '../backend/api_requests/api_calls.dart';
 import '../backend/backend.dart';
 import '../components/cobrancas_vazia_widget.dart';
@@ -49,9 +48,7 @@ class _PaginaCobrancasV3CopyWidgetState
           token: FFAppState().token,
         );
         if ((apiResultlab?.succeeded ?? true)) {
-          FFAppState().update(() {
-            FFAppState().filtro = '';
-          });
+          FFAppState().update(() {});
         } else {
           FFAppState().update(() {
             FFAppState().token = '';
@@ -280,10 +277,7 @@ class _PaginaCobrancasV3CopyWidgetState
                                                             Query<Object?>)
                                                         queryBuilder =
                                                         (cobrancasRealizadasRecord) =>
-                                                            cobrancasRealizadasRecord.where(
-                                                                'EmailUsuario',
-                                                                isEqualTo:
-                                                                    currentUserEmail);
+                                                            cobrancasRealizadasRecord;
                                                     if (_pagingController !=
                                                         null) {
                                                       final query = queryBuilder(
@@ -314,11 +308,9 @@ class _PaginaCobrancasV3CopyWidgetState
                                                         .addPageRequestListener(
                                                             (nextPageMarker) {
                                                       queryCobrancasRealizadasRecordPage(
-                                                        queryBuilder: (cobrancasRealizadasRecord) =>
-                                                            cobrancasRealizadasRecord.where(
-                                                                'EmailUsuario',
-                                                                isEqualTo:
-                                                                    currentUserEmail),
+                                                        queryBuilder:
+                                                            (cobrancasRealizadasRecord) =>
+                                                                cobrancasRealizadasRecord,
                                                         nextPageMarker:
                                                             nextPageMarker,
                                                         pageSize: 25,
