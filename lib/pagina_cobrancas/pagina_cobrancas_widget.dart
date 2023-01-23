@@ -188,25 +188,7 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                             return Padding(
                                               padding: MediaQuery.of(context)
                                                   .viewInsets,
-                                              child: FiltrosWidget(
-                                                filtro: () {
-                                                  if (widget.filtro ==
-                                                      'RECEBIDA') {
-                                                    return '1';
-                                                  } else if (widget.filtro ==
-                                                      'PENDENTE') {
-                                                    return '2';
-                                                  } else if (widget.filtro ==
-                                                      'ATRASADA') {
-                                                    return '3';
-                                                  } else if (widget.filtro ==
-                                                      'REAGENDADA') {
-                                                    return '4';
-                                                  } else {
-                                                    return 'Teste';
-                                                  }
-                                                }(),
-                                              ),
+                                              child: FiltrosWidget(),
                                             );
                                           },
                                         ).then((value) => setState(() {}));

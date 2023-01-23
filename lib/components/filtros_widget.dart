@@ -95,6 +95,8 @@ class _FiltrosWidgetState extends State<FiltrosWidget> {
                       initialValue: 'Pago',
                       onChanged: (val) async {
                         setState(() => radioButtonValue = val);
+                        await Future.delayed(
+                            const Duration(milliseconds: 1500));
                         if (radioButtonValue == 'Pago') {
                           Navigator.pop(context);
 
