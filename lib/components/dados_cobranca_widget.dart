@@ -47,7 +47,10 @@ class _DadosCobrancaWidgetState extends State<DadosCobrancaWidget> {
                   borderRadius: BorderRadius.circular(10),
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.8,
-                    height: MediaQuery.of(context).size.height * 0.5,
+                    height: 340,
+                    constraints: BoxConstraints(
+                      maxHeight: MediaQuery.of(context).size.height * 0.8,
+                    ),
                     decoration: BoxDecoration(
                       color: FlutterFlowTheme.of(context).secondaryBackground,
                       borderRadius: BorderRadius.circular(10),

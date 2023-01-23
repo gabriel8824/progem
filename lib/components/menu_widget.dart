@@ -52,13 +52,21 @@ class _MenuWidgetState extends State<MenuWidget> {
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      CachedNetworkImage(
-                        imageUrl:
-                            'https://firebasestorage.googleapis.com/v0/b/progem-eb73e.appspot.com/o/app%2Fbxs_home-smile.png?alt=media&token=6cd24568-7c76-47aa-825f-a902bd5552bd',
-                        width: 30,
-                        height: 30,
-                        fit: BoxFit.contain,
-                      ),
+                      if (widget.tela == 1)
+                        CachedNetworkImage(
+                          imageUrl:
+                              'https://firebasestorage.googleapis.com/v0/b/progem-eb73e.appspot.com/o/app%2Fbxs_home-smile.png?alt=media&token=6cd24568-7c76-47aa-825f-a902bd5552bd',
+                          width: 30,
+                          height: 30,
+                          fit: BoxFit.contain,
+                        ),
+                      if (widget.tela != 1)
+                        Image.asset(
+                          'assets/images/clarity_house-line.png',
+                          width: 30,
+                          height: 30,
+                          fit: BoxFit.contain,
+                        ),
                       Align(
                         alignment: AlignmentDirectional(0, 0),
                         child: Text(
@@ -94,13 +102,20 @@ class _MenuWidgetState extends State<MenuWidget> {
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      CachedNetworkImage(
-                        imageUrl:
-                            'https://firebasestorage.googleapis.com/v0/b/progem-eb73e.appspot.com/o/app%2Fbxs_home-smile.png?alt=media&token=6cd24568-7c76-47aa-825f-a902bd5552bd',
-                        width: 30,
-                        height: 30,
-                        fit: BoxFit.contain,
-                      ),
+                      if (widget.tela == 2)
+                        Image.asset(
+                          'assets/images/healthicons_ui-menu-negative.png',
+                          width: 30,
+                          height: 30,
+                          fit: BoxFit.contain,
+                        ),
+                      if (widget.tela != 2)
+                        Image.asset(
+                          'assets/images/healthicons_ui-menu-outline.png',
+                          width: 30,
+                          height: 30,
+                          fit: BoxFit.contain,
+                        ),
                       Align(
                         alignment: AlignmentDirectional(0, 0),
                         child: Text(
@@ -136,13 +151,20 @@ class _MenuWidgetState extends State<MenuWidget> {
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      CachedNetworkImage(
-                        imageUrl:
-                            'https://firebasestorage.googleapis.com/v0/b/progem-eb73e.appspot.com/o/app%2Fbxs_home-smile.png?alt=media&token=6cd24568-7c76-47aa-825f-a902bd5552bd',
-                        width: 30,
-                        height: 30,
-                        fit: BoxFit.contain,
-                      ),
+                      if (widget.tela == 3)
+                        Image.asset(
+                          'assets/images/Vector.png',
+                          width: 30,
+                          height: 30,
+                          fit: BoxFit.contain,
+                        ),
+                      if (widget.tela != 3)
+                        Image.asset(
+                          'assets/images/arcticons_google-maps.png',
+                          width: 30,
+                          height: 30,
+                          fit: BoxFit.contain,
+                        ),
                       Align(
                         alignment: AlignmentDirectional(0, 0),
                         child: Text(
