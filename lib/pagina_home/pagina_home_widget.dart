@@ -32,11 +32,11 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
   ApiCallResponse? apiResultCobrancas1;
   bool? net5;
   InstantTimer? LoopSicCo;
-  List<CobrancasRealizadasRecord> simpleSearchResults3 = [];
+  List<CobrancasRecord> simpleSearchResults3 = [];
   ApiCallResponse? apiResultCobrancas;
   bool? net2;
   InstantTimer? LoopSicC;
-  List<CobrancasRealizadasRecord> simpleSearchResults2 = [];
+  List<CobrancasRecord> simpleSearchResults2 = [];
   ApiCallResponse? apiResultCaixa;
   ApiCallResponse? apiResultsfm;
   ApiCallResponse? apiResultCaixas1;
@@ -214,10 +214,10 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
 
-    return StreamBuilder<List<CobrancasRealizadasRecord>>(
-      stream: queryCobrancasRealizadasRecord(
-        queryBuilder: (cobrancasRealizadasRecord) => cobrancasRealizadasRecord
-            .where('EmailUsuario', isEqualTo: currentUserEmail),
+    return StreamBuilder<List<CobrancasRecord>>(
+      stream: queryCobrancasRecord(
+        queryBuilder: (cobrancasRecord) =>
+            cobrancasRecord.where('EmailUsuario', isEqualTo: currentUserEmail),
       ),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
@@ -232,8 +232,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
             ),
           );
         }
-        List<CobrancasRealizadasRecord>
-            paginaHomeCobrancasRealizadasRecordList = snapshot.data!;
+        List<CobrancasRecord> paginaHomeCobrancasRecordList = snapshot.data!;
         return Scaffold(
           key: scaffoldKey,
           backgroundColor: Color(0xFFEEEEEE),
@@ -386,11 +385,10 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                           });
                                           setState(() {
                                             simpleSearchResults2 = TextSearch(
-                                              paginaHomeCobrancasRealizadasRecordList
+                                              paginaHomeCobrancasRecordList
                                                   .map(
                                                     (record) => TextSearchItem(
-                                                        record,
-                                                        [record.idCobranca!]),
+                                                        record, [record.id!]),
                                                   )
                                                   .toList(),
                                             )
@@ -729,11 +727,10 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                           });
                                           setState(() {
                                             simpleSearchResults3 = TextSearch(
-                                              paginaHomeCobrancasRealizadasRecordList
+                                              paginaHomeCobrancasRecordList
                                                   .map(
                                                     (record) => TextSearchItem(
-                                                        record,
-                                                        [record.idCobranca!]),
+                                                        record, [record.id!]),
                                                   )
                                                   .toList(),
                                             )
