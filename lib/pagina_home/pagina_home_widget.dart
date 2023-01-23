@@ -1206,47 +1206,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                         token: FFAppState().token,
                                       );
                                       if ((apiResultsfm?.succeeded ?? true)) {
-                                        context.pushNamed(
-                                          'PaginaCaixa',
-                                          queryParams: {
-                                            'saldo': serializeParam(
-                                              ApiProgemGroup.caixasCall
-                                                  .saldo(
-                                                    (apiResultsfm?.jsonBody ??
-                                                        ''),
-                                                  )
-                                                  .toString(),
-                                              ParamType.String,
-                                            ),
-                                            're': serializeParam(
-                                              ApiProgemGroup
-                                                  .listarCobranasDoUsurioCall
-                                                  .recebidas(
-                                                (apiResultCaixa?.jsonBody ??
-                                                    ''),
-                                              ),
-                                              ParamType.int,
-                                            ),
-                                            'atra': serializeParam(
-                                              ApiProgemGroup
-                                                  .listarCobranasDoUsurioCall
-                                                  .atrasadas(
-                                                (apiResultCaixa?.jsonBody ??
-                                                    ''),
-                                              ),
-                                              ParamType.int,
-                                            ),
-                                            'pen': serializeParam(
-                                              ApiProgemGroup
-                                                  .listarCobranasDoUsurioCall
-                                                  .pendentes(
-                                                (apiResultCaixa?.jsonBody ??
-                                                    ''),
-                                              ),
-                                              ParamType.int,
-                                            ),
-                                          }.withoutNulls,
-                                        );
+                                        context.pushNamed('PaginaCaixa');
                                       }
                                     } else {
                                       await showModalBottomSheet(

@@ -135,17 +135,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             FFRoute(
               name: 'PaginaCaixa',
               path: 'paginaCaixa',
-              asyncParams: {
-                'caixas': getDocList(['Caixas'], CaixasRecord.serializer),
-              },
-              builder: (context, params) => PaginaCaixaWidget(
-                saldo: params.getParam('saldo', ParamType.String),
-                re: params.getParam('re', ParamType.int),
-                atra: params.getParam('atra', ParamType.int),
-                pen: params.getParam('pen', ParamType.int),
-                caixas: params.getParam<CaixasRecord>(
-                    'caixas', ParamType.Document, true),
-              ),
+              builder: (context, params) => PaginaCaixaWidget(),
             ),
             FFRoute(
               name: 'PaginaCobrancasV3',

@@ -47,7 +47,7 @@ class _DadosCobrancaWidgetState extends State<DadosCobrancaWidget> {
                   borderRadius: BorderRadius.circular(10),
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.8,
-                    height: 340,
+                    height: 400,
                     constraints: BoxConstraints(
                       maxHeight: MediaQuery.of(context).size.height * 0.8,
                     ),
@@ -60,7 +60,7 @@ class _DadosCobrancaWidgetState extends State<DadosCobrancaWidget> {
                       child: Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
                         child: Column(
-                          mainAxisSize: MainAxisSize.min,
+                          mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

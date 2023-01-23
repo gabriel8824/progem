@@ -161,3 +161,9 @@ LatLng converterStringEmLocalizacao(String loc1) {
   LatLng latLng1 = LatLng(latitude, longitude);
   return latLng1;
 }
+
+double somarValores(List<double> valores) {
+  soma = sum(valores);
+
+  return soma;
+}
