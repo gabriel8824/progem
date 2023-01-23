@@ -11,7 +11,6 @@ import '../custom_code/actions/index.dart' as actions;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:text_search/text_search.dart';
 
@@ -35,7 +34,6 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
   String? dropDownCValue;
   String? dropDownValue;
   TextEditingController? textController;
-  final textFieldMask = MaskTextInputFormatter(mask: 'R\$ #.##0,00');
 
   @override
   void initState() {
@@ -94,7 +92,9 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                       borderRadius: BorderRadius.circular(10),
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.8,
-                        height: MediaQuery.of(context).size.height * 0.47,
+                        constraints: BoxConstraints(
+                          maxHeight: MediaQuery.of(context).size.height * 0.5,
+                        ),
                         decoration: BoxDecoration(
                           color:
                               FlutterFlowTheme.of(context).secondaryBackground,
@@ -106,7 +106,7 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                             padding:
                                 EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
                             child: Column(
-                              mainAxisSize: MainAxisSize.min,
+                              mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -274,14 +274,16 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                       ),
                                       errorBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: Color(0x00000000),
+                                          color: FlutterFlowTheme.of(context)
+                                              .alternate,
                                           width: 1.5,
                                         ),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       focusedErrorBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: Color(0x00000000),
+                                          color: FlutterFlowTheme.of(context)
+                                              .alternate,
                                           width: 1.5,
                                         ),
                                         borderRadius: BorderRadius.circular(10),
@@ -306,7 +308,6 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                     keyboardType:
                                         const TextInputType.numberWithOptions(
                                             signed: true, decimal: true),
-                                    inputFormatters: [textFieldMask],
                                   ),
                                 ),
                                 if (widget.cobranca!.status != 'RECEBIDA')
