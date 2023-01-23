@@ -37,7 +37,7 @@ class PaginaCobrancasV3Widget extends StatefulWidget {
 class _PaginaCobrancasV3WidgetState extends State<PaginaCobrancasV3Widget> {
   ApiCallResponse? apiResultCobrancas5;
   bool? net2;
-  InstantTimer? LoopSicC;
+  InstantTimer? LoopSicC77;
   List<CobrancasRecord> simpleSearchResults = [];
   PagingController<DocumentSnapshot?, CobrancasRecord>? _pagingController;
   Query? _pagingQuery;
@@ -75,7 +75,7 @@ class _PaginaCobrancasV3WidgetState extends State<PaginaCobrancasV3Widget> {
 
   @override
   void dispose() {
-    LoopSicC?.cancel();
+    LoopSicC77?.cancel();
     _streamSubscriptions.forEach((s) => s?.cancel());
     _unfocusNode.dispose();
     super.dispose();
@@ -807,7 +807,7 @@ class _PaginaCobrancasV3WidgetState extends State<PaginaCobrancasV3Widget> {
                                                         .reference
                                                         .update(
                                                             pageAtualUserUpdateData);
-                                                    LoopSicC =
+                                                    LoopSicC77 =
                                                         InstantTimer.periodic(
                                                       duration: Duration(
                                                           milliseconds: 1000),
@@ -965,7 +965,7 @@ class _PaginaCobrancasV3WidgetState extends State<PaginaCobrancasV3Widget> {
                                                             });
                                                           }
                                                         } else {
-                                                          null?.cancel();
+                                                          LoopSicC77?.cancel();
                                                           Navigator.pop(
                                                               context);
                                                         }
@@ -973,6 +973,7 @@ class _PaginaCobrancasV3WidgetState extends State<PaginaCobrancasV3Widget> {
                                                       startImmediately: false,
                                                     );
                                                   } else {
+                                                    Navigator.pop(context);
                                                     ScaffoldMessenger.of(
                                                             context)
                                                         .showSnackBar(
@@ -993,7 +994,6 @@ class _PaginaCobrancasV3WidgetState extends State<PaginaCobrancasV3Widget> {
                                                                 .alternate,
                                                       ),
                                                     );
-                                                    Navigator.pop(context);
                                                   }
                                                 } else {
                                                   Navigator.pop(context);

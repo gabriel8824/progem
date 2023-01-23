@@ -8,7 +8,6 @@ import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
 import '../custom_code/actions/index.dart' as actions;
-import '../flutter_flow/custom_functions.dart' as functions;
 import '../flutter_flow/random_data_util.dart' as random_data;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -307,7 +306,7 @@ class _StatusReagendarContratoWidgetState
                                             .call(
                                           token: FFAppState().token,
                                           dataReagendamento:
-                                              '${functions.converterdata(calendarSelectedDay!.end)}T10:00:00-03:00',
+                                              '2024-01-03T10:00:00-03:00',
                                           obs: textController!.text,
                                         );
                                         if (ApiProgemGroup.reagendarCobrancaCall
@@ -396,7 +395,7 @@ class _StatusReagendarContratoWidgetState
                                               dataRagendamento:
                                                   calendarSelectedDay?.end,
                                               dataReagendamentoS:
-                                                  '${functions.converterdata(calendarSelectedDay!.end)}T10:00:00-03:00',
+                                                  '2024-01-03T10:00:00-03:00',
                                             );
                                             await CobrancasRealizadasRecord
                                                 .collection
@@ -466,7 +465,7 @@ class _StatusReagendarContratoWidgetState
                                           dataRagendamento:
                                               calendarSelectedDay?.end,
                                           dataReagendamentoS:
-                                              '${functions.converterdata(calendarSelectedDay!.end)}T10:00:00-03:00',
+                                              '2024-01-03T10:00:00-03:00',
                                         );
                                         await CobrancasRealizadasRecord
                                             .collection
