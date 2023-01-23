@@ -269,7 +269,14 @@ class _PaginaCobrancasV3RealizadasWidgetState
                                                     List<
                                                         CobrancasRealizadasRecord>>(
                                                   stream:
-                                                      queryCobrancasRealizadasRecord(),
+                                                      queryCobrancasRealizadasRecord(
+                                                    queryBuilder: (cobrancasRealizadasRecord) =>
+                                                        cobrancasRealizadasRecord
+                                                            .where(
+                                                                'EmailUsuario',
+                                                                isEqualTo:
+                                                                    'fngfnfgn'),
+                                                  ),
                                                   builder: (context, snapshot) {
                                                     // Customize what your widget looks like when it's loading.
                                                     if (!snapshot.hasData) {
