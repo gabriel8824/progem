@@ -704,9 +704,11 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                       true)) {
                                     FFAppState().update(() {
                                       FFAppState().CobrancasOffV2 =
-                                          ApiProgemGroup.listarCobrancasCall
+                                          ApiProgemGroup
+                                              .listarCobrancasReagendadaCall
                                               .dados(
-                                                (apiResultCobrancas?.jsonBody ??
+                                                (apiResultCobrancas1
+                                                        ?.jsonBody ??
                                                     ''),
                                               )!
                                               .toList();
