@@ -776,7 +776,7 @@ class ReagendarCobrancaCall {
   }) {
     final body = '''
 {
-  "dataReagendamento": "${dataReagendamento}",
+  "dataReagendamento": "2024-01-03T10:00:00-03:00",
   "observacao": "${obs}",
   "checkin": {
     "latitude": "-25.8672164",

@@ -306,8 +306,6 @@ class _StatusReagendarContratoWidgetState
                                             .call(
                                           token: FFAppState().token,
                                           obs: textController!.text,
-                                          dataReagendamento:
-                                              '2024-01-03T10:00:00-03:00',
                                           id: widget.cobranca!.id,
                                         );
                                         if (ApiProgemGroup.reagendarCobrancaCall
