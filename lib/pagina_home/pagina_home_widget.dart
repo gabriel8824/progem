@@ -742,7 +742,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                 .map((r) => r.object)
                                                 .toList();
                                           });
-                                          if (simpleSearchResults2.length >=
+                                          if (simpleSearchResults3.length >=
                                               1) {
                                             FFAppState().update(() {
                                               FFAppState()
