@@ -266,16 +266,7 @@ class _PaginaCaixaWidgetState extends State<PaginaCaixaWidget> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0, 20, 0, 0),
                                       child: AutoSizeText(
-                                        valueOrDefault<String>(
-                                          formatNumber(
-                                            simpleSearchResults.first.saldo,
-                                            formatType: FormatType.decimal,
-                                            decimalType:
-                                                DecimalType.commaDecimal,
-                                            currency: 'R\$ ',
-                                          ),
-                                          '0',
-                                        ),
+                                        'R\$ 86,000,00',
                                         maxLines: 1,
                                         style: FlutterFlowTheme.of(context)
                                             .bodyText1
