@@ -477,6 +477,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                             });
                                           }
                                         } else {
+                                          LoopSicC?.cancel();
                                           Navigator.pop(context);
 
                                           context
