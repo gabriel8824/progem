@@ -388,8 +388,6 @@ class _StatusReagendarContratoWidgetState
                                                   .cobranca!.numeroContrato,
                                               emailUser: currentUserEmail,
                                               obs: textController!.text,
-                                              dataRagendamento:
-                                                  calendarSelectedDay?.end,
                                               dataReagendamentoS:
                                                   '2024-01-03T10:00:00-03:00',
                                             );
@@ -458,8 +456,6 @@ class _StatusReagendarContratoWidgetState
                                               widget.cobranca!.numeroContrato,
                                           emailUser: currentUserEmail,
                                           obs: textController!.text,
-                                          dataRagendamento:
-                                              calendarSelectedDay?.end,
                                           dataReagendamentoS:
                                               '2024-01-03T10:00:00-03:00',
                                         );
