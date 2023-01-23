@@ -37,8 +37,6 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
   bool? net2;
   InstantTimer? LoopSicC;
   List<CobrancasRecord> simpleSearchResults2 = [];
-  ApiCallResponse? apiResultCaixa;
-  ApiCallResponse? apiResultsfm;
   ApiCallResponse? apiResultCaixas1;
   bool? net;
   InstantTimer? LoopCaixa;
@@ -1195,36 +1193,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                     EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
                                 child: InkWell(
                                   onTap: () async {
-                                    apiResultCaixa = await ApiProgemGroup
-                                        .listarCobranasDoUsurioCall
-                                        .call(
-                                      token: FFAppState().token,
-                                    );
-                                    if ((apiResultCaixa?.succeeded ?? true)) {
-                                      apiResultsfm =
-                                          await ApiProgemGroup.caixasCall.call(
-                                        token: FFAppState().token,
-                                      );
-                                      if ((apiResultsfm?.succeeded ?? true)) {
-                                        context.pushNamed('PaginaCaixa');
-                                      }
-                                    } else {
-                                      await showModalBottomSheet(
-                                        isScrollControlled: true,
-                                        backgroundColor: Colors.transparent,
-                                        enableDrag: false,
-                                        context: context,
-                                        builder: (context) {
-                                          return Padding(
-                                            padding: MediaQuery.of(context)
-                                                .viewInsets,
-                                            child: ConnectedOffWidget(),
-                                          );
-                                        },
-                                      ).then((value) => setState(() {}));
-                                    }
-
-                                    setState(() {});
+                                    context.pushNamed('PaginaCaixa');
                                   },
                                   child: Container(
                                     width: MediaQuery.of(context).size.width,
