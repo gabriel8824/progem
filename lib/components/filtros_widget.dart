@@ -96,18 +96,26 @@ class _FiltrosWidgetState extends State<FiltrosWidget> {
                       onChanged: (val) async {
                         setState(() => radioButtonValue = val);
                         if (radioButtonValue == 'Pago') {
+                          Navigator.pop(context);
+
                           context.pushNamed('PaginaCobrancasV3Pagas');
                         } else {
                           if (radioButtonValue == 'Em aberto') {
+                            Navigator.pop(context);
+
                             context.pushNamed('PaginaCobrancasV3Pendente');
                           } else {
                             if (radioButtonValue == 'Reagendado') {
+                              Navigator.pop(context);
+
                               context.pushNamed('PaginaCobrancasV3Reagendadas');
                             } else {
                               if (radioButtonValue == 'Em atraso') {
+                                Navigator.pop(context);
+
                                 context.pushNamed('PaginaCobrancasV3Atrasadas');
                               } else {
-                                return;
+                                Navigator.pop(context);
                               }
                             }
                           }
