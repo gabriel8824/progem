@@ -449,8 +449,6 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                   formaDePagamento: 'PIX',
                                                   dataDeSincronia:
                                                       getCurrentTimestamp,
-                                                  emailUsuario:
-                                                      currentUserEmail,
                                                   cobranca: widget
                                                       .cobranca!.reference,
                                                   sincronizado: true,
@@ -464,6 +462,7 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                       .dataDeVencimento,
                                                   numeroContrato: widget
                                                       .cobranca!.numeroContrato,
+                                                  emailUser: currentUserEmail,
                                                 );
                                                 await CobrancasRealizadasRecord
                                                     .collection
@@ -541,7 +540,6 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                 idCaixa: simpleSearchResults
                                                     .first.id,
                                                 formaDePagamento: 'PIX',
-                                                emailUsuario: currentUserEmail,
                                                 cobranca:
                                                     widget.cobranca!.reference,
                                                 sincronizado: false,
@@ -554,6 +552,7 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                     .cobranca!.dataDeVencimento,
                                                 numeroContrato: widget
                                                     .cobranca!.numeroContrato,
+                                                emailUser: currentUserEmail,
                                               );
                                               await CobrancasRealizadasRecord
                                                   .collection

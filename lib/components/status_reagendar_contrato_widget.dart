@@ -341,7 +341,6 @@ class _StatusReagendarContratoWidgetState
                                             valor: widget.cobranca!.valor,
                                             dataDeSincronia:
                                                 getCurrentTimestamp,
-                                            emailUsuario: currentUserEmail,
                                             cobranca:
                                                 widget.cobranca!.reference,
                                             sincronizado: true,
@@ -354,6 +353,7 @@ class _StatusReagendarContratoWidgetState
                                                 widget.cobranca!.nomeCliente,
                                             numeroContrato:
                                                 widget.cobranca!.numeroContrato,
+                                            emailUser: currentUserEmail,
                                           );
                                           await CobrancasRealizadasRecord
                                               .collection
@@ -407,7 +407,6 @@ class _StatusReagendarContratoWidgetState
                                             true,
                                           )}',
                                           valor: widget.cobranca!.valor,
-                                          emailUsuario: currentUserEmail,
                                           cobranca: widget.cobranca!.reference,
                                           sincronizado: false,
                                           status: 'REAGENDADA',
@@ -418,6 +417,7 @@ class _StatusReagendarContratoWidgetState
                                               widget.cobranca!.dataDeVencimento,
                                           numeroContrato:
                                               widget.cobranca!.numeroContrato,
+                                          emailUser: currentUserEmail,
                                         );
                                         await CobrancasRealizadasRecord
                                             .collection

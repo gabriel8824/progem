@@ -278,10 +278,11 @@ class _PaginaCobrancasV3CopyWidgetState
                                                             Query<Object?>)
                                                         queryBuilder =
                                                         (cobrancasRealizadasRecord) =>
-                                                            cobrancasRealizadasRecord.where(
-                                                                'EmailUsuario',
-                                                                isEqualTo:
-                                                                    currentUserEmail);
+                                                            cobrancasRealizadasRecord
+                                                                .where(
+                                                                    'EmailUser',
+                                                                    isEqualTo:
+                                                                        currentUserEmail);
                                                     if (_pagingController !=
                                                         null) {
                                                       final query = queryBuilder(
@@ -313,10 +314,11 @@ class _PaginaCobrancasV3CopyWidgetState
                                                             (nextPageMarker) {
                                                       queryCobrancasRealizadasRecordPage(
                                                         queryBuilder: (cobrancasRealizadasRecord) =>
-                                                            cobrancasRealizadasRecord.where(
-                                                                'EmailUsuario',
-                                                                isEqualTo:
-                                                                    currentUserEmail),
+                                                            cobrancasRealizadasRecord
+                                                                .where(
+                                                                    'EmailUser',
+                                                                    isEqualTo:
+                                                                        currentUserEmail),
                                                         nextPageMarker:
                                                             nextPageMarker,
                                                         pageSize: 25,

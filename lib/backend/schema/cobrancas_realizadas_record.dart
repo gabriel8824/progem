@@ -36,9 +36,6 @@ abstract class CobrancasRealizadasRecord
   @BuiltValueField(wireName: 'DataDeSincronia')
   DateTime? get dataDeSincronia;
 
-  @BuiltValueField(wireName: 'EmailUsuario')
-  String? get emailUsuario;
-
   @BuiltValueField(wireName: 'Cobranca')
   DocumentReference? get cobranca;
 
@@ -60,6 +57,9 @@ abstract class CobrancasRealizadasRecord
   @BuiltValueField(wireName: 'NumeroContrato')
   String? get numeroContrato;
 
+  @BuiltValueField(wireName: 'EmailUser')
+  String? get emailUser;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -71,11 +71,11 @@ abstract class CobrancasRealizadasRecord
         ..valor = 0.0
         ..formaDePagamento = ''
         ..idCaixa = ''
-        ..emailUsuario = ''
         ..sincronizado = false
         ..status = ''
         ..nomeCliente = ''
-        ..numeroContrato = '';
+        ..numeroContrato = ''
+        ..emailUser = '';
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('CobrancasRealizadas');
@@ -109,7 +109,6 @@ Map<String, dynamic> createCobrancasRealizadasRecordData({
   String? formaDePagamento,
   String? idCaixa,
   DateTime? dataDeSincronia,
-  String? emailUsuario,
   DocumentReference? cobranca,
   bool? sincronizado,
   String? status,
@@ -117,6 +116,7 @@ Map<String, dynamic> createCobrancasRealizadasRecordData({
   String? nomeCliente,
   DateTime? dataDeVencimento,
   String? numeroContrato,
+  String? emailUser,
 }) {
   final firestoreData = serializers.toFirestore(
     CobrancasRealizadasRecord.serializer,
@@ -130,14 +130,14 @@ Map<String, dynamic> createCobrancasRealizadasRecordData({
         ..formaDePagamento = formaDePagamento
         ..idCaixa = idCaixa
         ..dataDeSincronia = dataDeSincronia
-        ..emailUsuario = emailUsuario
         ..cobranca = cobranca
         ..sincronizado = sincronizado
         ..status = status
         ..localizacao = localizacao
         ..nomeCliente = nomeCliente
         ..dataDeVencimento = dataDeVencimento
-        ..numeroContrato = numeroContrato,
+        ..numeroContrato = numeroContrato
+        ..emailUser = emailUser,
     ),
   );
 
