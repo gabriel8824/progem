@@ -5,7 +5,6 @@ import '../components/menu_widget.dart';
 import '../flutter_flow/flutter_flow_drop_down.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
-import '../flutter_flow/custom_functions.dart' as functions;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -265,13 +264,7 @@ class _PaginaCaixaWidgetState extends State<PaginaCaixaWidget> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0, 20, 0, 0),
                                       child: AutoSizeText(
-                                        functions.formatarValorEmRealBrasileiro(
-                                            valueOrDefault<double>(
-                                          functions.converStringEmDouble(
-                                              simpleSearchResults.first.saldo!
-                                                  .toString()),
-                                          0.0,
-                                        )),
+                                        'R\$ 86,000,00',
                                         maxLines: 1,
                                         style: FlutterFlowTheme.of(context)
                                             .bodyText1
@@ -373,17 +366,7 @@ class _PaginaCaixaWidgetState extends State<PaginaCaixaWidget> {
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     0, 20, 0, 0),
                                             child: AutoSizeText(
-                                              formatNumber(
-                                                functions.somarValoresDob(
-                                                    containerCobrancasRealizadasRecordList
-                                                        .map((e) => e.valor)
-                                                        .withoutNulls
-                                                        .toList()),
-                                                formatType: FormatType.decimal,
-                                                decimalType:
-                                                    DecimalType.commaDecimal,
-                                                currency: 'R\$ ',
-                                              ),
+                                              'R\$ 00,00',
                                               maxLines: 1,
                                               style:
                                                   FlutterFlowTheme.of(context)
@@ -499,16 +482,7 @@ class _PaginaCaixaWidgetState extends State<PaginaCaixaWidget> {
                                                       MainAxisAlignment.center,
                                                   children: [
                                                     Text(
-                                                      valueOrDefault<String>(
-                                                        ApiProgemGroup
-                                                            .listarCobranasDoUsurioCall
-                                                            .recebidas(
-                                                              columnListarCobranasDoUsurioResponse
-                                                                  .jsonBody,
-                                                            )
-                                                            .toString(),
-                                                        '0',
-                                                      ),
+                                                      '0',
                                                       maxLines: 1,
                                                       style:
                                                           FlutterFlowTheme.of(
@@ -575,16 +549,7 @@ class _PaginaCaixaWidgetState extends State<PaginaCaixaWidget> {
                                                       MainAxisAlignment.center,
                                                   children: [
                                                     Text(
-                                                      valueOrDefault<String>(
-                                                        ApiProgemGroup
-                                                            .listarCobranasDoUsurioCall
-                                                            .pendentes(
-                                                              columnListarCobranasDoUsurioResponse
-                                                                  .jsonBody,
-                                                            )
-                                                            .toString(),
-                                                        '0',
-                                                      ),
+                                                      '0',
                                                       maxLines: 1,
                                                       style:
                                                           FlutterFlowTheme.of(
@@ -651,16 +616,7 @@ class _PaginaCaixaWidgetState extends State<PaginaCaixaWidget> {
                                                       MainAxisAlignment.center,
                                                   children: [
                                                     Text(
-                                                      valueOrDefault<String>(
-                                                        ApiProgemGroup
-                                                            .listarCobranasDoUsurioCall
-                                                            .atrasadas(
-                                                              columnListarCobranasDoUsurioResponse
-                                                                  .jsonBody,
-                                                            )
-                                                            .toString(),
-                                                        '0',
-                                                      ),
+                                                      '0',
                                                       maxLines: 1,
                                                       style:
                                                           FlutterFlowTheme.of(
