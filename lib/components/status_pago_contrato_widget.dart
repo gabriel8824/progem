@@ -560,24 +560,6 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                   .set(
                                                       cobrancasRealizadasCreateData);
                                               Navigator.pop(context);
-                                              await showModalBottomSheet(
-                                                isScrollControlled: true,
-                                                backgroundColor:
-                                                    Colors.transparent,
-                                                context: context,
-                                                builder: (context) {
-                                                  return Padding(
-                                                    padding:
-                                                        MediaQuery.of(context)
-                                                            .viewInsets,
-                                                    child: DadosCobrancaWidget(
-                                                      cobrancas:
-                                                          widget.cobranca,
-                                                    ),
-                                                  );
-                                                },
-                                              ).then(
-                                                  (value) => setState(() {}));
                                             }
 
                                             setState(() {});
