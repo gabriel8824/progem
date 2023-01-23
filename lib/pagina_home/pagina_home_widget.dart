@@ -354,11 +354,15 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                 ).then((value) => setState(() {}));
 
                                 net2 = await actions.checkInternet();
+                                FFAppState().update(() {
+                                  FFAppState().PaginaAtual = 1;
+                                });
                                 if (net2!) {
                                   apiResultCobrancas = await ApiProgemGroup
                                       .listarCobrancasCall
                                       .call(
                                     token: FFAppState().token,
+                                    pagina: 1,
                                   );
                                   if ((apiResultCobrancas?.succeeded ?? true)) {
                                     FFAppState().update(() {

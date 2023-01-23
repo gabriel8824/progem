@@ -456,10 +456,12 @@ class ListarCobrancasCall {
   Future<ApiCallResponse> call({
     String? token = '',
     String? status = '',
+    int? pagina = 1,
   }) {
     return ApiManager.instance.makeApiCall(
       callName: 'Listar cobrancas',
-      apiUrl: '${ApiProgemGroup.baseUrl}/cobrancas?q=status:${status}',
+      apiUrl:
+          '${ApiProgemGroup.baseUrl}/cobrancas?q=status:${status};&page=${pagina}',
       callType: ApiCallType.GET,
       headers: {
         ...ApiProgemGroup.headers,
@@ -798,6 +800,23 @@ class ReagendarCobrancaCall {
       cache: false,
     );
   }
+
+  dynamic id(dynamic response) => getJsonField(
+        response,
+        r'''$.id''',
+      );
+  dynamic obs(dynamic response) => getJsonField(
+        response,
+        r'''$.observacao''',
+      );
+  dynamic nomecliente(dynamic response) => getJsonField(
+        response,
+        r'''$.cliente.nome''',
+      );
+  dynamic erro(dynamic response) => getJsonField(
+        response,
+        r'''$[:].message''',
+      );
 }
 
 class FotoUserCall {

@@ -203,6 +203,12 @@ class FFAppState extends ChangeNotifier {
   set SaldoCaixa(String _value) {
     _SaldoCaixa = _value;
   }
+
+  int _PaginaAtual = 0;
+  int get PaginaAtual => _PaginaAtual;
+  set PaginaAtual(int _value) {
+    _PaginaAtual = _value;
+  }
 }
 
 LatLng? _latLngFromString(String? val) {
