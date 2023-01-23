@@ -1,3 +1,4 @@
+import '../auth/auth_util.dart';
 import '../backend/api_requests/api_calls.dart';
 import '../backend/backend.dart';
 import '../components/cobrancas_vazia_widget.dart';
@@ -277,7 +278,10 @@ class _PaginaCobrancasV3CopyWidgetState
                                                             Query<Object?>)
                                                         queryBuilder =
                                                         (cobrancasRealizadasRecord) =>
-                                                            cobrancasRealizadasRecord;
+                                                            cobrancasRealizadasRecord.where(
+                                                                'EmailUsuario',
+                                                                isEqualTo:
+                                                                    currentUserEmail);
                                                     if (_pagingController !=
                                                         null) {
                                                       final query = queryBuilder(
@@ -308,9 +312,11 @@ class _PaginaCobrancasV3CopyWidgetState
                                                         .addPageRequestListener(
                                                             (nextPageMarker) {
                                                       queryCobrancasRealizadasRecordPage(
-                                                        queryBuilder:
-                                                            (cobrancasRealizadasRecord) =>
-                                                                cobrancasRealizadasRecord,
+                                                        queryBuilder: (cobrancasRealizadasRecord) =>
+                                                            cobrancasRealizadasRecord.where(
+                                                                'EmailUsuario',
+                                                                isEqualTo:
+                                                                    currentUserEmail),
                                                         nextPageMarker:
                                                             nextPageMarker,
                                                         pageSize: 25,
