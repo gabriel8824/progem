@@ -82,13 +82,6 @@ class _$CobrancasRealizadasRecordSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(DateTime)));
     }
-    value = object.emailUsuario;
-    if (value != null) {
-      result
-        ..add('EmailUsuario')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
     value = object.cobranca;
     if (value != null) {
       result
@@ -136,6 +129,13 @@ class _$CobrancasRealizadasRecordSerializer
     if (value != null) {
       result
         ..add('NumeroContrato')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.emailUser;
+    if (value != null) {
+      result
+        ..add('EmailUser')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
@@ -196,10 +196,6 @@ class _$CobrancasRealizadasRecordSerializer
           result.dataDeSincronia = serializers.deserialize(value,
               specifiedType: const FullType(DateTime)) as DateTime?;
           break;
-        case 'EmailUsuario':
-          result.emailUsuario = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
-          break;
         case 'Cobranca':
           result.cobranca = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -228,6 +224,10 @@ class _$CobrancasRealizadasRecordSerializer
           break;
         case 'NumeroContrato':
           result.numeroContrato = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'EmailUser':
+          result.emailUser = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
         case 'Document__Reference__Field':
@@ -261,8 +261,6 @@ class _$CobrancasRealizadasRecord extends CobrancasRealizadasRecord {
   @override
   final DateTime? dataDeSincronia;
   @override
-  final String? emailUsuario;
-  @override
   final DocumentReference<Object?>? cobranca;
   @override
   final bool? sincronizado;
@@ -276,6 +274,8 @@ class _$CobrancasRealizadasRecord extends CobrancasRealizadasRecord {
   final DateTime? dataDeVencimento;
   @override
   final String? numeroContrato;
+  @override
+  final String? emailUser;
   @override
   final DocumentReference<Object?>? ffRef;
 
@@ -292,7 +292,6 @@ class _$CobrancasRealizadasRecord extends CobrancasRealizadasRecord {
       this.formaDePagamento,
       this.idCaixa,
       this.dataDeSincronia,
-      this.emailUsuario,
       this.cobranca,
       this.sincronizado,
       this.status,
@@ -300,6 +299,7 @@ class _$CobrancasRealizadasRecord extends CobrancasRealizadasRecord {
       this.nomeCliente,
       this.dataDeVencimento,
       this.numeroContrato,
+      this.emailUser,
       this.ffRef})
       : super._();
 
@@ -324,7 +324,6 @@ class _$CobrancasRealizadasRecord extends CobrancasRealizadasRecord {
         formaDePagamento == other.formaDePagamento &&
         idCaixa == other.idCaixa &&
         dataDeSincronia == other.dataDeSincronia &&
-        emailUsuario == other.emailUsuario &&
         cobranca == other.cobranca &&
         sincronizado == other.sincronizado &&
         status == other.status &&
@@ -332,6 +331,7 @@ class _$CobrancasRealizadasRecord extends CobrancasRealizadasRecord {
         nomeCliente == other.nomeCliente &&
         dataDeVencimento == other.dataDeVencimento &&
         numeroContrato == other.numeroContrato &&
+        emailUser == other.emailUser &&
         ffRef == other.ffRef;
   }
 
@@ -366,14 +366,14 @@ class _$CobrancasRealizadasRecord extends CobrancasRealizadasRecord {
                                                     formaDePagamento.hashCode),
                                                 idCaixa.hashCode),
                                             dataDeSincronia.hashCode),
-                                        emailUsuario.hashCode),
-                                    cobranca.hashCode),
-                                sincronizado.hashCode),
-                            status.hashCode),
-                        localizacao.hashCode),
-                    nomeCliente.hashCode),
-                dataDeVencimento.hashCode),
-            numeroContrato.hashCode),
+                                        cobranca.hashCode),
+                                    sincronizado.hashCode),
+                                status.hashCode),
+                            localizacao.hashCode),
+                        nomeCliente.hashCode),
+                    dataDeVencimento.hashCode),
+                numeroContrato.hashCode),
+            emailUser.hashCode),
         ffRef.hashCode));
   }
 
@@ -388,7 +388,6 @@ class _$CobrancasRealizadasRecord extends CobrancasRealizadasRecord {
           ..add('formaDePagamento', formaDePagamento)
           ..add('idCaixa', idCaixa)
           ..add('dataDeSincronia', dataDeSincronia)
-          ..add('emailUsuario', emailUsuario)
           ..add('cobranca', cobranca)
           ..add('sincronizado', sincronizado)
           ..add('status', status)
@@ -396,6 +395,7 @@ class _$CobrancasRealizadasRecord extends CobrancasRealizadasRecord {
           ..add('nomeCliente', nomeCliente)
           ..add('dataDeVencimento', dataDeVencimento)
           ..add('numeroContrato', numeroContrato)
+          ..add('emailUser', emailUser)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -440,10 +440,6 @@ class CobrancasRealizadasRecordBuilder
   set dataDeSincronia(DateTime? dataDeSincronia) =>
       _$this._dataDeSincronia = dataDeSincronia;
 
-  String? _emailUsuario;
-  String? get emailUsuario => _$this._emailUsuario;
-  set emailUsuario(String? emailUsuario) => _$this._emailUsuario = emailUsuario;
-
   DocumentReference<Object?>? _cobranca;
   DocumentReference<Object?>? get cobranca => _$this._cobranca;
   set cobranca(DocumentReference<Object?>? cobranca) =>
@@ -475,6 +471,10 @@ class CobrancasRealizadasRecordBuilder
   set numeroContrato(String? numeroContrato) =>
       _$this._numeroContrato = numeroContrato;
 
+  String? _emailUser;
+  String? get emailUser => _$this._emailUser;
+  set emailUser(String? emailUser) => _$this._emailUser = emailUser;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -494,7 +494,6 @@ class CobrancasRealizadasRecordBuilder
       _formaDePagamento = $v.formaDePagamento;
       _idCaixa = $v.idCaixa;
       _dataDeSincronia = $v.dataDeSincronia;
-      _emailUsuario = $v.emailUsuario;
       _cobranca = $v.cobranca;
       _sincronizado = $v.sincronizado;
       _status = $v.status;
@@ -502,6 +501,7 @@ class CobrancasRealizadasRecordBuilder
       _nomeCliente = $v.nomeCliente;
       _dataDeVencimento = $v.dataDeVencimento;
       _numeroContrato = $v.numeroContrato;
+      _emailUser = $v.emailUser;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -533,7 +533,6 @@ class CobrancasRealizadasRecordBuilder
             formaDePagamento: formaDePagamento,
             idCaixa: idCaixa,
             dataDeSincronia: dataDeSincronia,
-            emailUsuario: emailUsuario,
             cobranca: cobranca,
             sincronizado: sincronizado,
             status: status,
@@ -541,6 +540,7 @@ class CobrancasRealizadasRecordBuilder
             nomeCliente: nomeCliente,
             dataDeVencimento: dataDeVencimento,
             numeroContrato: numeroContrato,
+            emailUser: emailUser,
             ffRef: ffRef);
     replace(_$result);
     return _$result;
