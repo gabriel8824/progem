@@ -423,7 +423,9 @@ class _DadosCobrancaWidgetState extends State<DadosCobrancaWidget> {
                                               padding: MediaQuery.of(context)
                                                   .viewInsets,
                                               child:
-                                                  StatusReagendarContratoWidget(),
+                                                  StatusReagendarContratoWidget(
+                                                cobranca: widget.cobrancas,
+                                              ),
                                             );
                                           },
                                         ).then((value) => setState(() {}));
