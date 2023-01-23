@@ -301,7 +301,7 @@ class _StatusReagendarContratoWidgetState
                                               defaultLocation:
                                                   LatLng(0.0, 0.0));
                                       net4 = await actions.checkInternet();
-                                      if (net4!) {
+                                      if (true) {
                                         resultApi = await ApiProgemGroup
                                             .reagendarCobrancaCall
                                             .call(
