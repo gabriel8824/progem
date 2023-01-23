@@ -769,14 +769,11 @@ class MovimentacaoDeCaixaCall {
 
 class ReagendarCobrancaCall {
   Future<ApiCallResponse> call({
-    String? id = '',
     String? token = '',
-    String? data = '',
-    String? obs = '',
   }) {
     final body = '''
 {
-  "dataReagendamento": "2023-01-03T10:00:00-03:00",
+  "dataReagendamento": "2024-01-03T10:00:00-03:00",
   "observacao": "Cliente solicitou mais dois dias para aguardar o recebimento do salário",
   "checkin": {
     "latitude": "-25.8672164",
@@ -785,7 +782,7 @@ class ReagendarCobrancaCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'Reagendar cobranca',
-      apiUrl: '${ApiProgemGroup.baseUrl}/cobrancas/900675/reagendar',
+      apiUrl: '${ApiProgemGroup.baseUrl}/cobrancas/1579748/reagendar',
       callType: ApiCallType.POST,
       headers: {
         ...ApiProgemGroup.headers,

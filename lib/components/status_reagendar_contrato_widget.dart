@@ -7,7 +7,6 @@ import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
-import '../flutter_flow/custom_functions.dart' as functions;
 import '../flutter_flow/random_data_util.dart' as random_data;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -302,17 +301,22 @@ class _StatusReagendarContratoWidgetState
                                         resultApi = await ApiProgemGroup
                                             .reagendarCobrancaCall
                                             .call(
-                                          id: widget.cobranca!.id,
                                           token: FFAppState().token,
-                                          data:
-                                              '${functions.converterdata(calendarSelectedDay!.end)}T00:12:30-03:00',
-                                          obs: textController!.text,
                                         );
                                         if (ApiProgemGroup.reagendarCobrancaCall
-                                                .erro(
-                                              (resultApi?.jsonBody ?? ''),
-                                            ) !=
-                                            null) {
+                                                    .erro(
+                                                      (resultApi?.jsonBody ??
+                                                          ''),
+                                                    )
+                                                    .toString() !=
+                                                null &&
+                                            ApiProgemGroup.reagendarCobrancaCall
+                                                    .erro(
+                                                      (resultApi?.jsonBody ??
+                                                          ''),
+                                                    )
+                                                    .toString() !=
+                                                '') {
                                           Navigator.pop(context);
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
