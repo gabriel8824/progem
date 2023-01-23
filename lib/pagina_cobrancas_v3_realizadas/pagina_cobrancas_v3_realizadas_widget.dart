@@ -1,4 +1,3 @@
-import '../auth/auth_util.dart';
 import '../backend/api_requests/api_calls.dart';
 import '../backend/backend.dart';
 import '../components/cobrancas_vazia_widget.dart';
@@ -280,13 +279,11 @@ class _PaginaCobrancasV3RealizadasWidgetState
                                                             Query<Object?>)
                                                         queryBuilder =
                                                         (cobrancasRealizadasRecord) =>
-                                                            cobrancasRealizadasRecord.where(
-                                                                'EmailUsuario',
-                                                                isEqualTo:
-                                                                    currentUserEmail !=
-                                                                            ''
-                                                                        ? currentUserEmail
-                                                                        : null);
+                                                            cobrancasRealizadasRecord
+                                                                .where(
+                                                                    'EmailUsuario',
+                                                                    isEqualTo:
+                                                                        'teste');
                                                     if (_pagingController !=
                                                         null) {
                                                       final query = queryBuilder(
@@ -318,13 +315,11 @@ class _PaginaCobrancasV3RealizadasWidgetState
                                                             (nextPageMarker) {
                                                       queryCobrancasRealizadasRecordPage(
                                                         queryBuilder: (cobrancasRealizadasRecord) =>
-                                                            cobrancasRealizadasRecord.where(
-                                                                'EmailUsuario',
-                                                                isEqualTo:
-                                                                    currentUserEmail !=
-                                                                            ''
-                                                                        ? currentUserEmail
-                                                                        : null),
+                                                            cobrancasRealizadasRecord
+                                                                .where(
+                                                                    'EmailUsuario',
+                                                                    isEqualTo:
+                                                                        'teste'),
                                                         nextPageMarker:
                                                             nextPageMarker,
                                                         pageSize: 25,
