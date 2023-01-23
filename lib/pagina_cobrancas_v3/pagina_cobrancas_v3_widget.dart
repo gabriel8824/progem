@@ -158,7 +158,7 @@ class _PaginaCobrancasV3WidgetState extends State<PaginaCobrancasV3Widget> {
                           alignment: AlignmentDirectional(0, 0),
                           child: Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 0, 0, 90),
+                                EdgeInsetsDirectional.fromSTEB(0, 0, 0, 70),
                             child: Container(
                               width: MediaQuery.of(context).size.width,
                               height: MediaQuery.of(context).size.height * 1,

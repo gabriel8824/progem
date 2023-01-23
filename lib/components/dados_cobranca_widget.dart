@@ -88,68 +88,80 @@ class _DadosCobrancaWidgetState extends State<DadosCobrancaWidget> {
                                 ),
                               ],
                             ),
-                            Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(0, 5, 0, 0),
-                              child: Container(
-                                height: 30,
-                                decoration: BoxDecoration(
-                                  color: () {
-                                    if (widget.cobrancas!.status ==
-                                        'RECEBIDA') {
-                                      return Color(0x6542C500);
-                                    } else if (widget.cobrancas!.status ==
-                                        'PENDENTE') {
-                                      return Color(0x6725A4FF);
-                                    } else if (widget.cobrancas!.status ==
-                                        'REAGENDADA') {
-                                      return Color(0x80ED6923);
-                                    } else if (widget.cobrancas!.status ==
-                                        'ATRASADA') {
-                                      return Color(0x80DD2829);
-                                    } else {
-                                      return FlutterFlowTheme.of(context).cor1;
-                                    }
-                                  }(),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Align(
-                                  alignment: AlignmentDirectional(0, 0),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        5, 0, 5, 0),
-                                    child: Text(
-                                      () {
-                                        if (widget.cobrancas!.status ==
-                                            'RECEBIDA') {
-                                          return 'Pago';
-                                        } else if (widget.cobrancas!.status ==
-                                            'PENDENTE') {
-                                          return 'Em aberto';
-                                        } else if (widget.cobrancas!.status ==
-                                            'REAGENDADA') {
-                                          return 'Reagendado';
-                                        } else if (widget.cobrancas!.status ==
-                                            'ATRASADA') {
-                                          return 'Em atraso';
-                                        } else {
-                                          return 'Texto';
-                                        }
-                                      }(),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyText1Family,
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryText,
-                                            fontWeight: FontWeight.normal,
-                                            useGoogleFonts: GoogleFonts.asMap()
-                                                .containsKey(
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyText1Family),
-                                          ),
+                            Align(
+                              alignment: AlignmentDirectional(-1, 0),
+                              child: Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(0, 5, 0, 0),
+                                child: Container(
+                                  width: 100,
+                                  height: 30,
+                                  constraints: BoxConstraints(
+                                    maxWidth: MediaQuery.of(context).size.width,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: () {
+                                      if (widget.cobrancas!.status ==
+                                          'RECEBIDA') {
+                                        return Color(0x6542C500);
+                                      } else if (widget.cobrancas!.status ==
+                                          'PENDENTE') {
+                                        return Color(0x6725A4FF);
+                                      } else if (widget.cobrancas!.status ==
+                                          'REAGENDADA') {
+                                        return Color(0x80ED6923);
+                                      } else if (widget.cobrancas!.status ==
+                                          'ATRASADA') {
+                                        return Color(0x80DD2829);
+                                      } else {
+                                        return FlutterFlowTheme.of(context)
+                                            .cor1;
+                                      }
+                                    }(),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Align(
+                                    alignment: AlignmentDirectional(0, 0),
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          5, 0, 5, 0),
+                                      child: Text(
+                                        () {
+                                          if (widget.cobrancas!.status ==
+                                              'RECEBIDA') {
+                                            return 'Pago';
+                                          } else if (widget.cobrancas!.status ==
+                                              'PENDENTE') {
+                                            return 'Em aberto';
+                                          } else if (widget.cobrancas!.status ==
+                                              'REAGENDADA') {
+                                            return 'Reagendado';
+                                          } else if (widget.cobrancas!.status ==
+                                              'ATRASADA') {
+                                            return 'Em atraso';
+                                          } else {
+                                            return 'Texto';
+                                          }
+                                        }(),
+                                        maxLines: 1,
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyText1
+                                            .override(
+                                              fontFamily:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText1Family,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryText,
+                                              fontWeight: FontWeight.normal,
+                                              useGoogleFonts:
+                                                  GoogleFonts.asMap()
+                                                      .containsKey(
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText1Family),
+                                            ),
+                                      ),
                                     ),
                                   ),
                                 ),

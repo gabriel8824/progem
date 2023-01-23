@@ -7,6 +7,7 @@ import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
+import '../custom_code/actions/index.dart' as actions;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -31,6 +32,7 @@ class StatusPagoContratoWidget extends StatefulWidget {
 
 class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
   ApiCallResponse? apiResultReceberCobranca;
+  bool? net;
   List<CaixasRecord> simpleSearchResults = [];
   String? dropDownCValue;
   String? dropDownValue;
@@ -338,7 +340,8 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                     ),
                                     FFButtonWidget(
                                       onPressed: () async {
-                                        if (FFAppState().IsConnected) {
+                                        net = await actions.checkInternet();
+                                        if (net!) {
                                           apiResultReceberCobranca =
                                               await ApiProgemGroup
                                                   .receberCobrancaCall
