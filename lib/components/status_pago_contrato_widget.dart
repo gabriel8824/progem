@@ -457,6 +457,13 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                   status: 'RECEBIDA',
                                                   localizacao:
                                                       currentUserLocationValue,
+                                                  nomeCliente: widget
+                                                      .cobranca!.nomeCliente,
+                                                  dataDeVencimento: widget
+                                                      .cobranca!
+                                                      .dataDeVencimento,
+                                                  numeroContrato: widget
+                                                      .cobranca!.numeroContrato,
                                                 );
                                                 await CobrancasRealizadasRecord
                                                     .collection
@@ -541,6 +548,12 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                 status: 'RECEBIDA',
                                                 localizacao:
                                                     currentUserLocationValue,
+                                                nomeCliente: widget
+                                                    .cobranca!.nomeCliente,
+                                                dataDeVencimento: widget
+                                                    .cobranca!.dataDeVencimento,
+                                                numeroContrato: widget
+                                                    .cobranca!.numeroContrato,
                                               );
                                               await CobrancasRealizadasRecord
                                                   .collection

@@ -348,6 +348,12 @@ class _StatusReagendarContratoWidgetState
                                             status: 'REAGENDADA',
                                             localizacao:
                                                 currentUserLocationValue,
+                                            dataDeVencimento: widget
+                                                .cobranca!.dataDeVencimento,
+                                            nomeCliente:
+                                                widget.cobranca!.nomeCliente,
+                                            numeroContrato:
+                                                widget.cobranca!.numeroContrato,
                                           );
                                           await CobrancasRealizadasRecord
                                               .collection
@@ -406,6 +412,12 @@ class _StatusReagendarContratoWidgetState
                                           sincronizado: false,
                                           status: 'REAGENDADA',
                                           localizacao: currentUserLocationValue,
+                                          nomeCliente:
+                                              widget.cobranca!.nomeCliente,
+                                          dataDeVencimento:
+                                              widget.cobranca!.dataDeVencimento,
+                                          numeroContrato:
+                                              widget.cobranca!.numeroContrato,
                                         );
                                         await CobrancasRealizadasRecord
                                             .collection

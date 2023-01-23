@@ -51,6 +51,15 @@ abstract class CobrancasRealizadasRecord
   @BuiltValueField(wireName: 'Localizacao')
   LatLng? get localizacao;
 
+  @BuiltValueField(wireName: 'NomeCliente')
+  String? get nomeCliente;
+
+  @BuiltValueField(wireName: 'DataDeVencimento')
+  DateTime? get dataDeVencimento;
+
+  @BuiltValueField(wireName: 'NumeroContrato')
+  String? get numeroContrato;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -64,7 +73,9 @@ abstract class CobrancasRealizadasRecord
         ..idCaixa = ''
         ..emailUsuario = ''
         ..sincronizado = false
-        ..status = '';
+        ..status = ''
+        ..nomeCliente = ''
+        ..numeroContrato = '';
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('CobrancasRealizadas');
@@ -103,6 +114,9 @@ Map<String, dynamic> createCobrancasRealizadasRecordData({
   bool? sincronizado,
   String? status,
   LatLng? localizacao,
+  String? nomeCliente,
+  DateTime? dataDeVencimento,
+  String? numeroContrato,
 }) {
   final firestoreData = serializers.toFirestore(
     CobrancasRealizadasRecord.serializer,
@@ -120,7 +134,10 @@ Map<String, dynamic> createCobrancasRealizadasRecordData({
         ..cobranca = cobranca
         ..sincronizado = sincronizado
         ..status = status
-        ..localizacao = localizacao,
+        ..localizacao = localizacao
+        ..nomeCliente = nomeCliente
+        ..dataDeVencimento = dataDeVencimento
+        ..numeroContrato = numeroContrato,
     ),
   );
 

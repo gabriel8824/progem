@@ -118,6 +118,27 @@ class _$CobrancasRealizadasRecordSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(LatLng)));
     }
+    value = object.nomeCliente;
+    if (value != null) {
+      result
+        ..add('NomeCliente')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.dataDeVencimento;
+    if (value != null) {
+      result
+        ..add('DataDeVencimento')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(DateTime)));
+    }
+    value = object.numeroContrato;
+    if (value != null) {
+      result
+        ..add('NumeroContrato')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -197,6 +218,18 @@ class _$CobrancasRealizadasRecordSerializer
           result.localizacao = serializers.deserialize(value,
               specifiedType: const FullType(LatLng)) as LatLng?;
           break;
+        case 'NomeCliente':
+          result.nomeCliente = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'DataDeVencimento':
+          result.dataDeVencimento = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime?;
+          break;
+        case 'NumeroContrato':
+          result.numeroContrato = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -238,6 +271,12 @@ class _$CobrancasRealizadasRecord extends CobrancasRealizadasRecord {
   @override
   final LatLng? localizacao;
   @override
+  final String? nomeCliente;
+  @override
+  final DateTime? dataDeVencimento;
+  @override
+  final String? numeroContrato;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$CobrancasRealizadasRecord(
@@ -258,6 +297,9 @@ class _$CobrancasRealizadasRecord extends CobrancasRealizadasRecord {
       this.sincronizado,
       this.status,
       this.localizacao,
+      this.nomeCliente,
+      this.dataDeVencimento,
+      this.numeroContrato,
       this.ffRef})
       : super._();
 
@@ -287,6 +329,9 @@ class _$CobrancasRealizadasRecord extends CobrancasRealizadasRecord {
         sincronizado == other.sincronizado &&
         status == other.status &&
         localizacao == other.localizacao &&
+        nomeCliente == other.nomeCliente &&
+        dataDeVencimento == other.dataDeVencimento &&
+        numeroContrato == other.numeroContrato &&
         ffRef == other.ffRef;
   }
 
@@ -304,19 +349,31 @@ class _$CobrancasRealizadasRecord extends CobrancasRealizadasRecord {
                                         $jc(
                                             $jc(
                                                 $jc(
-                                                    $jc($jc(0, user.hashCode),
-                                                        data.hashCode),
-                                                    uid.hashCode),
-                                                idCobranca.hashCode),
-                                            valor.hashCode),
-                                        formaDePagamento.hashCode),
-                                    idCaixa.hashCode),
-                                dataDeSincronia.hashCode),
-                            emailUsuario.hashCode),
-                        cobranca.hashCode),
-                    sincronizado.hashCode),
-                status.hashCode),
-            localizacao.hashCode),
+                                                    $jc(
+                                                        $jc(
+                                                            $jc(
+                                                                $jc(
+                                                                    $jc(
+                                                                        0,
+                                                                        user
+                                                                            .hashCode),
+                                                                    data
+                                                                        .hashCode),
+                                                                uid.hashCode),
+                                                            idCobranca
+                                                                .hashCode),
+                                                        valor.hashCode),
+                                                    formaDePagamento.hashCode),
+                                                idCaixa.hashCode),
+                                            dataDeSincronia.hashCode),
+                                        emailUsuario.hashCode),
+                                    cobranca.hashCode),
+                                sincronizado.hashCode),
+                            status.hashCode),
+                        localizacao.hashCode),
+                    nomeCliente.hashCode),
+                dataDeVencimento.hashCode),
+            numeroContrato.hashCode),
         ffRef.hashCode));
   }
 
@@ -336,6 +393,9 @@ class _$CobrancasRealizadasRecord extends CobrancasRealizadasRecord {
           ..add('sincronizado', sincronizado)
           ..add('status', status)
           ..add('localizacao', localizacao)
+          ..add('nomeCliente', nomeCliente)
+          ..add('dataDeVencimento', dataDeVencimento)
+          ..add('numeroContrato', numeroContrato)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -401,6 +461,20 @@ class CobrancasRealizadasRecordBuilder
   LatLng? get localizacao => _$this._localizacao;
   set localizacao(LatLng? localizacao) => _$this._localizacao = localizacao;
 
+  String? _nomeCliente;
+  String? get nomeCliente => _$this._nomeCliente;
+  set nomeCliente(String? nomeCliente) => _$this._nomeCliente = nomeCliente;
+
+  DateTime? _dataDeVencimento;
+  DateTime? get dataDeVencimento => _$this._dataDeVencimento;
+  set dataDeVencimento(DateTime? dataDeVencimento) =>
+      _$this._dataDeVencimento = dataDeVencimento;
+
+  String? _numeroContrato;
+  String? get numeroContrato => _$this._numeroContrato;
+  set numeroContrato(String? numeroContrato) =>
+      _$this._numeroContrato = numeroContrato;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -425,6 +499,9 @@ class CobrancasRealizadasRecordBuilder
       _sincronizado = $v.sincronizado;
       _status = $v.status;
       _localizacao = $v.localizacao;
+      _nomeCliente = $v.nomeCliente;
+      _dataDeVencimento = $v.dataDeVencimento;
+      _numeroContrato = $v.numeroContrato;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -461,6 +538,9 @@ class CobrancasRealizadasRecordBuilder
             sincronizado: sincronizado,
             status: status,
             localizacao: localizacao,
+            nomeCliente: nomeCliente,
+            dataDeVencimento: dataDeVencimento,
+            numeroContrato: numeroContrato,
             ffRef: ffRef);
     replace(_$result);
     return _$result;
