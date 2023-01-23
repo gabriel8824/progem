@@ -178,6 +178,8 @@ class _PaginaCaixaWidgetState extends State<PaginaCaixaWidget> {
                             padding:
                                 EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
                             child: FlutterFlowDropDown<String>(
+                              initialOption: dropDownCValue ??=
+                                  paginaCaixaCaixasRecordList.first.descricao,
                               options: paginaCaixaCaixasRecordList
                                   .map((e) => e.descricao)
                                   .withoutNulls
@@ -264,11 +266,15 @@ class _PaginaCaixaWidgetState extends State<PaginaCaixaWidget> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0, 20, 0, 0),
                                       child: AutoSizeText(
-                                        formatNumber(
-                                          simpleSearchResults.first.saldo!,
-                                          formatType: FormatType.decimal,
-                                          decimalType: DecimalType.commaDecimal,
-                                          currency: 'R\$ ',
+                                        valueOrDefault<String>(
+                                          formatNumber(
+                                            simpleSearchResults.first.saldo,
+                                            formatType: FormatType.decimal,
+                                            decimalType:
+                                                DecimalType.commaDecimal,
+                                            currency: 'R\$ ',
+                                          ),
+                                          '0',
                                         ),
                                         maxLines: 1,
                                         style: FlutterFlowTheme.of(context)
