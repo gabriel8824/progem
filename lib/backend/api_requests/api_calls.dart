@@ -770,11 +770,13 @@ class MovimentacaoDeCaixaCall {
 class ReagendarCobrancaCall {
   Future<ApiCallResponse> call({
     String? token = '',
+    String? dataReagendamento = '',
+    String? obs = '',
   }) {
     final body = '''
 {
-  "dataReagendamento": "2024-01-03T10:00:00-03:00",
-  "observacao": "Cliente solicitou mais dois dias para aguardar o recebimento do salário",
+  "dataReagendamento": "${dataReagendamento}",
+  "observacao": "${obs}",
   "checkin": {
     "latitude": "-25.8672164",
     "longitude": "-52.9013566"

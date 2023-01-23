@@ -60,6 +60,15 @@ abstract class CobrancasRealizadasRecord
   @BuiltValueField(wireName: 'EmailUser')
   String? get emailUser;
 
+  @BuiltValueField(wireName: 'OBS')
+  String? get obs;
+
+  @BuiltValueField(wireName: 'DataRagendamento')
+  DateTime? get dataRagendamento;
+
+  @BuiltValueField(wireName: 'DataReagendamentoS')
+  String? get dataReagendamentoS;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -75,7 +84,9 @@ abstract class CobrancasRealizadasRecord
         ..status = ''
         ..nomeCliente = ''
         ..numeroContrato = ''
-        ..emailUser = '';
+        ..emailUser = ''
+        ..obs = ''
+        ..dataReagendamentoS = '';
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('CobrancasRealizadas');
@@ -117,6 +128,9 @@ Map<String, dynamic> createCobrancasRealizadasRecordData({
   DateTime? dataDeVencimento,
   String? numeroContrato,
   String? emailUser,
+  String? obs,
+  DateTime? dataRagendamento,
+  String? dataReagendamentoS,
 }) {
   final firestoreData = serializers.toFirestore(
     CobrancasRealizadasRecord.serializer,
@@ -137,7 +151,10 @@ Map<String, dynamic> createCobrancasRealizadasRecordData({
         ..nomeCliente = nomeCliente
         ..dataDeVencimento = dataDeVencimento
         ..numeroContrato = numeroContrato
-        ..emailUser = emailUser,
+        ..emailUser = emailUser
+        ..obs = obs
+        ..dataRagendamento = dataRagendamento
+        ..dataReagendamentoS = dataReagendamentoS,
     ),
   );
 

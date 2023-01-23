@@ -10,6 +10,7 @@ import 'schema/cobrancas_record.dart';
 import 'schema/caixas_record.dart';
 import 'schema/cobrancas_realizadas_record.dart';
 import 'schema/cobrancas_realizadas1_record.dart';
+import 'schema/page_atual_user_record.dart';
 import 'schema/serializers.dart';
 
 export 'dart:async' show StreamSubscription;
@@ -22,6 +23,7 @@ export 'schema/cobrancas_record.dart';
 export 'schema/caixas_record.dart';
 export 'schema/cobrancas_realizadas_record.dart';
 export 'schema/cobrancas_realizadas1_record.dart';
+export 'schema/page_atual_user_record.dart';
 
 /// Functions to query UsuarioRecords (as a Stream and as a Future).
 Future<int> queryUsuarioRecordCount({
@@ -288,6 +290,58 @@ Future<FFFirestorePage<CobrancasRealizadas1Record>>
           pageSize: pageSize,
           isStream: isStream,
         );
+
+/// Functions to query PageAtualUserRecords (as a Stream and as a Future).
+Future<int> queryPageAtualUserRecordCount({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+}) =>
+    queryCollectionCount(
+      PageAtualUserRecord.collection,
+      queryBuilder: queryBuilder,
+      limit: limit,
+    );
+
+Stream<List<PageAtualUserRecord>> queryPageAtualUserRecord({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollection(
+      PageAtualUserRecord.collection,
+      PageAtualUserRecord.serializer,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<List<PageAtualUserRecord>> queryPageAtualUserRecordOnce({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollectionOnce(
+      PageAtualUserRecord.collection,
+      PageAtualUserRecord.serializer,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<FFFirestorePage<PageAtualUserRecord>> queryPageAtualUserRecordPage({
+  Query Function(Query)? queryBuilder,
+  DocumentSnapshot? nextPageMarker,
+  required int pageSize,
+  required bool isStream,
+}) =>
+    queryCollectionPage(
+      PageAtualUserRecord.collection,
+      PageAtualUserRecord.serializer,
+      queryBuilder: queryBuilder,
+      nextPageMarker: nextPageMarker,
+      pageSize: pageSize,
+      isStream: isStream,
+    );
 
 Future<int> queryCollectionCount(
   Query collection, {

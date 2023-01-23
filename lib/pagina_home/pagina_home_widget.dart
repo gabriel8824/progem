@@ -305,969 +305,1063 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
           body: SafeArea(
             child: GestureDetector(
               onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 0.7,
-                    decoration: BoxDecoration(),
-                    child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 20),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          AutoSizeText(
-                            'Cobranças ',
-                            style: FlutterFlowTheme.of(context)
-                                .bodyText1
-                                .override(
-                                  fontFamily: 'Roboto',
-                                  fontSize: 18,
-                                  useGoogleFonts: GoogleFonts.asMap()
-                                      .containsKey(FlutterFlowTheme.of(context)
-                                          .bodyText1Family),
-                                  lineHeight: 1,
-                                ),
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 60, 0, 0),
-                            child: InkWell(
-                              onTap: () async {
-                                showModalBottomSheet(
-                                  isScrollControlled: true,
-                                  backgroundColor: Colors.transparent,
-                                  isDismissible: false,
-                                  enableDrag: false,
-                                  context: context,
-                                  builder: (context) {
-                                    return Padding(
-                                      padding:
-                                          MediaQuery.of(context).viewInsets,
-                                      child: LoadingWidget(),
-                                    );
-                                  },
-                                ).then((value) => setState(() {}));
-
-                                net2 = await actions.checkInternet();
-                                FFAppState().update(() {
-                                  FFAppState().PaginaAtual = 1;
-                                });
-                                if (net2!) {
-                                  apiResultCobrancas = await ApiProgemGroup
-                                      .listarCobrancasCall
-                                      .call(
-                                    token: FFAppState().token,
-                                    pagina: 1,
-                                  );
-                                  if ((apiResultCobrancas?.succeeded ?? true)) {
-                                    FFAppState().update(() {
-                                      FFAppState().CobrancasOffV2 =
-                                          ApiProgemGroup.listarCobrancasCall
-                                              .dados(
-                                                (apiResultCobrancas?.jsonBody ??
-                                                    ''),
-                                              )!
-                                              .toList();
-                                    });
-                                    LoopSicC = InstantTimer.periodic(
-                                      duration: Duration(milliseconds: 1000),
-                                      callback: (timer) async {
-                                        if (FFAppState()
-                                                .CobrancasOffV2
-                                                .length >=
-                                            1) {
-                                          FFAppState().update(() {
-                                            FFAppState().CobrancaAtual =
-                                                FFAppState()
-                                                    .CobrancasOffV2
-                                                    .first;
-                                          });
-                                          setState(() {
-                                            simpleSearchResults2 = TextSearch(
-                                              paginaHomeCobrancasRecordList
-                                                  .map(
-                                                    (record) => TextSearchItem(
-                                                        record, [record.id!]),
-                                                  )
-                                                  .toList(),
-                                            )
-                                                .search(getJsonField(
-                                                  FFAppState().CobrancaAtual,
-                                                  r'''$.id''',
-                                                ).toString())
-                                                .map((r) => r.object)
-                                                .toList();
-                                          });
-                                          if (simpleSearchResults2.length >=
-                                              1) {
-                                            FFAppState().update(() {
-                                              FFAppState()
-                                                  .removeFromCobrancasOffV2(
-                                                      FFAppState()
-                                                          .CobrancaAtual);
-                                            });
-                                            FFAppState().update(() {
-                                              FFAppState().CobrancaAtual = null;
-                                            });
-                                          } else {
-                                            final cobrancasCreateData =
-                                                createCobrancasRecordData(
-                                              nomeCliente: getJsonField(
-                                                FFAppState().CobrancaAtual,
-                                                r'''$.cliente.nome''',
-                                              ).toString(),
-                                              numeroContrato: getJsonField(
-                                                FFAppState().CobrancaAtual,
-                                                r'''$.contrato.numero''',
-                                              ).toString(),
-                                              valor: valueOrDefault<double>(
-                                                functions.converStringEmDouble(
-                                                    getJsonField(
-                                                  FFAppState().CobrancaAtual,
-                                                  r'''$.contrato.valorTotal''',
-                                                ).toString()),
-                                                0.0,
-                                              ),
-                                              dataDeVencimento: functions
-                                                  .formatarData(getJsonField(
-                                                FFAppState().CobrancaAtual,
-                                                r'''$.dataVencimento''',
-                                              ).toString()),
-                                              endereco: getJsonField(
-                                                FFAppState().CobrancaAtual,
-                                                r'''$.cliente.endereco.logradouro''',
-                                              ).toString(),
-                                              bairro: getJsonField(
-                                                FFAppState().CobrancaAtual,
-                                                r'''$.cliente.endereco.bairro''',
-                                              ).toString(),
-                                              status: getJsonField(
-                                                FFAppState().CobrancaAtual,
-                                                r'''$.status''',
-                                              ).toString(),
-                                              id: getJsonField(
-                                                FFAppState().CobrancaAtual,
-                                                r'''$.id''',
-                                              ).toString(),
-                                              dataSincronia:
-                                                  getCurrentTimestamp,
-                                              usuario: currentUserReference,
-                                              emailUsuario: currentUserEmail,
-                                              uId: '${random_data.randomString(
-                                                10,
-                                                10,
-                                                false,
-                                                false,
-                                                true,
-                                              )}x${random_data.randomString(
-                                                10,
-                                                10,
-                                                false,
-                                                false,
-                                                true,
-                                              )}',
-                                            );
-                                            await CobrancasRecord.collection
-                                                .doc()
-                                                .set(cobrancasCreateData);
-                                            FFAppState().update(() {
-                                              FFAppState()
-                                                  .removeFromCobrancasOffV2(
-                                                      FFAppState()
-                                                          .CobrancaAtual);
-                                            });
-                                            FFAppState().update(() {
-                                              FFAppState().CobrancaAtual = null;
-                                            });
-                                          }
-                                        } else {
-                                          LoopSicC?.cancel();
-                                          Navigator.pop(context);
-
-                                          context
-                                              .pushNamed('PaginaCobrancasV3');
-                                        }
+              child: StreamBuilder<List<PageAtualUserRecord>>(
+                stream: queryPageAtualUserRecord(
+                  queryBuilder: (pageAtualUserRecord) => pageAtualUserRecord
+                      .where('EmailUser', isEqualTo: currentUserEmail),
+                  singleRecord: true,
+                ),
+                builder: (context, snapshot) {
+                  // Customize what your widget looks like when it's loading.
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: SizedBox(
+                        width: 50,
+                        height: 50,
+                        child: CircularProgressIndicator(
+                          color: FlutterFlowTheme.of(context).primaryColor,
+                        ),
+                      ),
+                    );
+                  }
+                  List<PageAtualUserRecord> columnPageAtualUserRecordList =
+                      snapshot.data!;
+                  // Return an empty Container when the item does not exist.
+                  if (snapshot.data!.isEmpty) {
+                    return Container();
+                  }
+                  final columnPageAtualUserRecord =
+                      columnPageAtualUserRecordList.isNotEmpty
+                          ? columnPageAtualUserRecordList.first
+                          : null;
+                  return Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.7,
+                        decoration: BoxDecoration(),
+                        child: Padding(
+                          padding:
+                              EdgeInsetsDirectional.fromSTEB(20, 20, 20, 20),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              AutoSizeText(
+                                'Cobranças ',
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyText1
+                                    .override(
+                                      fontFamily: 'Roboto',
+                                      fontSize: 18,
+                                      useGoogleFonts: GoogleFonts.asMap()
+                                          .containsKey(
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyText1Family),
+                                      lineHeight: 1,
+                                    ),
+                              ),
+                              Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(0, 60, 0, 0),
+                                child: InkWell(
+                                  onTap: () async {
+                                    showModalBottomSheet(
+                                      isScrollControlled: true,
+                                      backgroundColor: Colors.transparent,
+                                      isDismissible: false,
+                                      enableDrag: false,
+                                      context: context,
+                                      builder: (context) {
+                                        return Padding(
+                                          padding:
+                                              MediaQuery.of(context).viewInsets,
+                                          child: LoadingWidget(),
+                                        );
                                       },
-                                      startImmediately: false,
-                                    );
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          'Algo deu errado',
-                                          style: TextStyle(
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryBackground,
-                                          ),
-                                        ),
-                                        duration: Duration(milliseconds: 4000),
-                                        backgroundColor:
-                                            FlutterFlowTheme.of(context)
-                                                .alternate,
-                                      ),
-                                    );
-                                    Navigator.pop(context);
-                                  }
-                                } else {
-                                  Navigator.pop(context);
+                                    ).then((value) => setState(() {}));
 
-                                  context.pushNamed('PaginaCobrancasV3');
-                                }
+                                    net2 = await actions.checkInternet();
+                                    if (net2!) {
+                                      apiResultCobrancas = await ApiProgemGroup
+                                          .listarCobrancasCall
+                                          .call(
+                                        token: FFAppState().token,
+                                        pagina: valueOrDefault<int>(
+                                          columnPageAtualUserRecord!.pagina! +
+                                              1,
+                                          1,
+                                        ),
+                                      );
+                                      if ((apiResultCobrancas?.succeeded ??
+                                          true)) {
+                                        FFAppState().update(() {
+                                          FFAppState().CobrancasOffV2 =
+                                              ApiProgemGroup.listarCobrancasCall
+                                                  .dados(
+                                                    (apiResultCobrancas
+                                                            ?.jsonBody ??
+                                                        ''),
+                                                  )!
+                                                  .toList();
+                                        });
 
-                                setState(() {});
-                              },
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 50,
-                                decoration: BoxDecoration(),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  5, 0, 0, 0),
-                                          child: Container(
-                                            height: 40,
-                                            decoration: BoxDecoration(),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Image.asset(
-                                                  'assets/images/Group_(1).png',
-                                                  width: 25,
-                                                  height: 25,
-                                                  fit: BoxFit.contain,
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(12, 0, 0, 0),
-                                                  child: AutoSizeText(
-                                                    'Cobrador',
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyText1
-                                                        .override(
-                                                          fontFamily: 'Roboto',
-                                                          fontSize: 18,
-                                                          useGoogleFonts: GoogleFonts
-                                                                  .asMap()
-                                                              .containsKey(
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyText1Family),
-                                                          lineHeight: 1,
-                                                        ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        Icon(
-                                          Icons.arrow_forward_ios,
-                                          color: Colors.black,
-                                          size: 24,
-                                        ),
-                                      ],
-                                    ),
-                                    Divider(
-                                      height: 1,
-                                      thickness: 1,
-                                      indent: 1,
-                                      endIndent: 1,
-                                      color: Color(0xFF545353),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                            child: InkWell(
-                              onTap: () async {
-                                context.pushNamed('PaginaCobrancasV3Copy');
-                              },
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 50,
-                                decoration: BoxDecoration(),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  5, 0, 0, 0),
-                                          child: Container(
-                                            height: 40,
-                                            decoration: BoxDecoration(),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Image.asset(
-                                                  'assets/images/arcticons_book.png',
-                                                  width: 25,
-                                                  height: 25,
-                                                  fit: BoxFit.contain,
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(12, 0, 0, 0),
-                                                  child: AutoSizeText(
-                                                    'Cobranças Realizadas',
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyText1
-                                                        .override(
-                                                          fontFamily: 'Roboto',
-                                                          fontSize: 18,
-                                                          useGoogleFonts: GoogleFonts
-                                                                  .asMap()
-                                                              .containsKey(
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyText1Family),
-                                                          lineHeight: 1,
-                                                        ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        Icon(
-                                          Icons.arrow_forward_ios,
-                                          color: Colors.black,
-                                          size: 24,
-                                        ),
-                                      ],
-                                    ),
-                                    Divider(
-                                      height: 1,
-                                      thickness: 1,
-                                      indent: 1,
-                                      endIndent: 1,
-                                      color: Color(0xFF545353),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                            child: InkWell(
-                              onTap: () async {
-                                showModalBottomSheet(
-                                  isScrollControlled: true,
-                                  backgroundColor: Colors.transparent,
-                                  isDismissible: false,
-                                  enableDrag: false,
-                                  context: context,
-                                  builder: (context) {
-                                    return Padding(
-                                      padding:
-                                          MediaQuery.of(context).viewInsets,
-                                      child: LoadingWidget(),
-                                    );
-                                  },
-                                ).then((value) => setState(() {}));
-
-                                net5 = await actions.checkInternet();
-                                if (net5!) {
-                                  apiResultCobrancas1 = await ApiProgemGroup
-                                      .listarCobrancasCall
-                                      .call(
-                                    token: FFAppState().token,
-                                    status: 'REAGENDADA',
-                                  );
-                                  if ((apiResultCobrancas1?.succeeded ??
-                                      true)) {
-                                    FFAppState().update(() {
-                                      FFAppState().CobrancasOffV2 =
-                                          ApiProgemGroup.listarCobrancasCall
-                                              .dados(
-                                                (apiResultCobrancas1
-                                                        ?.jsonBody ??
-                                                    ''),
-                                              )!
-                                              .toList();
-                                    });
-                                    LoopSicCo = InstantTimer.periodic(
-                                      duration: Duration(milliseconds: 1000),
-                                      callback: (timer) async {
-                                        if (FFAppState()
-                                                .CobrancasOffV2
-                                                .length >=
-                                            1) {
-                                          FFAppState().update(() {
-                                            FFAppState().CobrancaAtual =
-                                                FFAppState()
+                                        final pageAtualUserUpdateData = {
+                                          'Pagina': FieldValue.increment(1),
+                                        };
+                                        await columnPageAtualUserRecord!
+                                            .reference
+                                            .update(pageAtualUserUpdateData);
+                                        LoopSicC = InstantTimer.periodic(
+                                          duration:
+                                              Duration(milliseconds: 1000),
+                                          callback: (timer) async {
+                                            if (FFAppState()
                                                     .CobrancasOffV2
-                                                    .first;
-                                          });
-                                          setState(() {
-                                            simpleSearchResults3 = TextSearch(
-                                              paginaHomeCobrancasRecordList
-                                                  .map(
-                                                    (record) => TextSearchItem(
-                                                        record, [record.id!]),
-                                                  )
-                                                  .toList(),
-                                            )
-                                                .search(getJsonField(
-                                                  FFAppState().CobrancaAtual,
-                                                  r'''$.id''',
-                                                ).toString())
-                                                .map((r) => r.object)
-                                                .toList();
-                                          });
-                                          if (simpleSearchResults3.length >=
-                                              1) {
-                                            FFAppState().update(() {
-                                              FFAppState()
-                                                  .removeFromCobrancasOffV2(
+                                                    .length >=
+                                                1) {
+                                              FFAppState().update(() {
+                                                FFAppState().CobrancaAtual =
+                                                    FFAppState()
+                                                        .CobrancasOffV2
+                                                        .first;
+                                              });
+                                              setState(() {
+                                                simpleSearchResults2 =
+                                                    TextSearch(
+                                                  paginaHomeCobrancasRecordList
+                                                      .map(
+                                                        (record) =>
+                                                            TextSearchItem(
+                                                                record,
+                                                                [record.id!]),
+                                                      )
+                                                      .toList(),
+                                                )
+                                                        .search(getJsonField(
+                                                          FFAppState()
+                                                              .CobrancaAtual,
+                                                          r'''$.id''',
+                                                        ).toString())
+                                                        .map((r) => r.object)
+                                                        .toList();
+                                              });
+                                              if (simpleSearchResults2.length >=
+                                                  1) {
+                                                FFAppState().update(() {
+                                                  FFAppState()
+                                                      .removeFromCobrancasOffV2(
+                                                          FFAppState()
+                                                              .CobrancaAtual);
+                                                });
+                                                FFAppState().update(() {
+                                                  FFAppState().CobrancaAtual =
+                                                      null;
+                                                });
+                                              } else {
+                                                final cobrancasCreateData =
+                                                    createCobrancasRecordData(
+                                                  nomeCliente: getJsonField(
+                                                    FFAppState().CobrancaAtual,
+                                                    r'''$.cliente.nome''',
+                                                  ).toString(),
+                                                  numeroContrato: getJsonField(
+                                                    FFAppState().CobrancaAtual,
+                                                    r'''$.contrato.numero''',
+                                                  ).toString(),
+                                                  valor: valueOrDefault<double>(
+                                                    functions
+                                                        .converStringEmDouble(
+                                                            getJsonField(
                                                       FFAppState()
-                                                          .CobrancaAtual);
-                                            });
-                                            FFAppState().update(() {
-                                              FFAppState().CobrancaAtual = null;
-                                            });
-                                          } else {
-                                            final cobrancasCreateData =
-                                                createCobrancasRecordData(
-                                              nomeCliente: getJsonField(
-                                                FFAppState().CobrancaAtual,
-                                                r'''$.cliente.nome''',
-                                              ).toString(),
-                                              numeroContrato: getJsonField(
-                                                FFAppState().CobrancaAtual,
-                                                r'''$.contrato.numero''',
-                                              ).toString(),
-                                              valor: valueOrDefault<double>(
-                                                functions.converStringEmDouble(
-                                                    getJsonField(
-                                                  FFAppState().CobrancaAtual,
-                                                  r'''$.contrato.valorTotal''',
-                                                ).toString()),
-                                                0.0,
-                                              ),
-                                              dataDeVencimento: functions
-                                                  .formatarData(getJsonField(
-                                                FFAppState().CobrancaAtual,
-                                                r'''$.dataVencimento''',
-                                              ).toString()),
-                                              endereco: getJsonField(
-                                                FFAppState().CobrancaAtual,
-                                                r'''$.cliente.endereco.logradouro''',
-                                              ).toString(),
-                                              bairro: getJsonField(
-                                                FFAppState().CobrancaAtual,
-                                                r'''$.cliente.endereco.bairro''',
-                                              ).toString(),
-                                              status: getJsonField(
-                                                FFAppState().CobrancaAtual,
-                                                r'''$.status''',
-                                              ).toString(),
-                                              id: getJsonField(
-                                                FFAppState().CobrancaAtual,
-                                                r'''$.id''',
-                                              ).toString(),
-                                              dataSincronia:
-                                                  getCurrentTimestamp,
-                                              usuario: currentUserReference,
-                                              emailUsuario: currentUserEmail,
-                                              uId: '${random_data.randomString(
-                                                10,
-                                                10,
-                                                false,
-                                                false,
-                                                true,
-                                              )}x${random_data.randomString(
-                                                10,
-                                                10,
-                                                false,
-                                                false,
-                                                true,
-                                              )}',
-                                            );
-                                            await CobrancasRecord.collection
-                                                .doc()
-                                                .set(cobrancasCreateData);
-                                            FFAppState().update(() {
-                                              FFAppState()
-                                                  .removeFromCobrancasOffV2(
-                                                      FFAppState()
-                                                          .CobrancaAtual);
-                                            });
-                                            FFAppState().update(() {
-                                              FFAppState().CobrancaAtual = null;
-                                            });
-                                          }
-                                        } else {
-                                          LoopSicCo?.cancel();
-                                          Navigator.pop(context);
-
-                                          context.pushNamed(
-                                              'PaginaCobrancasV3Reagendadas');
-                                        }
-                                      },
-                                      startImmediately: false,
-                                    );
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          'Algo deu errado',
-                                          style: TextStyle(
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryBackground,
-                                          ),
-                                        ),
-                                        duration: Duration(milliseconds: 4000),
-                                        backgroundColor:
-                                            FlutterFlowTheme.of(context)
-                                                .alternate,
-                                      ),
-                                    );
-                                    Navigator.pop(context);
-                                  }
-                                } else {
-                                  Navigator.pop(context);
-
-                                  context.pushNamed(
-                                      'PaginaCobrancasV3Reagendadas');
-                                }
-
-                                setState(() {});
-                              },
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 50,
-                                decoration: BoxDecoration(),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  5, 0, 0, 0),
-                                          child: Container(
-                                            height: 40,
-                                            decoration: BoxDecoration(),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Image.asset(
-                                                  'assets/images/Group_(2).png',
-                                                  width: 25,
-                                                  height: 25,
-                                                  fit: BoxFit.contain,
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(12, 0, 0, 0),
-                                                  child: AutoSizeText(
-                                                    'Reagendamentos',
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyText1
-                                                        .override(
-                                                          fontFamily: 'Roboto',
-                                                          fontSize: 18,
-                                                          useGoogleFonts: GoogleFonts
-                                                                  .asMap()
-                                                              .containsKey(
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyText1Family),
-                                                          lineHeight: 1,
-                                                        ),
+                                                          .CobrancaAtual,
+                                                      r'''$.contrato.valorTotal''',
+                                                    ).toString()),
+                                                    0.0,
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        Icon(
-                                          Icons.arrow_forward_ios,
-                                          color: Colors.black,
-                                          size: 24,
-                                        ),
-                                      ],
-                                    ),
-                                    Divider(
-                                      height: 1,
-                                      thickness: 1,
-                                      indent: 1,
-                                      endIndent: 1,
-                                      color: Color(0xFF545353),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                            child: InkWell(
-                              onTap: () async {
-                                showModalBottomSheet(
-                                  isScrollControlled: true,
-                                  backgroundColor: Colors.transparent,
-                                  isDismissible: false,
-                                  enableDrag: false,
-                                  context: context,
-                                  builder: (context) {
-                                    return Padding(
-                                      padding:
-                                          MediaQuery.of(context).viewInsets,
-                                      child: LoadSicWidget(),
-                                    );
-                                  },
-                                ).then((value) => setState(() {}));
+                                                  dataDeVencimento:
+                                                      functions.formatarData(
+                                                          getJsonField(
+                                                    FFAppState().CobrancaAtual,
+                                                    r'''$.dataVencimento''',
+                                                  ).toString()),
+                                                  endereco: getJsonField(
+                                                    FFAppState().CobrancaAtual,
+                                                    r'''$.cliente.endereco.logradouro''',
+                                                  ).toString(),
+                                                  bairro: getJsonField(
+                                                    FFAppState().CobrancaAtual,
+                                                    r'''$.cliente.endereco.bairro''',
+                                                  ).toString(),
+                                                  status: getJsonField(
+                                                    FFAppState().CobrancaAtual,
+                                                    r'''$.status''',
+                                                  ).toString(),
+                                                  id: getJsonField(
+                                                    FFAppState().CobrancaAtual,
+                                                    r'''$.id''',
+                                                  ).toString(),
+                                                  dataSincronia:
+                                                      getCurrentTimestamp,
+                                                  usuario: currentUserReference,
+                                                  emailUsuario:
+                                                      currentUserEmail,
+                                                  uId:
+                                                      '${random_data.randomString(
+                                                    10,
+                                                    10,
+                                                    false,
+                                                    false,
+                                                    true,
+                                                  )}x${random_data.randomString(
+                                                    10,
+                                                    10,
+                                                    false,
+                                                    false,
+                                                    true,
+                                                  )}',
+                                                );
+                                                await CobrancasRecord.collection
+                                                    .doc()
+                                                    .set(cobrancasCreateData);
+                                                FFAppState().update(() {
+                                                  FFAppState()
+                                                      .removeFromCobrancasOffV2(
+                                                          FFAppState()
+                                                              .CobrancaAtual);
+                                                });
+                                                FFAppState().update(() {
+                                                  FFAppState().CobrancaAtual =
+                                                      null;
+                                                });
+                                              }
+                                            } else {
+                                              LoopSicC?.cancel();
+                                              Navigator.pop(context);
 
-                                if (FFAppState().IsConnected) {
-                                  instantTimer3 = InstantTimer.periodic(
-                                    duration: Duration(milliseconds: 3000),
-                                    callback: (timer) async {
-                                      if (true) {
-                                        null?.cancel();
-                                        Navigator.pop(context);
+                                              context.pushNamed(
+                                                  'PaginaCobrancasV3');
+                                            }
+                                          },
+                                          startImmediately: false,
+                                        );
+                                      } else {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           SnackBar(
                                             content: Text(
-                                              'Sincronia finalizada com sucesso!',
+                                              'Algo deu errado',
                                               style: TextStyle(
-                                                color: Colors.white,
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryBackground,
                                               ),
                                             ),
                                             duration:
                                                 Duration(milliseconds: 4000),
                                             backgroundColor:
                                                 FlutterFlowTheme.of(context)
-                                                    .secondaryColor,
+                                                    .alternate,
                                           ),
                                         );
-                                      } else {
-                                        apiReceberCo = await ApiProgemGroup
-                                            .receberCobrancaCall
-                                            .call(
-                                          token: FFAppState().token,
-                                        );
-                                        if (!(apiReceberCo?.succeeded ??
-                                            true)) {
-                                          null?.cancel();
-                                          Navigator.pop(context);
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                'Algo deu errado',
-                                                style: TextStyle(
-                                                  color: Colors.white,
+                                        Navigator.pop(context);
+                                      }
+                                    } else {
+                                      Navigator.pop(context);
+
+                                      context.pushNamed('PaginaCobrancasV3');
+                                    }
+
+                                    setState(() {});
+                                  },
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 50,
+                                    decoration: BoxDecoration(),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(5, 0, 0, 0),
+                                              child: Container(
+                                                height: 40,
+                                                decoration: BoxDecoration(),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    Image.asset(
+                                                      'assets/images/Group_(1).png',
+                                                      width: 25,
+                                                      height: 25,
+                                                      fit: BoxFit.contain,
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  12, 0, 0, 0),
+                                                      child: AutoSizeText(
+                                                        'Cobrador',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyText1
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Roboto',
+                                                                  fontSize: 18,
+                                                                  useGoogleFonts: GoogleFonts
+                                                                          .asMap()
+                                                                      .containsKey(
+                                                                          FlutterFlowTheme.of(context)
+                                                                              .bodyText1Family),
+                                                                  lineHeight: 1,
+                                                                ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
-                                              duration:
-                                                  Duration(milliseconds: 4000),
-                                              backgroundColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .alternate,
                                             ),
-                                          );
-                                        }
+                                            Icon(
+                                              Icons.arrow_forward_ios,
+                                              color: Colors.black,
+                                              size: 24,
+                                            ),
+                                          ],
+                                        ),
+                                        Divider(
+                                          height: 1,
+                                          thickness: 1,
+                                          indent: 1,
+                                          endIndent: 1,
+                                          color: Color(0xFF545353),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                                child: InkWell(
+                                  onTap: () async {
+                                    context.pushNamed('PaginaCobrancasV3Copy');
+                                  },
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 50,
+                                    decoration: BoxDecoration(),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(5, 0, 0, 0),
+                                              child: Container(
+                                                height: 40,
+                                                decoration: BoxDecoration(),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    Image.asset(
+                                                      'assets/images/arcticons_book.png',
+                                                      width: 25,
+                                                      height: 25,
+                                                      fit: BoxFit.contain,
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  12, 0, 0, 0),
+                                                      child: AutoSizeText(
+                                                        'Cobranças Realizadas',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyText1
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Roboto',
+                                                                  fontSize: 18,
+                                                                  useGoogleFonts: GoogleFonts
+                                                                          .asMap()
+                                                                      .containsKey(
+                                                                          FlutterFlowTheme.of(context)
+                                                                              .bodyText1Family),
+                                                                  lineHeight: 1,
+                                                                ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Icon(
+                                              Icons.arrow_forward_ios,
+                                              color: Colors.black,
+                                              size: 24,
+                                            ),
+                                          ],
+                                        ),
+                                        Divider(
+                                          height: 1,
+                                          thickness: 1,
+                                          indent: 1,
+                                          endIndent: 1,
+                                          color: Color(0xFF545353),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                                child: InkWell(
+                                  onTap: () async {
+                                    showModalBottomSheet(
+                                      isScrollControlled: true,
+                                      backgroundColor: Colors.transparent,
+                                      isDismissible: false,
+                                      enableDrag: false,
+                                      context: context,
+                                      builder: (context) {
+                                        return Padding(
+                                          padding:
+                                              MediaQuery.of(context).viewInsets,
+                                          child: LoadingWidget(),
+                                        );
+                                      },
+                                    ).then((value) => setState(() {}));
+
+                                    net5 = await actions.checkInternet();
+                                    if (net5!) {
+                                      apiResultCobrancas1 = await ApiProgemGroup
+                                          .listarCobrancasCall
+                                          .call(
+                                        token: FFAppState().token,
+                                        status: 'REAGENDADA',
+                                      );
+                                      if ((apiResultCobrancas1?.succeeded ??
+                                          true)) {
+                                        FFAppState().update(() {
+                                          FFAppState().CobrancasOffV2 =
+                                              ApiProgemGroup.listarCobrancasCall
+                                                  .dados(
+                                                    (apiResultCobrancas1
+                                                            ?.jsonBody ??
+                                                        ''),
+                                                  )!
+                                                  .toList();
+                                        });
+                                        LoopSicCo = InstantTimer.periodic(
+                                          duration:
+                                              Duration(milliseconds: 1000),
+                                          callback: (timer) async {
+                                            if (FFAppState()
+                                                    .CobrancasOffV2
+                                                    .length >=
+                                                1) {
+                                              FFAppState().update(() {
+                                                FFAppState().CobrancaAtual =
+                                                    FFAppState()
+                                                        .CobrancasOffV2
+                                                        .first;
+                                              });
+                                              setState(() {
+                                                simpleSearchResults3 =
+                                                    TextSearch(
+                                                  paginaHomeCobrancasRecordList
+                                                      .map(
+                                                        (record) =>
+                                                            TextSearchItem(
+                                                                record,
+                                                                [record.id!]),
+                                                      )
+                                                      .toList(),
+                                                )
+                                                        .search(getJsonField(
+                                                          FFAppState()
+                                                              .CobrancaAtual,
+                                                          r'''$.id''',
+                                                        ).toString())
+                                                        .map((r) => r.object)
+                                                        .toList();
+                                              });
+                                              if (simpleSearchResults3.length >=
+                                                  1) {
+                                                FFAppState().update(() {
+                                                  FFAppState()
+                                                      .removeFromCobrancasOffV2(
+                                                          FFAppState()
+                                                              .CobrancaAtual);
+                                                });
+                                                FFAppState().update(() {
+                                                  FFAppState().CobrancaAtual =
+                                                      null;
+                                                });
+                                              } else {
+                                                final cobrancasCreateData =
+                                                    createCobrancasRecordData(
+                                                  nomeCliente: getJsonField(
+                                                    FFAppState().CobrancaAtual,
+                                                    r'''$.cliente.nome''',
+                                                  ).toString(),
+                                                  numeroContrato: getJsonField(
+                                                    FFAppState().CobrancaAtual,
+                                                    r'''$.contrato.numero''',
+                                                  ).toString(),
+                                                  valor: valueOrDefault<double>(
+                                                    functions
+                                                        .converStringEmDouble(
+                                                            getJsonField(
+                                                      FFAppState()
+                                                          .CobrancaAtual,
+                                                      r'''$.contrato.valorTotal''',
+                                                    ).toString()),
+                                                    0.0,
+                                                  ),
+                                                  dataDeVencimento:
+                                                      functions.formatarData(
+                                                          getJsonField(
+                                                    FFAppState().CobrancaAtual,
+                                                    r'''$.dataVencimento''',
+                                                  ).toString()),
+                                                  endereco: getJsonField(
+                                                    FFAppState().CobrancaAtual,
+                                                    r'''$.cliente.endereco.logradouro''',
+                                                  ).toString(),
+                                                  bairro: getJsonField(
+                                                    FFAppState().CobrancaAtual,
+                                                    r'''$.cliente.endereco.bairro''',
+                                                  ).toString(),
+                                                  status: getJsonField(
+                                                    FFAppState().CobrancaAtual,
+                                                    r'''$.status''',
+                                                  ).toString(),
+                                                  id: getJsonField(
+                                                    FFAppState().CobrancaAtual,
+                                                    r'''$.id''',
+                                                  ).toString(),
+                                                  dataSincronia:
+                                                      getCurrentTimestamp,
+                                                  usuario: currentUserReference,
+                                                  emailUsuario:
+                                                      currentUserEmail,
+                                                  uId:
+                                                      '${random_data.randomString(
+                                                    10,
+                                                    10,
+                                                    false,
+                                                    false,
+                                                    true,
+                                                  )}x${random_data.randomString(
+                                                    10,
+                                                    10,
+                                                    false,
+                                                    false,
+                                                    true,
+                                                  )}',
+                                                );
+                                                await CobrancasRecord.collection
+                                                    .doc()
+                                                    .set(cobrancasCreateData);
+                                                FFAppState().update(() {
+                                                  FFAppState()
+                                                      .removeFromCobrancasOffV2(
+                                                          FFAppState()
+                                                              .CobrancaAtual);
+                                                });
+                                                FFAppState().update(() {
+                                                  FFAppState().CobrancaAtual =
+                                                      null;
+                                                });
+                                              }
+                                            } else {
+                                              LoopSicCo?.cancel();
+                                              Navigator.pop(context);
+
+                                              context.pushNamed(
+                                                  'PaginaCobrancasV3Reagendadas');
+                                            }
+                                          },
+                                          startImmediately: false,
+                                        );
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'Algo deu errado',
+                                              style: TextStyle(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryBackground,
+                                              ),
+                                            ),
+                                            duration:
+                                                Duration(milliseconds: 4000),
+                                            backgroundColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .alternate,
+                                          ),
+                                        );
+                                        Navigator.pop(context);
                                       }
-                                    },
-                                    startImmediately: false,
-                                  );
-                                } else {
-                                  Navigator.pop(context);
-                                  showModalBottomSheet(
-                                    isScrollControlled: true,
-                                    backgroundColor: Colors.transparent,
-                                    isDismissible: false,
-                                    enableDrag: false,
-                                    context: context,
-                                    builder: (context) {
-                                      return Padding(
-                                        padding:
-                                            MediaQuery.of(context).viewInsets,
-                                        child: ConnectedOffWidget(),
-                                      );
-                                    },
-                                  ).then((value) => setState(() {}));
-                                }
+                                    } else {
+                                      Navigator.pop(context);
 
-                                setState(() {});
-                              },
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 50,
-                                decoration: BoxDecoration(),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
+                                      context.pushNamed(
+                                          'PaginaCobrancasV3Reagendadas');
+                                    }
+
+                                    setState(() {});
+                                  },
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 50,
+                                    decoration: BoxDecoration(),
+                                    child: Column(
                                       mainAxisSize: MainAxisSize.max,
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  5, 0, 0, 0),
-                                          child: Container(
-                                            height: 40,
-                                            decoration: BoxDecoration(),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Image.asset(
-                                                  'assets/images/radix-icons_update.png',
-                                                  width: 25,
-                                                  height: 25,
-                                                  fit: BoxFit.contain,
+                                        Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(5, 0, 0, 0),
+                                              child: Container(
+                                                height: 40,
+                                                decoration: BoxDecoration(),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    Image.asset(
+                                                      'assets/images/Group_(2).png',
+                                                      width: 25,
+                                                      height: 25,
+                                                      fit: BoxFit.contain,
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  12, 0, 0, 0),
+                                                      child: AutoSizeText(
+                                                        'Reagendamentos',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyText1
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Roboto',
+                                                                  fontSize: 18,
+                                                                  useGoogleFonts: GoogleFonts
+                                                                          .asMap()
+                                                                      .containsKey(
+                                                                          FlutterFlowTheme.of(context)
+                                                                              .bodyText1Family),
+                                                                  lineHeight: 1,
+                                                                ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                                Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(12, 0, 0, 0),
-                                                  child: AutoSizeText(
-                                                    'Sincronizar',
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyText1
-                                                        .override(
-                                                          fontFamily: 'Roboto',
-                                                          fontSize: 18,
-                                                          useGoogleFonts: GoogleFonts
-                                                                  .asMap()
-                                                              .containsKey(
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyText1Family),
-                                                          lineHeight: 1,
-                                                        ),
-                                                  ),
-                                                ),
-                                              ],
+                                              ),
                                             ),
-                                          ),
+                                            Icon(
+                                              Icons.arrow_forward_ios,
+                                              color: Colors.black,
+                                              size: 24,
+                                            ),
+                                          ],
                                         ),
-                                        Icon(
-                                          Icons.arrow_forward_ios,
-                                          color: Colors.black,
-                                          size: 24,
+                                        Divider(
+                                          height: 1,
+                                          thickness: 1,
+                                          indent: 1,
+                                          endIndent: 1,
+                                          color: Color(0xFF545353),
                                         ),
                                       ],
                                     ),
-                                    Divider(
-                                      height: 1,
-                                      thickness: 1,
-                                      indent: 1,
-                                      endIndent: 1,
-                                      color: Color(0xFF545353),
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                            child: InkWell(
-                              onTap: () async {
-                                apiResultCaixa = await ApiProgemGroup
-                                    .listarCobranasDoUsurioCall
-                                    .call(
-                                  token: FFAppState().token,
-                                );
-                                if ((apiResultCaixa?.succeeded ?? true)) {
-                                  apiResultsfm =
-                                      await ApiProgemGroup.caixasCall.call(
-                                    token: FFAppState().token,
-                                  );
-                                  if ((apiResultsfm?.succeeded ?? true)) {
-                                    context.pushNamed(
-                                      'PaginaCaixa',
-                                      queryParams: {
-                                        'saldo': serializeParam(
-                                          ApiProgemGroup.caixasCall
-                                              .saldo(
-                                                (apiResultsfm?.jsonBody ?? ''),
-                                              )
-                                              .toString(),
-                                          ParamType.String,
+                              Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                                child: InkWell(
+                                  onTap: () async {
+                                    showModalBottomSheet(
+                                      isScrollControlled: true,
+                                      backgroundColor: Colors.transparent,
+                                      isDismissible: false,
+                                      enableDrag: false,
+                                      context: context,
+                                      builder: (context) {
+                                        return Padding(
+                                          padding:
+                                              MediaQuery.of(context).viewInsets,
+                                          child: LoadSicWidget(),
+                                        );
+                                      },
+                                    ).then((value) => setState(() {}));
+
+                                    if (FFAppState().IsConnected) {
+                                      instantTimer3 = InstantTimer.periodic(
+                                        duration: Duration(milliseconds: 3000),
+                                        callback: (timer) async {
+                                          if (true) {
+                                            null?.cancel();
+                                            Navigator.pop(context);
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  'Sincronia finalizada com sucesso!',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                duration: Duration(
+                                                    milliseconds: 4000),
+                                                backgroundColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondaryColor,
+                                              ),
+                                            );
+                                          } else {
+                                            apiReceberCo = await ApiProgemGroup
+                                                .receberCobrancaCall
+                                                .call(
+                                              token: FFAppState().token,
+                                            );
+                                            if (!(apiReceberCo?.succeeded ??
+                                                true)) {
+                                              null?.cancel();
+                                              Navigator.pop(context);
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    'Algo deu errado',
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                  duration: Duration(
+                                                      milliseconds: 4000),
+                                                  backgroundColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .alternate,
+                                                ),
+                                              );
+                                            }
+                                          }
+                                        },
+                                        startImmediately: false,
+                                      );
+                                    } else {
+                                      Navigator.pop(context);
+                                      showModalBottomSheet(
+                                        isScrollControlled: true,
+                                        backgroundColor: Colors.transparent,
+                                        isDismissible: false,
+                                        enableDrag: false,
+                                        context: context,
+                                        builder: (context) {
+                                          return Padding(
+                                            padding: MediaQuery.of(context)
+                                                .viewInsets,
+                                            child: ConnectedOffWidget(),
+                                          );
+                                        },
+                                      ).then((value) => setState(() {}));
+                                    }
+
+                                    setState(() {});
+                                  },
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 50,
+                                    decoration: BoxDecoration(),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(5, 0, 0, 0),
+                                              child: Container(
+                                                height: 40,
+                                                decoration: BoxDecoration(),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    Image.asset(
+                                                      'assets/images/radix-icons_update.png',
+                                                      width: 25,
+                                                      height: 25,
+                                                      fit: BoxFit.contain,
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  12, 0, 0, 0),
+                                                      child: AutoSizeText(
+                                                        'Sincronizar',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyText1
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Roboto',
+                                                                  fontSize: 18,
+                                                                  useGoogleFonts: GoogleFonts
+                                                                          .asMap()
+                                                                      .containsKey(
+                                                                          FlutterFlowTheme.of(context)
+                                                                              .bodyText1Family),
+                                                                  lineHeight: 1,
+                                                                ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Icon(
+                                              Icons.arrow_forward_ios,
+                                              color: Colors.black,
+                                              size: 24,
+                                            ),
+                                          ],
                                         ),
-                                        're': serializeParam(
-                                          ApiProgemGroup
-                                              .listarCobranasDoUsurioCall
-                                              .recebidas(
-                                            (apiResultCaixa?.jsonBody ?? ''),
-                                          ),
-                                          ParamType.int,
+                                        Divider(
+                                          height: 1,
+                                          thickness: 1,
+                                          indent: 1,
+                                          endIndent: 1,
+                                          color: Color(0xFF545353),
                                         ),
-                                        'atra': serializeParam(
-                                          ApiProgemGroup
-                                              .listarCobranasDoUsurioCall
-                                              .atrasadas(
-                                            (apiResultCaixa?.jsonBody ?? ''),
-                                          ),
-                                          ParamType.int,
-                                        ),
-                                        'pen': serializeParam(
-                                          ApiProgemGroup
-                                              .listarCobranasDoUsurioCall
-                                              .pendentes(
-                                            (apiResultCaixa?.jsonBody ?? ''),
-                                          ),
-                                          ParamType.int,
-                                        ),
-                                      }.withoutNulls,
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                                child: InkWell(
+                                  onTap: () async {
+                                    apiResultCaixa = await ApiProgemGroup
+                                        .listarCobranasDoUsurioCall
+                                        .call(
+                                      token: FFAppState().token,
                                     );
-                                  }
-                                } else {
-                                  await showModalBottomSheet(
-                                    isScrollControlled: true,
-                                    backgroundColor: Colors.transparent,
-                                    enableDrag: false,
-                                    context: context,
-                                    builder: (context) {
-                                      return Padding(
-                                        padding:
-                                            MediaQuery.of(context).viewInsets,
-                                        child: ConnectedOffWidget(),
+                                    if ((apiResultCaixa?.succeeded ?? true)) {
+                                      apiResultsfm =
+                                          await ApiProgemGroup.caixasCall.call(
+                                        token: FFAppState().token,
                                       );
-                                    },
-                                  ).then((value) => setState(() {}));
-                                }
+                                      if ((apiResultsfm?.succeeded ?? true)) {
+                                        context.pushNamed(
+                                          'PaginaCaixa',
+                                          queryParams: {
+                                            'saldo': serializeParam(
+                                              ApiProgemGroup.caixasCall
+                                                  .saldo(
+                                                    (apiResultsfm?.jsonBody ??
+                                                        ''),
+                                                  )
+                                                  .toString(),
+                                              ParamType.String,
+                                            ),
+                                            're': serializeParam(
+                                              ApiProgemGroup
+                                                  .listarCobranasDoUsurioCall
+                                                  .recebidas(
+                                                (apiResultCaixa?.jsonBody ??
+                                                    ''),
+                                              ),
+                                              ParamType.int,
+                                            ),
+                                            'atra': serializeParam(
+                                              ApiProgemGroup
+                                                  .listarCobranasDoUsurioCall
+                                                  .atrasadas(
+                                                (apiResultCaixa?.jsonBody ??
+                                                    ''),
+                                              ),
+                                              ParamType.int,
+                                            ),
+                                            'pen': serializeParam(
+                                              ApiProgemGroup
+                                                  .listarCobranasDoUsurioCall
+                                                  .pendentes(
+                                                (apiResultCaixa?.jsonBody ??
+                                                    ''),
+                                              ),
+                                              ParamType.int,
+                                            ),
+                                          }.withoutNulls,
+                                        );
+                                      }
+                                    } else {
+                                      await showModalBottomSheet(
+                                        isScrollControlled: true,
+                                        backgroundColor: Colors.transparent,
+                                        enableDrag: false,
+                                        context: context,
+                                        builder: (context) {
+                                          return Padding(
+                                            padding: MediaQuery.of(context)
+                                                .viewInsets,
+                                            child: ConnectedOffWidget(),
+                                          );
+                                        },
+                                      ).then((value) => setState(() {}));
+                                    }
 
-                                setState(() {});
-                              },
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 50,
-                                decoration: BoxDecoration(),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
+                                    setState(() {});
+                                  },
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 50,
+                                    decoration: BoxDecoration(),
+                                    child: Column(
                                       mainAxisSize: MainAxisSize.max,
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  5, 0, 0, 0),
-                                          child: Container(
-                                            height: 40,
-                                            decoration: BoxDecoration(),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Image.asset(
-                                                  'assets/images/arcticons_material-calculator.png',
-                                                  width: 25,
-                                                  height: 25,
-                                                  fit: BoxFit.contain,
+                                        Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(5, 0, 0, 0),
+                                              child: Container(
+                                                height: 40,
+                                                decoration: BoxDecoration(),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    Image.asset(
+                                                      'assets/images/arcticons_material-calculator.png',
+                                                      width: 25,
+                                                      height: 25,
+                                                      fit: BoxFit.contain,
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  12, 0, 0, 0),
+                                                      child: AutoSizeText(
+                                                        'Caixa / Saldo',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyText1
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Roboto',
+                                                                  fontSize: 18,
+                                                                  useGoogleFonts: GoogleFonts
+                                                                          .asMap()
+                                                                      .containsKey(
+                                                                          FlutterFlowTheme.of(context)
+                                                                              .bodyText1Family),
+                                                                  lineHeight: 1,
+                                                                ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                                Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(12, 0, 0, 0),
-                                                  child: AutoSizeText(
-                                                    'Caixa / Saldo',
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyText1
-                                                        .override(
-                                                          fontFamily: 'Roboto',
-                                                          fontSize: 18,
-                                                          useGoogleFonts: GoogleFonts
-                                                                  .asMap()
-                                                              .containsKey(
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyText1Family),
-                                                          lineHeight: 1,
-                                                        ),
-                                                  ),
-                                                ),
-                                              ],
+                                              ),
                                             ),
-                                          ),
+                                            Icon(
+                                              Icons.arrow_forward_ios,
+                                              color: Colors.black,
+                                              size: 24,
+                                            ),
+                                          ],
                                         ),
-                                        Icon(
-                                          Icons.arrow_forward_ios,
-                                          color: Colors.black,
-                                          size: 24,
+                                        Divider(
+                                          height: 1,
+                                          thickness: 1,
+                                          indent: 1,
+                                          endIndent: 1,
+                                          color: Color(0xFF545353),
                                         ),
                                       ],
                                     ),
-                                    Divider(
-                                      height: 1,
-                                      thickness: 1,
-                                      indent: 1,
-                                      endIndent: 1,
-                                      color: Color(0xFF545353),
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ),
-                            ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Align(
-                      alignment: AlignmentDirectional(0, 0),
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
-                        child: MenuWidget(
-                          tela: 1,
                         ),
                       ),
-                    ),
-                  ),
-                ],
+                      Expanded(
+                        child: Align(
+                          alignment: AlignmentDirectional(0, 0),
+                          child: Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
+                            child: MenuWidget(
+                              tela: 1,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
           ),
