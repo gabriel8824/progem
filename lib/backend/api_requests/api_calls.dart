@@ -772,6 +772,7 @@ class ReagendarCobrancaCall {
     String? token = '',
     String? dataReagendamento = '',
     String? obs = '',
+    String? id = '',
   }) {
     final body = '''
 {
@@ -784,7 +785,7 @@ class ReagendarCobrancaCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'Reagendar cobranca',
-      apiUrl: '${ApiProgemGroup.baseUrl}/cobrancas/1579748/reagendar',
+      apiUrl: '${ApiProgemGroup.baseUrl}/cobrancas/${id}/reagendar',
       callType: ApiCallType.POST,
       headers: {
         ...ApiProgemGroup.headers,
