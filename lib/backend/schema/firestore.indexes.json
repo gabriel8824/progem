@@ -1,15 +1,3 @@
 {
-  "indexes": [],
-  "fieldOverrides": [
-    {
-      "collectionGroup": "CobrancasRealizadas",
-      "fieldPath": "EmailUsuario",
-      "indexes": [
-        {
-          "order": "ASCENDING",
-          "queryScope": "COLLECTION_GROUP"
-        }
-      ]
-    }
-  ]
+  "indexes": []
 }

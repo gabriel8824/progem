@@ -288,7 +288,7 @@ class _PaginaCobrancasV3RealizadasWidgetState
                                                         null) {
                                                       final query = queryBuilder(
                                                           CobrancasRealizadasRecord
-                                                              .collection());
+                                                              .collection);
                                                       if (query !=
                                                           _pagingQuery) {
                                                         // The query has changed
@@ -309,7 +309,7 @@ class _PaginaCobrancasV3RealizadasWidgetState
                                                             firstPageKey: null);
                                                     _pagingQuery = queryBuilder(
                                                         CobrancasRealizadasRecord
-                                                            .collection());
+                                                            .collection);
                                                     _pagingController!
                                                         .addPageRequestListener(
                                                             (nextPageMarker) {

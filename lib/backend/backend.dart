@@ -8,6 +8,7 @@ import '../flutter_flow/flutter_flow_util.dart';
 import 'schema/usuario_record.dart';
 import 'schema/cobrancas_record.dart';
 import 'schema/caixas_record.dart';
+import 'schema/cobrancas_realizadas1_record.dart';
 import 'schema/cobrancas_realizadas_record.dart';
 import 'schema/serializers.dart';
 
@@ -19,6 +20,7 @@ export 'schema/serializers.dart';
 export 'schema/usuario_record.dart';
 export 'schema/cobrancas_record.dart';
 export 'schema/caixas_record.dart';
+export 'schema/cobrancas_realizadas1_record.dart';
 export 'schema/cobrancas_realizadas_record.dart';
 
 /// Functions to query UsuarioRecords (as a Stream and as a Future).
@@ -177,26 +179,81 @@ Future<FFFirestorePage<CaixasRecord>> queryCaixasRecordPage({
       isStream: isStream,
     );
 
-/// Functions to query CobrancasRealizadasRecords (as a Stream and as a Future).
-Future<int> queryCobrancasRealizadasRecordCount({
+/// Functions to query CobrancasRealizadas1Records (as a Stream and as a Future).
+Future<int> queryCobrancasRealizadas1RecordCount({
   DocumentReference? parent,
   Query Function(Query)? queryBuilder,
   int limit = -1,
 }) =>
     queryCollectionCount(
-      CobrancasRealizadasRecord.collection(parent),
+      CobrancasRealizadas1Record.collection(parent),
       queryBuilder: queryBuilder,
       limit: limit,
     );
 
-Stream<List<CobrancasRealizadasRecord>> queryCobrancasRealizadasRecord({
+Stream<List<CobrancasRealizadas1Record>> queryCobrancasRealizadas1Record({
   DocumentReference? parent,
   Query Function(Query)? queryBuilder,
   int limit = -1,
   bool singleRecord = false,
 }) =>
     queryCollection(
-      CobrancasRealizadasRecord.collection(parent),
+      CobrancasRealizadas1Record.collection(parent),
+      CobrancasRealizadas1Record.serializer,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<List<CobrancasRealizadas1Record>> queryCobrancasRealizadas1RecordOnce({
+  DocumentReference? parent,
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollectionOnce(
+      CobrancasRealizadas1Record.collection(parent),
+      CobrancasRealizadas1Record.serializer,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<FFFirestorePage<CobrancasRealizadas1Record>>
+    queryCobrancasRealizadas1RecordPage({
+  DocumentReference? parent,
+  Query Function(Query)? queryBuilder,
+  DocumentSnapshot? nextPageMarker,
+  required int pageSize,
+  required bool isStream,
+}) =>
+        queryCollectionPage(
+          CobrancasRealizadas1Record.collection(parent),
+          CobrancasRealizadas1Record.serializer,
+          queryBuilder: queryBuilder,
+          nextPageMarker: nextPageMarker,
+          pageSize: pageSize,
+          isStream: isStream,
+        );
+
+/// Functions to query CobrancasRealizadasRecords (as a Stream and as a Future).
+Future<int> queryCobrancasRealizadasRecordCount({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+}) =>
+    queryCollectionCount(
+      CobrancasRealizadasRecord.collection,
+      queryBuilder: queryBuilder,
+      limit: limit,
+    );
+
+Stream<List<CobrancasRealizadasRecord>> queryCobrancasRealizadasRecord({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollection(
+      CobrancasRealizadasRecord.collection,
       CobrancasRealizadasRecord.serializer,
       queryBuilder: queryBuilder,
       limit: limit,
@@ -204,13 +261,12 @@ Stream<List<CobrancasRealizadasRecord>> queryCobrancasRealizadasRecord({
     );
 
 Future<List<CobrancasRealizadasRecord>> queryCobrancasRealizadasRecordOnce({
-  DocumentReference? parent,
   Query Function(Query)? queryBuilder,
   int limit = -1,
   bool singleRecord = false,
 }) =>
     queryCollectionOnce(
-      CobrancasRealizadasRecord.collection(parent),
+      CobrancasRealizadasRecord.collection,
       CobrancasRealizadasRecord.serializer,
       queryBuilder: queryBuilder,
       limit: limit,
@@ -219,14 +275,13 @@ Future<List<CobrancasRealizadasRecord>> queryCobrancasRealizadasRecordOnce({
 
 Future<FFFirestorePage<CobrancasRealizadasRecord>>
     queryCobrancasRealizadasRecordPage({
-  DocumentReference? parent,
   Query Function(Query)? queryBuilder,
   DocumentSnapshot? nextPageMarker,
   required int pageSize,
   required bool isStream,
 }) =>
         queryCollectionPage(
-          CobrancasRealizadasRecord.collection(parent),
+          CobrancasRealizadasRecord.collection,
           CobrancasRealizadasRecord.serializer,
           queryBuilder: queryBuilder,
           nextPageMarker: nextPageMarker,

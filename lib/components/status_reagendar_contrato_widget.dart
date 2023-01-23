@@ -348,8 +348,8 @@ class _StatusReagendarContratoWidgetState
                                                 currentUserLocationValue,
                                           );
                                           await CobrancasRealizadasRecord
-                                                  .createDoc(widget
-                                                      .cobranca!.reference)
+                                              .collection
+                                              .doc()
                                               .set(
                                                   cobrancasRealizadasCreateData);
                                           Navigator.pop(context);
@@ -406,8 +406,8 @@ class _StatusReagendarContratoWidgetState
                                           localizacao: currentUserLocationValue,
                                         );
                                         await CobrancasRealizadasRecord
-                                                .createDoc(
-                                                    widget.cobranca!.reference)
+                                            .collection
+                                            .doc()
                                             .set(cobrancasRealizadasCreateData);
                                         Navigator.pop(context);
                                       }

@@ -459,9 +459,8 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                       currentUserLocationValue,
                                                 );
                                                 await CobrancasRealizadasRecord
-                                                        .createDoc(widget
-                                                            .cobranca!
-                                                            .reference)
+                                                    .collection
+                                                    .doc()
                                                     .set(
                                                         cobrancasRealizadasCreateData);
                                                 Navigator.pop(context);
@@ -541,8 +540,8 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                 )}',
                                               );
                                               await CobrancasRealizadasRecord
-                                                      .createDoc(widget
-                                                          .cobranca!.reference)
+                                                  .collection
+                                                  .doc()
                                                   .set(
                                                       cobrancasRealizadasCreateData);
                                               Navigator.pop(context);

@@ -4,13 +4,13 @@ import 'index.dart';
 import 'serializers.dart';
 import 'package:built_value/built_value.dart';
 
-part 'cobrancas_realizadas_record.g.dart';
+part 'cobrancas_realizadas1_record.g.dart';
 
-abstract class CobrancasRealizadasRecord
+abstract class CobrancasRealizadas1Record
     implements
-        Built<CobrancasRealizadasRecord, CobrancasRealizadasRecordBuilder> {
-  static Serializer<CobrancasRealizadasRecord> get serializer =>
-      _$cobrancasRealizadasRecordSerializer;
+        Built<CobrancasRealizadas1Record, CobrancasRealizadas1RecordBuilder> {
+  static Serializer<CobrancasRealizadas1Record> get serializer =>
+      _$cobrancasRealizadas1RecordSerializer;
 
   @BuiltValueField(wireName: 'User')
   DocumentReference? get user;
@@ -55,7 +55,9 @@ abstract class CobrancasRealizadasRecord
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
 
-  static void _initializeBuilder(CobrancasRealizadasRecordBuilder builder) =>
+  DocumentReference get parentReference => reference.parent.parent!;
+
+  static void _initializeBuilder(CobrancasRealizadas1RecordBuilder builder) =>
       builder
         ..uid = ''
         ..idCobranca = ''
@@ -66,30 +68,36 @@ abstract class CobrancasRealizadasRecord
         ..sincronizado = false
         ..status = '';
 
-  static CollectionReference get collection =>
-      FirebaseFirestore.instance.collection('CobrancasRealizadas');
+  static Query<Map<String, dynamic>> collection([DocumentReference? parent]) =>
+      parent != null
+          ? parent.collection('CobrancasRealizadas1')
+          : FirebaseFirestore.instance.collectionGroup('CobrancasRealizadas1');
 
-  static Stream<CobrancasRealizadasRecord> getDocument(DocumentReference ref) =>
+  static DocumentReference createDoc(DocumentReference parent) =>
+      parent.collection('CobrancasRealizadas1').doc();
+
+  static Stream<CobrancasRealizadas1Record> getDocument(
+          DocumentReference ref) =>
       ref.snapshots().map(
           (s) => serializers.deserializeWith(serializer, serializedData(s))!);
 
-  static Future<CobrancasRealizadasRecord> getDocumentOnce(
+  static Future<CobrancasRealizadas1Record> getDocumentOnce(
           DocumentReference ref) =>
       ref.get().then(
           (s) => serializers.deserializeWith(serializer, serializedData(s))!);
 
-  CobrancasRealizadasRecord._();
-  factory CobrancasRealizadasRecord(
-          [void Function(CobrancasRealizadasRecordBuilder) updates]) =
-      _$CobrancasRealizadasRecord;
+  CobrancasRealizadas1Record._();
+  factory CobrancasRealizadas1Record(
+          [void Function(CobrancasRealizadas1RecordBuilder) updates]) =
+      _$CobrancasRealizadas1Record;
 
-  static CobrancasRealizadasRecord getDocumentFromData(
+  static CobrancasRealizadas1Record getDocumentFromData(
           Map<String, dynamic> data, DocumentReference reference) =>
       serializers.deserializeWith(serializer,
           {...mapFromFirestore(data), kDocumentReferenceField: reference})!;
 }
 
-Map<String, dynamic> createCobrancasRealizadasRecordData({
+Map<String, dynamic> createCobrancasRealizadas1RecordData({
   DocumentReference? user,
   DateTime? data,
   String? uid,
@@ -105,8 +113,8 @@ Map<String, dynamic> createCobrancasRealizadasRecordData({
   LatLng? localizacao,
 }) {
   final firestoreData = serializers.toFirestore(
-    CobrancasRealizadasRecord.serializer,
-    CobrancasRealizadasRecord(
+    CobrancasRealizadas1Record.serializer,
+    CobrancasRealizadas1Record(
       (c) => c
         ..user = user
         ..data = data
