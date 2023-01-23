@@ -1,3 +1,4 @@
+import '../auth/auth_util.dart';
 import '../backend/api_requests/api_calls.dart';
 import '../backend/backend.dart';
 import '../components/cobrancas_vazia_widget.dart';
@@ -269,7 +270,14 @@ class _PaginaCobrancasV3RealizadasWidgetState
                                                     List<
                                                         CobrancasRealizadasRecord>>(
                                                   stream:
-                                                      queryCobrancasRealizadasRecord(),
+                                                      queryCobrancasRealizadasRecord(
+                                                    queryBuilder: (cobrancasRealizadasRecord) =>
+                                                        cobrancasRealizadasRecord
+                                                            .where(
+                                                                'EmailUsuario',
+                                                                isEqualTo:
+                                                                    currentUserEmail),
+                                                  ),
                                                   builder: (context, snapshot) {
                                                     // Customize what your widget looks like when it's loading.
                                                     if (!snapshot.hasData) {
