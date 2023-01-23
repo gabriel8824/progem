@@ -35,6 +35,7 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
   String? dropDownCValue;
   String? dropDownValue;
   TextEditingController? textController;
+  LatLng? currentUserLocationValue;
 
   @override
   void initState() {
@@ -372,6 +373,10 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                         ),
                                         FFButtonWidget(
                                           onPressed: () async {
+                                            currentUserLocationValue =
+                                                await getCurrentUserLocation(
+                                                    defaultLocation:
+                                                        LatLng(0.0, 0.0));
                                             net = await actions.checkInternet();
                                             if (net!) {
                                               apiResultReceberCobranca =
@@ -450,6 +455,8 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                     true,
                                                   )}',
                                                   status: 'RECEBIDA',
+                                                  localizacao:
+                                                      currentUserLocationValue,
                                                 );
                                                 await CobrancasRealizadasRecord
                                                     .collection
