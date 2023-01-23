@@ -8,6 +8,7 @@ import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
 import '../custom_code/actions/index.dart' as actions;
+import '../flutter_flow/random_data_util.dart' as random_data;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -34,6 +35,7 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
   String? dropDownCValue;
   String? dropDownValue;
   TextEditingController? textController;
+  LatLng? currentUserLocationValue;
 
   @override
   void initState() {
@@ -371,6 +373,10 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                         ),
                                         FFButtonWidget(
                                           onPressed: () async {
+                                            currentUserLocationValue =
+                                                await getCurrentUserLocation(
+                                                    defaultLocation:
+                                                        LatLng(0.0, 0.0));
                                             net = await actions.checkInternet();
                                             if (net!) {
                                               apiResultReceberCobranca =
@@ -407,6 +413,16 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                               if ((apiResultReceberCobranca
                                                       ?.succeeded ??
                                                   true)) {
+                                                final cobrancasUpdateData =
+                                                    createCobrancasRecordData(
+                                                  status: 'RECEBIDA',
+                                                  dataSincronia:
+                                                      getCurrentTimestamp,
+                                                );
+                                                await widget.cobranca!.reference
+                                                    .update(
+                                                        cobrancasUpdateData);
+
                                                 final cobrancasRealizadasCreateData =
                                                     createCobrancasRealizadasRecordData(
                                                   user: currentUserReference,
@@ -424,6 +440,23 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                   sincronizado: true,
                                                   dataDeSincronia:
                                                       getCurrentTimestamp,
+                                                  uid:
+                                                      '${random_data.randomString(
+                                                    10,
+                                                    10,
+                                                    false,
+                                                    false,
+                                                    true,
+                                                  )}x${random_data.randomString(
+                                                    10,
+                                                    10,
+                                                    false,
+                                                    false,
+                                                    true,
+                                                  )}',
+                                                  status: 'RECEBIDA',
+                                                  localizacao:
+                                                      currentUserLocationValue,
                                                 );
                                                 await CobrancasRealizadasRecord
                                                         .createDoc(widget
@@ -472,6 +505,13 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                 );
                                               }
                                             } else {
+                                              final cobrancasUpdateData =
+                                                  createCobrancasRecordData(
+                                                status: 'RECEBIDA',
+                                              );
+                                              await widget.cobranca!.reference
+                                                  .update(cobrancasUpdateData);
+
                                               final cobrancasRealizadasCreateData =
                                                   createCobrancasRealizadasRecordData(
                                                 user: currentUserReference,
@@ -485,6 +525,20 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                 cobranca:
                                                     widget.cobranca!.reference,
                                                 sincronizado: false,
+                                                uid:
+                                                    '${random_data.randomString(
+                                                  10,
+                                                  10,
+                                                  false,
+                                                  false,
+                                                  true,
+                                                )}x${random_data.randomString(
+                                                  10,
+                                                  10,
+                                                  false,
+                                                  false,
+                                                  true,
+                                                )}',
                                               );
                                               await CobrancasRealizadasRecord
                                                       .createDoc(widget

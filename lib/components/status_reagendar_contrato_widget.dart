@@ -1,10 +1,16 @@
+import '../auth/auth_util.dart';
 import '../backend/api_requests/api_calls.dart';
+import '../backend/backend.dart';
+import '../components/dados_cobranca_widget.dart';
 import '../flutter_flow/flutter_flow_calendar.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
+import '../custom_code/actions/index.dart' as actions;
 import '../flutter_flow/custom_functions.dart' as functions;
+import '../flutter_flow/random_data_util.dart' as random_data;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -12,24 +18,10 @@ import 'package:provider/provider.dart';
 class StatusReagendarContratoWidget extends StatefulWidget {
   const StatusReagendarContratoWidget({
     Key? key,
-    this.nome,
-    this.numerocontrato,
-    this.endereco,
-    this.bairro,
-    this.valor,
-    this.data,
-    this.status,
-    this.id,
+    this.cobranca,
   }) : super(key: key);
 
-  final String? nome;
-  final String? numerocontrato;
-  final String? endereco;
-  final String? bairro;
-  final String? valor;
-  final String? data;
-  final String? status;
-  final String? id;
+  final CobrancasRecord? cobranca;
 
   @override
   _StatusReagendarContratoWidgetState createState() =>
@@ -39,8 +31,10 @@ class StatusReagendarContratoWidget extends StatefulWidget {
 class _StatusReagendarContratoWidgetState
     extends State<StatusReagendarContratoWidget> {
   ApiCallResponse? resultApi;
+  bool? net;
   DateTimeRange? calendarSelectedDay;
   TextEditingController? textController;
+  LatLng? currentUserLocationValue;
 
   @override
   void initState() {
@@ -161,11 +155,30 @@ class _StatusReagendarContratoWidgetState
                                   });
                                   setState(() {});
                                 },
-                                titleStyle: TextStyle(),
-                                dayOfWeekStyle: TextStyle(),
-                                dateStyle: TextStyle(),
-                                selectedDateStyle: TextStyle(),
-                                inactiveDateStyle: TextStyle(),
+                                titleStyle: GoogleFonts.getFont(
+                                  'Poppins',
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                ),
+                                dayOfWeekStyle: GoogleFonts.getFont(
+                                  'Poppins',
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                ),
+                                dateStyle: GoogleFonts.getFont(
+                                  'Poppins',
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryText,
+                                ),
+                                selectedDateStyle: GoogleFonts.getFont(
+                                  'Poppins',
+                                  color: Colors.white,
+                                ),
+                                inactiveDateStyle: GoogleFonts.getFont(
+                                  'Poppins',
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryColor,
+                                ),
                                 locale:
                                     FFLocalizations.of(context).languageCode,
                               ),
@@ -229,58 +242,116 @@ class _StatusReagendarContratoWidgetState
                                 keyboardType: TextInputType.multiline,
                               ),
                             ),
-                            if (widget.status != 'RECEBIDA')
-                              Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    FFButtonWidget(
-                                      onPressed: () {
-                                        print('Button pressed ...');
-                                      },
-                                      text: 'Não',
-                                      options: FFButtonOptions(
-                                        width: 130,
-                                        height: 40,
-                                        color: FlutterFlowTheme.of(context)
-                                            .alternate,
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .subtitle2
-                                            .override(
-                                              fontFamily:
-                                                  FlutterFlowTheme.of(context)
-                                                      .subtitle2Family,
-                                              color: Colors.white,
-                                              useGoogleFonts:
-                                                  GoogleFonts.asMap()
-                                                      .containsKey(
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .subtitle2Family),
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  FFButtonWidget(
+                                    onPressed: () async {
+                                      Navigator.pop(context);
+                                      await showModalBottomSheet(
+                                        isScrollControlled: true,
+                                        backgroundColor: Colors.transparent,
+                                        enableDrag: false,
+                                        context: context,
+                                        builder: (context) {
+                                          return Padding(
+                                            padding: MediaQuery.of(context)
+                                                .viewInsets,
+                                            child: DadosCobrancaWidget(
+                                              cobrancas: widget.cobranca,
                                             ),
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(8),
+                                          );
+                                        },
+                                      ).then((value) => setState(() {}));
+                                    },
+                                    text: 'Não',
+                                    options: FFButtonOptions(
+                                      width: 130,
+                                      height: 40,
+                                      color: FlutterFlowTheme.of(context)
+                                          .alternate,
+                                      textStyle: FlutterFlowTheme.of(context)
+                                          .subtitle2
+                                          .override(
+                                            fontFamily:
+                                                FlutterFlowTheme.of(context)
+                                                    .subtitle2Family,
+                                            color: Colors.white,
+                                            useGoogleFonts: GoogleFonts.asMap()
+                                                .containsKey(
+                                                    FlutterFlowTheme.of(context)
+                                                        .subtitle2Family),
+                                          ),
+                                      borderSide: BorderSide(
+                                        color: Colors.transparent,
+                                        width: 1,
                                       ),
+                                      borderRadius: BorderRadius.circular(8),
                                     ),
-                                    FFButtonWidget(
-                                      onPressed: () async {
+                                  ),
+                                  FFButtonWidget(
+                                    onPressed: () async {
+                                      currentUserLocationValue =
+                                          await getCurrentUserLocation(
+                                              defaultLocation:
+                                                  LatLng(0.0, 0.0));
+                                      net = await actions.checkInternet();
+                                      if (net!) {
                                         resultApi = await ApiProgemGroup
                                             .reagendarCobrancaCall
                                             .call(
-                                          id: widget.id,
+                                          id: widget.cobranca!.id,
                                           token: FFAppState().token,
                                           data:
                                               '${functions.converterdata(calendarSelectedDay!.end)}T00:12:30-03:00',
                                           obs: textController!.text,
                                         );
                                         if ((resultApi?.succeeded ?? true)) {
+                                          final cobrancasUpdateData =
+                                              createCobrancasRecordData(
+                                            status: 'REAGENDADA',
+                                            dataSincronia: getCurrentTimestamp,
+                                          );
+                                          await widget.cobranca!.reference
+                                              .update(cobrancasUpdateData);
+
+                                          final cobrancasRealizadasCreateData =
+                                              createCobrancasRealizadasRecordData(
+                                            user: currentUserReference,
+                                            data: getCurrentTimestamp,
+                                            uid: '${random_data.randomString(
+                                              10,
+                                              10,
+                                              false,
+                                              false,
+                                              true,
+                                            )}x${random_data.randomString(
+                                              10,
+                                              10,
+                                              false,
+                                              false,
+                                              true,
+                                            )}',
+                                            idCobranca: widget.cobranca!.id,
+                                            valor: widget.cobranca!.valor,
+                                            emailUsuario: currentUserEmail,
+                                            cobranca:
+                                                widget.cobranca!.reference,
+                                            sincronizado: true,
+                                            status: 'REAGENDADA',
+                                            localizacao:
+                                                currentUserLocationValue,
+                                          );
+                                          await CobrancasRealizadasRecord
+                                                  .createDoc(widget
+                                                      .cobranca!.reference)
+                                              .set(
+                                                  cobrancasRealizadasCreateData);
                                           Navigator.pop(context);
                                         } else {
                                           Navigator.pop(context);
@@ -301,41 +372,76 @@ class _StatusReagendarContratoWidgetState
                                             ),
                                           );
                                         }
+                                      } else {
+                                        final cobrancasUpdateData =
+                                            createCobrancasRecordData(
+                                          status: 'REAGENDADA',
+                                        );
+                                        await widget.cobranca!.reference
+                                            .update(cobrancasUpdateData);
 
-                                        setState(() {});
-                                      },
-                                      text: 'SIm',
-                                      options: FFButtonOptions(
-                                        width: 130,
-                                        height: 40,
-                                        color:
-                                            FlutterFlowTheme.of(context).cor1,
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .subtitle2
-                                            .override(
-                                              fontFamily:
-                                                  FlutterFlowTheme.of(context)
-                                                      .subtitle2Family,
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryBtnText,
-                                              useGoogleFonts:
-                                                  GoogleFonts.asMap()
-                                                      .containsKey(
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .subtitle2Family),
-                                            ),
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(8),
+                                        final cobrancasRealizadasCreateData =
+                                            createCobrancasRealizadasRecordData(
+                                          user: currentUserReference,
+                                          data: getCurrentTimestamp,
+                                          uid: '${random_data.randomString(
+                                            10,
+                                            10,
+                                            false,
+                                            false,
+                                            true,
+                                          )}x${random_data.randomString(
+                                            10,
+                                            10,
+                                            false,
+                                            false,
+                                            true,
+                                          )}',
+                                          idCobranca: widget.cobranca!.id,
+                                          valor: widget.cobranca!.valor,
+                                          emailUsuario: currentUserEmail,
+                                          cobranca: widget.cobranca!.reference,
+                                          sincronizado: false,
+                                          status: 'REAGENDADA',
+                                          localizacao: currentUserLocationValue,
+                                        );
+                                        await CobrancasRealizadasRecord
+                                                .createDoc(
+                                                    widget.cobranca!.reference)
+                                            .set(cobrancasRealizadasCreateData);
+                                        Navigator.pop(context);
+                                      }
+
+                                      setState(() {});
+                                    },
+                                    text: 'SIm',
+                                    options: FFButtonOptions(
+                                      width: 130,
+                                      height: 40,
+                                      color: FlutterFlowTheme.of(context).cor1,
+                                      textStyle: FlutterFlowTheme.of(context)
+                                          .subtitle2
+                                          .override(
+                                            fontFamily:
+                                                FlutterFlowTheme.of(context)
+                                                    .subtitle2Family,
+                                            color: FlutterFlowTheme.of(context)
+                                                .primaryBtnText,
+                                            useGoogleFonts: GoogleFonts.asMap()
+                                                .containsKey(
+                                                    FlutterFlowTheme.of(context)
+                                                        .subtitle2Family),
+                                          ),
+                                      borderSide: BorderSide(
+                                        color: Colors.transparent,
+                                        width: 1,
                                       ),
+                                      borderRadius: BorderRadius.circular(8),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
+                            ),
                           ],
                         ),
                       ),

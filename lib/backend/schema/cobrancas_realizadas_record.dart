@@ -45,6 +45,12 @@ abstract class CobrancasRealizadasRecord
   @BuiltValueField(wireName: 'Sincronizado')
   bool? get sincronizado;
 
+  @BuiltValueField(wireName: 'Status')
+  String? get status;
+
+  @BuiltValueField(wireName: 'Localizacao')
+  LatLng? get localizacao;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -59,7 +65,8 @@ abstract class CobrancasRealizadasRecord
         ..formaDePagamento = ''
         ..idCaixa = ''
         ..emailUsuario = ''
-        ..sincronizado = false;
+        ..sincronizado = false
+        ..status = '';
 
   static Query<Map<String, dynamic>> collection([DocumentReference? parent]) =>
       parent != null
@@ -101,6 +108,8 @@ Map<String, dynamic> createCobrancasRealizadasRecordData({
   String? emailUsuario,
   DocumentReference? cobranca,
   bool? sincronizado,
+  String? status,
+  LatLng? localizacao,
 }) {
   final firestoreData = serializers.toFirestore(
     CobrancasRealizadasRecord.serializer,
@@ -116,7 +125,9 @@ Map<String, dynamic> createCobrancasRealizadasRecordData({
         ..dataDeSincronia = dataDeSincronia
         ..emailUsuario = emailUsuario
         ..cobranca = cobranca
-        ..sincronizado = sincronizado,
+        ..sincronizado = sincronizado
+        ..status = status
+        ..localizacao = localizacao,
     ),
   );
 

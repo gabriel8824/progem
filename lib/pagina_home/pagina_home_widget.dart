@@ -29,6 +29,10 @@ class PaginaHomeWidget extends StatefulWidget {
 class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
   ApiCallResponse? apiReceberCo;
   InstantTimer? instantTimer3;
+  ApiCallResponse? apiResultCobrancas1;
+  bool? net5;
+  InstantTimer? LoopSicCo;
+  List<CobrancasRecord> simpleSearchResults3 = [];
   ApiCallResponse? apiResultCobrancas;
   bool? net2;
   InstantTimer? LoopSicC;
@@ -201,6 +205,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
     LoopCaixa?.cancel();
     _unfocusNode.dispose();
     LoopSicC?.cancel();
+    LoopSicCo?.cancel();
     instantTimer3?.cancel();
     super.dispose();
   }
@@ -672,7 +677,185 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                 EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
                             child: InkWell(
                               onTap: () async {
-                                context.pushNamed('PaginaCobrancasReagendads');
+                                showModalBottomSheet(
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  isDismissible: false,
+                                  enableDrag: false,
+                                  context: context,
+                                  builder: (context) {
+                                    return Padding(
+                                      padding:
+                                          MediaQuery.of(context).viewInsets,
+                                      child: LoadingWidget(),
+                                    );
+                                  },
+                                ).then((value) => setState(() {}));
+
+                                net5 = await actions.checkInternet();
+                                if (net5!) {
+                                  apiResultCobrancas1 = await ApiProgemGroup
+                                      .listarCobrancasReagendadaCall
+                                      .call(
+                                    token: FFAppState().token,
+                                  );
+                                  if ((apiResultCobrancas1?.succeeded ??
+                                      true)) {
+                                    FFAppState().update(() {
+                                      FFAppState().CobrancasOffV2 =
+                                          ApiProgemGroup.listarCobrancasCall
+                                              .dados(
+                                                (apiResultCobrancas?.jsonBody ??
+                                                    ''),
+                                              )!
+                                              .toList();
+                                    });
+                                    LoopSicCo = InstantTimer.periodic(
+                                      duration: Duration(milliseconds: 1000),
+                                      callback: (timer) async {
+                                        if (FFAppState()
+                                                .CobrancasOffV2
+                                                .length >=
+                                            1) {
+                                          FFAppState().update(() {
+                                            FFAppState().CobrancaAtual =
+                                                FFAppState()
+                                                    .CobrancasOffV2
+                                                    .first;
+                                          });
+                                          setState(() {
+                                            simpleSearchResults3 = TextSearch(
+                                              paginaHomeCobrancasRecordList
+                                                  .map(
+                                                    (record) => TextSearchItem(
+                                                        record, [record.id!]),
+                                                  )
+                                                  .toList(),
+                                            )
+                                                .search(getJsonField(
+                                                  FFAppState().CobrancaAtual,
+                                                  r'''$.id''',
+                                                ).toString())
+                                                .map((r) => r.object)
+                                                .toList();
+                                          });
+                                          if (simpleSearchResults2.length >=
+                                              1) {
+                                            FFAppState().update(() {
+                                              FFAppState()
+                                                  .removeFromCobrancasOffV2(
+                                                      FFAppState()
+                                                          .CobrancaAtual);
+                                            });
+                                            FFAppState().update(() {
+                                              FFAppState().CobrancaAtual = null;
+                                            });
+                                          } else {
+                                            final cobrancasCreateData =
+                                                createCobrancasRecordData(
+                                              nomeCliente: getJsonField(
+                                                FFAppState().CobrancaAtual,
+                                                r'''$.cliente.nome''',
+                                              ).toString(),
+                                              numeroContrato: getJsonField(
+                                                FFAppState().CobrancaAtual,
+                                                r'''$.contrato.numero''',
+                                              ).toString(),
+                                              valor: valueOrDefault<double>(
+                                                functions.converStringEmDouble(
+                                                    getJsonField(
+                                                  FFAppState().CobrancaAtual,
+                                                  r'''$.contrato.valorTotal''',
+                                                ).toString()),
+                                                0.0,
+                                              ),
+                                              dataDeVencimento: functions
+                                                  .formatarData(getJsonField(
+                                                FFAppState().CobrancaAtual,
+                                                r'''$.dataVencimento''',
+                                              ).toString()),
+                                              endereco: getJsonField(
+                                                FFAppState().CobrancaAtual,
+                                                r'''$.cliente.endereco.logradouro''',
+                                              ).toString(),
+                                              bairro: getJsonField(
+                                                FFAppState().CobrancaAtual,
+                                                r'''$.cliente.endereco.bairro''',
+                                              ).toString(),
+                                              status: getJsonField(
+                                                FFAppState().CobrancaAtual,
+                                                r'''$.status''',
+                                              ).toString(),
+                                              id: getJsonField(
+                                                FFAppState().CobrancaAtual,
+                                                r'''$.id''',
+                                              ).toString(),
+                                              dataSincronia:
+                                                  getCurrentTimestamp,
+                                              usuario: currentUserReference,
+                                              emailUsuario: currentUserEmail,
+                                              uId: '${random_data.randomString(
+                                                10,
+                                                10,
+                                                false,
+                                                false,
+                                                true,
+                                              )}x${random_data.randomString(
+                                                10,
+                                                10,
+                                                false,
+                                                false,
+                                                true,
+                                              )}',
+                                            );
+                                            await CobrancasRecord.collection
+                                                .doc()
+                                                .set(cobrancasCreateData);
+                                            FFAppState().update(() {
+                                              FFAppState()
+                                                  .removeFromCobrancasOffV2(
+                                                      FFAppState()
+                                                          .CobrancaAtual);
+                                            });
+                                            FFAppState().update(() {
+                                              FFAppState().CobrancaAtual = null;
+                                            });
+                                          }
+                                        } else {
+                                          LoopSicCo?.cancel();
+                                          Navigator.pop(context);
+
+                                          context
+                                              .pushNamed('PaginaCobrancasV3');
+                                        }
+                                      },
+                                      startImmediately: false,
+                                    );
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          'Algo deu errado',
+                                          style: TextStyle(
+                                            color: FlutterFlowTheme.of(context)
+                                                .primaryBackground,
+                                          ),
+                                        ),
+                                        duration: Duration(milliseconds: 4000),
+                                        backgroundColor:
+                                            FlutterFlowTheme.of(context)
+                                                .alternate,
+                                      ),
+                                    );
+                                    Navigator.pop(context);
+                                  }
+                                } else {
+                                  Navigator.pop(context);
+
+                                  context.pushNamed('PaginaCobrancasV3');
+                                }
+
+                                setState(() {});
                               },
                               child: Container(
                                 width: MediaQuery.of(context).size.width,

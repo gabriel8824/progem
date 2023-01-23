@@ -14,3 +14,11 @@ export 'pagina_cobrancas_buscar_nome/pagina_cobrancas_buscar_nome_widget.dart'
 export 'pagina_caixa/pagina_caixa_widget.dart' show PaginaCaixaWidget;
 export 'pagina_cobrancas_v3/pagina_cobrancas_v3_widget.dart'
     show PaginaCobrancasV3Widget;
+export 'pagina_cobrancas_v3_reagendadas/pagina_cobrancas_v3_reagendadas_widget.dart'
+    show PaginaCobrancasV3ReagendadasWidget;
+export 'pagina_cobrancas_v3_pagas/pagina_cobrancas_v3_pagas_widget.dart'
+    show PaginaCobrancasV3PagasWidget;
+export 'pagina_cobrancas_v3_atrasadas/pagina_cobrancas_v3_atrasadas_widget.dart'
+    show PaginaCobrancasV3AtrasadasWidget;
+export 'pagina_cobrancas_v3_pendente/pagina_cobrancas_v3_pendente_widget.dart'
+    show PaginaCobrancasV3PendenteWidget;

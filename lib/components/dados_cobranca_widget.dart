@@ -1,5 +1,6 @@
 import '../backend/backend.dart';
 import '../components/status_pago_contrato_widget.dart';
+import '../components/status_reagendar_contrato_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
@@ -412,6 +413,20 @@ class _DadosCobrancaWidgetState extends State<DadosCobrancaWidget> {
                                     FFButtonWidget(
                                       onPressed: () async {
                                         Navigator.pop(context);
+                                        await showModalBottomSheet(
+                                          isScrollControlled: true,
+                                          backgroundColor: Colors.transparent,
+                                          enableDrag: false,
+                                          context: context,
+                                          builder: (context) {
+                                            return Padding(
+                                              padding: MediaQuery.of(context)
+                                                  .viewInsets,
+                                              child:
+                                                  StatusReagendarContratoWidget(),
+                                            );
+                                          },
+                                        ).then((value) => setState(() {}));
                                       },
                                       text: 'Reagendar',
                                       options: FFButtonOptions(

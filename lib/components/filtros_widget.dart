@@ -96,53 +96,18 @@ class _FiltrosWidgetState extends State<FiltrosWidget> {
                       onChanged: (val) async {
                         setState(() => radioButtonValue = val);
                         if (radioButtonValue == 'Pago') {
-                          context.pushNamed(
-                            'PaginaCobrancas',
-                            queryParams: {
-                              'filtro': serializeParam(
-                                'RECEBIDA',
-                                ParamType.String,
-                              ),
-                            }.withoutNulls,
-                          );
+                          context.pushNamed('PaginaCobrancasV3Pagas');
                         } else {
                           if (radioButtonValue == 'Em aberto') {
-                            context.pushNamed(
-                              'PaginaCobrancas',
-                              queryParams: {
-                                'filtro': serializeParam(
-                                  'PENDENTE',
-                                  ParamType.String,
-                                ),
-                              }.withoutNulls,
-                            );
+                            context.pushNamed('PaginaCobrancasV3Pendente');
                           } else {
                             if (radioButtonValue == 'Reagendado') {
-                              context.pushNamed(
-                                'PaginaCobrancas',
-                                queryParams: {
-                                  'filtro': serializeParam(
-                                    'REAGENDADA',
-                                    ParamType.String,
-                                  ),
-                                }.withoutNulls,
-                              );
+                              context.pushNamed('PaginaCobrancasV3Reagendadas');
                             } else {
                               if (radioButtonValue == 'Em atraso') {
-                                context.pushNamed(
-                                  'PaginaCobrancas',
-                                  queryParams: {
-                                    'filtro': serializeParam(
-                                      'ATRASADA',
-                                      ParamType.String,
-                                    ),
-                                  }.withoutNulls,
-                                );
+                                context.pushNamed('PaginaCobrancasV3Atrasadas');
                               } else {
-                                if (radioButtonValue == 'Nome do Cliente') {
-                                  context
-                                      .pushNamed('PaginaCobrancasBuscarNome');
-                                }
+                                return;
                               }
                             }
                           }

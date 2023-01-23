@@ -104,6 +104,20 @@ class _$CobrancasRealizadasRecordSerializer
         ..add(
             serializers.serialize(value, specifiedType: const FullType(bool)));
     }
+    value = object.status;
+    if (value != null) {
+      result
+        ..add('Status')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.localizacao;
+    if (value != null) {
+      result
+        ..add('Localizacao')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(LatLng)));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -175,6 +189,14 @@ class _$CobrancasRealizadasRecordSerializer
           result.sincronizado = serializers.deserialize(value,
               specifiedType: const FullType(bool)) as bool?;
           break;
+        case 'Status':
+          result.status = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'Localizacao':
+          result.localizacao = serializers.deserialize(value,
+              specifiedType: const FullType(LatLng)) as LatLng?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -212,6 +234,10 @@ class _$CobrancasRealizadasRecord extends CobrancasRealizadasRecord {
   @override
   final bool? sincronizado;
   @override
+  final String? status;
+  @override
+  final LatLng? localizacao;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$CobrancasRealizadasRecord(
@@ -230,6 +256,8 @@ class _$CobrancasRealizadasRecord extends CobrancasRealizadasRecord {
       this.emailUsuario,
       this.cobranca,
       this.sincronizado,
+      this.status,
+      this.localizacao,
       this.ffRef})
       : super._();
 
@@ -257,6 +285,8 @@ class _$CobrancasRealizadasRecord extends CobrancasRealizadasRecord {
         emailUsuario == other.emailUsuario &&
         cobranca == other.cobranca &&
         sincronizado == other.sincronizado &&
+        status == other.status &&
+        localizacao == other.localizacao &&
         ffRef == other.ffRef;
   }
 
@@ -272,17 +302,21 @@ class _$CobrancasRealizadasRecord extends CobrancasRealizadasRecord {
                                 $jc(
                                     $jc(
                                         $jc(
-                                            $jc($jc(0, user.hashCode),
-                                                data.hashCode),
-                                            uid.hashCode),
-                                        idCobranca.hashCode),
-                                    valor.hashCode),
-                                formaDePagamento.hashCode),
-                            idCaixa.hashCode),
-                        dataDeSincronia.hashCode),
-                    emailUsuario.hashCode),
-                cobranca.hashCode),
-            sincronizado.hashCode),
+                                            $jc(
+                                                $jc(
+                                                    $jc($jc(0, user.hashCode),
+                                                        data.hashCode),
+                                                    uid.hashCode),
+                                                idCobranca.hashCode),
+                                            valor.hashCode),
+                                        formaDePagamento.hashCode),
+                                    idCaixa.hashCode),
+                                dataDeSincronia.hashCode),
+                            emailUsuario.hashCode),
+                        cobranca.hashCode),
+                    sincronizado.hashCode),
+                status.hashCode),
+            localizacao.hashCode),
         ffRef.hashCode));
   }
 
@@ -300,6 +334,8 @@ class _$CobrancasRealizadasRecord extends CobrancasRealizadasRecord {
           ..add('emailUsuario', emailUsuario)
           ..add('cobranca', cobranca)
           ..add('sincronizado', sincronizado)
+          ..add('status', status)
+          ..add('localizacao', localizacao)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -357,6 +393,14 @@ class CobrancasRealizadasRecordBuilder
   bool? get sincronizado => _$this._sincronizado;
   set sincronizado(bool? sincronizado) => _$this._sincronizado = sincronizado;
 
+  String? _status;
+  String? get status => _$this._status;
+  set status(String? status) => _$this._status = status;
+
+  LatLng? _localizacao;
+  LatLng? get localizacao => _$this._localizacao;
+  set localizacao(LatLng? localizacao) => _$this._localizacao = localizacao;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -379,6 +423,8 @@ class CobrancasRealizadasRecordBuilder
       _emailUsuario = $v.emailUsuario;
       _cobranca = $v.cobranca;
       _sincronizado = $v.sincronizado;
+      _status = $v.status;
+      _localizacao = $v.localizacao;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -413,6 +459,8 @@ class CobrancasRealizadasRecordBuilder
             emailUsuario: emailUsuario,
             cobranca: cobranca,
             sincronizado: sincronizado,
+            status: status,
+            localizacao: localizacao,
             ffRef: ffRef);
     replace(_$result);
     return _$result;

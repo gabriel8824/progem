@@ -153,6 +153,34 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => PaginaCobrancasV3Widget(
                 filtro: params.getParam('filtro', ParamType.String),
               ),
+            ),
+            FFRoute(
+              name: 'PaginaCobrancasV3Reagendadas',
+              path: 'paginaCobrancasV3Reagendadas',
+              builder: (context, params) => PaginaCobrancasV3ReagendadasWidget(
+                filtro: params.getParam('filtro', ParamType.String),
+              ),
+            ),
+            FFRoute(
+              name: 'PaginaCobrancasV3Pagas',
+              path: 'paginaCobrancasV3Pagas',
+              builder: (context, params) => PaginaCobrancasV3PagasWidget(
+                filtro: params.getParam('filtro', ParamType.String),
+              ),
+            ),
+            FFRoute(
+              name: 'PaginaCobrancasV3Atrasadas',
+              path: 'paginaCobrancasV3Atrasadas',
+              builder: (context, params) => PaginaCobrancasV3AtrasadasWidget(
+                filtro: params.getParam('filtro', ParamType.String),
+              ),
+            ),
+            FFRoute(
+              name: 'PaginaCobrancasV3Pendente',
+              path: 'paginaCobrancasV3Pendente',
+              builder: (context, params) => PaginaCobrancasV3PendenteWidget(
+                filtro: params.getParam('filtro', ParamType.String),
+              ),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ).toRoute(appStateNotifier),

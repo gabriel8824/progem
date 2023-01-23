@@ -15,8 +15,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 
-class PaginaCobrancasV3Widget extends StatefulWidget {
-  const PaginaCobrancasV3Widget({
+class PaginaCobrancasV3ReagendadasWidget extends StatefulWidget {
+  const PaginaCobrancasV3ReagendadasWidget({
     Key? key,
     this.filtro,
   }) : super(key: key);
@@ -24,11 +24,12 @@ class PaginaCobrancasV3Widget extends StatefulWidget {
   final String? filtro;
 
   @override
-  _PaginaCobrancasV3WidgetState createState() =>
-      _PaginaCobrancasV3WidgetState();
+  _PaginaCobrancasV3ReagendadasWidgetState createState() =>
+      _PaginaCobrancasV3ReagendadasWidgetState();
 }
 
-class _PaginaCobrancasV3WidgetState extends State<PaginaCobrancasV3Widget> {
+class _PaginaCobrancasV3ReagendadasWidgetState
+    extends State<PaginaCobrancasV3ReagendadasWidget> {
   ApiCallResponse? apiResultlab;
   final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -201,7 +202,9 @@ class _PaginaCobrancasV3WidgetState extends State<PaginaCobrancasV3Widget> {
                                                   padding:
                                                       MediaQuery.of(context)
                                                           .viewInsets,
-                                                  child: FiltrosWidget(),
+                                                  child: FiltrosWidget(
+                                                    filtro: 'Reagendado',
+                                                  ),
                                                 );
                                               },
                                             ).then((value) => setState(() {}));
@@ -279,10 +282,14 @@ class _PaginaCobrancasV3WidgetState extends State<PaginaCobrancasV3Widget> {
                                                             Query<Object?>)
                                                         queryBuilder =
                                                         (cobrancasRecord) =>
-                                                            cobrancasRecord.where(
-                                                                'EmailUsuario',
-                                                                isEqualTo:
-                                                                    currentUserEmail);
+                                                            cobrancasRecord
+                                                                .where(
+                                                                    'EmailUsuario',
+                                                                    isEqualTo:
+                                                                        currentUserEmail)
+                                                                .where('Status',
+                                                                    isEqualTo:
+                                                                        'REAGENDADA');
                                                     if (_pagingController !=
                                                         null) {
                                                       final query =
@@ -315,10 +322,14 @@ class _PaginaCobrancasV3WidgetState extends State<PaginaCobrancasV3Widget> {
                                                             (nextPageMarker) {
                                                       queryCobrancasRecordPage(
                                                         queryBuilder: (cobrancasRecord) =>
-                                                            cobrancasRecord.where(
-                                                                'EmailUsuario',
-                                                                isEqualTo:
-                                                                    currentUserEmail),
+                                                            cobrancasRecord
+                                                                .where(
+                                                                    'EmailUsuario',
+                                                                    isEqualTo:
+                                                                        currentUserEmail)
+                                                                .where('Status',
+                                                                    isEqualTo:
+                                                                        'REAGENDADA'),
                                                         nextPageMarker:
                                                             nextPageMarker,
                                                         pageSize: 25,
