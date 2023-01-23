@@ -5,6 +5,7 @@ import '../components/menu_widget.dart';
 import '../flutter_flow/flutter_flow_drop_down.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../flutter_flow/custom_functions.dart' as functions;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -384,7 +385,17 @@ class _PaginaCaixaWidgetState extends State<PaginaCaixaWidget> {
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     0, 20, 0, 0),
                                             child: AutoSizeText(
-                                              'R\$ 00,00',
+                                              formatNumber(
+                                                functions.somarValoresDob(
+                                                    containerCobrancasRealizadasRecordList
+                                                        .map((e) => e.valor)
+                                                        .withoutNulls
+                                                        .toList()),
+                                                formatType: FormatType.decimal,
+                                                decimalType:
+                                                    DecimalType.commaDecimal,
+                                                currency: 'R\$ ',
+                                              ),
                                               maxLines: 1,
                                               style:
                                                   FlutterFlowTheme.of(context)
