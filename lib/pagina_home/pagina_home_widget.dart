@@ -32,11 +32,11 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
   ApiCallResponse? apiResultCobrancas1;
   bool? net5;
   InstantTimer? LoopSicCo;
-  List<CobrancasRecord> simpleSearchResults3 = [];
+  List<CobrancasRealizadasRecord> simpleSearchResults3 = [];
   ApiCallResponse? apiResultCobrancas;
   bool? net2;
   InstantTimer? LoopSicC;
-  List<CobrancasRecord> simpleSearchResults2 = [];
+  List<CobrancasRealizadasRecord> simpleSearchResults2 = [];
   ApiCallResponse? apiResultCaixa;
   ApiCallResponse? apiResultsfm;
   ApiCallResponse? apiResultCaixas1;
@@ -214,10 +214,10 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
 
-    return StreamBuilder<List<CobrancasRecord>>(
-      stream: queryCobrancasRecord(
-        queryBuilder: (cobrancasRecord) =>
-            cobrancasRecord.where('EmailUsuario', isEqualTo: currentUserEmail),
+    return StreamBuilder<List<CobrancasRealizadasRecord>>(
+      stream: queryCobrancasRealizadasRecord(
+        queryBuilder: (cobrancasRealizadasRecord) => cobrancasRealizadasRecord
+            .where('EmailUsuario', isEqualTo: currentUserEmail),
       ),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
@@ -232,7 +232,8 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
             ),
           );
         }
-        List<CobrancasRecord> paginaHomeCobrancasRecordList = snapshot.data!;
+        List<CobrancasRealizadasRecord>
+            paginaHomeCobrancasRealizadasRecordList = snapshot.data!;
         return Scaffold(
           key: scaffoldKey,
           backgroundColor: Color(0xFFEEEEEE),
@@ -385,10 +386,11 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                           });
                                           setState(() {
                                             simpleSearchResults2 = TextSearch(
-                                              paginaHomeCobrancasRecordList
+                                              paginaHomeCobrancasRealizadasRecordList
                                                   .map(
                                                     (record) => TextSearchItem(
-                                                        record, [record.id!]),
+                                                        record,
+                                                        [record.idCobranca!]),
                                                   )
                                                   .toList(),
                                             )
@@ -596,8 +598,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                 EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
                             child: InkWell(
                               onTap: () async {
-                                context
-                                    .pushNamed('PaginaCobrancasV3Realizadas');
+                                context.pushNamed('PaginaCobrancasV3Copy');
                               },
                               child: Container(
                                 width: MediaQuery.of(context).size.width,
@@ -728,10 +729,11 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                           });
                                           setState(() {
                                             simpleSearchResults3 = TextSearch(
-                                              paginaHomeCobrancasRecordList
+                                              paginaHomeCobrancasRealizadasRecordList
                                                   .map(
                                                     (record) => TextSearchItem(
-                                                        record, [record.id!]),
+                                                        record,
+                                                        [record.idCobranca!]),
                                                   )
                                                   .toList(),
                                             )

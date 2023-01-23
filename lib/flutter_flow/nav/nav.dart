@@ -183,9 +183,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ),
             ),
             FFRoute(
-              name: 'PaginaCobrancasV3Realizadas',
-              path: 'paginaCobrancasV3Realizadas',
-              builder: (context, params) => PaginaCobrancasV3RealizadasWidget(
+              name: 'PaginaCobrancasV3Copy',
+              path: 'paginaCobrancasV3Copy',
+              builder: (context, params) => PaginaCobrancasV3CopyWidget(
                 filtro: params.getParam('filtro', ParamType.String),
               ),
             )
