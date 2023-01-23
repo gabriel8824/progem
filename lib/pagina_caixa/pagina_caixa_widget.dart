@@ -500,7 +500,13 @@ class _PaginaCaixaWidgetState extends State<PaginaCaixaWidget> {
                                                       MainAxisAlignment.center,
                                                   children: [
                                                     Text(
-                                                      '0',
+                                                      ApiProgemGroup
+                                                          .listarCobranasDoUsurioCall
+                                                          .recebidas(
+                                                            columnListarCobranasDoUsurioResponse
+                                                                .jsonBody,
+                                                          )
+                                                          .toString(),
                                                       maxLines: 1,
                                                       style:
                                                           FlutterFlowTheme.of(
@@ -567,7 +573,13 @@ class _PaginaCaixaWidgetState extends State<PaginaCaixaWidget> {
                                                       MainAxisAlignment.center,
                                                   children: [
                                                     Text(
-                                                      '0',
+                                                      ApiProgemGroup
+                                                          .listarCobranasDoUsurioCall
+                                                          .pendentes(
+                                                            columnListarCobranasDoUsurioResponse
+                                                                .jsonBody,
+                                                          )
+                                                          .toString(),
                                                       maxLines: 1,
                                                       style:
                                                           FlutterFlowTheme.of(
@@ -634,7 +646,13 @@ class _PaginaCaixaWidgetState extends State<PaginaCaixaWidget> {
                                                       MainAxisAlignment.center,
                                                   children: [
                                                     Text(
-                                                      '0',
+                                                      ApiProgemGroup
+                                                          .listarCobranasDoUsurioCall
+                                                          .atrasadas(
+                                                            columnListarCobranasDoUsurioResponse
+                                                                .jsonBody,
+                                                          )
+                                                          .toString(),
                                                       maxLines: 1,
                                                       style:
                                                           FlutterFlowTheme.of(
