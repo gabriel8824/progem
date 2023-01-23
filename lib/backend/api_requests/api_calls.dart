@@ -775,7 +775,11 @@ class ReagendarCobrancaCall {
     final body = '''
 {
   "dataReagendamento": "${data}",
-  "observacao": "${obs}"
+  "observacao": "${obs}",
+  "checkin": {
+    "latitude": "3.05582",
+    "longitude": "-60.72712"
+  }
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'Reagendar cobranca',
