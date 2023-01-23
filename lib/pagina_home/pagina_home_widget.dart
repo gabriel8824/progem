@@ -696,16 +696,16 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                 net5 = await actions.checkInternet();
                                 if (net5!) {
                                   apiResultCobrancas1 = await ApiProgemGroup
-                                      .listarCobrancasReagendadaCall
+                                      .listarCobrancasCall
                                       .call(
                                     token: FFAppState().token,
+                                    status: 'REAGENDADA',
                                   );
                                   if ((apiResultCobrancas1?.succeeded ??
                                       true)) {
                                     FFAppState().update(() {
                                       FFAppState().CobrancasOffV2 =
-                                          ApiProgemGroup
-                                              .listarCobrancasReagendadaCall
+                                          ApiProgemGroup.listarCobrancasCall
                                               .dados(
                                                 (apiResultCobrancas1
                                                         ?.jsonBody ??
@@ -828,8 +828,8 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                           LoopSicCo?.cancel();
                                           Navigator.pop(context);
 
-                                          context
-                                              .pushNamed('PaginaCobrancasV3');
+                                          context.pushNamed(
+                                              'PaginaCobrancasV3Reagendadas');
                                         }
                                       },
                                       startImmediately: false,
@@ -855,7 +855,8 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                 } else {
                                   Navigator.pop(context);
 
-                                  context.pushNamed('PaginaCobrancasV3');
+                                  context.pushNamed(
+                                      'PaginaCobrancasV3Reagendadas');
                                 }
 
                                 setState(() {});
