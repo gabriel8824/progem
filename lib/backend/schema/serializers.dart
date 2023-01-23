@@ -5,6 +5,7 @@ import 'usuario_record.dart';
 import 'cobrancas_record.dart';
 import 'caixas_record.dart';
 import 'cobrancas_realizadas_record.dart';
+import 'cobrancas_realizadas1_record.dart';
 
 import 'index.dart';
 
@@ -19,6 +20,7 @@ const kDocumentReferenceField = 'Document__Reference__Field';
   CobrancasRecord,
   CaixasRecord,
   CobrancasRealizadasRecord,
+  CobrancasRealizadas1Record,
 ])
 final Serializers serializers = (_$serializers.toBuilder()
       ..add(DocumentReferenceSerializer())
