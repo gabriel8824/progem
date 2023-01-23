@@ -429,17 +429,6 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                   data: getCurrentTimestamp,
                                                   idCobranca:
                                                       widget.cobranca!.id,
-                                                  valor: widget.cobranca!.valor,
-                                                  formaDePagamento: 'PIX',
-                                                  idCaixa: simpleSearchResults
-                                                      .first.id,
-                                                  emailUsuario:
-                                                      currentUserEmail,
-                                                  cobranca: widget
-                                                      .cobranca!.reference,
-                                                  sincronizado: true,
-                                                  dataDeSincronia:
-                                                      getCurrentTimestamp,
                                                   uid:
                                                       '${random_data.randomString(
                                                     10,
@@ -454,6 +443,17 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                     false,
                                                     true,
                                                   )}',
+                                                  valor: widget.cobranca!.valor,
+                                                  idCaixa: simpleSearchResults
+                                                      .first.id,
+                                                  formaDePagamento: 'PIX',
+                                                  dataDeSincronia:
+                                                      getCurrentTimestamp,
+                                                  emailUsuario:
+                                                      currentUserEmail,
+                                                  cobranca: widget
+                                                      .cobranca!.reference,
+                                                  sincronizado: true,
                                                   status: 'RECEBIDA',
                                                   localizacao:
                                                       currentUserLocationValue,
@@ -516,14 +516,6 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                 user: currentUserReference,
                                                 data: getCurrentTimestamp,
                                                 idCobranca: widget.cobranca!.id,
-                                                valor: widget.cobranca!.valor,
-                                                formaDePagamento: 'PIX',
-                                                idCaixa: simpleSearchResults
-                                                    .first.id,
-                                                emailUsuario: currentUserEmail,
-                                                cobranca:
-                                                    widget.cobranca!.reference,
-                                                sincronizado: false,
                                                 uid:
                                                     '${random_data.randomString(
                                                   10,
@@ -538,6 +530,17 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                   false,
                                                   true,
                                                 )}',
+                                                valor: widget.cobranca!.valor,
+                                                idCaixa: simpleSearchResults
+                                                    .first.id,
+                                                formaDePagamento: 'PIX',
+                                                emailUsuario: currentUserEmail,
+                                                cobranca:
+                                                    widget.cobranca!.reference,
+                                                sincronizado: false,
+                                                status: 'RECEBIDA',
+                                                localizacao:
+                                                    currentUserLocationValue,
                                               );
                                               await CobrancasRealizadasRecord
                                                   .collection

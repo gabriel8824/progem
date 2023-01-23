@@ -324,6 +324,7 @@ class _StatusReagendarContratoWidgetState
                                               createCobrancasRealizadasRecordData(
                                             user: currentUserReference,
                                             data: getCurrentTimestamp,
+                                            idCobranca: widget.cobranca!.id,
                                             uid: '${random_data.randomString(
                                               10,
                                               10,
@@ -337,8 +338,9 @@ class _StatusReagendarContratoWidgetState
                                               false,
                                               true,
                                             )}',
-                                            idCobranca: widget.cobranca!.id,
                                             valor: widget.cobranca!.valor,
+                                            dataDeSincronia:
+                                                getCurrentTimestamp,
                                             emailUsuario: currentUserEmail,
                                             cobranca:
                                                 widget.cobranca!.reference,
@@ -384,6 +386,7 @@ class _StatusReagendarContratoWidgetState
                                             createCobrancasRealizadasRecordData(
                                           user: currentUserReference,
                                           data: getCurrentTimestamp,
+                                          idCobranca: widget.cobranca!.id,
                                           uid: '${random_data.randomString(
                                             10,
                                             10,
@@ -397,7 +400,6 @@ class _StatusReagendarContratoWidgetState
                                             false,
                                             true,
                                           )}',
-                                          idCobranca: widget.cobranca!.id,
                                           valor: widget.cobranca!.valor,
                                           emailUsuario: currentUserEmail,
                                           cobranca: widget.cobranca!.reference,
