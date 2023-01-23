@@ -798,7 +798,7 @@ class _PaginaCobrancasV3WidgetState extends State<PaginaCobrancasV3Widget> {
                                                                     r.object)
                                                                 .toList();
                                                       });
-                                                      if (simpleSearchResults2
+                                                      if (simpleSearchResults
                                                               .length >=
                                                           1) {
                                                         FFAppState().update(() {
