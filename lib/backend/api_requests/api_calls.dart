@@ -776,16 +776,16 @@ class ReagendarCobrancaCall {
   }) {
     final body = '''
 {
-  "dataReagendamento": "${data}",
-  "observacao": "${obs}",
+  "dataReagendamento": "2023-01-03T10:00:00-03:00",
+  "observacao": "Cliente solicitou mais dois dias para aguardar o recebimento do salário",
   "checkin": {
-    "latitude": "3.05582",
-    "longitude": "-60.72712"
+    "latitude": "-25.8672164",
+    "longitude": "-52.9013566"
   }
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'Reagendar cobranca',
-      apiUrl: '${ApiProgemGroup.baseUrl}/cobrancas/${id}/reagendar',
+      apiUrl: '${ApiProgemGroup.baseUrl}/cobrancas/900675/reagendar',
       callType: ApiCallType.POST,
       headers: {
         ...ApiProgemGroup.headers,
