@@ -596,7 +596,8 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                 EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
                             child: InkWell(
                               onTap: () async {
-                                context.pushNamed('PaginaCobrancasRealizadas');
+                                context
+                                    .pushNamed('PaginaCobrancasV3Realizadas');
                               },
                               child: Container(
                                 width: MediaQuery.of(context).size.width,

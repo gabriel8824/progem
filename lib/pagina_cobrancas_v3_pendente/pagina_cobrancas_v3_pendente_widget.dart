@@ -240,7 +240,7 @@ class _PaginaCobrancasV3PendenteWidgetState
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           20, 10, 0, 0),
                                       child: AutoSizeText(
-                                        'Cobrador',
+                                        'Cobranças pendente',
                                         style: FlutterFlowTheme.of(context)
                                             .bodyText1
                                             .override(
