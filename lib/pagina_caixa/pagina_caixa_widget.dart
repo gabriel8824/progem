@@ -373,7 +373,17 @@ class _PaginaCaixaWidgetState extends State<PaginaCaixaWidget> {
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     0, 20, 0, 0),
                                             child: AutoSizeText(
-                                              'R\$ 00,00',
+                                              formatNumber(
+                                                functions.somarValoresDob(
+                                                    containerCobrancasRealizadasRecordList
+                                                        .map((e) => e.valor)
+                                                        .withoutNulls
+                                                        .toList()),
+                                                formatType: FormatType.decimal,
+                                                decimalType:
+                                                    DecimalType.commaDecimal,
+                                                currency: 'R\$ ',
+                                              ),
                                               maxLines: 1,
                                               style:
                                                   FlutterFlowTheme.of(context)

@@ -61,15 +61,6 @@ int somarvaloresint(List<int> valor) {
   return resultado;
 }
 
-double somavaloresdob(List<double> lista) {
-  // somar uma lista de valores
-  var soma = 0.0;
-  for (double d1 in lista) {
-    soma += d1;
-  }
-  return soma;
-}
-
 String parametroApiId(String corpo) {
   // pegar um parmetro de uma string e retonar
   var startIndex = corpo.indexOf('#');
@@ -162,8 +153,11 @@ LatLng converterStringEmLocalizacao(String loc1) {
   return latLng1;
 }
 
-double somarValores(List<double> valores) {
-  soma = sum(valores);
-
-  return soma;
+double somarValoresDob(List<double> valores) {
+  // Somar valores de uma lista
+  double onlyNumbers = 0;
+  for (int i = 0; i < valores.length; i++) {
+    onlyNumbers += valores[i];
+  }
+  return onlyNumbers;
 }
