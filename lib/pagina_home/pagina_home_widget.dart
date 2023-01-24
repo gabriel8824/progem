@@ -27,8 +27,11 @@ class PaginaHomeWidget extends StatefulWidget {
 }
 
 class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
+  ApiCallResponse? apiReagendarCo;
   ApiCallResponse? apiReceberCo;
   InstantTimer? instantTimer3;
+  bool? net4;
+  List<CobrancasRealizadasRecord> simpleSearchResults4 = [];
   ApiCallResponse? apiResultCobrancas1;
   bool? net5;
   InstantTimer? LoopSicCo;
@@ -1019,138 +1022,385 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                               Padding(
                                 padding:
                                     EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                                child: InkWell(
-                                  onTap: () async {
-                                    showModalBottomSheet(
-                                      isScrollControlled: true,
-                                      backgroundColor: Colors.transparent,
-                                      isDismissible: false,
-                                      enableDrag: false,
-                                      context: context,
-                                      builder: (context) {
-                                        return Padding(
+                                child: StreamBuilder<
+                                    List<CobrancasRealizadasRecord>>(
+                                  stream: queryCobrancasRealizadasRecord(
+                                    queryBuilder: (cobrancasRealizadasRecord) =>
+                                        cobrancasRealizadasRecord
+                                            .where('EmailUser',
+                                                isEqualTo: currentUserEmail)
+                                            .where('Sincronizado',
+                                                isEqualTo: false),
+                                  ),
+                                  builder: (context, snapshot) {
+                                    // Customize what your widget looks like when it's loading.
+                                    if (!snapshot.hasData) {
+                                      return Center(
+                                        child: Padding(
                                           padding:
-                                              MediaQuery.of(context).viewInsets,
-                                          child: LoadSicWidget(),
-                                        );
-                                      },
-                                    ).then((value) => setState(() {}));
-
-                                    if (FFAppState().IsConnected) {
-                                      instantTimer3 = InstantTimer.periodic(
-                                        duration: Duration(milliseconds: 3000),
-                                        callback: (timer) async {
-                                          if (true) {
-                                            null?.cancel();
-                                            Navigator.pop(context);
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              SnackBar(
-                                                content: Text(
-                                                  'Sincronia finalizada com sucesso!',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                                duration: Duration(
-                                                    milliseconds: 4000),
-                                                backgroundColor:
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondaryColor,
-                                              ),
-                                            );
-                                          } else {
-                                            apiReceberCo = await ApiProgemGroup
-                                                .receberCobrancaCall
-                                                .call(
-                                              token: FFAppState().token,
-                                            );
-                                            if (!(apiReceberCo?.succeeded ??
-                                                true)) {
-                                              null?.cancel();
-                                              Navigator.pop(context);
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    'Algo deu errado',
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                  duration: Duration(
-                                                      milliseconds: 4000),
-                                                  backgroundColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .alternate,
-                                                ),
-                                              );
-                                            }
-                                          }
-                                        },
-                                        startImmediately: false,
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  5, 5, 5, 5),
+                                          child: SizedBox(
+                                            width: 40,
+                                            height: 40,
+                                            child: CircularProgressIndicator(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryColor,
+                                            ),
+                                          ),
+                                        ),
                                       );
-                                    } else {
-                                      Navigator.pop(context);
-                                      showModalBottomSheet(
-                                        isScrollControlled: true,
-                                        backgroundColor: Colors.transparent,
-                                        isDismissible: false,
-                                        enableDrag: false,
-                                        context: context,
-                                        builder: (context) {
-                                          return Padding(
-                                            padding: MediaQuery.of(context)
-                                                .viewInsets,
-                                            child: ConnectedOffWidget(),
-                                          );
-                                        },
-                                      ).then((value) => setState(() {}));
                                     }
+                                    List<CobrancasRealizadasRecord>
+                                        containerCobrancasRealizadasRecordList =
+                                        snapshot.data!;
+                                    return InkWell(
+                                      onTap: () async {
+                                        showModalBottomSheet(
+                                          isScrollControlled: true,
+                                          backgroundColor: Colors.transparent,
+                                          isDismissible: false,
+                                          enableDrag: false,
+                                          context: context,
+                                          builder: (context) {
+                                            return Padding(
+                                              padding: MediaQuery.of(context)
+                                                  .viewInsets,
+                                              child: LoadSicWidget(),
+                                            );
+                                          },
+                                        ).then((value) => setState(() {}));
 
-                                    setState(() {});
-                                  },
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    height: 50,
-                                    decoration: BoxDecoration(),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(
+                                        net4 = await actions.checkInternet();
+                                        if (net4!) {
+                                          instantTimer3 = InstantTimer.periodic(
+                                            duration:
+                                                Duration(milliseconds: 1000),
+                                            callback: (timer) async {
+                                              if (containerCobrancasRealizadasRecordList
+                                                      .length <
+                                                  1) {
+                                                instantTimer3?.cancel();
+                                                Navigator.pop(context);
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      'Sincronia finalizada com sucesso!',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                    duration: Duration(
+                                                        milliseconds: 4000),
+                                                    backgroundColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .secondaryColor,
+                                                  ),
+                                                );
+                                              } else {
+                                                setState(() {
+                                                  simpleSearchResults4 =
+                                                      TextSearch(
+                                                    containerCobrancasRealizadasRecordList
+                                                        .map(
+                                                          (record) =>
+                                                              TextSearchItem(
+                                                                  record, [
+                                                            record.uid!
+                                                          ]),
+                                                        )
+                                                        .toList(),
+                                                  )
+                                                          .search(
+                                                              containerCobrancasRealizadasRecordList
+                                                                  .first.uid!)
+                                                          .map((r) => r.object)
+                                                          .take(1)
+                                                          .toList();
+                                                });
+                                                if (simpleSearchResults4
+                                                            .first.idCaixa !=
+                                                        null &&
+                                                    simpleSearchResults4
+                                                            .first.idCaixa !=
+                                                        '') {
+                                                  if (simpleSearchResults4
+                                                          .first.sincronizado ==
+                                                      false) {
+                                                    apiReceberCo =
+                                                        await ApiProgemGroup
+                                                            .receberCobrancaCall
+                                                            .call(
+                                                      token: FFAppState().token,
+                                                      id: simpleSearchResults4
+                                                          .first.idCobranca,
+                                                      valor:
+                                                          simpleSearchResults4
+                                                              .first.valor
+                                                              ?.toString(),
+                                                      formaDePagamento:
+                                                          simpleSearchResults4
+                                                              .first
+                                                              .formaDePagamento,
+                                                      idCaixa:
+                                                          simpleSearchResults4
+                                                              .first.idCaixa,
+                                                    );
+                                                    if ((apiReceberCo
+                                                            ?.succeeded ??
+                                                        true)) {
+                                                      final cobrancasRealizadasUpdateData =
+                                                          createCobrancasRealizadasRecordData(
+                                                        dataDeSincronia:
+                                                            getCurrentTimestamp,
+                                                        sincronizado: true,
+                                                      );
+                                                      await simpleSearchResults4
+                                                          .first.reference
+                                                          .update(
+                                                              cobrancasRealizadasUpdateData);
+
+                                                      final cobrancasUpdateData =
+                                                          createCobrancasRecordData(
+                                                        dataSincronia:
+                                                            getCurrentTimestamp,
+                                                      );
+                                                      await simpleSearchResults4
+                                                          .first.cobranca!
+                                                          .update(
+                                                              cobrancasUpdateData);
+                                                    } else {
+                                                      instantTimer3?.cancel();
+                                                      Navigator.pop(context);
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        SnackBar(
+                                                          content: Text(
+                                                            'Algo deu errado',
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                            ),
+                                                          ),
+                                                          duration: Duration(
+                                                              milliseconds:
+                                                                  4000),
+                                                          backgroundColor:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .alternate,
+                                                        ),
+                                                      );
+                                                    }
+                                                  } else {
+                                                    instantTimer3?.cancel();
+                                                    Navigator.pop(context);
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                        content: Text(
+                                                          'Algo deu errado',
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                        duration: Duration(
+                                                            milliseconds: 4000),
+                                                        backgroundColor:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .alternate,
+                                                      ),
+                                                    );
+                                                  }
+                                                } else {
+                                                  if (simpleSearchResults4.first
+                                                          .dataRagendamento !=
+                                                      null) {
+                                                    if (simpleSearchResults4
+                                                            .first
+                                                            .sincronizado ==
+                                                        false) {
+                                                      apiReagendarCo =
+                                                          await ApiProgemGroup
+                                                              .reagendarCobrancaCall
+                                                              .call(
+                                                        token:
+                                                            FFAppState().token,
+                                                        dataReagendamento:
+                                                            simpleSearchResults4
+                                                                .first
+                                                                .dataReagendamentoS,
+                                                        obs:
+                                                            simpleSearchResults4
+                                                                .first.obs,
+                                                        id: simpleSearchResults4
+                                                            .first.idCobranca,
+                                                      );
+                                                      if ((apiReagendarCo
+                                                              ?.succeeded ??
+                                                          true)) {
+                                                        final cobrancasRealizadasUpdateData =
+                                                            createCobrancasRealizadasRecordData(
+                                                          dataDeSincronia:
+                                                              getCurrentTimestamp,
+                                                          sincronizado: true,
+                                                        );
+                                                        await simpleSearchResults4
+                                                            .first.reference
+                                                            .update(
+                                                                cobrancasRealizadasUpdateData);
+
+                                                        final cobrancasUpdateData =
+                                                            createCobrancasRecordData(
+                                                          dataSincronia:
+                                                              getCurrentTimestamp,
+                                                        );
+                                                        await simpleSearchResults4
+                                                            .first.cobranca!
+                                                            .update(
+                                                                cobrancasUpdateData);
+                                                      } else {
+                                                        instantTimer3?.cancel();
+                                                        Navigator.pop(context);
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                          SnackBar(
+                                                            content: Text(
+                                                              'Algo deu errado',
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            ),
+                                                            duration: Duration(
+                                                                milliseconds:
+                                                                    4000),
+                                                            backgroundColor:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .alternate,
+                                                          ),
+                                                        );
+                                                      }
+                                                    } else {
+                                                      instantTimer3?.cancel();
+                                                      Navigator.pop(context);
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        SnackBar(
+                                                          content: Text(
+                                                            'Algo deu errado',
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                            ),
+                                                          ),
+                                                          duration: Duration(
+                                                              milliseconds:
+                                                                  4000),
+                                                          backgroundColor:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .alternate,
+                                                        ),
+                                                      );
+                                                    }
+                                                  } else {
+                                                    instantTimer3?.cancel();
+                                                    Navigator.pop(context);
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                        content: Text(
+                                                          'Algo deu errado',
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                        duration: Duration(
+                                                            milliseconds: 4000),
+                                                        backgroundColor:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .alternate,
+                                                      ),
+                                                    );
+                                                  }
+                                                }
+                                              }
+                                            },
+                                            startImmediately: false,
+                                          );
+                                        } else {
+                                          Navigator.pop(context);
+                                          showModalBottomSheet(
+                                            isScrollControlled: true,
+                                            backgroundColor: Colors.transparent,
+                                            isDismissible: false,
+                                            enableDrag: false,
+                                            context: context,
+                                            builder: (context) {
+                                              return Padding(
+                                                padding: MediaQuery.of(context)
+                                                    .viewInsets,
+                                                child: ConnectedOffWidget(),
+                                              );
+                                            },
+                                          ).then((value) => setState(() {}));
+                                        }
+
+                                        setState(() {});
+                                      },
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        height: 50,
+                                        decoration: BoxDecoration(),
+                                        child: Column(
                                           mainAxisSize: MainAxisSize.max,
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(5, 0, 0, 0),
-                                              child: Container(
-                                                height: 40,
-                                                decoration: BoxDecoration(),
-                                                child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  children: [
-                                                    Image.asset(
-                                                      'assets/images/radix-icons_update.png',
-                                                      width: 25,
-                                                      height: 25,
-                                                      fit: BoxFit.contain,
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  12, 0, 0, 0),
-                                                      child: AutoSizeText(
-                                                        'Sincronizar',
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
+                                            Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(5, 0, 0, 0),
+                                                  child: Container(
+                                                    height: 40,
+                                                    decoration: BoxDecoration(),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      children: [
+                                                        Image.asset(
+                                                          'assets/images/radix-icons_update.png',
+                                                          width: 25,
+                                                          height: 25,
+                                                          fit: BoxFit.contain,
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(12,
+                                                                      0, 0, 0),
+                                                          child: AutoSizeText(
+                                                            'Sincronizar',
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
                                                                 .bodyText1
                                                                 .override(
                                                                   fontFamily:
@@ -1163,29 +1413,31 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                                               .bodyText1Family),
                                                                   lineHeight: 1,
                                                                 ),
-                                                      ),
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                  ],
+                                                  ),
                                                 ),
-                                              ),
+                                                Icon(
+                                                  Icons.arrow_forward_ios,
+                                                  color: Colors.black,
+                                                  size: 24,
+                                                ),
+                                              ],
                                             ),
-                                            Icon(
-                                              Icons.arrow_forward_ios,
-                                              color: Colors.black,
-                                              size: 24,
+                                            Divider(
+                                              height: 1,
+                                              thickness: 1,
+                                              indent: 1,
+                                              endIndent: 1,
+                                              color: Color(0xFF545353),
                                             ),
                                           ],
                                         ),
-                                        Divider(
-                                          height: 1,
-                                          thickness: 1,
-                                          indent: 1,
-                                          endIndent: 1,
-                                          color: Color(0xFF545353),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                      ),
+                                    );
+                                  },
                                 ),
                               ),
                               Padding(

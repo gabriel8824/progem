@@ -728,7 +728,7 @@ class _PaginaCaixaWidgetState extends State<PaginaCaixaWidget> {
                       child: Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
                         child: MenuWidget(
-                          tela: 1,
+                          tela: 0,
                         ),
                       ),
                     ),

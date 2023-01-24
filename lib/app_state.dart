@@ -209,6 +209,20 @@ class FFAppState extends ChangeNotifier {
   set PaginaAtual(int _value) {
     _PaginaAtual = _value;
   }
+
+  List<DocumentReference> _CobrancaReaAtual = [];
+  List<DocumentReference> get CobrancaReaAtual => _CobrancaReaAtual;
+  set CobrancaReaAtual(List<DocumentReference> _value) {
+    _CobrancaReaAtual = _value;
+  }
+
+  void addToCobrancaReaAtual(DocumentReference _value) {
+    _CobrancaReaAtual.add(_value);
+  }
+
+  void removeFromCobrancaReaAtual(DocumentReference _value) {
+    _CobrancaReaAtual.remove(_value);
+  }
 }
 
 LatLng? _latLngFromString(String? val) {
