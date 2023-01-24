@@ -33,6 +33,7 @@ class ApiProgemGroup {
   static ReagendarCobrancaCall reagendarCobrancaCall = ReagendarCobrancaCall();
   static FotoUserCall fotoUserCall = FotoUserCall();
   static CaixasCall caixasCall = CaixasCall();
+  static AlteraUsuarioCall alteraUsuarioCall = AlteraUsuarioCall();
   static ListarCobranasDoUsurioCall listarCobranasDoUsurioCall =
       ListarCobranasDoUsurioCall();
 }
@@ -854,6 +855,56 @@ class CaixasCall {
         'Authorization': 'Bearer ${token}',
       },
       params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+    );
+  }
+
+  dynamic body(dynamic response) => getJsonField(
+        response,
+        r'''$.data''',
+        true,
+      );
+  dynamic banco(dynamic response) => getJsonField(
+        response,
+        r'''$.data[:].descricao''',
+      );
+  dynamic id(dynamic response) => getJsonField(
+        response,
+        r'''$.data[:].id''',
+      );
+  dynamic saldo(dynamic response) => getJsonField(
+        response,
+        r'''$.data[:].saldo''',
+      );
+  dynamic status(dynamic response) => getJsonField(
+        response,
+        r'''$.data[:].status''',
+      );
+}
+
+class AlteraUsuarioCall {
+  Future<ApiCallResponse> call({
+    String? token = '',
+    String? nome = 'nome',
+  }) {
+    final body = '''
+{
+  "nome": "${nome}"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'Altera Usuario',
+      apiUrl: '${ApiProgemGroup.baseUrl}/usuarios',
+      callType: ApiCallType.PUT,
+      headers: {
+        ...ApiProgemGroup.headers,
+        'Authorization': 'Bearer ${token}',
+      },
+      params: {},
+      body: body,
+      bodyType: BodyType.JSON,
       returnBody: true,
       encodeBodyUtf8: false,
       decodeUtf8: false,

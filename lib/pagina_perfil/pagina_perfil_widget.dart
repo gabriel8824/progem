@@ -2,6 +2,7 @@ import '../backend/api_requests/api_calls.dart';
 import '../components/alterarsenha_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../flutter_flow/flutter_flow_widgets.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -37,12 +38,8 @@ class _PaginaPerfilWidgetState extends State<PaginaPerfilWidget> {
   ApiCallResponse? resultApiDados;
   final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  TextEditingController? textController1;
-  TextEditingController? textController2;
-  TextEditingController? textController3;
-  TextEditingController? textController4;
-  TextEditingController? textController5;
-  TextEditingController? textController6;
+  ApiCallResponse? apiResulttjk;
+  TextEditingController? textController;
 
   @override
   void initState() {
@@ -83,23 +80,13 @@ class _PaginaPerfilWidgetState extends State<PaginaPerfilWidget> {
       }
     });
 
-    textController1 = TextEditingController(text: widget.nome);
-    textController2 = TextEditingController(text: widget.email);
-    textController3 = TextEditingController(text: widget.celular);
-    textController4 = TextEditingController(text: widget.cep);
-    textController5 = TextEditingController(text: widget.end);
-    textController6 = TextEditingController(text: widget.numero1);
+    textController = TextEditingController(text: widget.nome);
   }
 
   @override
   void dispose() {
     _unfocusNode.dispose();
-    textController1?.dispose();
-    textController2?.dispose();
-    textController3?.dispose();
-    textController4?.dispose();
-    textController5?.dispose();
-    textController6?.dispose();
+    textController?.dispose();
     super.dispose();
   }
 
@@ -243,20 +230,26 @@ class _PaginaPerfilWidgetState extends State<PaginaPerfilWidget> {
                                         color: Color(0xFF004AAD),
                                         shape: BoxShape.circle,
                                       ),
-                                      child: Align(
-                                        alignment: AlignmentDirectional(0, 0),
-                                        child: Container(
-                                          width: 87,
-                                          height: 87,
-                                          clipBehavior: Clip.antiAlias,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Align(
+                                            alignment:
+                                                AlignmentDirectional(0, 0),
+                                            child: Container(
+                                              width: 87,
+                                              height: 87,
+                                              clipBehavior: Clip.antiAlias,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                              ),
+                                              child: Image.asset(
+                                                'assets/images/user.png',
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
                                           ),
-                                          child: Image.asset(
-                                            'assets/images/download.jpg',
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
+                                        ],
                                       ),
                                     ),
                                   ),
@@ -336,7 +329,7 @@ class _PaginaPerfilWidgetState extends State<PaginaPerfilWidget> {
                                       ),
                                     ),
                                     TextFormField(
-                                      controller: textController1,
+                                      controller: textController,
                                       obscureText: false,
                                       decoration: InputDecoration(
                                         hintText: 'Nome',
@@ -411,82 +404,80 @@ class _PaginaPerfilWidgetState extends State<PaginaPerfilWidget> {
                                       MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Align(
-                                      alignment: AlignmentDirectional(-1, 0),
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            10, 0, 0, 0),
-                                        child: AutoSizeText(
-                                          'E-mail',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyText1
-                                              .override(
-                                                fontFamily: 'Roboto',
-                                                color: Color(0xFF313537),
-                                                fontSize: 16,
-                                                useGoogleFonts: GoogleFonts
-                                                        .asMap()
-                                                    .containsKey(
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyText1Family),
-                                                lineHeight: 1,
-                                              ),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Align(
+                                          alignment:
+                                              AlignmentDirectional(-1, 0),
+                                          child: Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    10, 0, 0, 0),
+                                            child: AutoSizeText(
+                                              'E-mail',
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText1
+                                                      .override(
+                                                        fontFamily: 'Roboto',
+                                                        color:
+                                                            Color(0xFF313537),
+                                                        fontSize: 16,
+                                                        useGoogleFonts: GoogleFonts
+                                                                .asMap()
+                                                            .containsKey(
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyText1Family),
+                                                        lineHeight: 1,
+                                                      ),
+                                            ),
+                                          ),
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                    TextFormField(
-                                      controller: textController2,
-                                      obscureText: false,
-                                      decoration: InputDecoration(
-                                        hintText: 'E-mail',
-                                        hintStyle: FlutterFlowTheme.of(context)
-                                            .bodyText2,
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0xFF0A85DE),
-                                            width: 2,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0xFF0A85DE),
-                                            width: 2,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0x00000000),
-                                            width: 2,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0x00000000),
-                                            width: 2,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                          color: Color(0xFF0A85DE),
+                                          width: 2,
                                         ),
                                       ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyText1Family,
-                                            useGoogleFonts: GoogleFonts.asMap()
-                                                .containsKey(
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyText1Family),
-                                            lineHeight: 1,
+                                      child: Align(
+                                        alignment: AlignmentDirectional(-1, 0),
+                                        child: Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  12, 0, 0, 0),
+                                          child: AutoSizeText(
+                                            valueOrDefault<String>(
+                                              widget.email,
+                                              'email',
+                                            ),
+                                            maxLines: 1,
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyText1
+                                                .override(
+                                                  fontFamily: 'Roboto',
+                                                  color: Color(0xFF919191),
+                                                  fontSize: 16,
+                                                  useGoogleFonts: GoogleFonts
+                                                          .asMap()
+                                                      .containsKey(
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText1Family),
+                                                  lineHeight: 1,
+                                                ),
                                           ),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -654,82 +645,80 @@ class _PaginaPerfilWidgetState extends State<PaginaPerfilWidget> {
                                       MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Align(
-                                      alignment: AlignmentDirectional(-1, 0),
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            10, 0, 0, 0),
-                                        child: AutoSizeText(
-                                          'Celular ',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyText1
-                                              .override(
-                                                fontFamily: 'Roboto',
-                                                color: Color(0xFF313537),
-                                                fontSize: 16,
-                                                useGoogleFonts: GoogleFonts
-                                                        .asMap()
-                                                    .containsKey(
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyText1Family),
-                                                lineHeight: 1,
-                                              ),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Align(
+                                          alignment:
+                                              AlignmentDirectional(-1, 0),
+                                          child: Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    10, 0, 0, 0),
+                                            child: AutoSizeText(
+                                              'Celular ',
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText1
+                                                      .override(
+                                                        fontFamily: 'Roboto',
+                                                        color:
+                                                            Color(0xFF313537),
+                                                        fontSize: 16,
+                                                        useGoogleFonts: GoogleFonts
+                                                                .asMap()
+                                                            .containsKey(
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyText1Family),
+                                                        lineHeight: 1,
+                                                      ),
+                                            ),
+                                          ),
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                    TextFormField(
-                                      controller: textController3,
-                                      obscureText: false,
-                                      decoration: InputDecoration(
-                                        hintText: 'Celular ',
-                                        hintStyle: FlutterFlowTheme.of(context)
-                                            .bodyText2,
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0xFF0A85DE),
-                                            width: 2,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0xFF0A85DE),
-                                            width: 2,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0x00000000),
-                                            width: 2,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0x00000000),
-                                            width: 2,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                          color: Color(0xFF0A85DE),
+                                          width: 2,
                                         ),
                                       ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyText1Family,
-                                            useGoogleFonts: GoogleFonts.asMap()
-                                                .containsKey(
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyText1Family),
-                                            lineHeight: 1,
+                                      child: Align(
+                                        alignment: AlignmentDirectional(-1, 0),
+                                        child: Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  12, 0, 0, 0),
+                                          child: AutoSizeText(
+                                            valueOrDefault<String>(
+                                              widget.celular,
+                                              'Celular',
+                                            ),
+                                            maxLines: 1,
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyText1
+                                                .override(
+                                                  fontFamily: 'Roboto',
+                                                  color: Color(0xFF919191),
+                                                  fontSize: 16,
+                                                  useGoogleFonts: GoogleFonts
+                                                          .asMap()
+                                                      .containsKey(
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText1Family),
+                                                  lineHeight: 1,
+                                                ),
                                           ),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -754,82 +743,80 @@ class _PaginaPerfilWidgetState extends State<PaginaPerfilWidget> {
                                       MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Align(
-                                      alignment: AlignmentDirectional(-1, 0),
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            10, 0, 0, 0),
-                                        child: AutoSizeText(
-                                          'CEP',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyText1
-                                              .override(
-                                                fontFamily: 'Roboto',
-                                                color: Color(0xFF313537),
-                                                fontSize: 16,
-                                                useGoogleFonts: GoogleFonts
-                                                        .asMap()
-                                                    .containsKey(
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyText1Family),
-                                                lineHeight: 1,
-                                              ),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Align(
+                                          alignment:
+                                              AlignmentDirectional(-1, 0),
+                                          child: Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    10, 0, 0, 0),
+                                            child: AutoSizeText(
+                                              'CEP',
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText1
+                                                      .override(
+                                                        fontFamily: 'Roboto',
+                                                        color:
+                                                            Color(0xFF313537),
+                                                        fontSize: 16,
+                                                        useGoogleFonts: GoogleFonts
+                                                                .asMap()
+                                                            .containsKey(
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyText1Family),
+                                                        lineHeight: 1,
+                                                      ),
+                                            ),
+                                          ),
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                    TextFormField(
-                                      controller: textController4,
-                                      obscureText: false,
-                                      decoration: InputDecoration(
-                                        hintText: 'CEP',
-                                        hintStyle: FlutterFlowTheme.of(context)
-                                            .bodyText2,
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0xFF0A85DE),
-                                            width: 2,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0xFF0A85DE),
-                                            width: 2,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0x00000000),
-                                            width: 2,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0x00000000),
-                                            width: 2,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                          color: Color(0xFF0A85DE),
+                                          width: 2,
                                         ),
                                       ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyText1Family,
-                                            useGoogleFonts: GoogleFonts.asMap()
-                                                .containsKey(
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyText1Family),
-                                            lineHeight: 1,
+                                      child: Align(
+                                        alignment: AlignmentDirectional(-1, 0),
+                                        child: Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  12, 0, 0, 0),
+                                          child: AutoSizeText(
+                                            valueOrDefault<String>(
+                                              widget.cep,
+                                              'CEP',
+                                            ),
+                                            maxLines: 1,
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyText1
+                                                .override(
+                                                  fontFamily: 'Roboto',
+                                                  color: Color(0xFF919191),
+                                                  fontSize: 16,
+                                                  useGoogleFonts: GoogleFonts
+                                                          .asMap()
+                                                      .containsKey(
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText1Family),
+                                                  lineHeight: 1,
+                                                ),
                                           ),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -854,82 +841,80 @@ class _PaginaPerfilWidgetState extends State<PaginaPerfilWidget> {
                                       MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Align(
-                                      alignment: AlignmentDirectional(-1, 0),
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            10, 0, 0, 0),
-                                        child: AutoSizeText(
-                                          'Endereço ',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyText1
-                                              .override(
-                                                fontFamily: 'Roboto',
-                                                color: Color(0xFF313537),
-                                                fontSize: 16,
-                                                useGoogleFonts: GoogleFonts
-                                                        .asMap()
-                                                    .containsKey(
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyText1Family),
-                                                lineHeight: 1,
-                                              ),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Align(
+                                          alignment:
+                                              AlignmentDirectional(-1, 0),
+                                          child: Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    10, 0, 0, 0),
+                                            child: AutoSizeText(
+                                              'Endereço ',
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText1
+                                                      .override(
+                                                        fontFamily: 'Roboto',
+                                                        color:
+                                                            Color(0xFF313537),
+                                                        fontSize: 16,
+                                                        useGoogleFonts: GoogleFonts
+                                                                .asMap()
+                                                            .containsKey(
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyText1Family),
+                                                        lineHeight: 1,
+                                                      ),
+                                            ),
+                                          ),
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                    TextFormField(
-                                      controller: textController5,
-                                      obscureText: false,
-                                      decoration: InputDecoration(
-                                        hintText: 'Endereço',
-                                        hintStyle: FlutterFlowTheme.of(context)
-                                            .bodyText2,
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0xFF0A85DE),
-                                            width: 2,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0xFF0A85DE),
-                                            width: 2,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0x00000000),
-                                            width: 2,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0x00000000),
-                                            width: 2,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                          color: Color(0xFF0A85DE),
+                                          width: 2,
                                         ),
                                       ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyText1Family,
-                                            useGoogleFonts: GoogleFonts.asMap()
-                                                .containsKey(
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyText1Family),
-                                            lineHeight: 1,
+                                      child: Align(
+                                        alignment: AlignmentDirectional(-1, 0),
+                                        child: Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  12, 0, 0, 0),
+                                          child: AutoSizeText(
+                                            valueOrDefault<String>(
+                                              widget.end,
+                                              'Endereço',
+                                            ),
+                                            maxLines: 1,
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyText1
+                                                .override(
+                                                  fontFamily: 'Roboto',
+                                                  color: Color(0xFF919191),
+                                                  fontSize: 16,
+                                                  useGoogleFonts: GoogleFonts
+                                                          .asMap()
+                                                      .containsKey(
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText1Family),
+                                                  lineHeight: 1,
+                                                ),
                                           ),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -954,82 +939,80 @@ class _PaginaPerfilWidgetState extends State<PaginaPerfilWidget> {
                                       MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Align(
-                                      alignment: AlignmentDirectional(-1, 0),
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            10, 0, 0, 0),
-                                        child: AutoSizeText(
-                                          'N° Residência',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyText1
-                                              .override(
-                                                fontFamily: 'Roboto',
-                                                color: Color(0xFF313537),
-                                                fontSize: 16,
-                                                useGoogleFonts: GoogleFonts
-                                                        .asMap()
-                                                    .containsKey(
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyText1Family),
-                                                lineHeight: 1,
-                                              ),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Align(
+                                          alignment:
+                                              AlignmentDirectional(-1, 0),
+                                          child: Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    10, 0, 0, 0),
+                                            child: AutoSizeText(
+                                              'N° Residência',
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText1
+                                                      .override(
+                                                        fontFamily: 'Roboto',
+                                                        color:
+                                                            Color(0xFF313537),
+                                                        fontSize: 16,
+                                                        useGoogleFonts: GoogleFonts
+                                                                .asMap()
+                                                            .containsKey(
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyText1Family),
+                                                        lineHeight: 1,
+                                                      ),
+                                            ),
+                                          ),
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                    TextFormField(
-                                      controller: textController6,
-                                      obscureText: false,
-                                      decoration: InputDecoration(
-                                        hintText: 'N° Residência',
-                                        hintStyle: FlutterFlowTheme.of(context)
-                                            .bodyText2,
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0xFF0A85DE),
-                                            width: 2,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0xFF0A85DE),
-                                            width: 2,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0x00000000),
-                                            width: 2,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0x00000000),
-                                            width: 2,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                          color: Color(0xFF0A85DE),
+                                          width: 2,
                                         ),
                                       ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyText1Family,
-                                            useGoogleFonts: GoogleFonts.asMap()
-                                                .containsKey(
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyText1Family),
-                                            lineHeight: 1,
+                                      child: Align(
+                                        alignment: AlignmentDirectional(-1, 0),
+                                        child: Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  12, 0, 0, 0),
+                                          child: AutoSizeText(
+                                            valueOrDefault<String>(
+                                              widget.numero1,
+                                              'Numero',
+                                            ),
+                                            maxLines: 1,
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyText1
+                                                .override(
+                                                  fontFamily: 'Roboto',
+                                                  color: Color(0xFF919191),
+                                                  fontSize: 16,
+                                                  useGoogleFonts: GoogleFonts
+                                                          .asMap()
+                                                      .containsKey(
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText1Family),
+                                                  lineHeight: 1,
+                                                ),
                                           ),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -1038,6 +1021,73 @@ class _PaginaPerfilWidgetState extends State<PaginaPerfilWidget> {
                           ),
                         ),
                       ],
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: AlignmentDirectional(0, 0),
+                  child: Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 30),
+                    child: FFButtonWidget(
+                      onPressed: () async {
+                        apiResulttjk =
+                            await ApiProgemGroup.alteraUsuarioCall.call(
+                          token: FFAppState().token,
+                          nome: textController!.text,
+                        );
+                        if ((apiResulttjk?.succeeded ?? true)) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Perfil alterado com sucesso',
+                                style: TextStyle(
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryColor,
+                                ),
+                              ),
+                              duration: Duration(milliseconds: 4000),
+                              backgroundColor:
+                                  FlutterFlowTheme.of(context).secondaryColor,
+                            ),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'erro',
+                                style: TextStyle(
+                                  color: FlutterFlowTheme.of(context).alternate,
+                                ),
+                              ),
+                              duration: Duration(milliseconds: 4000),
+                              backgroundColor:
+                                  FlutterFlowTheme.of(context).secondaryColor,
+                            ),
+                          );
+                        }
+
+                        setState(() {});
+                      },
+                      text: 'Salvar',
+                      options: FFButtonOptions(
+                        width: double.infinity,
+                        height: 45,
+                        color: FlutterFlowTheme.of(context).primaryColor,
+                        textStyle: FlutterFlowTheme.of(context)
+                            .subtitle2
+                            .override(
+                              fontFamily:
+                                  FlutterFlowTheme.of(context).subtitle2Family,
+                              color: Colors.white,
+                              useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                  FlutterFlowTheme.of(context).subtitle2Family),
+                            ),
+                        borderSide: BorderSide(
+                          color: Colors.transparent,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                     ),
                   ),
                 ),

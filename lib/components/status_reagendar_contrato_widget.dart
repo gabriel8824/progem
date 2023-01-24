@@ -300,7 +300,7 @@ class _StatusReagendarContratoWidgetState
                                   FFButtonWidget(
                                     onPressed: (textController!.text == null ||
                                                 textController!.text == '') ||
-                                            (calendarSelectedDay!.end >
+                                            (calendarSelectedDay!.end <=
                                                 getCurrentTimestamp)
                                         ? null
                                         : () async {
@@ -481,8 +481,6 @@ class _StatusReagendarContratoWidgetState
                                                     widget.cobranca!.reference,
                                                 sincronizado: false,
                                                 status: 'REAGENDADA',
-                                                localizacao:
-                                                    currentUserLocationValue,
                                                 nomeCliente: widget
                                                     .cobranca!.nomeCliente,
                                                 dataDeVencimento: widget
