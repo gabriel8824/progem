@@ -24,3 +24,4 @@ export 'pagina_cobrancas_v3_pendente/pagina_cobrancas_v3_pendente_widget.dart'
     show PaginaCobrancasV3PendenteWidget;
 export 'pagina_cobrancas_v3_copy/pagina_cobrancas_v3_copy_widget.dart'
     show PaginaCobrancasV3CopyWidget;
+export 'teste/teste_widget.dart' show TesteWidget;

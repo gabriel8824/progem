@@ -11,6 +11,7 @@ import 'schema/caixas_record.dart';
 import 'schema/cobrancas_realizadas_record.dart';
 import 'schema/cobrancas_realizadas1_record.dart';
 import 'schema/page_atual_user_record.dart';
+import 'schema/teste_loc_record.dart';
 import 'schema/serializers.dart';
 
 export 'dart:async' show StreamSubscription;
@@ -24,6 +25,7 @@ export 'schema/caixas_record.dart';
 export 'schema/cobrancas_realizadas_record.dart';
 export 'schema/cobrancas_realizadas1_record.dart';
 export 'schema/page_atual_user_record.dart';
+export 'schema/teste_loc_record.dart';
 
 /// Functions to query UsuarioRecords (as a Stream and as a Future).
 Future<int> queryUsuarioRecordCount({
@@ -337,6 +339,58 @@ Future<FFFirestorePage<PageAtualUserRecord>> queryPageAtualUserRecordPage({
     queryCollectionPage(
       PageAtualUserRecord.collection,
       PageAtualUserRecord.serializer,
+      queryBuilder: queryBuilder,
+      nextPageMarker: nextPageMarker,
+      pageSize: pageSize,
+      isStream: isStream,
+    );
+
+/// Functions to query TesteLocRecords (as a Stream and as a Future).
+Future<int> queryTesteLocRecordCount({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+}) =>
+    queryCollectionCount(
+      TesteLocRecord.collection,
+      queryBuilder: queryBuilder,
+      limit: limit,
+    );
+
+Stream<List<TesteLocRecord>> queryTesteLocRecord({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollection(
+      TesteLocRecord.collection,
+      TesteLocRecord.serializer,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<List<TesteLocRecord>> queryTesteLocRecordOnce({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollectionOnce(
+      TesteLocRecord.collection,
+      TesteLocRecord.serializer,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<FFFirestorePage<TesteLocRecord>> queryTesteLocRecordPage({
+  Query Function(Query)? queryBuilder,
+  DocumentSnapshot? nextPageMarker,
+  required int pageSize,
+  required bool isStream,
+}) =>
+    queryCollectionPage(
+      TesteLocRecord.collection,
+      TesteLocRecord.serializer,
       queryBuilder: queryBuilder,
       nextPageMarker: nextPageMarker,
       pageSize: pageSize,

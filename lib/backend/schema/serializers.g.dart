@@ -12,6 +12,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(CobrancasRealizadasRecord.serializer)
       ..add(CobrancasRecord.serializer)
       ..add(PageAtualUserRecord.serializer)
+      ..add(TesteLocRecord.serializer)
       ..add(UsuarioRecord.serializer))
     .build();
 

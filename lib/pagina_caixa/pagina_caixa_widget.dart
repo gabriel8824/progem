@@ -21,30 +21,21 @@ class PaginaCaixaWidget extends StatefulWidget {
 }
 
 class _PaginaCaixaWidgetState extends State<PaginaCaixaWidget> {
-  ApiCallResponse? apiResultlab;
-  final _unfocusNode = FocusNode();
-  final scaffoldKey = GlobalKey<ScaffoldState>();
   List<CaixasRecord> simpleSearchResults = [];
   String? dropDownCValue;
+  final _unfocusNode = FocusNode();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      if (FFAppState().token == null || FFAppState().token == '') {
-        context.pushNamed('PaginaLogin');
-      } else {
-        apiResultlab = await ApiProgemGroup.dadosCall.call(
-          token: FFAppState().token,
-        );
-        if (!(apiResultlab?.succeeded ?? true)) {
-          FFAppState().update(() {
-            FFAppState().token = '';
-          });
+      if (!(FFAppState().token != null && FFAppState().token != '')) {
+        GoRouter.of(context).prepareAuthEvent();
+        await signOut();
 
-          context.pushNamed('PaginaLogin');
-        }
+        context.pushNamedAuth('PaginaLogin', mounted);
       }
     });
   }

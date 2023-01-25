@@ -178,6 +178,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => PaginaCobrancasV3CopyWidget(
                 filtro: params.getParam('filtro', ParamType.String),
               ),
+            ),
+            FFRoute(
+              name: 'teste',
+              path: 'teste',
+              builder: (context, params) => TesteWidget(),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ).toRoute(appStateNotifier),

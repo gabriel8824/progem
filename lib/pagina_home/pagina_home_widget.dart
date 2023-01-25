@@ -31,19 +31,19 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
   ApiCallResponse? apiReceberCo;
   InstantTimer? instantTimer3;
   bool? net4;
-  List<CobrancasRealizadasRecord> simpleSearchResults4 = [];
+  List<CobrancasRealizadasRecord> simpleSearchResults3 = [];
   ApiCallResponse? apiResultCobrancas1;
   bool? net5;
   InstantTimer? LoopSicCo;
-  List<CobrancasRecord> simpleSearchResults3 = [];
+  List<CobrancasRecord> simpleSearchResults2 = [];
   ApiCallResponse? apiResultCobrancas;
   bool? net2;
   InstantTimer? LoopSicC;
-  List<CobrancasRecord> simpleSearchResults2 = [];
+  List<CobrancasRecord> simpleSearchResults1 = [];
   ApiCallResponse? apiResultCaixas1;
   bool? net;
   InstantTimer? LoopCaixa;
-  List<CaixasRecord> simpleSearchResults1 = [];
+  List<CaixasRecord> simpleSearchResults4 = [];
   final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -52,147 +52,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
     super.initState();
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      showModalBottomSheet(
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        isDismissible: false,
-        enableDrag: false,
-        context: context,
-        builder: (context) {
-          return Padding(
-            padding: MediaQuery.of(context).viewInsets,
-            child: LoadingWidget(),
-          );
-        },
-      ).then((value) => setState(() {}));
-
-      if (FFAppState().token != null && FFAppState().token != '') {
-        net = await actions.checkInternet();
-        if (net!) {
-          apiResultCaixas1 = await ApiProgemGroup.caixasCall.call(
-            token: FFAppState().token,
-          );
-          if ((apiResultCaixas1?.succeeded ?? true)) {
-            FFAppState().update(() {
-              FFAppState().Caixas = ApiProgemGroup.caixasCall
-                  .body(
-                    (apiResultCaixas1?.jsonBody ?? ''),
-                  )!
-                  .toList();
-            });
-            LoopCaixa = InstantTimer.periodic(
-              duration: Duration(milliseconds: 1000),
-              callback: (timer) async {
-                if (FFAppState().Caixas.length >= 1) {
-                  FFAppState().update(() {
-                    FFAppState().CaixaAtual = FFAppState().Caixas.first;
-                  });
-                  await queryCaixasRecordOnce()
-                      .then(
-                        (records) => simpleSearchResults1 = TextSearch(
-                          records
-                              .map(
-                                (record) =>
-                                    TextSearchItem(record, [record.id!]),
-                              )
-                              .toList(),
-                        )
-                            .search(getJsonField(
-                              FFAppState().CaixaAtual,
-                              r'''$.id''',
-                            ).toString().toString())
-                            .map((r) => r.object)
-                            .toList(),
-                      )
-                      .onError((_, __) => simpleSearchResults1 = [])
-                      .whenComplete(() => setState(() {}));
-
-                  if (simpleSearchResults1.length < 1) {
-                    final caixasCreateData = createCaixasRecordData(
-                      descricao: getJsonField(
-                        FFAppState().CaixaAtual,
-                        r'''$.descricao''',
-                      ).toString().toString(),
-                      id: getJsonField(
-                        FFAppState().CaixaAtual,
-                        r'''$.id''',
-                      ).toString().toString(),
-                      uid: valueOrDefault<String>(
-                        '${random_data.randomString(
-                          10,
-                          10,
-                          false,
-                          false,
-                          true,
-                        )}x${random_data.randomString(
-                          10,
-                          10,
-                          false,
-                          false,
-                          true,
-                        )}',
-                        '0',
-                      ),
-                      saldo: getJsonField(
-                        FFAppState().CaixaAtual,
-                        r'''$.saldo''',
-                      ),
-                      status: getJsonField(
-                        FFAppState().CaixaAtual,
-                        r'''$.status''',
-                      ).toString().toString(),
-                      usuario: currentUserReference,
-                      emailUsuario: currentUserEmail,
-                    );
-                    await CaixasRecord.collection.doc().set(caixasCreateData);
-                    FFAppState().update(() {
-                      FFAppState().removeFromCaixas(FFAppState().CaixaAtual);
-                    });
-                    FFAppState().update(() {
-                      FFAppState().CaixaAtual = null;
-                    });
-                  } else {
-                    FFAppState().update(() {
-                      FFAppState().removeFromCaixas(FFAppState().CaixaAtual);
-                    });
-                    FFAppState().update(() {
-                      FFAppState().CaixaAtual = null;
-                    });
-                  }
-                } else {
-                  LoopCaixa?.cancel();
-                  Navigator.pop(context);
-                }
-              },
-              startImmediately: false,
-            );
-          } else {
-            FFAppState().update(() {
-              FFAppState().token = '';
-            });
-            GoRouter.of(context).prepareAuthEvent();
-            await signOut();
-            Navigator.pop(context);
-
-            context.pushNamedAuth('PaginaLogin', mounted);
-          }
-        } else {
-          Navigator.pop(context);
-          await showModalBottomSheet(
-            isScrollControlled: true,
-            backgroundColor: Colors.transparent,
-            enableDrag: false,
-            context: context,
-            builder: (context) {
-              return Padding(
-                padding: MediaQuery.of(context).viewInsets,
-                child: ConnectedOffWidget(),
-              );
-            },
-          ).then((value) => setState(() {}));
-        }
-      } else {
-        Navigator.pop(context);
+      if (!(FFAppState().token != null && FFAppState().token != '')) {
         GoRouter.of(context).prepareAuthEvent();
         await signOut();
 
@@ -204,10 +64,10 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
   @override
   void dispose() {
     LoopCaixa?.cancel();
-    _unfocusNode.dispose();
     LoopSicC?.cancel();
     LoopSicCo?.cancel();
     instantTimer3?.cancel();
+    _unfocusNode.dispose();
     super.dispose();
   }
 
@@ -431,7 +291,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                         .first;
                                               });
                                               setState(() {
-                                                simpleSearchResults2 =
+                                                simpleSearchResults1 =
                                                     TextSearch(
                                                   paginaHomeCobrancasRecordList
                                                       .map(
@@ -450,7 +310,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                         .map((r) => r.object)
                                                         .toList();
                                               });
-                                              if (simpleSearchResults2.length >=
+                                              if (simpleSearchResults1.length >=
                                                   1) {
                                                 FFAppState().update(() {
                                                   FFAppState()
@@ -794,7 +654,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                         .first;
                                               });
                                               setState(() {
-                                                simpleSearchResults3 =
+                                                simpleSearchResults2 =
                                                     TextSearch(
                                                   paginaHomeCobrancasRecordList
                                                       .map(
@@ -813,7 +673,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                         .map((r) => r.object)
                                                         .toList();
                                               });
-                                              if (simpleSearchResults3.length >=
+                                              if (simpleSearchResults2.length >=
                                                   1) {
                                                 FFAppState().update(() {
                                                   FFAppState()
@@ -1039,10 +899,10 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                         child: Padding(
                                           padding:
                                               EdgeInsetsDirectional.fromSTEB(
-                                                  5, 5, 5, 5),
+                                                  10, 10, 10, 10),
                                           child: SizedBox(
-                                            width: 40,
-                                            height: 40,
+                                            width: 25,
+                                            height: 25,
                                             child: CircularProgressIndicator(
                                               color:
                                                   FlutterFlowTheme.of(context)
@@ -1102,7 +962,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                 );
                                               } else {
                                                 setState(() {
-                                                  simpleSearchResults4 =
+                                                  simpleSearchResults3 =
                                                       TextSearch(
                                                     containerCobrancasRealizadasRecordList
                                                         .map(
@@ -1121,13 +981,13 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                           .take(1)
                                                           .toList();
                                                 });
-                                                if (simpleSearchResults4
+                                                if (simpleSearchResults3
                                                             .first.idCaixa !=
                                                         null &&
-                                                    simpleSearchResults4
+                                                    simpleSearchResults3
                                                             .first.idCaixa !=
                                                         '') {
-                                                  if (simpleSearchResults4
+                                                  if (simpleSearchResults3
                                                           .first.sincronizado ==
                                                       false) {
                                                     apiReceberCo =
@@ -1135,18 +995,18 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                             .receberCobrancaCall
                                                             .call(
                                                       token: FFAppState().token,
-                                                      id: simpleSearchResults4
+                                                      id: simpleSearchResults3
                                                           .first.idCobranca,
                                                       valor:
-                                                          simpleSearchResults4
+                                                          simpleSearchResults3
                                                               .first.valor
                                                               ?.toString(),
                                                       formaDePagamento:
-                                                          simpleSearchResults4
+                                                          simpleSearchResults3
                                                               .first
                                                               .formaDePagamento,
                                                       idCaixa:
-                                                          simpleSearchResults4
+                                                          simpleSearchResults3
                                                               .first.idCaixa,
                                                     );
                                                     if ((apiReceberCo
@@ -1158,7 +1018,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                             getCurrentTimestamp,
                                                         sincronizado: true,
                                                       );
-                                                      await simpleSearchResults4
+                                                      await simpleSearchResults3
                                                           .first.reference
                                                           .update(
                                                               cobrancasRealizadasUpdateData);
@@ -1168,7 +1028,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                         dataSincronia:
                                                             getCurrentTimestamp,
                                                       );
-                                                      await simpleSearchResults4
+                                                      await simpleSearchResults3
                                                           .first.cobranca!
                                                           .update(
                                                               cobrancasUpdateData);
@@ -1219,10 +1079,10 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                     );
                                                   }
                                                 } else {
-                                                  if (simpleSearchResults4.first
+                                                  if (simpleSearchResults3.first
                                                           .dataRagendamento !=
                                                       null) {
-                                                    if (simpleSearchResults4
+                                                    if (simpleSearchResults3
                                                             .first
                                                             .sincronizado ==
                                                         false) {
@@ -1233,13 +1093,13 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                         token:
                                                             FFAppState().token,
                                                         dataReagendamento:
-                                                            simpleSearchResults4
+                                                            simpleSearchResults3
                                                                 .first
                                                                 .dataReagendamentoS,
                                                         obs:
-                                                            simpleSearchResults4
+                                                            simpleSearchResults3
                                                                 .first.obs,
-                                                        id: simpleSearchResults4
+                                                        id: simpleSearchResults3
                                                             .first.idCobranca,
                                                       );
                                                       if ((apiReagendarCo
@@ -1251,7 +1111,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                               getCurrentTimestamp,
                                                           sincronizado: true,
                                                         );
-                                                        await simpleSearchResults4
+                                                        await simpleSearchResults3
                                                             .first.reference
                                                             .update(
                                                                 cobrancasRealizadasUpdateData);
@@ -1261,7 +1121,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                           dataSincronia:
                                                               getCurrentTimestamp,
                                                         );
-                                                        await simpleSearchResults4
+                                                        await simpleSearchResults3
                                                             .first.cobranca!
                                                             .update(
                                                                 cobrancasUpdateData);
@@ -1443,50 +1303,283 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                               Padding(
                                 padding:
                                     EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                                child: InkWell(
-                                  onTap: () async {
-                                    context.pushNamed('PaginaCaixa');
-                                  },
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    height: 50,
-                                    decoration: BoxDecoration(),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(
+                                child: StreamBuilder<List<CaixasRecord>>(
+                                  stream: queryCaixasRecord(
+                                    queryBuilder: (caixasRecord) =>
+                                        caixasRecord.where('EmailUsuario',
+                                            isEqualTo: currentUserEmail),
+                                  ),
+                                  builder: (context, snapshot) {
+                                    // Customize what your widget looks like when it's loading.
+                                    if (!snapshot.hasData) {
+                                      return Center(
+                                        child: Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  10, 10, 10, 10),
+                                          child: SizedBox(
+                                            width: 25,
+                                            height: 25,
+                                            child: CircularProgressIndicator(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryColor,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                    List<CaixasRecord>
+                                        containerCaixasRecordList =
+                                        snapshot.data!;
+                                    return InkWell(
+                                      onTap: () async {
+                                        if (containerCaixasRecordList.length <
+                                            1) {
+                                          net = await actions.checkInternet();
+                                          if (net!) {
+                                            if (containerCaixasRecordList
+                                                    .length <
+                                                1) {
+                                              showModalBottomSheet(
+                                                isScrollControlled: true,
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                isDismissible: false,
+                                                enableDrag: false,
+                                                context: context,
+                                                builder: (context) {
+                                                  return Padding(
+                                                    padding:
+                                                        MediaQuery.of(context)
+                                                            .viewInsets,
+                                                    child: LoadSicWidget(),
+                                                  );
+                                                },
+                                              ).then(
+                                                  (value) => setState(() {}));
+
+                                              apiResultCaixas1 =
+                                                  await ApiProgemGroup
+                                                      .caixasCall
+                                                      .call(
+                                                token: FFAppState().token,
+                                              );
+                                              if ((apiResultCaixas1
+                                                      ?.succeeded ??
+                                                  true)) {
+                                                FFAppState().update(() {
+                                                  FFAppState().Caixas =
+                                                      ApiProgemGroup.caixasCall
+                                                          .body(
+                                                            (apiResultCaixas1
+                                                                    ?.jsonBody ??
+                                                                ''),
+                                                          )!
+                                                          .toList();
+                                                });
+                                                LoopCaixa =
+                                                    InstantTimer.periodic(
+                                                  duration: Duration(
+                                                      milliseconds: 1000),
+                                                  callback: (timer) async {
+                                                    if (FFAppState()
+                                                            .Caixas
+                                                            .length >=
+                                                        1) {
+                                                      FFAppState().update(() {
+                                                        FFAppState()
+                                                                .CaixaAtual =
+                                                            FFAppState()
+                                                                .Caixas
+                                                                .first;
+                                                      });
+                                                      setState(() {
+                                                        simpleSearchResults4 =
+                                                            TextSearch(
+                                                          containerCaixasRecordList
+                                                              .map(
+                                                                (record) =>
+                                                                    TextSearchItem(
+                                                                        record,
+                                                                        [
+                                                                      record.id!
+                                                                    ]),
+                                                              )
+                                                              .toList(),
+                                                        )
+                                                                .search(
+                                                                    getJsonField(
+                                                                  FFAppState()
+                                                                      .CaixaAtual,
+                                                                  r'''$.id''',
+                                                                ).toString())
+                                                                .map((r) =>
+                                                                    r.object)
+                                                                .toList();
+                                                      });
+                                                      if (simpleSearchResults4
+                                                              .length <
+                                                          1) {
+                                                        final caixasCreateData =
+                                                            createCaixasRecordData(
+                                                          descricao:
+                                                              getJsonField(
+                                                            FFAppState()
+                                                                .CaixaAtual,
+                                                            r'''$.descricao''',
+                                                          ).toString(),
+                                                          id: getJsonField(
+                                                            FFAppState()
+                                                                .CaixaAtual,
+                                                            r'''$.id''',
+                                                          ).toString(),
+                                                          uid: valueOrDefault<
+                                                              String>(
+                                                            '${random_data.randomString(
+                                                              10,
+                                                              10,
+                                                              false,
+                                                              false,
+                                                              true,
+                                                            )}x${random_data.randomString(
+                                                              10,
+                                                              10,
+                                                              false,
+                                                              false,
+                                                              true,
+                                                            )}',
+                                                            '0',
+                                                          ),
+                                                          saldo: getJsonField(
+                                                            FFAppState()
+                                                                .CaixaAtual,
+                                                            r'''$.saldo''',
+                                                          ),
+                                                          status: getJsonField(
+                                                            FFAppState()
+                                                                .CaixaAtual,
+                                                            r'''$.status''',
+                                                          ).toString(),
+                                                          usuario:
+                                                              currentUserReference,
+                                                          emailUsuario:
+                                                              currentUserEmail,
+                                                        );
+                                                        await CaixasRecord
+                                                            .collection
+                                                            .doc()
+                                                            .set(
+                                                                caixasCreateData);
+                                                        FFAppState().update(() {
+                                                          FFAppState()
+                                                              .removeFromCaixas(
+                                                                  FFAppState()
+                                                                      .CaixaAtual);
+                                                        });
+                                                        FFAppState().update(() {
+                                                          FFAppState()
+                                                                  .CaixaAtual =
+                                                              null;
+                                                        });
+                                                      } else {
+                                                        FFAppState().update(() {
+                                                          FFAppState()
+                                                              .removeFromCaixas(
+                                                                  FFAppState()
+                                                                      .CaixaAtual);
+                                                        });
+                                                        FFAppState().update(() {
+                                                          FFAppState()
+                                                                  .CaixaAtual =
+                                                              null;
+                                                        });
+                                                      }
+                                                    } else {
+                                                      LoopCaixa?.cancel();
+                                                      Navigator.pop(context);
+                                                    }
+                                                  },
+                                                  startImmediately: false,
+                                                );
+                                              } else {
+                                                FFAppState().update(() {
+                                                  FFAppState().token = '';
+                                                });
+                                                GoRouter.of(context)
+                                                    .prepareAuthEvent();
+                                                await signOut();
+                                                Navigator.pop(context);
+
+                                                context.pushNamedAuth(
+                                                    'PaginaLogin', mounted);
+                                              }
+                                            }
+                                          } else {
+                                            await showModalBottomSheet(
+                                              isScrollControlled: true,
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              enableDrag: false,
+                                              context: context,
+                                              builder: (context) {
+                                                return Padding(
+                                                  padding:
+                                                      MediaQuery.of(context)
+                                                          .viewInsets,
+                                                  child: ConnectedOffWidget(),
+                                                );
+                                              },
+                                            ).then((value) => setState(() {}));
+                                          }
+                                        } else {
+                                          context.pushNamedAuth(
+                                              'PaginaCaixa', mounted);
+                                        }
+
+                                        setState(() {});
+                                      },
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        height: 50,
+                                        decoration: BoxDecoration(),
+                                        child: Column(
                                           mainAxisSize: MainAxisSize.max,
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(5, 0, 0, 0),
-                                              child: Container(
-                                                height: 40,
-                                                decoration: BoxDecoration(),
-                                                child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  children: [
-                                                    Image.asset(
-                                                      'assets/images/arcticons_material-calculator.png',
-                                                      width: 25,
-                                                      height: 25,
-                                                      fit: BoxFit.contain,
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  12, 0, 0, 0),
-                                                      child: AutoSizeText(
-                                                        'Caixa / Saldo',
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
+                                            Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(5, 0, 0, 0),
+                                                  child: Container(
+                                                    height: 40,
+                                                    decoration: BoxDecoration(),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      children: [
+                                                        Image.asset(
+                                                          'assets/images/arcticons_material-calculator.png',
+                                                          width: 25,
+                                                          height: 25,
+                                                          fit: BoxFit.contain,
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(12,
+                                                                      0, 0, 0),
+                                                          child: AutoSizeText(
+                                                            'Caixa / Saldo',
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
                                                                 .bodyText1
                                                                 .override(
                                                                   fontFamily:
@@ -1499,29 +1592,31 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                                               .bodyText1Family),
                                                                   lineHeight: 1,
                                                                 ),
-                                                      ),
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                  ],
+                                                  ),
                                                 ),
-                                              ),
+                                                Icon(
+                                                  Icons.arrow_forward_ios,
+                                                  color: Colors.black,
+                                                  size: 24,
+                                                ),
+                                              ],
                                             ),
-                                            Icon(
-                                              Icons.arrow_forward_ios,
-                                              color: Colors.black,
-                                              size: 24,
+                                            Divider(
+                                              height: 1,
+                                              thickness: 1,
+                                              indent: 1,
+                                              endIndent: 1,
+                                              color: Color(0xFF545353),
                                             ),
                                           ],
                                         ),
-                                        Divider(
-                                          height: 1,
-                                          thickness: 1,
-                                          indent: 1,
-                                          endIndent: 1,
-                                          color: Color(0xFF545353),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                      ),
+                                    );
+                                  },
                                 ),
                               ),
                             ],
