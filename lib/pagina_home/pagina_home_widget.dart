@@ -422,7 +422,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                   });
                                                 }
                                               } else {
-                                                null?.cancel();
+                                                LoopSicC?.cancel();
                                                 FFAppState().update(() {
                                                   FFAppState().PaginaAtual = 1;
                                                 });
