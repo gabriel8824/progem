@@ -113,13 +113,6 @@ class _$CobrancasRecordSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(LatLng)));
     }
-    value = object.valorParcela;
-    if (value != null) {
-      result
-        ..add('ValorParcela')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(double)));
-    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -197,10 +190,6 @@ class _$CobrancasRecordSerializer
           result.localizacao = serializers.deserialize(value,
               specifiedType: const FullType(LatLng)) as LatLng?;
           break;
-        case 'ValorParcela':
-          result.valorParcela = serializers.deserialize(value,
-              specifiedType: const FullType(double)) as double?;
-          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -242,8 +231,6 @@ class _$CobrancasRecord extends CobrancasRecord {
   @override
   final LatLng? localizacao;
   @override
-  final double? valorParcela;
-  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$CobrancasRecord([void Function(CobrancasRecordBuilder)? updates]) =>
@@ -263,7 +250,6 @@ class _$CobrancasRecord extends CobrancasRecord {
       this.emailUsuario,
       this.uId,
       this.localizacao,
-      this.valorParcela,
       this.ffRef})
       : super._();
 
@@ -292,7 +278,6 @@ class _$CobrancasRecord extends CobrancasRecord {
         emailUsuario == other.emailUsuario &&
         uId == other.uId &&
         localizacao == other.localizacao &&
-        valorParcela == other.valorParcela &&
         ffRef == other.ffRef;
   }
 
@@ -312,24 +297,22 @@ class _$CobrancasRecord extends CobrancasRecord {
                                                 $jc(
                                                     $jc(
                                                         $jc(
-                                                            $jc(
-                                                                0,
-                                                                nomeCliente
-                                                                    .hashCode),
-                                                            numeroContrato
+                                                            0,
+                                                            nomeCliente
                                                                 .hashCode),
-                                                        valor.hashCode),
-                                                    dataDeVencimento.hashCode),
-                                                endereco.hashCode),
-                                            bairro.hashCode),
-                                        status.hashCode),
-                                    id.hashCode),
-                                dataSincronia.hashCode),
-                            usuario.hashCode),
-                        emailUsuario.hashCode),
-                    uId.hashCode),
-                localizacao.hashCode),
-            valorParcela.hashCode),
+                                                        numeroContrato
+                                                            .hashCode),
+                                                    valor.hashCode),
+                                                dataDeVencimento.hashCode),
+                                            endereco.hashCode),
+                                        bairro.hashCode),
+                                    status.hashCode),
+                                id.hashCode),
+                            dataSincronia.hashCode),
+                        usuario.hashCode),
+                    emailUsuario.hashCode),
+                uId.hashCode),
+            localizacao.hashCode),
         ffRef.hashCode));
   }
 
@@ -349,7 +332,6 @@ class _$CobrancasRecord extends CobrancasRecord {
           ..add('emailUsuario', emailUsuario)
           ..add('uId', uId)
           ..add('localizacao', localizacao)
-          ..add('valorParcela', valorParcela)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -414,10 +396,6 @@ class CobrancasRecordBuilder
   LatLng? get localizacao => _$this._localizacao;
   set localizacao(LatLng? localizacao) => _$this._localizacao = localizacao;
 
-  double? _valorParcela;
-  double? get valorParcela => _$this._valorParcela;
-  set valorParcela(double? valorParcela) => _$this._valorParcela = valorParcela;
-
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -442,7 +420,6 @@ class CobrancasRecordBuilder
       _emailUsuario = $v.emailUsuario;
       _uId = $v.uId;
       _localizacao = $v.localizacao;
-      _valorParcela = $v.valorParcela;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -479,7 +456,6 @@ class CobrancasRecordBuilder
             emailUsuario: emailUsuario,
             uId: uId,
             localizacao: localizacao,
-            valorParcela: valorParcela,
             ffRef: ffRef);
     replace(_$result);
     return _$result;
