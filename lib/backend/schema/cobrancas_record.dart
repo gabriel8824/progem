@@ -50,6 +50,9 @@ abstract class CobrancasRecord
   @BuiltValueField(wireName: 'Localizacao')
   LatLng? get localizacao;
 
+  @BuiltValueField(wireName: 'ValorParcela')
+  double? get valorParcela;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -63,7 +66,8 @@ abstract class CobrancasRecord
     ..status = ''
     ..id = ''
     ..emailUsuario = ''
-    ..uId = '';
+    ..uId = ''
+    ..valorParcela = 0.0;
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('Cobrancas');
@@ -100,6 +104,7 @@ Map<String, dynamic> createCobrancasRecordData({
   String? emailUsuario,
   String? uId,
   LatLng? localizacao,
+  double? valorParcela,
 }) {
   final firestoreData = serializers.toFirestore(
     CobrancasRecord.serializer,
@@ -117,7 +122,8 @@ Map<String, dynamic> createCobrancasRecordData({
         ..usuario = usuario
         ..emailUsuario = emailUsuario
         ..uId = uId
-        ..localizacao = localizacao,
+        ..localizacao = localizacao
+        ..valorParcela = valorParcela,
     ),
   );
 

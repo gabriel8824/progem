@@ -211,19 +211,24 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              AutoSizeText(
-                                'Cobranças ',
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyText1
-                                    .override(
-                                      fontFamily: 'Roboto',
-                                      fontSize: 18,
-                                      useGoogleFonts: GoogleFonts.asMap()
-                                          .containsKey(
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyText1Family),
-                                      lineHeight: 1,
-                                    ),
+                              InkWell(
+                                onTap: () async {
+                                  context.pushNamed('teste');
+                                },
+                                child: AutoSizeText(
+                                  'Cobranças ',
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyText1
+                                      .override(
+                                        fontFamily: 'Roboto',
+                                        fontSize: 18,
+                                        useGoogleFonts: GoogleFonts.asMap()
+                                            .containsKey(
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyText1Family),
+                                        lineHeight: 1,
+                                      ),
+                                ),
                               ),
                               Padding(
                                 padding:
@@ -1514,6 +1519,9 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                 context.pushNamedAuth(
                                                     'PaginaLogin', mounted);
                                               }
+                                            } else {
+                                              context.pushNamedAuth(
+                                                  'PaginaCaixa', mounted);
                                             }
                                           } else {
                                             await showModalBottomSheet(
