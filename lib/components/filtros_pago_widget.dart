@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class FiltrosWidget extends StatefulWidget {
-  const FiltrosWidget({
+class FiltrosPagoWidget extends StatefulWidget {
+  const FiltrosPagoWidget({
     Key? key,
     this.filtro,
   }) : super(key: key);
@@ -15,10 +15,10 @@ class FiltrosWidget extends StatefulWidget {
   final String? filtro;
 
   @override
-  _FiltrosWidgetState createState() => _FiltrosWidgetState();
+  _FiltrosPagoWidgetState createState() => _FiltrosPagoWidgetState();
 }
 
-class _FiltrosWidgetState extends State<FiltrosWidget> {
+class _FiltrosPagoWidgetState extends State<FiltrosPagoWidget> {
   String? radioButtonValue;
 
   @override
@@ -92,6 +92,7 @@ class _FiltrosWidgetState extends State<FiltrosWidget> {
                         'Em atraso',
                         'Em aberto'
                       ].toList(),
+                      initialValue: 'Pago',
                       onChanged: (val) async {
                         setState(() => radioButtonValue = val);
                         if (radioButtonValue == 'Pago') {

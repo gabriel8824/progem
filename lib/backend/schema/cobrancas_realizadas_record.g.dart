@@ -160,6 +160,33 @@ class _$CobrancasRealizadasRecordSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.idUsuario;
+    if (value != null) {
+      result
+        ..add('IdUsuario')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.valorParcela;
+    if (value != null) {
+      result
+        ..add('ValorParcela')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
+    }
+    value = object.numeroParcela;
+    if (value != null) {
+      result
+        ..add('NumeroParcela')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.numeroEnd;
+    if (value != null) {
+      result
+        ..add('NumeroEnd')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -263,6 +290,22 @@ class _$CobrancasRealizadasRecordSerializer
           result.dataReagendamentoS = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
+        case 'IdUsuario':
+          result.idUsuario = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'ValorParcela':
+          result.valorParcela = serializers.deserialize(value,
+              specifiedType: const FullType(double)) as double?;
+          break;
+        case 'NumeroParcela':
+          result.numeroParcela = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
+          break;
+        case 'NumeroEnd':
+          result.numeroEnd = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -316,6 +359,14 @@ class _$CobrancasRealizadasRecord extends CobrancasRealizadasRecord {
   @override
   final String? dataReagendamentoS;
   @override
+  final String? idUsuario;
+  @override
+  final double? valorParcela;
+  @override
+  final int? numeroParcela;
+  @override
+  final String? numeroEnd;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$CobrancasRealizadasRecord(
@@ -342,6 +393,10 @@ class _$CobrancasRealizadasRecord extends CobrancasRealizadasRecord {
       this.obs,
       this.dataRagendamento,
       this.dataReagendamentoS,
+      this.idUsuario,
+      this.valorParcela,
+      this.numeroParcela,
+      this.numeroEnd,
       this.ffRef})
       : super._();
 
@@ -377,6 +432,10 @@ class _$CobrancasRealizadasRecord extends CobrancasRealizadasRecord {
         obs == other.obs &&
         dataRagendamento == other.dataRagendamento &&
         dataReagendamentoS == other.dataReagendamentoS &&
+        idUsuario == other.idUsuario &&
+        valorParcela == other.valorParcela &&
+        numeroParcela == other.numeroParcela &&
+        numeroEnd == other.numeroEnd &&
         ffRef == other.ffRef;
   }
 
@@ -400,25 +459,25 @@ class _$CobrancasRealizadasRecord extends CobrancasRealizadasRecord {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc(0, user.hashCode),
-                                                                                data.hashCode),
-                                                                            uid.hashCode),
-                                                                        idCobranca.hashCode),
-                                                                    valor.hashCode),
-                                                                formaDePagamento.hashCode),
-                                                            idCaixa.hashCode),
-                                                        dataDeSincronia.hashCode),
-                                                    cobranca.hashCode),
-                                                sincronizado.hashCode),
-                                            status.hashCode),
-                                        localizacao.hashCode),
-                                    nomeCliente.hashCode),
-                                dataDeVencimento.hashCode),
-                            numeroContrato.hashCode),
-                        emailUser.hashCode),
-                    obs.hashCode),
-                dataRagendamento.hashCode),
-            dataReagendamentoS.hashCode),
+                                                                            $jc($jc($jc($jc($jc($jc(0, user.hashCode), data.hashCode), uid.hashCode), idCobranca.hashCode), valor.hashCode),
+                                                                                formaDePagamento.hashCode),
+                                                                            idCaixa.hashCode),
+                                                                        dataDeSincronia.hashCode),
+                                                                    cobranca.hashCode),
+                                                                sincronizado.hashCode),
+                                                            status.hashCode),
+                                                        localizacao.hashCode),
+                                                    nomeCliente.hashCode),
+                                                dataDeVencimento.hashCode),
+                                            numeroContrato.hashCode),
+                                        emailUser.hashCode),
+                                    obs.hashCode),
+                                dataRagendamento.hashCode),
+                            dataReagendamentoS.hashCode),
+                        idUsuario.hashCode),
+                    valorParcela.hashCode),
+                numeroParcela.hashCode),
+            numeroEnd.hashCode),
         ffRef.hashCode));
   }
 
@@ -444,6 +503,10 @@ class _$CobrancasRealizadasRecord extends CobrancasRealizadasRecord {
           ..add('obs', obs)
           ..add('dataRagendamento', dataRagendamento)
           ..add('dataReagendamentoS', dataReagendamentoS)
+          ..add('idUsuario', idUsuario)
+          ..add('valorParcela', valorParcela)
+          ..add('numeroParcela', numeroParcela)
+          ..add('numeroEnd', numeroEnd)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -537,6 +600,23 @@ class CobrancasRealizadasRecordBuilder
   set dataReagendamentoS(String? dataReagendamentoS) =>
       _$this._dataReagendamentoS = dataReagendamentoS;
 
+  String? _idUsuario;
+  String? get idUsuario => _$this._idUsuario;
+  set idUsuario(String? idUsuario) => _$this._idUsuario = idUsuario;
+
+  double? _valorParcela;
+  double? get valorParcela => _$this._valorParcela;
+  set valorParcela(double? valorParcela) => _$this._valorParcela = valorParcela;
+
+  int? _numeroParcela;
+  int? get numeroParcela => _$this._numeroParcela;
+  set numeroParcela(int? numeroParcela) =>
+      _$this._numeroParcela = numeroParcela;
+
+  String? _numeroEnd;
+  String? get numeroEnd => _$this._numeroEnd;
+  set numeroEnd(String? numeroEnd) => _$this._numeroEnd = numeroEnd;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -567,6 +647,10 @@ class CobrancasRealizadasRecordBuilder
       _obs = $v.obs;
       _dataRagendamento = $v.dataRagendamento;
       _dataReagendamentoS = $v.dataReagendamentoS;
+      _idUsuario = $v.idUsuario;
+      _valorParcela = $v.valorParcela;
+      _numeroParcela = $v.numeroParcela;
+      _numeroEnd = $v.numeroEnd;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -609,6 +693,10 @@ class CobrancasRealizadasRecordBuilder
             obs: obs,
             dataRagendamento: dataRagendamento,
             dataReagendamentoS: dataReagendamentoS,
+            idUsuario: idUsuario,
+            valorParcela: valorParcela,
+            numeroParcela: numeroParcela,
+            numeroEnd: numeroEnd,
             ffRef: ffRef);
     replace(_$result);
     return _$result;

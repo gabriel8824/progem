@@ -173,9 +173,16 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ),
             ),
             FFRoute(
-              name: 'PaginaCobrancasV3Copy',
-              path: 'paginaCobrancasV3Copy',
-              builder: (context, params) => PaginaCobrancasV3CopyWidget(
+              name: 'PaginaCobrancasV3Realizadas',
+              path: 'paginaCobrancasV3Realizadas',
+              builder: (context, params) => PaginaCobrancasV3RealizadasWidget(
+                filtro: params.getParam('filtro', ParamType.String),
+              ),
+            ),
+            FFRoute(
+              name: 'PaginaCobrancasV3BucarNome',
+              path: 'paginaCobrancasV3BucarNome',
+              builder: (context, params) => PaginaCobrancasV3BucarNomeWidget(
                 filtro: params.getParam('filtro', ParamType.String),
               ),
             ),
@@ -183,6 +190,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               name: 'teste',
               path: 'teste',
               builder: (context, params) => TesteWidget(),
+            ),
+            FFRoute(
+              name: 'PaginaHomeCopy',
+              path: 'paginaHomeCopy',
+              builder: (context, params) => PaginaHomeCopyWidget(),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ).toRoute(appStateNotifier),

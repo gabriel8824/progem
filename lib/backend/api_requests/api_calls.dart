@@ -522,7 +522,7 @@ class ListarCobrancasCall {
         r'''$.data[:].status''',
         true,
       );
-  dynamic idNumero(dynamic response) => getJsonField(
+  dynamic numeroParcela(dynamic response) => getJsonField(
         response,
         r'''$.data[:].numero''',
         true,
@@ -556,6 +556,24 @@ class ListarCobrancasCall {
         response,
         r'''$.data[:].id''',
         true,
+      );
+  dynamic quantidadeDePagina(dynamic response) => getJsonField(
+        response,
+        r'''$.pageCount''',
+      );
+  dynamic valorParcela(dynamic response) => getJsonField(
+        response,
+        r'''$.data[:].valor''',
+        true,
+      );
+  dynamic numeroEnd(dynamic response) => getJsonField(
+        response,
+        r'''$.data[:].cliente.endereco.numero''',
+        true,
+      );
+  dynamic paginaAtual(dynamic response) => getJsonField(
+        response,
+        r'''$.currentPageIndex''',
       );
 }
 

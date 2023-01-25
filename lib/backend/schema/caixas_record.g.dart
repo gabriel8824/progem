@@ -70,6 +70,13 @@ class _$CaixasRecordSerializer implements StructuredSerializer<CaixasRecord> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.idUsuario;
+    if (value != null) {
+      result
+        ..add('IdUsuario')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -123,6 +130,10 @@ class _$CaixasRecordSerializer implements StructuredSerializer<CaixasRecord> {
           result.emailUsuario = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
+        case 'IdUsuario':
+          result.idUsuario = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -152,6 +163,8 @@ class _$CaixasRecord extends CaixasRecord {
   @override
   final String? emailUsuario;
   @override
+  final String? idUsuario;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$CaixasRecord([void Function(CaixasRecordBuilder)? updates]) =>
@@ -165,6 +178,7 @@ class _$CaixasRecord extends CaixasRecord {
       this.status,
       this.usuario,
       this.emailUsuario,
+      this.idUsuario,
       this.ffRef})
       : super._();
 
@@ -186,6 +200,7 @@ class _$CaixasRecord extends CaixasRecord {
         status == other.status &&
         usuario == other.usuario &&
         emailUsuario == other.emailUsuario &&
+        idUsuario == other.idUsuario &&
         ffRef == other.ffRef;
   }
 
@@ -196,12 +211,14 @@ class _$CaixasRecord extends CaixasRecord {
             $jc(
                 $jc(
                     $jc(
-                        $jc($jc($jc(0, descricao.hashCode), id.hashCode),
-                            uid.hashCode),
-                        saldo.hashCode),
-                    status.hashCode),
-                usuario.hashCode),
-            emailUsuario.hashCode),
+                        $jc(
+                            $jc($jc($jc(0, descricao.hashCode), id.hashCode),
+                                uid.hashCode),
+                            saldo.hashCode),
+                        status.hashCode),
+                    usuario.hashCode),
+                emailUsuario.hashCode),
+            idUsuario.hashCode),
         ffRef.hashCode));
   }
 
@@ -215,6 +232,7 @@ class _$CaixasRecord extends CaixasRecord {
           ..add('status', status)
           ..add('usuario', usuario)
           ..add('emailUsuario', emailUsuario)
+          ..add('idUsuario', idUsuario)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -252,6 +270,10 @@ class CaixasRecordBuilder
   String? get emailUsuario => _$this._emailUsuario;
   set emailUsuario(String? emailUsuario) => _$this._emailUsuario = emailUsuario;
 
+  String? _idUsuario;
+  String? get idUsuario => _$this._idUsuario;
+  set idUsuario(String? idUsuario) => _$this._idUsuario = idUsuario;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -270,6 +292,7 @@ class CaixasRecordBuilder
       _status = $v.status;
       _usuario = $v.usuario;
       _emailUsuario = $v.emailUsuario;
+      _idUsuario = $v.idUsuario;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -300,6 +323,7 @@ class CaixasRecordBuilder
             status: status,
             usuario: usuario,
             emailUsuario: emailUsuario,
+            idUsuario: idUsuario,
             ffRef: ffRef);
     replace(_$result);
     return _$result;

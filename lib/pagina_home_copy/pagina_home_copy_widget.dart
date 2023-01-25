@@ -3,6 +3,7 @@ import '../backend/api_requests/api_calls.dart';
 import '../backend/backend.dart';
 import '../components/connected_off_widget.dart';
 import '../components/load_sic_widget.dart';
+import '../components/loading_widget.dart';
 import '../components/menu_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
@@ -18,27 +19,31 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:text_search/text_search.dart';
 
-class PaginaHomeWidget extends StatefulWidget {
-  const PaginaHomeWidget({Key? key}) : super(key: key);
+class PaginaHomeCopyWidget extends StatefulWidget {
+  const PaginaHomeCopyWidget({Key? key}) : super(key: key);
 
   @override
-  _PaginaHomeWidgetState createState() => _PaginaHomeWidgetState();
+  _PaginaHomeCopyWidgetState createState() => _PaginaHomeCopyWidgetState();
 }
 
-class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
+class _PaginaHomeCopyWidgetState extends State<PaginaHomeCopyWidget> {
   ApiCallResponse? apiReagendarCo;
   ApiCallResponse? apiReceberCo;
   InstantTimer? instantTimer3;
   bool? net4;
-  List<CobrancasRealizadasRecord> simpleSearchResults2 = [];
-  ApiCallResponse? apiResultCobrancasTT;
-  InstantTimer? LoopSicC;
+  List<CobrancasRealizadasRecord> simpleSearchResults3 = [];
+  ApiCallResponse? apiResultCobrancas1;
+  bool? net5;
+  InstantTimer? LoopSicCo;
+  List<CobrancasRecord> simpleSearchResults2 = [];
+  ApiCallResponse? apiResultCobrancas;
   bool? net2;
+  InstantTimer? LoopSicC;
   List<CobrancasRecord> simpleSearchResults1 = [];
   ApiCallResponse? apiResultCaixas1;
   bool? net;
   InstantTimer? LoopCaixa;
-  List<CaixasRecord> simpleSearchResults3 = [];
+  List<CaixasRecord> simpleSearchResults4 = [];
   final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -60,6 +65,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
   void dispose() {
     LoopCaixa?.cancel();
     LoopSicC?.cancel();
+    LoopSicCo?.cancel();
     instantTimer3?.cancel();
     _unfocusNode.dispose();
     super.dispose();
@@ -87,7 +93,8 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
             ),
           );
         }
-        List<CobrancasRecord> paginaHomeCobrancasRecordList = snapshot.data!;
+        List<CobrancasRecord> paginaHomeCopyCobrancasRecordList =
+            snapshot.data!;
         return Scaffold(
           key: scaffoldKey,
           backgroundColor: Color(0xFFEEEEEE),
@@ -229,70 +236,65 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                     EdgeInsetsDirectional.fromSTEB(0, 60, 0, 0),
                                 child: InkWell(
                                   onTap: () async {
+                                    showModalBottomSheet(
+                                      isScrollControlled: true,
+                                      backgroundColor: Colors.transparent,
+                                      isDismissible: false,
+                                      enableDrag: false,
+                                      context: context,
+                                      builder: (context) {
+                                        return Padding(
+                                          padding:
+                                              MediaQuery.of(context).viewInsets,
+                                          child: LoadSicWidget(),
+                                        );
+                                      },
+                                    ).then((value) => setState(() {}));
+
                                     net2 = await actions.checkInternet();
                                     if (net2!) {
-                                      if (paginaHomeCobrancasRecordList.length <
+                                      if (paginaHomeCopyCobrancasRecordList
+                                              .length <
                                           1) {
-                                        showModalBottomSheet(
-                                          isScrollControlled: true,
-                                          backgroundColor: Colors.transparent,
-                                          isDismissible: false,
-                                          enableDrag: false,
-                                          context: context,
-                                          builder: (context) {
-                                            return Padding(
-                                              padding: MediaQuery.of(context)
-                                                  .viewInsets,
-                                              child: LoadSicWidget(),
-                                            );
-                                          },
-                                        ).then((value) => setState(() {}));
-
-                                        FFAppState().update(() {
-                                          FFAppState().PaginaAtual = 0;
-                                        });
-                                        LoopSicC = InstantTimer.periodic(
-                                          duration:
-                                              Duration(milliseconds: 1000),
-                                          callback: (timer) async {
-                                            apiResultCobrancasTT =
-                                                await ApiProgemGroup
-                                                    .listarCobrancasCall
-                                                    .call(
-                                              token: FFAppState().token,
-                                              pagina: valueOrDefault<int>(
-                                                columnPageAtualUserRecord!
-                                                        .pagina! +
-                                                    1,
+                                        apiResultCobrancas =
+                                            await ApiProgemGroup
+                                                .listarCobrancasCall
+                                                .call(
+                                          token: FFAppState().token,
+                                          pagina: valueOrDefault<int>(
+                                            columnPageAtualUserRecord!.pagina! +
                                                 1,
-                                              ),
-                                            );
-                                            FFAppState().update(() {
-                                              FFAppState().PaginaAtual =
-                                                  FFAppState().PaginaAtual + 1;
-                                            });
-                                            if ((apiResultCobrancasTT
-                                                    ?.succeeded ??
-                                                true)) {
-                                              FFAppState().update(() {
-                                                FFAppState().CobrancasOffV2 =
-                                                    ApiProgemGroup
-                                                        .listarCobrancasCall
-                                                        .dados(
-                                                          (apiResultCobrancasTT
-                                                                  ?.jsonBody ??
-                                                              ''),
-                                                        )!
-                                                        .toList();
-                                              });
-                                              if (FFAppState().PaginaAtual >
-                                                  ApiProgemGroup
-                                                      .listarCobrancasCall
-                                                      .quantidadeDePagina(
-                                                    (apiResultCobrancasTT
-                                                            ?.jsonBody ??
-                                                        ''),
-                                                  )) {
+                                            1,
+                                          ),
+                                        );
+                                        if ((apiResultCobrancas?.succeeded ??
+                                            true)) {
+                                          FFAppState().update(() {
+                                            FFAppState().CobrancasOffV2 =
+                                                ApiProgemGroup
+                                                    .listarCobrancasCall
+                                                    .dados(
+                                                      (apiResultCobrancas
+                                                              ?.jsonBody ??
+                                                          ''),
+                                                    )!
+                                                    .toList();
+                                          });
+
+                                          final pageAtualUserUpdateData = {
+                                            'Pagina': FieldValue.increment(1),
+                                          };
+                                          await columnPageAtualUserRecord!
+                                              .reference
+                                              .update(pageAtualUserUpdateData);
+                                          LoopSicC = InstantTimer.periodic(
+                                            duration:
+                                                Duration(milliseconds: 1000),
+                                            callback: (timer) async {
+                                              if (FFAppState()
+                                                      .CobrancasOffV2
+                                                      .length >=
+                                                  1) {
                                                 FFAppState().update(() {
                                                   FFAppState().CobrancaAtual =
                                                       FFAppState()
@@ -302,7 +304,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                 setState(() {
                                                   simpleSearchResults1 =
                                                       TextSearch(
-                                                    paginaHomeCobrancasRecordList
+                                                    paginaHomeCopyCobrancasRecordList
                                                         .map(
                                                           (record) =>
                                                               TextSearchItem(
@@ -422,39 +424,35 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                 }
                                               } else {
                                                 null?.cancel();
-                                                FFAppState().update(() {
-                                                  FFAppState().PaginaAtual = 0;
-                                                });
                                                 Navigator.pop(context);
 
                                                 context.pushNamed(
                                                     'PaginaCobrancasV3');
                                               }
-                                            } else {
-                                              Navigator.pop(context);
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    'Algo deu errado',
-                                                    style: TextStyle(
-                                                      color: FlutterFlowTheme
-                                                              .of(context)
-                                                          .primaryBackground,
-                                                    ),
-                                                  ),
-                                                  duration: Duration(
-                                                      milliseconds: 4000),
-                                                  backgroundColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .alternate,
+                                            },
+                                            startImmediately: false,
+                                          );
+                                        } else {
+                                          Navigator.pop(context);
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                'Algo deu errado',
+                                                style: TextStyle(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryBackground,
                                                 ),
-                                              );
-                                            }
-                                          },
-                                          startImmediately: false,
-                                        );
+                                              ),
+                                              duration:
+                                                  Duration(milliseconds: 4000),
+                                              backgroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .alternate,
+                                            ),
+                                          );
+                                        }
                                       } else {
                                         Navigator.pop(context);
 
@@ -633,79 +631,280 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                               Padding(
                                 padding:
                                     EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 50,
-                                  decoration: BoxDecoration(),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    5, 0, 0, 0),
-                                            child: Container(
-                                              height: 40,
-                                              decoration: BoxDecoration(),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: [
-                                                  Image.asset(
-                                                    'assets/images/Group_(2).png',
-                                                    width: 25,
-                                                    height: 25,
-                                                    fit: BoxFit.contain,
+                                child: InkWell(
+                                  onTap: () async {
+                                    showModalBottomSheet(
+                                      isScrollControlled: true,
+                                      backgroundColor: Colors.transparent,
+                                      isDismissible: false,
+                                      enableDrag: false,
+                                      context: context,
+                                      builder: (context) {
+                                        return Padding(
+                                          padding:
+                                              MediaQuery.of(context).viewInsets,
+                                          child: LoadingWidget(),
+                                        );
+                                      },
+                                    ).then((value) => setState(() {}));
+
+                                    net5 = await actions.checkInternet();
+                                    if (net5!) {
+                                      apiResultCobrancas1 = await ApiProgemGroup
+                                          .listarCobrancasCall
+                                          .call(
+                                        token: FFAppState().token,
+                                        status: 'REAGENDADA',
+                                      );
+                                      if ((apiResultCobrancas1?.succeeded ??
+                                          true)) {
+                                        FFAppState().update(() {
+                                          FFAppState().CobrancasOffV2 =
+                                              ApiProgemGroup.listarCobrancasCall
+                                                  .dados(
+                                                    (apiResultCobrancas1
+                                                            ?.jsonBody ??
+                                                        ''),
+                                                  )!
+                                                  .toList();
+                                        });
+                                        LoopSicCo = InstantTimer.periodic(
+                                          duration:
+                                              Duration(milliseconds: 1000),
+                                          callback: (timer) async {
+                                            if (FFAppState()
+                                                    .CobrancasOffV2
+                                                    .length >=
+                                                1) {
+                                              FFAppState().update(() {
+                                                FFAppState().CobrancaAtual =
+                                                    FFAppState()
+                                                        .CobrancasOffV2
+                                                        .first;
+                                              });
+                                              setState(() {
+                                                simpleSearchResults2 =
+                                                    TextSearch(
+                                                  paginaHomeCopyCobrancasRecordList
+                                                      .map(
+                                                        (record) =>
+                                                            TextSearchItem(
+                                                                record,
+                                                                [record.id!]),
+                                                      )
+                                                      .toList(),
+                                                )
+                                                        .search(getJsonField(
+                                                          FFAppState()
+                                                              .CobrancaAtual,
+                                                          r'''$.id''',
+                                                        ).toString())
+                                                        .map((r) => r.object)
+                                                        .toList();
+                                              });
+                                              if (simpleSearchResults2.length >=
+                                                  1) {
+                                                FFAppState().update(() {
+                                                  FFAppState()
+                                                      .removeFromCobrancasOffV2(
+                                                          FFAppState()
+                                                              .CobrancaAtual);
+                                                });
+                                                FFAppState().update(() {
+                                                  FFAppState().CobrancaAtual =
+                                                      null;
+                                                });
+                                              } else {
+                                                final cobrancasCreateData =
+                                                    createCobrancasRecordData(
+                                                  nomeCliente: getJsonField(
+                                                    FFAppState().CobrancaAtual,
+                                                    r'''$.cliente.nome''',
+                                                  ).toString(),
+                                                  numeroContrato: getJsonField(
+                                                    FFAppState().CobrancaAtual,
+                                                    r'''$.contrato.numero''',
+                                                  ).toString(),
+                                                  valor: valueOrDefault<double>(
+                                                    functions
+                                                        .converStringEmDouble(
+                                                            getJsonField(
+                                                      FFAppState()
+                                                          .CobrancaAtual,
+                                                      r'''$.contrato.valorTotal''',
+                                                    ).toString()),
+                                                    0.0,
                                                   ),
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                12, 0, 0, 0),
-                                                    child: AutoSizeText(
-                                                      'Reagendamentos',
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyText1
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Roboto',
-                                                                fontSize: 18,
-                                                                useGoogleFonts: GoogleFonts
-                                                                        .asMap()
-                                                                    .containsKey(
-                                                                        FlutterFlowTheme.of(context)
-                                                                            .bodyText1Family),
-                                                                lineHeight: 1,
-                                                              ),
-                                                    ),
-                                                  ),
-                                                ],
+                                                  dataDeVencimento:
+                                                      functions.formatarData(
+                                                          getJsonField(
+                                                    FFAppState().CobrancaAtual,
+                                                    r'''$.dataVencimento''',
+                                                  ).toString()),
+                                                  endereco: getJsonField(
+                                                    FFAppState().CobrancaAtual,
+                                                    r'''$.cliente.endereco.logradouro''',
+                                                  ).toString(),
+                                                  bairro: getJsonField(
+                                                    FFAppState().CobrancaAtual,
+                                                    r'''$.cliente.endereco.bairro''',
+                                                  ).toString(),
+                                                  status: getJsonField(
+                                                    FFAppState().CobrancaAtual,
+                                                    r'''$.status''',
+                                                  ).toString(),
+                                                  id: getJsonField(
+                                                    FFAppState().CobrancaAtual,
+                                                    r'''$.id''',
+                                                  ).toString(),
+                                                  dataSincronia:
+                                                      getCurrentTimestamp,
+                                                  usuario: currentUserReference,
+                                                  emailUsuario:
+                                                      currentUserEmail,
+                                                  uId:
+                                                      '${random_data.randomString(
+                                                    10,
+                                                    10,
+                                                    false,
+                                                    false,
+                                                    true,
+                                                  )}x${random_data.randomString(
+                                                    10,
+                                                    10,
+                                                    false,
+                                                    false,
+                                                    true,
+                                                  )}',
+                                                );
+                                                await CobrancasRecord.collection
+                                                    .doc()
+                                                    .set(cobrancasCreateData);
+                                                FFAppState().update(() {
+                                                  FFAppState()
+                                                      .removeFromCobrancasOffV2(
+                                                          FFAppState()
+                                                              .CobrancaAtual);
+                                                });
+                                                FFAppState().update(() {
+                                                  FFAppState().CobrancaAtual =
+                                                      null;
+                                                });
+                                              }
+                                            } else {
+                                              null?.cancel();
+                                              Navigator.pop(context);
+
+                                              context.pushNamed(
+                                                  'PaginaCobrancasV3Reagendadas');
+                                            }
+                                          },
+                                          startImmediately: false,
+                                        );
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'Algo deu errado',
+                                              style: TextStyle(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryBackground,
                                               ),
                                             ),
+                                            duration:
+                                                Duration(milliseconds: 4000),
+                                            backgroundColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .alternate,
                                           ),
-                                          Icon(
-                                            Icons.arrow_forward_ios,
-                                            color: Colors.black,
-                                            size: 24,
-                                          ),
-                                        ],
-                                      ),
-                                      Divider(
-                                        height: 1,
-                                        thickness: 1,
-                                        indent: 1,
-                                        endIndent: 1,
-                                        color: Color(0xFF545353),
-                                      ),
-                                    ],
+                                        );
+                                        Navigator.pop(context);
+                                      }
+                                    } else {
+                                      Navigator.pop(context);
+
+                                      context.pushNamed(
+                                          'PaginaCobrancasV3Reagendadas');
+                                    }
+
+                                    setState(() {});
+                                  },
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 50,
+                                    decoration: BoxDecoration(),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(5, 0, 0, 0),
+                                              child: Container(
+                                                height: 40,
+                                                decoration: BoxDecoration(),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    Image.asset(
+                                                      'assets/images/Group_(2).png',
+                                                      width: 25,
+                                                      height: 25,
+                                                      fit: BoxFit.contain,
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  12, 0, 0, 0),
+                                                      child: AutoSizeText(
+                                                        'Reagendamentos',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyText1
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Roboto',
+                                                                  fontSize: 18,
+                                                                  useGoogleFonts: GoogleFonts
+                                                                          .asMap()
+                                                                      .containsKey(
+                                                                          FlutterFlowTheme.of(context)
+                                                                              .bodyText1Family),
+                                                                  lineHeight: 1,
+                                                                ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Icon(
+                                              Icons.arrow_forward_ios,
+                                              color: Colors.black,
+                                              size: 24,
+                                            ),
+                                          ],
+                                        ),
+                                        Divider(
+                                          height: 1,
+                                          thickness: 1,
+                                          indent: 1,
+                                          endIndent: 1,
+                                          color: Color(0xFF545353),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -771,7 +970,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                               if (containerCobrancasRealizadasRecordList
                                                       .length <
                                                   1) {
-                                                instantTimer3?.cancel();
+                                                null?.cancel();
                                                 Navigator.pop(context);
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
@@ -792,7 +991,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                 );
                                               } else {
                                                 setState(() {
-                                                  simpleSearchResults2 =
+                                                  simpleSearchResults3 =
                                                       TextSearch(
                                                     containerCobrancasRealizadasRecordList
                                                         .map(
@@ -811,13 +1010,13 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                           .take(1)
                                                           .toList();
                                                 });
-                                                if (simpleSearchResults2
+                                                if (simpleSearchResults3
                                                             .first.idCaixa !=
                                                         null &&
-                                                    simpleSearchResults2
+                                                    simpleSearchResults3
                                                             .first.idCaixa !=
                                                         '') {
-                                                  if (simpleSearchResults2
+                                                  if (simpleSearchResults3
                                                           .first.sincronizado ==
                                                       false) {
                                                     apiReceberCo =
@@ -825,18 +1024,18 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                             .receberCobrancaCall
                                                             .call(
                                                       token: FFAppState().token,
-                                                      id: simpleSearchResults2
+                                                      id: simpleSearchResults3
                                                           .first.idCobranca,
                                                       valor:
-                                                          simpleSearchResults2
+                                                          simpleSearchResults3
                                                               .first.valor
                                                               ?.toString(),
                                                       formaDePagamento:
-                                                          simpleSearchResults2
+                                                          simpleSearchResults3
                                                               .first
                                                               .formaDePagamento,
                                                       idCaixa:
-                                                          simpleSearchResults2
+                                                          simpleSearchResults3
                                                               .first.idCaixa,
                                                     );
                                                     if ((apiReceberCo
@@ -848,7 +1047,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                             getCurrentTimestamp,
                                                         sincronizado: true,
                                                       );
-                                                      await simpleSearchResults2
+                                                      await simpleSearchResults3
                                                           .first.reference
                                                           .update(
                                                               cobrancasRealizadasUpdateData);
@@ -858,12 +1057,12 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                         dataSincronia:
                                                             getCurrentTimestamp,
                                                       );
-                                                      await simpleSearchResults2
+                                                      await simpleSearchResults3
                                                           .first.cobranca!
                                                           .update(
                                                               cobrancasUpdateData);
                                                     } else {
-                                                      instantTimer3?.cancel();
+                                                      null?.cancel();
                                                       Navigator.pop(context);
                                                       ScaffoldMessenger.of(
                                                               context)
@@ -887,7 +1086,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                       );
                                                     }
                                                   } else {
-                                                    instantTimer3?.cancel();
+                                                    null?.cancel();
                                                     Navigator.pop(context);
                                                     ScaffoldMessenger.of(
                                                             context)
@@ -909,10 +1108,10 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                     );
                                                   }
                                                 } else {
-                                                  if (simpleSearchResults2.first
+                                                  if (simpleSearchResults3.first
                                                           .dataRagendamento !=
                                                       null) {
-                                                    if (simpleSearchResults2
+                                                    if (simpleSearchResults3
                                                             .first
                                                             .sincronizado ==
                                                         false) {
@@ -923,13 +1122,13 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                         token:
                                                             FFAppState().token,
                                                         dataReagendamento:
-                                                            simpleSearchResults2
+                                                            simpleSearchResults3
                                                                 .first
                                                                 .dataReagendamentoS,
                                                         obs:
-                                                            simpleSearchResults2
+                                                            simpleSearchResults3
                                                                 .first.obs,
-                                                        id: simpleSearchResults2
+                                                        id: simpleSearchResults3
                                                             .first.idCobranca,
                                                       );
                                                       if ((apiReagendarCo
@@ -941,7 +1140,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                               getCurrentTimestamp,
                                                           sincronizado: true,
                                                         );
-                                                        await simpleSearchResults2
+                                                        await simpleSearchResults3
                                                             .first.reference
                                                             .update(
                                                                 cobrancasRealizadasUpdateData);
@@ -951,12 +1150,12 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                           dataSincronia:
                                                               getCurrentTimestamp,
                                                         );
-                                                        await simpleSearchResults2
+                                                        await simpleSearchResults3
                                                             .first.cobranca!
                                                             .update(
                                                                 cobrancasUpdateData);
                                                       } else {
-                                                        instantTimer3?.cancel();
+                                                        null?.cancel();
                                                         Navigator.pop(context);
                                                         ScaffoldMessenger.of(
                                                                 context)
@@ -980,7 +1179,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                         );
                                                       }
                                                     } else {
-                                                      instantTimer3?.cancel();
+                                                      null?.cancel();
                                                       Navigator.pop(context);
                                                       ScaffoldMessenger.of(
                                                               context)
@@ -1004,7 +1203,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                       );
                                                     }
                                                   } else {
-                                                    instantTimer3?.cancel();
+                                                    null?.cancel();
                                                     Navigator.pop(context);
                                                     ScaffoldMessenger.of(
                                                             context)
@@ -1225,7 +1424,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                                 .first;
                                                       });
                                                       setState(() {
-                                                        simpleSearchResults3 =
+                                                        simpleSearchResults4 =
                                                             TextSearch(
                                                           containerCaixasRecordList
                                                               .map(
@@ -1248,7 +1447,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                                     r.object)
                                                                 .toList();
                                                       });
-                                                      if (simpleSearchResults3
+                                                      if (simpleSearchResults4
                                                               .length <
                                                           1) {
                                                         final caixasCreateData =
@@ -1326,7 +1525,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                         });
                                                       }
                                                     } else {
-                                                      LoopCaixa?.cancel();
+                                                      null?.cancel();
                                                       Navigator.pop(context);
                                                     }
                                                   },

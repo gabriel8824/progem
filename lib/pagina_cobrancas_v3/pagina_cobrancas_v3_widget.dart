@@ -566,14 +566,17 @@ class _PaginaCobrancasV3WidgetState extends State<PaginaCobrancasV3Widget> {
                                                                               'Nome: ',
                                                                               style: FlutterFlowTheme.of(context).bodyText1,
                                                                             ),
-                                                                            Text(
-                                                                              listViewCobrancasRecord.nomeCliente!,
-                                                                              style: FlutterFlowTheme.of(context).bodyText1.override(
-                                                                                    fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
-                                                                                    color: Color(0xFF545353),
-                                                                                    fontWeight: FontWeight.w500,
-                                                                                    useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
-                                                                                  ),
+                                                                            Expanded(
+                                                                              child: Text(
+                                                                                listViewCobrancasRecord.nomeCliente!,
+                                                                                maxLines: 2,
+                                                                                style: FlutterFlowTheme.of(context).bodyText1.override(
+                                                                                      fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
+                                                                                      color: Color(0xFF545353),
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                      useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
+                                                                                    ),
+                                                                              ),
                                                                             ),
                                                                           ],
                                                                         ),
@@ -605,11 +608,32 @@ class _PaginaCobrancasV3WidgetState extends State<PaginaCobrancasV3Widget> {
                                                                               CrossAxisAlignment.start,
                                                                           children: [
                                                                             Text(
+                                                                              'N° da Parcela: ',
+                                                                              style: FlutterFlowTheme.of(context).bodyText1,
+                                                                            ),
+                                                                            Text(
+                                                                              listViewCobrancasRecord.numeroParcela!.toString(),
+                                                                              style: FlutterFlowTheme.of(context).bodyText1.override(
+                                                                                    fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
+                                                                                    color: Color(0xFF545353),
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                    useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
+                                                                                  ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                        Row(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.max,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            Text(
                                                                               'Valor: ',
                                                                               style: FlutterFlowTheme.of(context).bodyText1,
                                                                             ),
                                                                             Text(
-                                                                              functions.formatarValorEmRealBrasileiro(listViewCobrancasRecord.valor!),
+                                                                              functions.formatarValorEmRealBrasileiro(listViewCobrancasRecord.valorParcela!),
                                                                               style: FlutterFlowTheme.of(context).bodyText1.override(
                                                                                     fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
                                                                                     color: Color(0xFF545353),
@@ -635,6 +659,27 @@ class _PaginaCobrancasV3WidgetState extends State<PaginaCobrancasV3Widget> {
                                                                                 listViewCobrancasRecord.dataDeVencimento!,
                                                                                 locale: FFLocalizations.of(context).languageCode,
                                                                               ),
+                                                                              style: FlutterFlowTheme.of(context).bodyText1.override(
+                                                                                    fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
+                                                                                    color: Color(0xFF545353),
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                    useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
+                                                                                  ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                        Row(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.max,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            Text(
+                                                                              'Endereço: ',
+                                                                              style: FlutterFlowTheme.of(context).bodyText1,
+                                                                            ),
+                                                                            Text(
+                                                                              '${listViewCobrancasRecord.bairro} ${listViewCobrancasRecord.endereco} N° ${listViewCobrancasRecord.numeroEnd}',
                                                                               style: FlutterFlowTheme.of(context).bodyText1.override(
                                                                                     fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
                                                                                     color: Color(0xFF545353),
@@ -1022,7 +1067,7 @@ class _PaginaCobrancasV3WidgetState extends State<PaginaCobrancasV3Widget> {
                                                                 .fromSTEB(0, 10,
                                                                     0, 0),
                                                         child: Text(
-                                                          'Carregar mais cobranças',
+                                                          'Atualizar cobranças',
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .bodyText1

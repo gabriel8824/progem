@@ -69,6 +69,18 @@ abstract class CobrancasRealizadasRecord
   @BuiltValueField(wireName: 'DataReagendamentoS')
   String? get dataReagendamentoS;
 
+  @BuiltValueField(wireName: 'IdUsuario')
+  String? get idUsuario;
+
+  @BuiltValueField(wireName: 'ValorParcela')
+  double? get valorParcela;
+
+  @BuiltValueField(wireName: 'NumeroParcela')
+  int? get numeroParcela;
+
+  @BuiltValueField(wireName: 'NumeroEnd')
+  String? get numeroEnd;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -86,7 +98,11 @@ abstract class CobrancasRealizadasRecord
         ..numeroContrato = ''
         ..emailUser = ''
         ..obs = ''
-        ..dataReagendamentoS = '';
+        ..dataReagendamentoS = ''
+        ..idUsuario = ''
+        ..valorParcela = 0.0
+        ..numeroParcela = 0
+        ..numeroEnd = '';
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('CobrancasRealizadas');
@@ -131,6 +147,10 @@ Map<String, dynamic> createCobrancasRealizadasRecordData({
   String? obs,
   DateTime? dataRagendamento,
   String? dataReagendamentoS,
+  String? idUsuario,
+  double? valorParcela,
+  int? numeroParcela,
+  String? numeroEnd,
 }) {
   final firestoreData = serializers.toFirestore(
     CobrancasRealizadasRecord.serializer,
@@ -154,7 +174,11 @@ Map<String, dynamic> createCobrancasRealizadasRecordData({
         ..emailUser = emailUser
         ..obs = obs
         ..dataRagendamento = dataRagendamento
-        ..dataReagendamentoS = dataReagendamentoS,
+        ..dataReagendamentoS = dataReagendamentoS
+        ..idUsuario = idUsuario
+        ..valorParcela = valorParcela
+        ..numeroParcela = numeroParcela
+        ..numeroEnd = numeroEnd,
     ),
   );
 

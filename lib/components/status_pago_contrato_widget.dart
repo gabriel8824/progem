@@ -165,6 +165,9 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0, 20, 0, 0),
                                   child: FlutterFlowDropDown<String>(
+                                    initialOption: dropDownCValue ??=
+                                        containerCaixasRecordList
+                                            .first.descricao,
                                     options: containerCaixasRecordList
                                         .map((e) => e.descricao)
                                         .withoutNulls
@@ -216,6 +219,7 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0, 20, 0, 0),
                                   child: FlutterFlowDropDown<String>(
+                                    initialOption: dropDownValue ??= 'Dinheiro',
                                     options: [
                                       'Boleto bancário',
                                       'Cartão de crédito',

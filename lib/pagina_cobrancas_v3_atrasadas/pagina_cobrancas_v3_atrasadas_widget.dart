@@ -3,7 +3,7 @@ import '../backend/api_requests/api_calls.dart';
 import '../backend/backend.dart';
 import '../components/cobrancas_vazia_widget.dart';
 import '../components/dados_cobranca_widget.dart';
-import '../components/filtros_widget.dart';
+import '../components/filtros_em_atraso_widget.dart';
 import '../components/menu_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
@@ -202,9 +202,8 @@ class _PaginaCobrancasV3AtrasadasWidgetState
                                                   padding:
                                                       MediaQuery.of(context)
                                                           .viewInsets,
-                                                  child: FiltrosWidget(
-                                                    filtro: 'Em atraso',
-                                                  ),
+                                                  child:
+                                                      FiltrosEmAtrasoWidget(),
                                                 );
                                               },
                                             ).then((value) => setState(() {}));

@@ -153,18 +153,34 @@ class _PaginaCaixaWidgetState extends State<PaginaCaixaWidget> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          AutoSizeText(
-                            'Caixa / Saldo',
-                            style: FlutterFlowTheme.of(context)
-                                .bodyText1
-                                .override(
-                                  fontFamily: 'Roboto',
-                                  fontSize: 18,
-                                  useGoogleFonts: GoogleFonts.asMap()
-                                      .containsKey(FlutterFlowTheme.of(context)
-                                          .bodyText1Family),
-                                  lineHeight: 1,
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              AutoSizeText(
+                                'Caixa / Saldo',
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyText1
+                                    .override(
+                                      fontFamily: 'Roboto',
+                                      fontSize: 18,
+                                      useGoogleFonts: GoogleFonts.asMap()
+                                          .containsKey(
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyText1Family),
+                                      lineHeight: 1,
+                                    ),
+                              ),
+                              Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+                                child: Icon(
+                                  Icons.loop,
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryText,
+                                  size: 24,
                                 ),
+                              ),
+                            ],
                           ),
                           Padding(
                             padding:

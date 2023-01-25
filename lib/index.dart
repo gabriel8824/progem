@@ -22,6 +22,10 @@ export 'pagina_cobrancas_v3_atrasadas/pagina_cobrancas_v3_atrasadas_widget.dart'
     show PaginaCobrancasV3AtrasadasWidget;
 export 'pagina_cobrancas_v3_pendente/pagina_cobrancas_v3_pendente_widget.dart'
     show PaginaCobrancasV3PendenteWidget;
-export 'pagina_cobrancas_v3_copy/pagina_cobrancas_v3_copy_widget.dart'
-    show PaginaCobrancasV3CopyWidget;
+export 'pagina_cobrancas_v3_realizadas/pagina_cobrancas_v3_realizadas_widget.dart'
+    show PaginaCobrancasV3RealizadasWidget;
+export 'pagina_cobrancas_v3_bucar_nome/pagina_cobrancas_v3_bucar_nome_widget.dart'
+    show PaginaCobrancasV3BucarNomeWidget;
 export 'teste/teste_widget.dart' show TesteWidget;
+export 'pagina_home_copy/pagina_home_copy_widget.dart'
+    show PaginaHomeCopyWidget;

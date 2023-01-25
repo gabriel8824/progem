@@ -20,7 +20,7 @@ class _LoadSicWidgetState extends State<LoadSicWidget> {
     return Align(
       alignment: AlignmentDirectional(0, 0),
       child: Container(
-        width: 250,
+        width: 280,
         height: 230,
         decoration: BoxDecoration(
           color: FlutterFlowTheme.of(context).secondaryBackground,
@@ -28,7 +28,7 @@ class _LoadSicWidgetState extends State<LoadSicWidget> {
         ),
         child: Column(
           mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Lottie.asset(
               'assets/lottie_animations/lf30_editor_gmwigpasdaoi.json',
@@ -38,7 +38,7 @@ class _LoadSicWidgetState extends State<LoadSicWidget> {
               animate: true,
             ),
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
+              padding: EdgeInsetsDirectional.fromSTEB(20, 10, 20, 0),
               child: Text(
                 'Sincronizando',
                 textAlign: TextAlign.center,
@@ -46,6 +46,21 @@ class _LoadSicWidgetState extends State<LoadSicWidget> {
                       fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
                       color: Color(0xFF05055A),
                       fontSize: 16,
+                      useGoogleFonts: GoogleFonts.asMap().containsKey(
+                          FlutterFlowTheme.of(context).bodyText1Family),
+                    ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 0),
+              child: Text(
+                'Isso pode demorar alguns segundos.',
+                textAlign: TextAlign.center,
+                style: FlutterFlowTheme.of(context).bodyText1.override(
+                      fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
+                      color: FlutterFlowTheme.of(context).secondaryText,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
                       useGoogleFonts: GoogleFonts.asMap().containsKey(
                           FlutterFlowTheme.of(context).bodyText1Family),
                     ),

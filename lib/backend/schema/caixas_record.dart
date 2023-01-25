@@ -31,6 +31,9 @@ abstract class CaixasRecord
   @BuiltValueField(wireName: 'EmailUsuario')
   String? get emailUsuario;
 
+  @BuiltValueField(wireName: 'IdUsuario')
+  String? get idUsuario;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -41,7 +44,8 @@ abstract class CaixasRecord
     ..uid = ''
     ..saldo = 0.0
     ..status = ''
-    ..emailUsuario = '';
+    ..emailUsuario = ''
+    ..idUsuario = '';
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('Caixas');
@@ -72,6 +76,7 @@ Map<String, dynamic> createCaixasRecordData({
   String? status,
   DocumentReference? usuario,
   String? emailUsuario,
+  String? idUsuario,
 }) {
   final firestoreData = serializers.toFirestore(
     CaixasRecord.serializer,
@@ -83,7 +88,8 @@ Map<String, dynamic> createCaixasRecordData({
         ..saldo = saldo
         ..status = status
         ..usuario = usuario
-        ..emailUsuario = emailUsuario,
+        ..emailUsuario = emailUsuario
+        ..idUsuario = idUsuario,
     ),
   );
 

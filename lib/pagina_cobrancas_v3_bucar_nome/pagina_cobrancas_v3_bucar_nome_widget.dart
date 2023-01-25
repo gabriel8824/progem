@@ -2,7 +2,7 @@ import '../auth/auth_util.dart';
 import '../backend/api_requests/api_calls.dart';
 import '../backend/backend.dart';
 import '../components/cobrancas_vazia_widget.dart';
-import '../components/filtros_widget.dart';
+import '../components/filtros_nome_cliente_widget.dart';
 import '../components/menu_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
@@ -14,8 +14,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 
-class PaginaCobrancasV3CopyWidget extends StatefulWidget {
-  const PaginaCobrancasV3CopyWidget({
+class PaginaCobrancasV3BucarNomeWidget extends StatefulWidget {
+  const PaginaCobrancasV3BucarNomeWidget({
     Key? key,
     this.filtro,
   }) : super(key: key);
@@ -23,12 +23,12 @@ class PaginaCobrancasV3CopyWidget extends StatefulWidget {
   final String? filtro;
 
   @override
-  _PaginaCobrancasV3CopyWidgetState createState() =>
-      _PaginaCobrancasV3CopyWidgetState();
+  _PaginaCobrancasV3BucarNomeWidgetState createState() =>
+      _PaginaCobrancasV3BucarNomeWidgetState();
 }
 
-class _PaginaCobrancasV3CopyWidgetState
-    extends State<PaginaCobrancasV3CopyWidget> {
+class _PaginaCobrancasV3BucarNomeWidgetState
+    extends State<PaginaCobrancasV3BucarNomeWidget> {
   ApiCallResponse? apiResultlab;
   final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -200,7 +200,8 @@ class _PaginaCobrancasV3CopyWidgetState
                                                   padding:
                                                       MediaQuery.of(context)
                                                           .viewInsets,
-                                                  child: FiltrosWidget(),
+                                                  child:
+                                                      FiltrosNomeClienteWidget(),
                                                 );
                                               },
                                             ).then((value) => setState(() {}));

@@ -76,6 +76,13 @@ class _$UsuarioRecordSerializer implements StructuredSerializer<UsuarioRecord> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.idUsuario;
+    if (value != null) {
+      result
+        ..add('IdUsuario')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -131,6 +138,10 @@ class _$UsuarioRecordSerializer implements StructuredSerializer<UsuarioRecord> {
           result.foto = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
+        case 'IdUsuario':
+          result.idUsuario = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -162,6 +173,8 @@ class _$UsuarioRecord extends UsuarioRecord {
   @override
   final String? foto;
   @override
+  final String? idUsuario;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$UsuarioRecord([void Function(UsuarioRecordBuilder)? updates]) =>
@@ -176,6 +189,7 @@ class _$UsuarioRecord extends UsuarioRecord {
       this.phoneNumber,
       this.token,
       this.foto,
+      this.idUsuario,
       this.ffRef})
       : super._();
 
@@ -198,6 +212,7 @@ class _$UsuarioRecord extends UsuarioRecord {
         phoneNumber == other.phoneNumber &&
         token == other.token &&
         foto == other.foto &&
+        idUsuario == other.idUsuario &&
         ffRef == other.ffRef;
   }
 
@@ -210,14 +225,16 @@ class _$UsuarioRecord extends UsuarioRecord {
                     $jc(
                         $jc(
                             $jc(
-                                $jc($jc(0, email.hashCode),
-                                    displayName.hashCode),
-                                photoUrl.hashCode),
-                            uid.hashCode),
-                        createdTime.hashCode),
-                    phoneNumber.hashCode),
-                token.hashCode),
-            foto.hashCode),
+                                $jc(
+                                    $jc($jc(0, email.hashCode),
+                                        displayName.hashCode),
+                                    photoUrl.hashCode),
+                                uid.hashCode),
+                            createdTime.hashCode),
+                        phoneNumber.hashCode),
+                    token.hashCode),
+                foto.hashCode),
+            idUsuario.hashCode),
         ffRef.hashCode));
   }
 
@@ -232,6 +249,7 @@ class _$UsuarioRecord extends UsuarioRecord {
           ..add('phoneNumber', phoneNumber)
           ..add('token', token)
           ..add('foto', foto)
+          ..add('idUsuario', idUsuario)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -273,6 +291,10 @@ class UsuarioRecordBuilder
   String? get foto => _$this._foto;
   set foto(String? foto) => _$this._foto = foto;
 
+  String? _idUsuario;
+  String? get idUsuario => _$this._idUsuario;
+  set idUsuario(String? idUsuario) => _$this._idUsuario = idUsuario;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -292,6 +314,7 @@ class UsuarioRecordBuilder
       _phoneNumber = $v.phoneNumber;
       _token = $v.token;
       _foto = $v.foto;
+      _idUsuario = $v.idUsuario;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -323,6 +346,7 @@ class UsuarioRecordBuilder
             phoneNumber: phoneNumber,
             token: token,
             foto: foto,
+            idUsuario: idUsuario,
             ffRef: ffRef);
     replace(_$result);
     return _$result;

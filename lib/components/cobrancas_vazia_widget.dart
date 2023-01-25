@@ -44,7 +44,7 @@ class _CobrancasVaziaWidgetState extends State<CobrancasVaziaWidget> {
             child: Padding(
               padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 0),
               child: Text(
-                'Nenhum cobrança foi encontrado!',
+                'Nenhuma cobrança foi encontrado!',
                 textAlign: TextAlign.center,
                 style: FlutterFlowTheme.of(context).bodyText1.override(
                       fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
