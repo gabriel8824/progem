@@ -223,6 +223,12 @@ class FFAppState extends ChangeNotifier {
   void removeFromCobrancaReaAtual(DocumentReference _value) {
     _CobrancaReaAtual.remove(_value);
   }
+
+  double _PorcentagemAtual = 0.0;
+  double get PorcentagemAtual => _PorcentagemAtual;
+  set PorcentagemAtual(double _value) {
+    _PorcentagemAtual = _value;
+  }
 }
 
 LatLng? _latLngFromString(String? val) {

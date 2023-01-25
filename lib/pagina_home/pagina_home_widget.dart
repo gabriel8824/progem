@@ -253,7 +253,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                         });
                                         LoopSicC = InstantTimer.periodic(
                                           duration:
-                                              Duration(milliseconds: 3000),
+                                              Duration(milliseconds: 5000),
                                           callback: (timer) async {
                                             apiResultCobrancasTT =
                                                 await ApiProgemGroup
@@ -265,6 +265,25 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                 1,
                                               ),
                                             );
+                                            FFAppState().update(() {
+                                              FFAppState().PorcentagemAtual =
+                                                  ApiProgemGroup
+                                                          .listarCobrancasCall
+                                                          .paginaAtual(
+                                                        (apiResultCobrancasTT
+                                                                ?.jsonBody ??
+                                                            ''),
+                                                      ) *
+                                                      100 /
+                                                      ApiProgemGroup
+                                                          .listarCobrancasCall
+                                                          .quantidadeDePagina(
+                                                        (apiResultCobrancasTT
+                                                                ?.jsonBody ??
+                                                            ''),
+                                                      ) /
+                                                      100;
+                                            });
                                             FFAppState().update(() {
                                               FFAppState().PaginaAtual =
                                                   valueOrDefault<int>(
