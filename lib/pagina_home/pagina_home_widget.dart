@@ -253,7 +253,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                         });
                                         LoopSicC = InstantTimer.periodic(
                                           duration:
-                                              Duration(milliseconds: 1000),
+                                              Duration(milliseconds: 3000),
                                           callback: (timer) async {
                                             apiResultCobrancasTT =
                                                 await ApiProgemGroup
@@ -267,7 +267,10 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                             );
                                             FFAppState().update(() {
                                               FFAppState().PaginaAtual =
-                                                  FFAppState().PaginaAtual + 1;
+                                                  valueOrDefault<int>(
+                                                FFAppState().PaginaAtual + 1,
+                                                1,
+                                              );
                                             });
                                             if ((apiResultCobrancasTT
                                                     ?.succeeded ??
