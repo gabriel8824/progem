@@ -50,7 +50,7 @@ class _LoadSicWidgetState extends State<LoadSicWidget> {
                   progressColor: FlutterFlowTheme.of(context).cor1,
                   backgroundColor: Color(0xFFE2E2E2),
                   center: Text(
-                    ' ',
+                    '.',
                     style: FlutterFlowTheme.of(context).bodyText1.override(
                           fontFamily:
                               FlutterFlowTheme.of(context).bodyText1Family,
