@@ -261,9 +261,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                     .call(
                                               token: FFAppState().token,
                                               pagina: valueOrDefault<int>(
-                                                columnPageAtualUserRecord!
-                                                        .pagina! +
-                                                    1,
+                                                FFAppState().PaginaAtual + 1,
                                                 1,
                                               ),
                                             );
