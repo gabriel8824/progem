@@ -249,7 +249,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                         ).then((value) => setState(() {}));
 
                                         FFAppState().update(() {
-                                          FFAppState().PaginaAtual = 0;
+                                          FFAppState().PaginaAtual = 1;
                                         });
                                         LoopSicC = InstantTimer.periodic(
                                           duration:
@@ -261,7 +261,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                     .call(
                                               token: FFAppState().token,
                                               pagina: valueOrDefault<int>(
-                                                FFAppState().PaginaAtual + 1,
+                                                FFAppState().PaginaAtual,
                                                 1,
                                               ),
                                             );
@@ -286,7 +286,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                         )!
                                                         .toList();
                                               });
-                                              if (FFAppState().PaginaAtual >
+                                              if (FFAppState().PaginaAtual <=
                                                   ApiProgemGroup
                                                       .listarCobrancasCall
                                                       .quantidadeDePagina(
@@ -424,7 +424,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                               } else {
                                                 null?.cancel();
                                                 FFAppState().update(() {
-                                                  FFAppState().PaginaAtual = 0;
+                                                  FFAppState().PaginaAtual = 1;
                                                 });
                                                 Navigator.pop(context);
 
