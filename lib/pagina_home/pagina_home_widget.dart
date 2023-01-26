@@ -400,28 +400,46 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                           false,
                                                           true,
                                                         )}',
-                                                        valorParcela: functions
-                                                            .converStringEmDouble(
-                                                                getJsonField(
-                                                          FFAppState()
-                                                              .CobrancaAtual,
-                                                          r'''$.valor''',
-                                                        ).toString()),
-                                                        numeroParcela:
-                                                            getJsonField(
-                                                          FFAppState()
-                                                              .CobrancaAtual,
-                                                          r'''$.numero''',
+                                                        valorParcela:
+                                                            valueOrDefault<
+                                                                double>(
+                                                          functions
+                                                              .converStringEmDouble(
+                                                                  getJsonField(
+                                                            FFAppState()
+                                                                .CobrancaAtual,
+                                                            r'''$.valor''',
+                                                          ).toString()),
+                                                          0.0,
                                                         ),
-                                                        numeroEnd: getJsonField(
-                                                          FFAppState()
-                                                              .CobrancaAtual,
-                                                          r'''$.cliente.endereco.numero''',
-                                                        ).toString(),
-                                                        idUsuario: valueOrDefault(
-                                                            currentUserDocument
-                                                                ?.id,
-                                                            ''),
+                                                        numeroParcela:
+                                                            valueOrDefault<int>(
+                                                          getJsonField(
+                                                            FFAppState()
+                                                                .CobrancaAtual,
+                                                            r'''$.numero''',
+                                                          ),
+                                                          0,
+                                                        ),
+                                                        numeroEnd:
+                                                            valueOrDefault<
+                                                                String>(
+                                                          getJsonField(
+                                                            FFAppState()
+                                                                .CobrancaAtual,
+                                                            r'''$.cliente.endereco.numero''',
+                                                          ).toString(),
+                                                          '0',
+                                                        ),
+                                                        idUsuario:
+                                                            valueOrDefault<
+                                                                String>(
+                                                          valueOrDefault(
+                                                              currentUserDocument
+                                                                  ?.id,
+                                                              ''),
+                                                          '0',
+                                                        ),
                                                       );
                                                       await CobrancasRecord
                                                           .collection
