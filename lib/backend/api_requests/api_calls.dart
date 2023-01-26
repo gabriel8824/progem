@@ -199,6 +199,10 @@ class DadosCall {
         response,
         r'''$.foto''',
       );
+  dynamic id(dynamic response) => getJsonField(
+        response,
+        r'''$.id''',
+      );
 }
 
 class ListarCobrancasPagaCall {

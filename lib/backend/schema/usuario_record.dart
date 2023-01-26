@@ -34,6 +34,9 @@ abstract class UsuarioRecord
   @BuiltValueField(wireName: 'IdUsuario')
   String? get idUsuario;
 
+  @BuiltValueField(wireName: 'ID')
+  String? get id;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -46,7 +49,8 @@ abstract class UsuarioRecord
     ..phoneNumber = ''
     ..token = ''
     ..foto = ''
-    ..idUsuario = '';
+    ..idUsuario = ''
+    ..id = '';
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('Usuario');
@@ -79,6 +83,7 @@ Map<String, dynamic> createUsuarioRecordData({
   String? token,
   String? foto,
   String? idUsuario,
+  String? id,
 }) {
   final firestoreData = serializers.toFirestore(
     UsuarioRecord.serializer,
@@ -92,7 +97,8 @@ Map<String, dynamic> createUsuarioRecordData({
         ..phoneNumber = phoneNumber
         ..token = token
         ..foto = foto
-        ..idUsuario = idUsuario,
+        ..idUsuario = idUsuario
+        ..id = id,
     ),
   );
 

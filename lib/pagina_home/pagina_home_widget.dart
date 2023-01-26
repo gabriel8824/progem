@@ -245,26 +245,6 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                           );
                                           _shouldSetState = true;
                                           FFAppState().update(() {
-                                            FFAppState().PorcentagemAtual =
-                                                FFAppState().PorcentagemAtual +
-                                                    ApiProgemGroup
-                                                            .listarCobrancasCall
-                                                            .paginaAtual(
-                                                          (apiResultCobrancasTT
-                                                                  ?.jsonBody ??
-                                                              ''),
-                                                        ) *
-                                                        100 /
-                                                        ApiProgemGroup
-                                                            .listarCobrancasCall
-                                                            .quantidadeDePagina(
-                                                          (apiResultCobrancasTT
-                                                                  ?.jsonBody ??
-                                                              ''),
-                                                        ) /
-                                                        100;
-                                          });
-                                          FFAppState().update(() {
                                             FFAppState().PaginaAtual =
                                                 valueOrDefault<int>(
                                               FFAppState().PaginaAtual + 1,
@@ -293,6 +273,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                         )!
                                                         .toList();
                                               });
+                                              // Action 8 teste
                                               loop2323 = InstantTimer.periodic(
                                                 duration: Duration(
                                                     milliseconds: 1000),
@@ -419,6 +400,27 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                           false,
                                                           true,
                                                         )}',
+                                                        valorParcela:
+                                                            getJsonField(
+                                                          FFAppState()
+                                                              .CobrancaAtual,
+                                                          r'''$.valor''',
+                                                        ),
+                                                        numeroParcela:
+                                                            getJsonField(
+                                                          FFAppState()
+                                                              .CobrancaAtual,
+                                                          r'''$.numero''',
+                                                        ),
+                                                        numeroEnd: getJsonField(
+                                                          FFAppState()
+                                                              .CobrancaAtual,
+                                                          r'''$.cliente.endereco.numero''',
+                                                        ).toString(),
+                                                        idUsuario: valueOrDefault(
+                                                            currentUserDocument
+                                                                ?.id,
+                                                            ''),
                                                       );
                                                       await CobrancasRecord
                                                           .collection
