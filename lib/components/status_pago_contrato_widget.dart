@@ -179,9 +179,9 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                     padding:
                                                         EdgeInsetsDirectional
                                                             .fromSTEB(
-                                                                10, 0, 0, 0),
+                                                                5, 0, 0, 0),
                                                     child: AutoSizeText(
-                                                      'Forma de pagamento',
+                                                      'Caixa',
                                                       style:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -301,7 +301,7 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                     padding:
                                                         EdgeInsetsDirectional
                                                             .fromSTEB(
-                                                                10, 0, 0, 0),
+                                                                5, 0, 0, 0),
                                                     child: AutoSizeText(
                                                       'Forma de pagamento',
                                                       style:
@@ -405,7 +405,7 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                     padding:
                                                         EdgeInsetsDirectional
                                                             .fromSTEB(
-                                                                10, 0, 0, 0),
+                                                                5, 0, 0, 0),
                                                     child: AutoSizeText(
                                                       'Valor',
                                                       style:
@@ -453,7 +453,7 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                     functions
                                                         .formatarValorEmRealBrasileiro(
                                                             widget.cobranca!
-                                                                .valor!),
+                                                                .valorParcela!),
                                                     maxLines: 1,
                                                     style: FlutterFlowTheme.of(
                                                             context)
@@ -566,7 +566,12 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                       token: FFAppState().token,
                                                       idCaixa:
                                                           simpleSearchResults
-                                                              .first.id,
+                                                                      .length <
+                                                                  1
+                                                              ? containerCaixasRecordList
+                                                                  .first.id
+                                                              : simpleSearchResults
+                                                                  .first.id,
                                                       formaDePagamento: () {
                                                         if (dropDownFDPValue ==
                                                             'Boleto bancário') {
