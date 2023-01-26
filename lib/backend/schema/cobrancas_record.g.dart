@@ -134,10 +134,10 @@ class _$CobrancasRecordSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    value = object.numeroParcela;
+    value = object.parcela;
     if (value != null) {
       result
-        ..add('NumeroParcela')
+        ..add('Parcela')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
@@ -230,8 +230,8 @@ class _$CobrancasRecordSerializer
           result.numeroEnd = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
-        case 'NumeroParcela':
-          result.numeroParcela = serializers.deserialize(value,
+        case 'Parcela':
+          result.parcela = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
         case 'Document__Reference__Field':
@@ -281,7 +281,7 @@ class _$CobrancasRecord extends CobrancasRecord {
   @override
   final String? numeroEnd;
   @override
-  final String? numeroParcela;
+  final String? parcela;
   @override
   final DocumentReference<Object?>? ffRef;
 
@@ -305,7 +305,7 @@ class _$CobrancasRecord extends CobrancasRecord {
       this.valorParcela,
       this.idUsuario,
       this.numeroEnd,
-      this.numeroParcela,
+      this.parcela,
       this.ffRef})
       : super._();
 
@@ -337,7 +337,7 @@ class _$CobrancasRecord extends CobrancasRecord {
         valorParcela == other.valorParcela &&
         idUsuario == other.idUsuario &&
         numeroEnd == other.numeroEnd &&
-        numeroParcela == other.numeroParcela &&
+        parcela == other.parcela &&
         ffRef == other.ffRef;
   }
 
@@ -382,7 +382,7 @@ class _$CobrancasRecord extends CobrancasRecord {
                         valorParcela.hashCode),
                     idUsuario.hashCode),
                 numeroEnd.hashCode),
-            numeroParcela.hashCode),
+            parcela.hashCode),
         ffRef.hashCode));
   }
 
@@ -405,7 +405,7 @@ class _$CobrancasRecord extends CobrancasRecord {
           ..add('valorParcela', valorParcela)
           ..add('idUsuario', idUsuario)
           ..add('numeroEnd', numeroEnd)
-          ..add('numeroParcela', numeroParcela)
+          ..add('parcela', parcela)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -482,10 +482,9 @@ class CobrancasRecordBuilder
   String? get numeroEnd => _$this._numeroEnd;
   set numeroEnd(String? numeroEnd) => _$this._numeroEnd = numeroEnd;
 
-  String? _numeroParcela;
-  String? get numeroParcela => _$this._numeroParcela;
-  set numeroParcela(String? numeroParcela) =>
-      _$this._numeroParcela = numeroParcela;
+  String? _parcela;
+  String? get parcela => _$this._parcela;
+  set parcela(String? parcela) => _$this._parcela = parcela;
 
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
@@ -514,7 +513,7 @@ class CobrancasRecordBuilder
       _valorParcela = $v.valorParcela;
       _idUsuario = $v.idUsuario;
       _numeroEnd = $v.numeroEnd;
-      _numeroParcela = $v.numeroParcela;
+      _parcela = $v.parcela;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -554,7 +553,7 @@ class CobrancasRecordBuilder
             valorParcela: valorParcela,
             idUsuario: idUsuario,
             numeroEnd: numeroEnd,
-            numeroParcela: numeroParcela,
+            parcela: parcela,
             ffRef: ffRef);
     replace(_$result);
     return _$result;
