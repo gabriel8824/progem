@@ -120,12 +120,6 @@ class _$CobrancasRecordSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(double)));
     }
-    value = object.numeroParcela;
-    if (value != null) {
-      result
-        ..add('NumeroParcela')
-        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
-    }
     value = object.idUsuario;
     if (value != null) {
       result
@@ -137,6 +131,13 @@ class _$CobrancasRecordSerializer
     if (value != null) {
       result
         ..add('NumeroEnd')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.numeroParcela;
+    if (value != null) {
+      result
+        ..add('NumeroParcela')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
@@ -221,16 +222,16 @@ class _$CobrancasRecordSerializer
           result.valorParcela = serializers.deserialize(value,
               specifiedType: const FullType(double)) as double?;
           break;
-        case 'NumeroParcela':
-          result.numeroParcela = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int?;
-          break;
         case 'IdUsuario':
           result.idUsuario = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
         case 'NumeroEnd':
           result.numeroEnd = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'NumeroParcela':
+          result.numeroParcela = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
         case 'Document__Reference__Field':
@@ -276,11 +277,11 @@ class _$CobrancasRecord extends CobrancasRecord {
   @override
   final double? valorParcela;
   @override
-  final int? numeroParcela;
-  @override
   final String? idUsuario;
   @override
   final String? numeroEnd;
+  @override
+  final String? numeroParcela;
   @override
   final DocumentReference<Object?>? ffRef;
 
@@ -302,9 +303,9 @@ class _$CobrancasRecord extends CobrancasRecord {
       this.uId,
       this.localizacao,
       this.valorParcela,
-      this.numeroParcela,
       this.idUsuario,
       this.numeroEnd,
+      this.numeroParcela,
       this.ffRef})
       : super._();
 
@@ -334,9 +335,9 @@ class _$CobrancasRecord extends CobrancasRecord {
         uId == other.uId &&
         localizacao == other.localizacao &&
         valorParcela == other.valorParcela &&
-        numeroParcela == other.numeroParcela &&
         idUsuario == other.idUsuario &&
         numeroEnd == other.numeroEnd &&
+        numeroParcela == other.numeroParcela &&
         ffRef == other.ffRef;
   }
 
@@ -379,9 +380,9 @@ class _$CobrancasRecord extends CobrancasRecord {
                                 uId.hashCode),
                             localizacao.hashCode),
                         valorParcela.hashCode),
-                    numeroParcela.hashCode),
-                idUsuario.hashCode),
-            numeroEnd.hashCode),
+                    idUsuario.hashCode),
+                numeroEnd.hashCode),
+            numeroParcela.hashCode),
         ffRef.hashCode));
   }
 
@@ -402,9 +403,9 @@ class _$CobrancasRecord extends CobrancasRecord {
           ..add('uId', uId)
           ..add('localizacao', localizacao)
           ..add('valorParcela', valorParcela)
-          ..add('numeroParcela', numeroParcela)
           ..add('idUsuario', idUsuario)
           ..add('numeroEnd', numeroEnd)
+          ..add('numeroParcela', numeroParcela)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -473,11 +474,6 @@ class CobrancasRecordBuilder
   double? get valorParcela => _$this._valorParcela;
   set valorParcela(double? valorParcela) => _$this._valorParcela = valorParcela;
 
-  int? _numeroParcela;
-  int? get numeroParcela => _$this._numeroParcela;
-  set numeroParcela(int? numeroParcela) =>
-      _$this._numeroParcela = numeroParcela;
-
   String? _idUsuario;
   String? get idUsuario => _$this._idUsuario;
   set idUsuario(String? idUsuario) => _$this._idUsuario = idUsuario;
@@ -485,6 +481,11 @@ class CobrancasRecordBuilder
   String? _numeroEnd;
   String? get numeroEnd => _$this._numeroEnd;
   set numeroEnd(String? numeroEnd) => _$this._numeroEnd = numeroEnd;
+
+  String? _numeroParcela;
+  String? get numeroParcela => _$this._numeroParcela;
+  set numeroParcela(String? numeroParcela) =>
+      _$this._numeroParcela = numeroParcela;
 
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
@@ -511,9 +512,9 @@ class CobrancasRecordBuilder
       _uId = $v.uId;
       _localizacao = $v.localizacao;
       _valorParcela = $v.valorParcela;
-      _numeroParcela = $v.numeroParcela;
       _idUsuario = $v.idUsuario;
       _numeroEnd = $v.numeroEnd;
+      _numeroParcela = $v.numeroParcela;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -551,9 +552,9 @@ class CobrancasRecordBuilder
             uId: uId,
             localizacao: localizacao,
             valorParcela: valorParcela,
-            numeroParcela: numeroParcela,
             idUsuario: idUsuario,
             numeroEnd: numeroEnd,
+            numeroParcela: numeroParcela,
             ffRef: ffRef);
     replace(_$result);
     return _$result;

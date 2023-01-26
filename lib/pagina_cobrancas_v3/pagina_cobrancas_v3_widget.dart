@@ -562,7 +562,7 @@ class _PaginaCobrancasV3WidgetState extends State<PaginaCobrancasV3Widget> {
                                                                                 FlutterFlowTheme.of(context).bodyText1,
                                                                           ),
                                                                           Text(
-                                                                            listViewCobrancasRecord.numeroParcela!,
+                                                                            listViewCobrancasRecord.numeroParcela!.toString(),
                                                                             style: FlutterFlowTheme.of(context).bodyText1.override(
                                                                                   fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
                                                                                   color: Color(0xFF545353),

@@ -412,16 +412,6 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                           ).toString()),
                                                           0.0,
                                                         ),
-                                                        numeroParcela:
-                                                            valueOrDefault<
-                                                                String>(
-                                                          getJsonField(
-                                                            FFAppState()
-                                                                .CobrancaAtual,
-                                                            r'''$.numero''',
-                                                          ).toString(),
-                                                          '0',
-                                                        ),
                                                         numeroEnd:
                                                             valueOrDefault<
                                                                 String>(
@@ -439,6 +429,15 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                               currentUserDocument
                                                                   ?.id,
                                                               ''),
+                                                          '0',
+                                                        ),
+                                                        parcela: valueOrDefault<
+                                                            String>(
+                                                          getJsonField(
+                                                            FFAppState()
+                                                                .CobrancaAtual,
+                                                            r'''$.numero''',
+                                                          ).toString(),
                                                           '0',
                                                         ),
                                                       );
