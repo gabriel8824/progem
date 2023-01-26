@@ -697,46 +697,11 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                           ),
                                                           duration: Duration(
                                                               milliseconds:
-                                                                  4000),
+                                                                  6000),
                                                           backgroundColor:
                                                               FlutterFlowTheme.of(
                                                                       context)
                                                                   .secondaryColor,
-                                                          action:
-                                                              SnackBarAction(
-                                                            label:
-                                                                'Ver Cobrança',
-                                                            textColor:
-                                                                Colors.white,
-                                                            onPressed:
-                                                                () async {
-                                                              await showModalBottomSheet(
-                                                                isScrollControlled:
-                                                                    true,
-                                                                backgroundColor:
-                                                                    Colors
-                                                                        .transparent,
-                                                                context:
-                                                                    context,
-                                                                builder:
-                                                                    (context) {
-                                                                  return Padding(
-                                                                    padding: MediaQuery.of(
-                                                                            context)
-                                                                        .viewInsets,
-                                                                    child:
-                                                                        DadosCobrancaWidget(
-                                                                      cobrancas:
-                                                                          widget
-                                                                              .cobranca,
-                                                                    ),
-                                                                  );
-                                                                },
-                                                              ).then((value) =>
-                                                                  setState(
-                                                                      () {}));
-                                                            },
-                                                          ),
                                                         ),
                                                       );
                                                       await Future.delayed(
@@ -806,12 +771,19 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                           .cobranca!.valor,
                                                       idCaixa:
                                                           simpleSearchResults
-                                                              .first.id,
+                                                                      .length <
+                                                                  1
+                                                              ? containerCaixasRecordList
+                                                                  .first.id
+                                                              : simpleSearchResults
+                                                                  .first.id,
                                                       formaDePagamento: 'PIX',
                                                       cobranca: widget
                                                           .cobranca!.reference,
                                                       sincronizado: false,
                                                       status: 'RECEBIDA',
+                                                      localizacao:
+                                                          currentUserLocationValue,
                                                       nomeCliente: widget
                                                           .cobranca!
                                                           .nomeCliente,
@@ -857,42 +829,11 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                           ),
                                                         ),
                                                         duration: Duration(
-                                                            milliseconds: 4000),
+                                                            milliseconds: 6000),
                                                         backgroundColor:
                                                             FlutterFlowTheme.of(
                                                                     context)
                                                                 .secondaryColor,
-                                                        action: SnackBarAction(
-                                                          label: 'Ver Cobrança',
-                                                          textColor:
-                                                              Colors.white,
-                                                          onPressed: () async {
-                                                            await showModalBottomSheet(
-                                                              isScrollControlled:
-                                                                  true,
-                                                              backgroundColor:
-                                                                  Colors
-                                                                      .transparent,
-                                                              context: context,
-                                                              builder:
-                                                                  (context) {
-                                                                return Padding(
-                                                                  padding: MediaQuery.of(
-                                                                          context)
-                                                                      .viewInsets,
-                                                                  child:
-                                                                      DadosCobrancaWidget(
-                                                                    cobrancas:
-                                                                        widget
-                                                                            .cobranca,
-                                                                  ),
-                                                                );
-                                                              },
-                                                            ).then((value) =>
-                                                                setState(
-                                                                    () {}));
-                                                          },
-                                                        ),
                                                       ),
                                                     );
                                                     await Future.delayed(
