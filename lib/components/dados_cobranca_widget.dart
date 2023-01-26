@@ -47,7 +47,7 @@ class _DadosCobrancaWidgetState extends State<DadosCobrancaWidget> {
                   borderRadius: BorderRadius.circular(10),
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.8,
-                    height: 400,
+                    height: 450,
                     constraints: BoxConstraints(
                       maxHeight: MediaQuery.of(context).size.height * 0.8,
                     ),
@@ -248,7 +248,7 @@ class _DadosCobrancaWidgetState extends State<DadosCobrancaWidget> {
                               ),
                             ),
                             Text(
-                              widget.cobrancas!.endereco!,
+                              '${widget.cobrancas!.endereco} ${widget.cobrancas!.numeroEnd}',
                               style: FlutterFlowTheme.of(context)
                                   .bodyText1
                                   .override(
@@ -309,7 +309,37 @@ class _DadosCobrancaWidgetState extends State<DadosCobrancaWidget> {
                             ),
                             Text(
                               functions.formatarValorEmRealBrasileiro(
-                                  widget.cobrancas!.valor!),
+                                  widget.cobrancas!.valorParcela!),
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyText1
+                                  .override(
+                                    fontFamily: 'Roboto',
+                                    color: Color(0xFF545353),
+                                    fontWeight: FontWeight.w500,
+                                    useGoogleFonts: GoogleFonts.asMap()
+                                        .containsKey(
+                                            FlutterFlowTheme.of(context)
+                                                .bodyText1Family),
+                                  ),
+                            ),
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                              child: Text(
+                                'N° da Parcela: ',
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyText1
+                                    .override(
+                                      fontFamily: 'Roboto',
+                                      useGoogleFonts: GoogleFonts.asMap()
+                                          .containsKey(
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyText1Family),
+                                    ),
+                              ),
+                            ),
+                            Text(
+                              widget.cobrancas!.parcela!,
                               style: FlutterFlowTheme.of(context)
                                   .bodyText1
                                   .override(

@@ -229,6 +229,12 @@ class FFAppState extends ChangeNotifier {
   set PorcentagemAtual(double _value) {
     _PorcentagemAtual = _value;
   }
+
+  DocumentReference? _CobrancaAtualizada;
+  DocumentReference? get CobrancaAtualizada => _CobrancaAtualizada;
+  set CobrancaAtualizada(DocumentReference? _value) {
+    _CobrancaAtualizada = _value;
+  }
 }
 
 LatLng? _latLngFromString(String? val) {

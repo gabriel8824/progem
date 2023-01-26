@@ -8,7 +8,9 @@ import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
 import '../custom_code/actions/index.dart' as actions;
+import '../flutter_flow/custom_functions.dart' as functions;
 import '../flutter_flow/random_data_util.dart' as random_data;
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -33,22 +35,8 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
   bool? net;
   List<CaixasRecord> simpleSearchResults = [];
   String? dropDownCValue;
-  String? dropDownValue;
-  TextEditingController? textController;
+  String? dropDownFDPValue;
   LatLng? currentUserLocationValue;
-
-  @override
-  void initState() {
-    super.initState();
-    textController =
-        TextEditingController(text: widget.cobranca!.valor?.toString());
-  }
-
-  @override
-  void dispose() {
-    textController?.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,9 +82,7 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                       borderRadius: BorderRadius.circular(10),
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.8,
-                        constraints: BoxConstraints(
-                          maxHeight: MediaQuery.of(context).size.height * 0.5,
-                        ),
+                        height: 460,
                         decoration: BoxDecoration(
                           color:
                               FlutterFlowTheme.of(context).secondaryBackground,
@@ -161,159 +147,339 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                         ),
                                   ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0, 20, 0, 0),
-                                  child: FlutterFlowDropDown<String>(
-                                    initialOption: dropDownCValue ??=
-                                        containerCaixasRecordList
-                                            .first.descricao,
-                                    options: containerCaixasRecordList
-                                        .map((e) => e.descricao)
-                                        .withoutNulls
-                                        .toList()
-                                        .toList(),
-                                    onChanged: (val) async {
-                                      setState(() => dropDownCValue = val);
-                                      setState(() {
-                                        simpleSearchResults = TextSearch(
-                                          containerCaixasRecordList
-                                              .map(
-                                                (record) => TextSearchItem(
-                                                    record,
-                                                    [record.descricao!]),
-                                              )
-                                              .toList(),
-                                        )
-                                            .search(dropDownCValue!)
-                                            .map((r) => r.object)
-                                            .toList();
-                                      });
-                                    },
-                                    width: double.infinity,
-                                    height: 50,
-                                    textStyle: FlutterFlowTheme.of(context)
-                                        .bodyText1
-                                        .override(
-                                          fontFamily:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyText1Family,
-                                          color: Colors.black,
-                                          useGoogleFonts: GoogleFonts.asMap()
-                                              .containsKey(
+                                Align(
+                                  alignment: AlignmentDirectional(0, 0),
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0, 20, 0, 0),
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 70,
+                                      decoration: BoxDecoration(),
+                                      child: Align(
+                                        alignment: AlignmentDirectional(0, 0),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Align(
+                                                  alignment:
+                                                      AlignmentDirectional(
+                                                          -1, 0),
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                10, 0, 0, 0),
+                                                    child: AutoSizeText(
+                                                      'Forma de pagamento',
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText1
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Roboto',
+                                                                color: Color(
+                                                                    0xFF313537),
+                                                                fontSize: 16,
+                                                                useGoogleFonts: GoogleFonts
+                                                                        .asMap()
+                                                                    .containsKey(
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .bodyText1Family),
+                                                                lineHeight: 1,
+                                                              ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            FlutterFlowDropDown<String>(
+                                              initialOption: dropDownCValue ??=
+                                                  containerCaixasRecordList
+                                                      .first.descricao,
+                                              options: containerCaixasRecordList
+                                                  .map((e) => e.descricao)
+                                                  .withoutNulls
+                                                  .toList()
+                                                  .toList(),
+                                              onChanged: (val) async {
+                                                setState(
+                                                    () => dropDownCValue = val);
+                                                setState(() {
+                                                  simpleSearchResults =
+                                                      TextSearch(
+                                                    containerCaixasRecordList
+                                                        .map(
+                                                          (record) =>
+                                                              TextSearchItem(
+                                                                  record, [
+                                                            record.descricao!
+                                                          ]),
+                                                        )
+                                                        .toList(),
+                                                  )
+                                                          .search(
+                                                              dropDownCValue!)
+                                                          .map((r) => r.object)
+                                                          .toList();
+                                                });
+                                              },
+                                              width: double.infinity,
+                                              height: 50,
+                                              textStyle:
                                                   FlutterFlowTheme.of(context)
-                                                      .bodyText1Family),
+                                                      .bodyText1
+                                                      .override(
+                                                        fontFamily:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyText1Family,
+                                                        color: Colors.black,
+                                                        useGoogleFonts: GoogleFonts
+                                                                .asMap()
+                                                            .containsKey(
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyText1Family),
+                                                      ),
+                                              hintText: 'Caixa',
+                                              fillColor: Colors.white,
+                                              elevation: 2,
+                                              borderColor: Color(0xFF0A85DE),
+                                              borderWidth: 1.5,
+                                              borderRadius: 10,
+                                              margin: EdgeInsetsDirectional
+                                                  .fromSTEB(12, 4, 12, 4),
+                                              hidesUnderline: true,
+                                            ),
+                                          ],
                                         ),
-                                    hintText: 'Caixa',
-                                    fillColor: Colors.white,
-                                    elevation: 2,
-                                    borderColor: Color(0xFF0A85DE),
-                                    borderWidth: 1.5,
-                                    borderRadius: 10,
-                                    margin: EdgeInsetsDirectional.fromSTEB(
-                                        12, 4, 12, 4),
-                                    hidesUnderline: true,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0, 20, 0, 0),
-                                  child: FlutterFlowDropDown<String>(
-                                    initialOption: dropDownValue ??= 'Dinheiro',
-                                    options: [
-                                      'Boleto bancário',
-                                      'Cartão de crédito',
-                                      'Cartão de débito',
-                                      'Dinheiro',
-                                      'PIX'
-                                    ],
-                                    onChanged: (val) =>
-                                        setState(() => dropDownValue = val),
-                                    width: double.infinity,
-                                    height: 50,
-                                    textStyle: FlutterFlowTheme.of(context)
-                                        .bodyText1
-                                        .override(
-                                          fontFamily:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyText1Family,
-                                          color: Colors.black,
-                                          useGoogleFonts: GoogleFonts.asMap()
-                                              .containsKey(
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyText1Family),
-                                        ),
-                                    hintText: 'Forma de pagamento',
-                                    fillColor: Colors.white,
-                                    elevation: 2,
-                                    borderColor: Color(0xFF0A85DE),
-                                    borderWidth: 1.5,
-                                    borderRadius: 10,
-                                    margin: EdgeInsetsDirectional.fromSTEB(
-                                        12, 4, 12, 4),
-                                    hidesUnderline: true,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0, 20, 0, 0),
-                                  child: TextFormField(
-                                    controller: textController,
-                                    obscureText: false,
-                                    decoration: InputDecoration(
-                                      hintText: 'Valor recebido',
-                                      hintStyle: FlutterFlowTheme.of(context)
-                                          .bodyText2,
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Color(0xFF0A85DE),
-                                          width: 1.5,
-                                        ),
-                                        borderRadius: BorderRadius.circular(10),
                                       ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Color(0xFF0A85DE),
-                                          width: 1.5,
-                                        ),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      errorBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: FlutterFlowTheme.of(context)
-                                              .alternate,
-                                          width: 1.5,
-                                        ),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      focusedErrorBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: FlutterFlowTheme.of(context)
-                                              .alternate,
-                                          width: 1.5,
-                                        ),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      contentPadding:
-                                          EdgeInsetsDirectional.fromSTEB(
-                                              10, 10, 10, 10),
                                     ),
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyText1
-                                        .override(
-                                          fontFamily:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyText1Family,
-                                          color: FlutterFlowTheme.of(context)
-                                              .primaryText,
-                                          useGoogleFonts: GoogleFonts.asMap()
-                                              .containsKey(
+                                  ),
+                                ),
+                                Align(
+                                  alignment: AlignmentDirectional(0, 0),
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0, 20, 0, 0),
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 70,
+                                      decoration: BoxDecoration(),
+                                      child: Align(
+                                        alignment: AlignmentDirectional(0, 0),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Align(
+                                                  alignment:
+                                                      AlignmentDirectional(
+                                                          -1, 0),
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                10, 0, 0, 0),
+                                                    child: AutoSizeText(
+                                                      'Forma de pagamento',
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText1
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Roboto',
+                                                                color: Color(
+                                                                    0xFF313537),
+                                                                fontSize: 16,
+                                                                useGoogleFonts: GoogleFonts
+                                                                        .asMap()
+                                                                    .containsKey(
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .bodyText1Family),
+                                                                lineHeight: 1,
+                                                              ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            FlutterFlowDropDown<String>(
+                                              initialOption:
+                                                  dropDownFDPValue ??=
+                                                      'Dinheiro',
+                                              options: [
+                                                'Boleto bancário',
+                                                'Cartão de crédito',
+                                                'Cartão de débito',
+                                                'Dinheiro',
+                                                'PIX'
+                                              ],
+                                              onChanged: (val) => setState(
+                                                  () => dropDownFDPValue = val),
+                                              width: double.infinity,
+                                              height: 50,
+                                              textStyle:
                                                   FlutterFlowTheme.of(context)
-                                                      .bodyText1Family),
+                                                      .bodyText1
+                                                      .override(
+                                                        fontFamily:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyText1Family,
+                                                        color: Colors.black,
+                                                        useGoogleFonts: GoogleFonts
+                                                                .asMap()
+                                                            .containsKey(
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyText1Family),
+                                                      ),
+                                              hintText: 'Forma de pagamento',
+                                              fillColor: Colors.white,
+                                              elevation: 2,
+                                              borderColor: Color(0xFF0A85DE),
+                                              borderWidth: 1.5,
+                                              borderRadius: 10,
+                                              margin: EdgeInsetsDirectional
+                                                  .fromSTEB(12, 4, 12, 4),
+                                              hidesUnderline: true,
+                                            ),
+                                          ],
                                         ),
-                                    keyboardType:
-                                        const TextInputType.numberWithOptions(
-                                            signed: true, decimal: true),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Align(
+                                  alignment: AlignmentDirectional(0, 0),
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0, 20, 0, 0),
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 70,
+                                      decoration: BoxDecoration(),
+                                      child: Align(
+                                        alignment: AlignmentDirectional(0, 0),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Align(
+                                                  alignment:
+                                                      AlignmentDirectional(
+                                                          -1, 0),
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                10, 0, 0, 0),
+                                                    child: AutoSizeText(
+                                                      'Valor',
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText1
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Roboto',
+                                                                color: Color(
+                                                                    0xFF313537),
+                                                                fontSize: 16,
+                                                                useGoogleFonts: GoogleFonts
+                                                                        .asMap()
+                                                                    .containsKey(
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .bodyText1Family),
+                                                                lineHeight: 1,
+                                                              ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Container(
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              height: 50,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                border: Border.all(
+                                                  color: Color(0xFF0A85DE),
+                                                  width: 2,
+                                                ),
+                                              ),
+                                              child: Align(
+                                                alignment:
+                                                    AlignmentDirectional(-1, 0),
+                                                child: Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(12, 0, 0, 0),
+                                                  child: AutoSizeText(
+                                                    functions
+                                                        .formatarValorEmRealBrasileiro(
+                                                            widget.cobranca!
+                                                                .valor!),
+                                                    maxLines: 1,
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyText1
+                                                        .override(
+                                                          fontFamily: 'Roboto',
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .secondaryText,
+                                                          fontSize: 16,
+                                                          useGoogleFonts: GoogleFonts
+                                                                  .asMap()
+                                                              .containsKey(
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyText1Family),
+                                                          lineHeight: 1,
+                                                        ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
                                 if (widget.cobranca!.status != 'RECEBIDA')
@@ -378,12 +544,8 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                         FFButtonWidget(
                                           onPressed: (dropDownCValue == null ||
                                                       dropDownCValue == '') ||
-                                                  (dropDownValue == null ||
-                                                      dropDownValue == '') ||
-                                                  (textController!.text ==
-                                                          null ||
-                                                      textController!.text ==
-                                                          '')
+                                                  (dropDownFDPValue == null ||
+                                                      dropDownFDPValue == '')
                                               ? null
                                               : () async {
                                                   currentUserLocationValue =
@@ -398,27 +560,27 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                             .receberCobrancaCall
                                                             .call(
                                                       id: widget.cobranca!.id,
-                                                      valor: widget
-                                                          .cobranca!.valor
+                                                      valor: widget.cobranca!
+                                                          .valorParcela
                                                           ?.toString(),
                                                       token: FFAppState().token,
                                                       idCaixa:
                                                           simpleSearchResults
                                                               .first.id,
                                                       formaDePagamento: () {
-                                                        if (dropDownCValue ==
+                                                        if (dropDownFDPValue ==
                                                             'Boleto bancário') {
                                                           return 'BOLETO_BANCARIO';
-                                                        } else if (dropDownCValue ==
+                                                        } else if (dropDownFDPValue ==
                                                             'Cartão de crédito') {
                                                           return 'CARTAO_CREDITO';
-                                                        } else if (dropDownCValue ==
+                                                        } else if (dropDownFDPValue ==
                                                             'Cartão de débito') {
                                                           return 'CARTAO_DEBITO';
-                                                        } else if (dropDownCValue ==
+                                                        } else if (dropDownFDPValue ==
                                                             'Dinheiro') {
                                                           return 'DINHEIRO';
-                                                        } else if (dropDownCValue ==
+                                                        } else if (dropDownFDPValue ==
                                                             'PIX') {
                                                           return 'PIX';
                                                         } else {
@@ -488,6 +650,15 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                             .numeroContrato,
                                                         emailUser:
                                                             currentUserEmail,
+                                                        valorParcela: widget
+                                                            .cobranca!
+                                                            .valorParcela,
+                                                        numeroParcela: widget
+                                                            .cobranca!
+                                                            .numeroParcela,
+                                                        numeroEnd: widget
+                                                            .cobranca!
+                                                            .numeroEnd,
                                                       );
                                                       await CobrancasRealizadasRecord
                                                           .collection
@@ -495,27 +666,78 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                           .set(
                                                               cobrancasRealizadasCreateData);
                                                       Navigator.pop(context);
-                                                      await showModalBottomSheet(
-                                                        isScrollControlled:
-                                                            true,
-                                                        backgroundColor:
-                                                            Colors.transparent,
-                                                        context: context,
-                                                        builder: (context) {
-                                                          return Padding(
-                                                            padding:
-                                                                MediaQuery.of(
-                                                                        context)
-                                                                    .viewInsets,
-                                                            child:
-                                                                DadosCobrancaWidget(
-                                                              cobrancas: widget
-                                                                  .cobranca,
+                                                      FFAppState().update(() {
+                                                        FFAppState()
+                                                                .CobrancaAtualizada =
+                                                            widget.cobranca!
+                                                                .reference;
+                                                      });
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        SnackBar(
+                                                          content: Text(
+                                                            'Cobrança Recebida com sucesso!',
+                                                            style: GoogleFonts
+                                                                .getFont(
+                                                              'Poppins',
+                                                              color:
+                                                                  Colors.white,
                                                             ),
-                                                          );
-                                                        },
-                                                      ).then((value) =>
-                                                          setState(() {}));
+                                                          ),
+                                                          duration: Duration(
+                                                              milliseconds:
+                                                                  4000),
+                                                          backgroundColor:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .secondaryColor,
+                                                          action:
+                                                              SnackBarAction(
+                                                            label:
+                                                                'Ver Cobrança',
+                                                            textColor:
+                                                                Colors.white,
+                                                            onPressed:
+                                                                () async {
+                                                              await showModalBottomSheet(
+                                                                isScrollControlled:
+                                                                    true,
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .transparent,
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) {
+                                                                  return Padding(
+                                                                    padding: MediaQuery.of(
+                                                                            context)
+                                                                        .viewInsets,
+                                                                    child:
+                                                                        DadosCobrancaWidget(
+                                                                      cobrancas:
+                                                                          widget
+                                                                              .cobranca,
+                                                                    ),
+                                                                  );
+                                                                },
+                                                              ).then((value) =>
+                                                                  setState(
+                                                                      () {}));
+                                                            },
+                                                          ),
+                                                        ),
+                                                      );
+                                                      await Future.delayed(
+                                                          const Duration(
+                                                              milliseconds:
+                                                                  6000));
+                                                      FFAppState().update(() {
+                                                        FFAppState()
+                                                                .CobrancaAtualizada =
+                                                            null;
+                                                      });
                                                     } else {
                                                       Navigator.pop(context);
                                                       ScaffoldMessenger.of(
@@ -591,6 +813,14 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                           .numeroContrato,
                                                       emailUser:
                                                           currentUserEmail,
+                                                      valorParcela: widget
+                                                          .cobranca!
+                                                          .valorParcela,
+                                                      numeroParcela: widget
+                                                          .cobranca!
+                                                          .numeroParcela,
+                                                      numeroEnd: widget
+                                                          .cobranca!.numeroEnd,
                                                     );
                                                     await CobrancasRealizadasRecord
                                                         .collection
@@ -598,6 +828,72 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                         .set(
                                                             cobrancasRealizadasCreateData);
                                                     Navigator.pop(context);
+                                                    FFAppState().update(() {
+                                                      FFAppState()
+                                                              .CobrancaAtualizada =
+                                                          widget.cobranca!
+                                                              .reference;
+                                                    });
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                        content: Text(
+                                                          'Cobrança Recebida com sucesso!',
+                                                          style: GoogleFonts
+                                                              .getFont(
+                                                            'Poppins',
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                        duration: Duration(
+                                                            milliseconds: 4000),
+                                                        backgroundColor:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .secondaryColor,
+                                                        action: SnackBarAction(
+                                                          label: 'Ver Cobrança',
+                                                          textColor:
+                                                              Colors.white,
+                                                          onPressed: () async {
+                                                            await showModalBottomSheet(
+                                                              isScrollControlled:
+                                                                  true,
+                                                              backgroundColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                              context: context,
+                                                              builder:
+                                                                  (context) {
+                                                                return Padding(
+                                                                  padding: MediaQuery.of(
+                                                                          context)
+                                                                      .viewInsets,
+                                                                  child:
+                                                                      DadosCobrancaWidget(
+                                                                    cobrancas:
+                                                                        widget
+                                                                            .cobranca,
+                                                                  ),
+                                                                );
+                                                              },
+                                                            ).then((value) =>
+                                                                setState(
+                                                                    () {}));
+                                                          },
+                                                        ),
+                                                      ),
+                                                    );
+                                                    await Future.delayed(
+                                                        const Duration(
+                                                            milliseconds:
+                                                                6000));
+                                                    FFAppState().update(() {
+                                                      FFAppState()
+                                                              .CobrancaAtualizada =
+                                                          null;
+                                                    });
                                                   }
 
                                                   setState(() {});
