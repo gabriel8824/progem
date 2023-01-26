@@ -3,7 +3,6 @@ import '../flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 
 class LoadSicWidget extends StatefulWidget {
@@ -37,32 +36,6 @@ class _LoadSicWidgetState extends State<LoadSicWidget> {
               height: 130,
               fit: BoxFit.cover,
               animate: true,
-            ),
-            Align(
-              alignment: AlignmentDirectional(0, 0),
-              child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 0),
-                child: LinearPercentIndicator(
-                  percent: FFAppState().PorcentagemAtual,
-                  width: 240,
-                  lineHeight: 10,
-                  animation: true,
-                  progressColor: FlutterFlowTheme.of(context).cor1,
-                  backgroundColor: Color(0xFFE2E2E2),
-                  center: Text(
-                    '.',
-                    style: FlutterFlowTheme.of(context).bodyText1.override(
-                          fontFamily:
-                              FlutterFlowTheme.of(context).bodyText1Family,
-                          color: FlutterFlowTheme.of(context).primaryColor,
-                          useGoogleFonts: GoogleFonts.asMap().containsKey(
-                              FlutterFlowTheme.of(context).bodyText1Family),
-                        ),
-                  ),
-                  barRadius: Radius.circular(8),
-                  padding: EdgeInsets.zero,
-                ),
-              ),
             ),
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(20, 10, 20, 0),
