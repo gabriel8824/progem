@@ -413,13 +413,14 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                           0.0,
                                                         ),
                                                         numeroParcela:
-                                                            valueOrDefault<int>(
+                                                            valueOrDefault<
+                                                                String>(
                                                           getJsonField(
                                                             FFAppState()
                                                                 .CobrancaAtual,
                                                             r'''$.numero''',
-                                                          ),
-                                                          0,
+                                                          ).toString(),
+                                                          '0',
                                                         ),
                                                         numeroEnd:
                                                             valueOrDefault<
