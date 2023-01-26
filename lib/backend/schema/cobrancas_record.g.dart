@@ -141,6 +141,12 @@ class _$CobrancasRecordSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.numeroParcela;
+    if (value != null) {
+      result
+        ..add('NumeroParcela')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -234,6 +240,10 @@ class _$CobrancasRecordSerializer
           result.parcela = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
+        case 'NumeroParcela':
+          result.numeroParcela = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -283,6 +293,8 @@ class _$CobrancasRecord extends CobrancasRecord {
   @override
   final String? parcela;
   @override
+  final int? numeroParcela;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$CobrancasRecord([void Function(CobrancasRecordBuilder)? updates]) =>
@@ -306,6 +318,7 @@ class _$CobrancasRecord extends CobrancasRecord {
       this.idUsuario,
       this.numeroEnd,
       this.parcela,
+      this.numeroParcela,
       this.ffRef})
       : super._();
 
@@ -338,6 +351,7 @@ class _$CobrancasRecord extends CobrancasRecord {
         idUsuario == other.idUsuario &&
         numeroEnd == other.numeroEnd &&
         parcela == other.parcela &&
+        numeroParcela == other.numeroParcela &&
         ffRef == other.ffRef;
   }
 
@@ -361,28 +375,31 @@ class _$CobrancasRecord extends CobrancasRecord {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            0,
-                                                                            nomeCliente
+                                                                            $jc(
+                                                                                0,
+                                                                                nomeCliente
+                                                                                    .hashCode),
+                                                                            numeroContrato
                                                                                 .hashCode),
-                                                                        numeroContrato
+                                                                        valor
                                                                             .hashCode),
-                                                                    valor
+                                                                    dataDeVencimento
                                                                         .hashCode),
-                                                                dataDeVencimento
+                                                                endereco
                                                                     .hashCode),
-                                                            endereco.hashCode),
-                                                        bairro.hashCode),
-                                                    status.hashCode),
-                                                id.hashCode),
-                                            dataSincronia.hashCode),
-                                        usuario.hashCode),
-                                    emailUsuario.hashCode),
-                                uId.hashCode),
-                            localizacao.hashCode),
-                        valorParcela.hashCode),
-                    idUsuario.hashCode),
-                numeroEnd.hashCode),
-            parcela.hashCode),
+                                                            bairro.hashCode),
+                                                        status.hashCode),
+                                                    id.hashCode),
+                                                dataSincronia.hashCode),
+                                            usuario.hashCode),
+                                        emailUsuario.hashCode),
+                                    uId.hashCode),
+                                localizacao.hashCode),
+                            valorParcela.hashCode),
+                        idUsuario.hashCode),
+                    numeroEnd.hashCode),
+                parcela.hashCode),
+            numeroParcela.hashCode),
         ffRef.hashCode));
   }
 
@@ -406,6 +423,7 @@ class _$CobrancasRecord extends CobrancasRecord {
           ..add('idUsuario', idUsuario)
           ..add('numeroEnd', numeroEnd)
           ..add('parcela', parcela)
+          ..add('numeroParcela', numeroParcela)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -486,6 +504,11 @@ class CobrancasRecordBuilder
   String? get parcela => _$this._parcela;
   set parcela(String? parcela) => _$this._parcela = parcela;
 
+  int? _numeroParcela;
+  int? get numeroParcela => _$this._numeroParcela;
+  set numeroParcela(int? numeroParcela) =>
+      _$this._numeroParcela = numeroParcela;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -514,6 +537,7 @@ class CobrancasRecordBuilder
       _idUsuario = $v.idUsuario;
       _numeroEnd = $v.numeroEnd;
       _parcela = $v.parcela;
+      _numeroParcela = $v.numeroParcela;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -554,6 +578,7 @@ class CobrancasRecordBuilder
             idUsuario: idUsuario,
             numeroEnd: numeroEnd,
             parcela: parcela,
+            numeroParcela: numeroParcela,
             ffRef: ffRef);
     replace(_$result);
     return _$result;
