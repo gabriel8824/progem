@@ -482,10 +482,10 @@ class _PaginaCobrancasV3WidgetState extends State<PaginaCobrancasV3Widget> {
                                                                         .alternate
                                                                     : FlutterFlowTheme.of(
                                                                             context)
-                                                                        .secondaryText,
+                                                                        .lineColor,
                                                                 FlutterFlowTheme.of(
                                                                         context)
-                                                                    .secondaryText,
+                                                                    .lineColor,
                                                               ),
                                                               width: 1,
                                                             ),

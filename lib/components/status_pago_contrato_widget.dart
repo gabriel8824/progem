@@ -633,7 +633,12 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                             .cobranca!.valor,
                                                         idCaixa:
                                                             simpleSearchResults
-                                                                .first.id,
+                                                                        .length <
+                                                                    1
+                                                                ? containerCaixasRecordList
+                                                                    .first.id
+                                                                : simpleSearchResults
+                                                                    .first.id,
                                                         formaDePagamento: 'PIX',
                                                         dataDeSincronia:
                                                             getCurrentTimestamp,
