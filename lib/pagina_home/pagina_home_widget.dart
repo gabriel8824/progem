@@ -400,12 +400,13 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                           false,
                                                           true,
                                                         )}',
-                                                        valorParcela:
-                                                            getJsonField(
+                                                        valorParcela: functions
+                                                            .converStringEmDouble(
+                                                                getJsonField(
                                                           FFAppState()
                                                               .CobrancaAtual,
                                                           r'''$.valor''',
-                                                        ),
+                                                        ).toString()),
                                                         numeroParcela:
                                                             getJsonField(
                                                           FFAppState()
