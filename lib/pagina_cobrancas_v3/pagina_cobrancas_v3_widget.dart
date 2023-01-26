@@ -486,46 +486,163 @@ class _PaginaCobrancasV3WidgetState extends State<PaginaCobrancasV3Widget> {
                                                                   MainAxisAlignment
                                                                       .spaceBetween,
                                                               children: [
-                                                                Container(
-                                                                  width: MediaQuery.of(
-                                                                              context)
-                                                                          .size
-                                                                          .width *
-                                                                      0.8,
-                                                                  decoration:
-                                                                      BoxDecoration(),
-                                                                  child: Column(
-                                                                    mainAxisSize:
-                                                                        MainAxisSize
-                                                                            .min,
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceBetween,
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
-                                                                    children: [
-                                                                      Align(
-                                                                        alignment: AlignmentDirectional(
-                                                                            -1,
-                                                                            0),
-                                                                        child:
-                                                                            Row(
+                                                                Expanded(
+                                                                  child:
+                                                                      Container(
+                                                                    width: MediaQuery.of(context)
+                                                                            .size
+                                                                            .width *
+                                                                        0.8,
+                                                                    decoration:
+                                                                        BoxDecoration(),
+                                                                    child:
+                                                                        Column(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .min,
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceBetween,
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Align(
+                                                                          alignment: AlignmentDirectional(
+                                                                              -1,
+                                                                              0),
+                                                                          child:
+                                                                              Row(
+                                                                            mainAxisSize:
+                                                                                MainAxisSize.min,
+                                                                            crossAxisAlignment:
+                                                                                CrossAxisAlignment.start,
+                                                                            children: [
+                                                                              Text(
+                                                                                'Nome: ',
+                                                                                style: FlutterFlowTheme.of(context).bodyText1,
+                                                                              ),
+                                                                              Align(
+                                                                                alignment: AlignmentDirectional(0, 0),
+                                                                                child: Text(
+                                                                                  listViewCobrancasRecord.nomeCliente!.maybeHandleOverflow(maxChars: 35),
+                                                                                  textAlign: TextAlign.start,
+                                                                                  maxLines: 1,
+                                                                                  style: FlutterFlowTheme.of(context).bodyText1.override(
+                                                                                        fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
+                                                                                        color: Color(0xFF545353),
+                                                                                        fontWeight: FontWeight.w500,
+                                                                                        useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
+                                                                                      ),
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                        Row(
                                                                           mainAxisSize:
-                                                                              MainAxisSize.min,
+                                                                              MainAxisSize.max,
                                                                           crossAxisAlignment:
                                                                               CrossAxisAlignment.start,
                                                                           children: [
                                                                             Text(
-                                                                              'Nome: ',
+                                                                              'N° do Contrato: ',
+                                                                              style: FlutterFlowTheme.of(context).bodyText1,
+                                                                            ),
+                                                                            Text(
+                                                                              listViewCobrancasRecord.numeroContrato!,
+                                                                              style: FlutterFlowTheme.of(context).bodyText1.override(
+                                                                                    fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
+                                                                                    color: Color(0xFF545353),
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                    useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
+                                                                                  ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                        Row(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.max,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            Text(
+                                                                              'N° da Parcela: ',
+                                                                              style: FlutterFlowTheme.of(context).bodyText1,
+                                                                            ),
+                                                                            Text(
+                                                                              listViewCobrancasRecord.parcela!,
+                                                                              style: FlutterFlowTheme.of(context).bodyText1.override(
+                                                                                    fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
+                                                                                    color: Color(0xFF545353),
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                    useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
+                                                                                  ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                        Row(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.max,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            Text(
+                                                                              'Valor: ',
+                                                                              style: FlutterFlowTheme.of(context).bodyText1,
+                                                                            ),
+                                                                            Text(
+                                                                              functions.formatarValorEmRealBrasileiro(listViewCobrancasRecord.valorParcela!),
+                                                                              style: FlutterFlowTheme.of(context).bodyText1.override(
+                                                                                    fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
+                                                                                    color: Color(0xFF545353),
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                    useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
+                                                                                  ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                        Row(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.max,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            Text(
+                                                                              'Data Vencimento: ',
+                                                                              style: FlutterFlowTheme.of(context).bodyText1,
+                                                                            ),
+                                                                            Text(
+                                                                              dateTimeFormat(
+                                                                                'd/M/y',
+                                                                                listViewCobrancasRecord.dataDeVencimento!,
+                                                                                locale: FFLocalizations.of(context).languageCode,
+                                                                              ),
+                                                                              style: FlutterFlowTheme.of(context).bodyText1.override(
+                                                                                    fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
+                                                                                    color: Color(0xFF545353),
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                    useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
+                                                                                  ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                        Row(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.max,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            Text(
+                                                                              'Endereço: ',
                                                                               style: FlutterFlowTheme.of(context).bodyText1,
                                                                             ),
                                                                             Align(
                                                                               alignment: AlignmentDirectional(0, 0),
                                                                               child: Text(
-                                                                                listViewCobrancasRecord.nomeCliente!.maybeHandleOverflow(maxChars: 35),
+                                                                                '${listViewCobrancasRecord.bairro} ${listViewCobrancasRecord.endereco} N° ${listViewCobrancasRecord.numeroEnd}',
                                                                                 textAlign: TextAlign.start,
-                                                                                maxLines: 1,
+                                                                                maxLines: 2,
                                                                                 style: FlutterFlowTheme.of(context).bodyText1.override(
                                                                                       fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
                                                                                       color: Color(0xFF545353),
@@ -536,128 +653,8 @@ class _PaginaCobrancasV3WidgetState extends State<PaginaCobrancasV3Widget> {
                                                                             ),
                                                                           ],
                                                                         ),
-                                                                      ),
-                                                                      Row(
-                                                                        mainAxisSize:
-                                                                            MainAxisSize.max,
-                                                                        crossAxisAlignment:
-                                                                            CrossAxisAlignment.start,
-                                                                        children: [
-                                                                          Text(
-                                                                            'N° do Contrato: ',
-                                                                            style:
-                                                                                FlutterFlowTheme.of(context).bodyText1,
-                                                                          ),
-                                                                          Text(
-                                                                            listViewCobrancasRecord.numeroContrato!,
-                                                                            style: FlutterFlowTheme.of(context).bodyText1.override(
-                                                                                  fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
-                                                                                  color: Color(0xFF545353),
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                  useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
-                                                                                ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                      Row(
-                                                                        mainAxisSize:
-                                                                            MainAxisSize.max,
-                                                                        crossAxisAlignment:
-                                                                            CrossAxisAlignment.start,
-                                                                        children: [
-                                                                          Text(
-                                                                            'N° da Parcela: ',
-                                                                            style:
-                                                                                FlutterFlowTheme.of(context).bodyText1,
-                                                                          ),
-                                                                          Text(
-                                                                            listViewCobrancasRecord.parcela!,
-                                                                            style: FlutterFlowTheme.of(context).bodyText1.override(
-                                                                                  fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
-                                                                                  color: Color(0xFF545353),
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                  useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
-                                                                                ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                      Row(
-                                                                        mainAxisSize:
-                                                                            MainAxisSize.max,
-                                                                        crossAxisAlignment:
-                                                                            CrossAxisAlignment.start,
-                                                                        children: [
-                                                                          Text(
-                                                                            'Valor: ',
-                                                                            style:
-                                                                                FlutterFlowTheme.of(context).bodyText1,
-                                                                          ),
-                                                                          Text(
-                                                                            functions.formatarValorEmRealBrasileiro(listViewCobrancasRecord.valorParcela!),
-                                                                            style: FlutterFlowTheme.of(context).bodyText1.override(
-                                                                                  fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
-                                                                                  color: Color(0xFF545353),
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                  useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
-                                                                                ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                      Row(
-                                                                        mainAxisSize:
-                                                                            MainAxisSize.max,
-                                                                        crossAxisAlignment:
-                                                                            CrossAxisAlignment.start,
-                                                                        children: [
-                                                                          Text(
-                                                                            'Data Vencimento: ',
-                                                                            style:
-                                                                                FlutterFlowTheme.of(context).bodyText1,
-                                                                          ),
-                                                                          Text(
-                                                                            dateTimeFormat(
-                                                                              'd/M/y',
-                                                                              listViewCobrancasRecord.dataDeVencimento!,
-                                                                              locale: FFLocalizations.of(context).languageCode,
-                                                                            ),
-                                                                            style: FlutterFlowTheme.of(context).bodyText1.override(
-                                                                                  fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
-                                                                                  color: Color(0xFF545353),
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                  useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
-                                                                                ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                      Row(
-                                                                        mainAxisSize:
-                                                                            MainAxisSize.max,
-                                                                        crossAxisAlignment:
-                                                                            CrossAxisAlignment.start,
-                                                                        children: [
-                                                                          Text(
-                                                                            'Endereço: ',
-                                                                            style:
-                                                                                FlutterFlowTheme.of(context).bodyText1,
-                                                                          ),
-                                                                          Align(
-                                                                            alignment:
-                                                                                AlignmentDirectional(0, 0),
-                                                                            child:
-                                                                                Text(
-                                                                              '${listViewCobrancasRecord.bairro} ${listViewCobrancasRecord.endereco} N° ${listViewCobrancasRecord.numeroEnd}',
-                                                                              textAlign: TextAlign.start,
-                                                                              style: FlutterFlowTheme.of(context).bodyText1.override(
-                                                                                    fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
-                                                                                    color: Color(0xFF545353),
-                                                                                    fontWeight: FontWeight.w500,
-                                                                                    useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
-                                                                                  ),
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ],
+                                                                      ],
+                                                                    ),
                                                                   ),
                                                                 ),
                                                                 Container(
