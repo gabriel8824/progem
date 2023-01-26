@@ -304,17 +304,6 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                               if ((apiResultCobrancasTT
                                                       ?.succeeded ??
                                                   true)) {
-                                                FFAppState().update(() {
-                                                  FFAppState().CobrancasOffV2 =
-                                                      ApiProgemGroup
-                                                          .listarCobrancasCall
-                                                          .dados(
-                                                            (apiResultCobrancasTT
-                                                                    ?.jsonBody ??
-                                                                ''),
-                                                          )!
-                                                          .toList();
-                                                });
                                                 if (FFAppState().PaginaAtual <=
                                                     ApiProgemGroup
                                                         .listarCobrancasCall
@@ -323,6 +312,18 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                               ?.jsonBody ??
                                                           ''),
                                                     )) {
+                                                  FFAppState().update(() {
+                                                    FFAppState()
+                                                            .CobrancasOffV2 =
+                                                        ApiProgemGroup
+                                                            .listarCobrancasCall
+                                                            .dados(
+                                                              (apiResultCobrancasTT
+                                                                      ?.jsonBody ??
+                                                                  ''),
+                                                            )!
+                                                            .toList();
+                                                  });
                                                   loop2323 =
                                                       InstantTimer.periodic(
                                                     duration: Duration(
@@ -480,12 +481,14 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                         }
 
                                                         return;
+                                                      } else {
+                                                        loop2323?.cancel();
                                                       }
                                                     },
                                                     startImmediately: false,
                                                   );
                                                 } else {
-                                                  null?.cancel();
+                                                  LoopSicC?.cancel();
                                                   FFAppState().update(() {
                                                     FFAppState().PaginaAtual =
                                                         1;
