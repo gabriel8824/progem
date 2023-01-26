@@ -234,284 +234,302 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                     var _shouldSetState = false;
                                     net2 = await actions.checkInternet();
                                     _shouldSetState = true;
-                                    if (net2!) {
-                                      if (paginaHomeCobrancasRecordList.length <
-                                          1) {
-                                        showModalBottomSheet(
-                                          isScrollControlled: true,
-                                          backgroundColor: Colors.transparent,
-                                          isDismissible: false,
-                                          enableDrag: false,
-                                          context: context,
-                                          builder: (context) {
-                                            return Padding(
-                                              padding: MediaQuery.of(context)
-                                                  .viewInsets,
-                                              child: LoadSicWidget(),
-                                            );
-                                          },
-                                        ).then((value) => setState(() {}));
-
-                                        FFAppState().update(() {
-                                          FFAppState().PaginaAtual = 1;
-                                        });
-                                        LoopSicC = InstantTimer.periodic(
-                                          duration:
-                                              Duration(milliseconds: 1000),
-                                          callback: (timer) async {
-                                            apiResultCobrancasTT =
-                                                await ApiProgemGroup
-                                                    .listarCobrancasCall
-                                                    .call(
-                                              token: FFAppState().token,
-                                              pagina: valueOrDefault<int>(
-                                                FFAppState().PaginaAtual,
-                                                1,
-                                              ),
-                                            );
-                                            _shouldSetState = true;
-                                            FFAppState().update(() {
-                                              FFAppState()
-                                                  .PorcentagemAtual = FFAppState()
-                                                      .PorcentagemAtual +
-                                                  ApiProgemGroup
-                                                          .listarCobrancasCall
-                                                          .paginaAtual(
-                                                        (apiResultCobrancasTT
-                                                                ?.jsonBody ??
-                                                            ''),
-                                                      ) *
-                                                      100 /
-                                                      ApiProgemGroup
-                                                          .listarCobrancasCall
-                                                          .quantidadeDePagina(
-                                                        (apiResultCobrancasTT
-                                                                ?.jsonBody ??
-                                                            ''),
-                                                      ) /
-                                                      100;
-                                            });
-                                            FFAppState().update(() {
-                                              FFAppState().PaginaAtual =
-                                                  valueOrDefault<int>(
-                                                FFAppState().PaginaAtual + 1,
-                                                1,
+                                    if (paginaHomeCobrancasRecordList.length <
+                                        1) {
+                                      if (net2!) {
+                                        if (paginaHomeCobrancasRecordList
+                                                .length <
+                                            1) {
+                                          showModalBottomSheet(
+                                            isScrollControlled: true,
+                                            backgroundColor: Colors.transparent,
+                                            isDismissible: false,
+                                            enableDrag: false,
+                                            context: context,
+                                            builder: (context) {
+                                              return Padding(
+                                                padding: MediaQuery.of(context)
+                                                    .viewInsets,
+                                                child: LoadSicWidget(),
                                               );
-                                            });
-                                            if ((apiResultCobrancasTT
-                                                    ?.succeeded ??
-                                                true)) {
+                                            },
+                                          ).then((value) => setState(() {}));
+
+                                          FFAppState().update(() {
+                                            FFAppState().PaginaAtual = 1;
+                                          });
+                                          LoopSicC = InstantTimer.periodic(
+                                            duration:
+                                                Duration(milliseconds: 1000),
+                                            callback: (timer) async {
+                                              apiResultCobrancasTT =
+                                                  await ApiProgemGroup
+                                                      .listarCobrancasCall
+                                                      .call(
+                                                token: FFAppState().token,
+                                                pagina: valueOrDefault<int>(
+                                                  FFAppState().PaginaAtual,
+                                                  1,
+                                                ),
+                                              );
+                                              _shouldSetState = true;
                                               FFAppState().update(() {
-                                                FFAppState().CobrancasOffV2 =
+                                                FFAppState()
+                                                    .PorcentagemAtual = FFAppState()
+                                                        .PorcentagemAtual +
                                                     ApiProgemGroup
-                                                        .listarCobrancasCall
-                                                        .dados(
+                                                            .listarCobrancasCall
+                                                            .paginaAtual(
                                                           (apiResultCobrancasTT
                                                                   ?.jsonBody ??
                                                               ''),
-                                                        )!
-                                                        .toList();
+                                                        ) *
+                                                        100 /
+                                                        ApiProgemGroup
+                                                            .listarCobrancasCall
+                                                            .quantidadeDePagina(
+                                                          (apiResultCobrancasTT
+                                                                  ?.jsonBody ??
+                                                              ''),
+                                                        ) /
+                                                        100;
                                               });
-                                              if (FFAppState().PaginaAtual <=
-                                                  ApiProgemGroup
-                                                      .listarCobrancasCall
-                                                      .quantidadeDePagina(
-                                                    (apiResultCobrancasTT
-                                                            ?.jsonBody ??
-                                                        ''),
-                                                  )) {
-                                                loop2323 =
-                                                    InstantTimer.periodic(
-                                                  duration: Duration(
-                                                      milliseconds: 1000),
-                                                  callback: (timer) async {
-                                                    if (FFAppState()
-                                                            .CobrancasOffV2
-                                                            .length >=
-                                                        1) {
-                                                      FFAppState().update(() {
-                                                        FFAppState()
-                                                                .CobrancaAtual =
-                                                            FFAppState()
-                                                                .CobrancasOffV2
-                                                                .first;
-                                                      });
-                                                      setState(() {
-                                                        simpleSearchResults1 =
-                                                            TextSearch(
-                                                          paginaHomeCobrancasRecordList
-                                                              .map(
-                                                                (record) =>
-                                                                    TextSearchItem(
-                                                                        record,
-                                                                        [
-                                                                      record.id!
-                                                                    ]),
-                                                              )
-                                                              .toList(),
-                                                        )
-                                                                .search(
-                                                                    getJsonField(
-                                                                  FFAppState()
-                                                                      .CobrancaAtual,
-                                                                  r'''$.id''',
-                                                                ).toString())
-                                                                .map((r) =>
-                                                                    r.object)
-                                                                .toList();
-                                                      });
-                                                      if (simpleSearchResults1
+                                              FFAppState().update(() {
+                                                FFAppState().PaginaAtual =
+                                                    valueOrDefault<int>(
+                                                  FFAppState().PaginaAtual + 1,
+                                                  1,
+                                                );
+                                              });
+                                              if ((apiResultCobrancasTT
+                                                      ?.succeeded ??
+                                                  true)) {
+                                                FFAppState().update(() {
+                                                  FFAppState().CobrancasOffV2 =
+                                                      ApiProgemGroup
+                                                          .listarCobrancasCall
+                                                          .dados(
+                                                            (apiResultCobrancasTT
+                                                                    ?.jsonBody ??
+                                                                ''),
+                                                          )!
+                                                          .toList();
+                                                });
+                                                if (FFAppState().PaginaAtual <=
+                                                    ApiProgemGroup
+                                                        .listarCobrancasCall
+                                                        .quantidadeDePagina(
+                                                      (apiResultCobrancasTT
+                                                              ?.jsonBody ??
+                                                          ''),
+                                                    )) {
+                                                  loop2323 =
+                                                      InstantTimer.periodic(
+                                                    duration: Duration(
+                                                        milliseconds: 1000),
+                                                    callback: (timer) async {
+                                                      if (FFAppState()
+                                                              .CobrancasOffV2
                                                               .length >=
                                                           1) {
                                                         FFAppState().update(() {
                                                           FFAppState()
-                                                              .removeFromCobrancasOffV2(
-                                                                  FFAppState()
-                                                                      .CobrancaAtual);
-                                                        });
-                                                        FFAppState().update(() {
-                                                          FFAppState()
                                                                   .CobrancaAtual =
-                                                              null;
+                                                              FFAppState()
+                                                                  .CobrancasOffV2
+                                                                  .first;
                                                         });
-                                                      } else {
-                                                        final cobrancasCreateData =
-                                                            createCobrancasRecordData(
-                                                          nomeCliente:
-                                                              getJsonField(
+                                                        setState(() {
+                                                          simpleSearchResults1 =
+                                                              TextSearch(
+                                                            paginaHomeCobrancasRecordList
+                                                                .map(
+                                                                  (record) =>
+                                                                      TextSearchItem(
+                                                                          record,
+                                                                          [
+                                                                        record
+                                                                            .id!
+                                                                      ]),
+                                                                )
+                                                                .toList(),
+                                                          )
+                                                                  .search(
+                                                                      getJsonField(
+                                                                    FFAppState()
+                                                                        .CobrancaAtual,
+                                                                    r'''$.id''',
+                                                                  ).toString())
+                                                                  .map((r) =>
+                                                                      r.object)
+                                                                  .toList();
+                                                        });
+                                                        if (simpleSearchResults1
+                                                                .length >=
+                                                            1) {
+                                                          FFAppState()
+                                                              .update(() {
                                                             FFAppState()
-                                                                .CobrancaAtual,
-                                                            r'''$.cliente.nome''',
-                                                          ).toString(),
-                                                          numeroContrato:
-                                                              getJsonField(
+                                                                .removeFromCobrancasOffV2(
+                                                                    FFAppState()
+                                                                        .CobrancaAtual);
+                                                          });
+                                                          FFAppState()
+                                                              .update(() {
                                                             FFAppState()
-                                                                .CobrancaAtual,
-                                                            r'''$.contrato.numero''',
-                                                          ).toString(),
-                                                          valor: valueOrDefault<
-                                                              double>(
-                                                            functions
-                                                                .converStringEmDouble(
-                                                                    getJsonField(
+                                                                    .CobrancaAtual =
+                                                                null;
+                                                          });
+                                                        } else {
+                                                          final cobrancasCreateData =
+                                                              createCobrancasRecordData(
+                                                            nomeCliente:
+                                                                getJsonField(
                                                               FFAppState()
                                                                   .CobrancaAtual,
-                                                              r'''$.contrato.valorTotal''',
-                                                            ).toString()),
-                                                            0.0,
-                                                          ),
-                                                          dataDeVencimento:
+                                                              r'''$.cliente.nome''',
+                                                            ).toString(),
+                                                            numeroContrato:
+                                                                getJsonField(
+                                                              FFAppState()
+                                                                  .CobrancaAtual,
+                                                              r'''$.contrato.numero''',
+                                                            ).toString(),
+                                                            valor:
+                                                                valueOrDefault<
+                                                                    double>(
                                                               functions
-                                                                  .formatarData(
+                                                                  .converStringEmDouble(
                                                                       getJsonField(
-                                                            FFAppState()
-                                                                .CobrancaAtual,
-                                                            r'''$.dataVencimento''',
-                                                          ).toString()),
-                                                          endereco:
-                                                              getJsonField(
-                                                            FFAppState()
-                                                                .CobrancaAtual,
-                                                            r'''$.cliente.endereco.logradouro''',
-                                                          ).toString(),
-                                                          bairro: getJsonField(
-                                                            FFAppState()
-                                                                .CobrancaAtual,
-                                                            r'''$.cliente.endereco.bairro''',
-                                                          ).toString(),
-                                                          status: getJsonField(
-                                                            FFAppState()
-                                                                .CobrancaAtual,
-                                                            r'''$.status''',
-                                                          ).toString(),
-                                                          id: getJsonField(
-                                                            FFAppState()
-                                                                .CobrancaAtual,
-                                                            r'''$.id''',
-                                                          ).toString(),
-                                                          dataSincronia:
-                                                              getCurrentTimestamp,
-                                                          usuario:
-                                                              currentUserReference,
-                                                          emailUsuario:
-                                                              currentUserEmail,
-                                                          uId:
-                                                              '${random_data.randomString(
-                                                            10,
-                                                            10,
-                                                            false,
-                                                            false,
-                                                            true,
-                                                          )}x${random_data.randomString(
-                                                            10,
-                                                            10,
-                                                            false,
-                                                            false,
-                                                            true,
-                                                          )}',
-                                                        );
-                                                        await CobrancasRecord
-                                                            .collection
-                                                            .doc()
-                                                            .set(
-                                                                cobrancasCreateData);
-                                                        FFAppState().update(() {
+                                                                FFAppState()
+                                                                    .CobrancaAtual,
+                                                                r'''$.contrato.valorTotal''',
+                                                              ).toString()),
+                                                              0.0,
+                                                            ),
+                                                            dataDeVencimento:
+                                                                functions
+                                                                    .formatarData(
+                                                                        getJsonField(
+                                                              FFAppState()
+                                                                  .CobrancaAtual,
+                                                              r'''$.dataVencimento''',
+                                                            ).toString()),
+                                                            endereco:
+                                                                getJsonField(
+                                                              FFAppState()
+                                                                  .CobrancaAtual,
+                                                              r'''$.cliente.endereco.logradouro''',
+                                                            ).toString(),
+                                                            bairro:
+                                                                getJsonField(
+                                                              FFAppState()
+                                                                  .CobrancaAtual,
+                                                              r'''$.cliente.endereco.bairro''',
+                                                            ).toString(),
+                                                            status:
+                                                                getJsonField(
+                                                              FFAppState()
+                                                                  .CobrancaAtual,
+                                                              r'''$.status''',
+                                                            ).toString(),
+                                                            id: getJsonField(
+                                                              FFAppState()
+                                                                  .CobrancaAtual,
+                                                              r'''$.id''',
+                                                            ).toString(),
+                                                            dataSincronia:
+                                                                getCurrentTimestamp,
+                                                            usuario:
+                                                                currentUserReference,
+                                                            emailUsuario:
+                                                                currentUserEmail,
+                                                            uId:
+                                                                '${random_data.randomString(
+                                                              10,
+                                                              10,
+                                                              false,
+                                                              false,
+                                                              true,
+                                                            )}x${random_data.randomString(
+                                                              10,
+                                                              10,
+                                                              false,
+                                                              false,
+                                                              true,
+                                                            )}',
+                                                          );
+                                                          await CobrancasRecord
+                                                              .collection
+                                                              .doc()
+                                                              .set(
+                                                                  cobrancasCreateData);
                                                           FFAppState()
-                                                              .removeFromCobrancasOffV2(
-                                                                  FFAppState()
-                                                                      .CobrancaAtual);
-                                                        });
-                                                        FFAppState().update(() {
+                                                              .update(() {
+                                                            FFAppState()
+                                                                .removeFromCobrancasOffV2(
+                                                                    FFAppState()
+                                                                        .CobrancaAtual);
+                                                          });
                                                           FFAppState()
-                                                                  .CobrancaAtual =
-                                                              null;
-                                                        });
-                                                      }
+                                                              .update(() {
+                                                            FFAppState()
+                                                                    .CobrancaAtual =
+                                                                null;
+                                                          });
+                                                        }
 
-                                                      return;
-                                                    }
-                                                  },
-                                                  startImmediately: false,
-                                                );
+                                                        return;
+                                                      }
+                                                    },
+                                                    startImmediately: false,
+                                                  );
+                                                } else {
+                                                  null?.cancel();
+                                                  FFAppState().update(() {
+                                                    FFAppState().PaginaAtual =
+                                                        1;
+                                                  });
+                                                  Navigator.pop(context);
+
+                                                  context.pushNamed(
+                                                      'PaginaCobrancasV3');
+                                                }
                                               } else {
-                                                LoopSicC?.cancel();
-                                                FFAppState().update(() {
-                                                  FFAppState().PaginaAtual = 1;
-                                                });
                                                 Navigator.pop(context);
 
                                                 context.pushNamed(
                                                     'PaginaCobrancasV3');
-                                              }
-                                            } else {
-                                              Navigator.pop(context);
 
-                                              context.pushNamed(
-                                                  'PaginaCobrancasV3');
-
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    'Algo deu errado',
-                                                    style: TextStyle(
-                                                      color: FlutterFlowTheme
-                                                              .of(context)
-                                                          .primaryBackground,
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      'Algo deu errado',
+                                                      style: TextStyle(
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .primaryBackground,
+                                                      ),
                                                     ),
+                                                    duration: Duration(
+                                                        milliseconds: 4000),
+                                                    backgroundColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .alternate,
                                                   ),
-                                                  duration: Duration(
-                                                      milliseconds: 4000),
-                                                  backgroundColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .alternate,
-                                                ),
-                                              );
-                                            }
-                                          },
-                                          startImmediately: false,
-                                        );
+                                                );
+                                              }
+                                            },
+                                            startImmediately: false,
+                                          );
+                                        } else {
+                                          Navigator.pop(context);
+
+                                          context
+                                              .pushNamed('PaginaCobrancasV3');
+                                        }
                                       } else {
                                         Navigator.pop(context);
 
