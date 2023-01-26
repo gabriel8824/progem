@@ -523,8 +523,9 @@ class _PaginaCobrancasV3WidgetState extends State<PaginaCobrancasV3Widget> {
                                                                             Align(
                                                                               alignment: AlignmentDirectional(0, 0),
                                                                               child: Text(
-                                                                                listViewCobrancasRecord.nomeCliente!,
+                                                                                listViewCobrancasRecord.nomeCliente!.maybeHandleOverflow(maxChars: 35),
                                                                                 textAlign: TextAlign.start,
+                                                                                maxLines: 1,
                                                                                 style: FlutterFlowTheme.of(context).bodyText1.override(
                                                                                       fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
                                                                                       color: Color(0xFF545353),
