@@ -367,10 +367,20 @@ class _PaginaLoginWidgetState extends State<PaginaLoginWidget> {
                                     .toString();
                               });
                               apiResultD = await ApiProgemGroup.dadosCall.call(
-                                token: FFAppState().token,
+                                token: ApiProgemGroup.loginCall
+                                    .token(
+                                      (resLogin?.jsonBody ?? ''),
+                                    )
+                                    .toString(),
                               );
                               _shouldSetState = true;
                               if ((apiResultD?.succeeded ?? true)) {
+                                GoRouter.of(context).prepareAuthEvent();
+                                final user = await signInAnonymously(context);
+                                if (user == null) {
+                                  return;
+                                }
+
                                 final usuarioUpdateData =
                                     createUsuarioRecordData(
                                   email: textController1!.text,
@@ -383,11 +393,6 @@ class _PaginaLoginWidgetState extends State<PaginaLoginWidget> {
                                 );
                                 await currentUserReference!
                                     .update(usuarioUpdateData);
-                                GoRouter.of(context).prepareAuthEvent();
-                                final user = await signInAnonymously(context);
-                                if (user == null) {
-                                  return;
-                                }
 
                                 context.pushNamedAuth('PaginaHome', mounted);
                               } else {
