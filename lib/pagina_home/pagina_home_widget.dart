@@ -253,7 +253,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                         });
                                         LoopSicC = InstantTimer.periodic(
                                           duration:
-                                              Duration(milliseconds: 5000),
+                                              Duration(milliseconds: 10000),
                                           callback: (timer) async {
                                             apiResultCobrancasTT =
                                                 await ApiProgemGroup
@@ -266,7 +266,9 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                               ),
                                             );
                                             FFAppState().update(() {
-                                              FFAppState().PorcentagemAtual =
+                                              FFAppState()
+                                                  .PorcentagemAtual = FFAppState()
+                                                      .PorcentagemAtual +
                                                   ApiProgemGroup
                                                           .listarCobrancasCall
                                                           .paginaAtual(
@@ -452,6 +454,10 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                               }
                                             } else {
                                               Navigator.pop(context);
+
+                                              context.pushNamed(
+                                                  'PaginaCobrancasV3');
+
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
                                                 SnackBar(
