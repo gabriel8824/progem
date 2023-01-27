@@ -548,7 +548,7 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                     defaultLocation:
                                                         LatLng(0.0, 0.0));
                                             net = await actions.checkInternet();
-                                            if (false) {
+                                            if (net!) {
                                               apiResultReceberCobranca1 =
                                                   await ApiProgemGroup
                                                       .receberCobrancaCall
@@ -711,12 +711,6 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                 );
                                               }
                                             } else {
-                                              final cobrancasUpdateData =
-                                                  createCobrancasRecordData(
-                                                status: 'RECEBIDA',
-                                              );
-                                              await widget.cobranca!.reference
-                                                  .update(cobrancasUpdateData);
                                               Navigator.pop(context);
                                             }
 
