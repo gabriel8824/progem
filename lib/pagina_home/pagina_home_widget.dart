@@ -7,6 +7,7 @@ import '../components/menu_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/instant_timer.dart';
+import '../custom_code/actions/index.dart' as actions;
 import '../flutter_flow/custom_functions.dart' as functions;
 import '../flutter_flow/random_data_util.dart' as random_data;
 import 'package:auto_size_text/auto_size_text.dart';
@@ -31,6 +32,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
   List<CobrancasRealizadasRecord> simpleSearchResults2 = [];
   ApiCallResponse? apiResultCobrancasTT;
   InstantTimer? LoopSicC;
+  bool? net;
   InstantTimer? loop2323;
   List<CobrancasRecord> simpleSearchResults1 = [];
   ApiCallResponse? apiResultCaixas1;
@@ -202,8 +204,10 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                             return InkWell(
                               onTap: () async {
                                 var _shouldSetState = false;
+                                net = await actions.checkInternet();
+                                _shouldSetState = true;
                                 if (containerCobrancasRecordList.length < 1) {
-                                  if (true) {
+                                  if (net!) {
                                     if (containerCobrancasRecordList.length <
                                         1) {
                                       showModalBottomSheet(

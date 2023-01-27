@@ -7,6 +7,7 @@ import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
+import '../custom_code/actions/index.dart' as actions;
 import '../flutter_flow/custom_functions.dart' as functions;
 import '../flutter_flow/random_data_util.dart' as random_data;
 import 'package:auto_size_text/auto_size_text.dart';
@@ -31,6 +32,7 @@ class StatusPagoContratoWidget extends StatefulWidget {
 
 class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
   ApiCallResponse? apiResultReceberCobranca1;
+  bool? net;
   List<CaixasRecord> simpleSearchResults = [];
   String? dropDownCValue;
   String? dropDownFDPValue;
@@ -545,7 +547,8 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                 await getCurrentUserLocation(
                                                     defaultLocation:
                                                         LatLng(0.0, 0.0));
-                                            if (true) {
+                                            net = await actions.checkInternet();
+                                            if (false) {
                                               apiResultReceberCobranca1 =
                                                   await ApiProgemGroup
                                                       .receberCobrancaCall
@@ -717,7 +720,6 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
 
                                               final cobrancasRealizadasCreateData =
                                                   createCobrancasRealizadasRecordData(
-                                                user: currentUserReference,
                                                 data: getCurrentTimestamp,
                                                 idCobranca: widget.cobranca!.id,
                                                 uid:
@@ -747,8 +749,6 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                     widget.cobranca!.reference,
                                                 sincronizado: false,
                                                 status: 'RECEBIDA',
-                                                localizacao:
-                                                    currentUserLocationValue,
                                                 nomeCliente: widget
                                                     .cobranca!.nomeCliente,
                                                 dataDeVencimento: widget
