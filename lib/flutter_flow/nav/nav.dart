@@ -190,11 +190,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               name: 'teste',
               path: 'teste',
               builder: (context, params) => TesteWidget(),
-            ),
-            FFRoute(
-              name: 'PaginaHomeCopy',
-              path: 'paginaHomeCopy',
-              builder: (context, params) => PaginaHomeCopyWidget(),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ).toRoute(appStateNotifier),

@@ -7,7 +7,6 @@ import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
-import '../custom_code/actions/index.dart' as actions;
 import '../flutter_flow/custom_functions.dart' as functions;
 import '../flutter_flow/random_data_util.dart' as random_data;
 import 'package:auto_size_text/auto_size_text.dart';
@@ -31,8 +30,7 @@ class StatusPagoContratoWidget extends StatefulWidget {
 }
 
 class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
-  ApiCallResponse? apiResultReceberCobranca;
-  bool? net;
+  ApiCallResponse? apiResultReceberCobranca1;
   List<CaixasRecord> simpleSearchResults = [];
   String? dropDownCValue;
   String? dropDownFDPValue;
@@ -542,313 +540,269 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                           ),
                                         ),
                                         FFButtonWidget(
-                                          onPressed: (dropDownCValue == null ||
-                                                      dropDownCValue == '') ||
-                                                  (dropDownFDPValue == null ||
-                                                      dropDownFDPValue == '')
-                                              ? null
-                                              : () async {
-                                                  currentUserLocationValue =
-                                                      await getCurrentUserLocation(
-                                                          defaultLocation:
-                                                              LatLng(0.0, 0.0));
-                                                  net = await actions
-                                                      .checkInternet();
-                                                  if (net!) {
-                                                    apiResultReceberCobranca =
-                                                        await ApiProgemGroup
-                                                            .receberCobrancaCall
-                                                            .call(
-                                                      id: widget.cobranca!.id,
-                                                      valor: widget.cobranca!
-                                                          .valorParcela
-                                                          ?.toString(),
-                                                      token: FFAppState().token,
-                                                      idCaixa:
-                                                          simpleSearchResults
-                                                                      .length <
-                                                                  1
-                                                              ? containerCaixasRecordList
-                                                                  .first.id
-                                                              : simpleSearchResults
-                                                                  .first.id,
-                                                      formaDePagamento: () {
-                                                        if (dropDownFDPValue ==
-                                                            'Boleto bancário') {
-                                                          return 'BOLETO_BANCARIO';
-                                                        } else if (dropDownFDPValue ==
-                                                            'Cartão de crédito') {
-                                                          return 'CARTAO_CREDITO';
-                                                        } else if (dropDownFDPValue ==
-                                                            'Cartão de débito') {
-                                                          return 'CARTAO_DEBITO';
-                                                        } else if (dropDownFDPValue ==
-                                                            'Dinheiro') {
-                                                          return 'DINHEIRO';
-                                                        } else if (dropDownFDPValue ==
-                                                            'PIX') {
-                                                          return 'PIX';
-                                                        } else {
-                                                          return 'DINHEIRO';
-                                                        }
-                                                      }(),
-                                                    );
-                                                    if ((apiResultReceberCobranca
-                                                            ?.succeeded ??
-                                                        true)) {
-                                                      final cobrancasUpdateData =
-                                                          createCobrancasRecordData(
-                                                        status: 'RECEBIDA',
-                                                        dataSincronia:
-                                                            getCurrentTimestamp,
-                                                      );
-                                                      await widget
-                                                          .cobranca!.reference
-                                                          .update(
-                                                              cobrancasUpdateData);
-
-                                                      final cobrancasRealizadasCreateData =
-                                                          createCobrancasRealizadasRecordData(
-                                                        user:
-                                                            currentUserReference,
-                                                        data:
-                                                            getCurrentTimestamp,
-                                                        idCobranca:
-                                                            widget.cobranca!.id,
-                                                        uid:
-                                                            '${random_data.randomString(
-                                                          10,
-                                                          10,
-                                                          false,
-                                                          false,
-                                                          true,
-                                                        )}x${random_data.randomString(
-                                                          10,
-                                                          10,
-                                                          false,
-                                                          false,
-                                                          true,
-                                                        )}',
-                                                        valor: widget
-                                                            .cobranca!.valor,
-                                                        idCaixa:
-                                                            simpleSearchResults
-                                                                        .length <
-                                                                    1
-                                                                ? containerCaixasRecordList
-                                                                    .first.id
-                                                                : simpleSearchResults
-                                                                    .first.id,
-                                                        formaDePagamento: 'PIX',
-                                                        dataDeSincronia:
-                                                            getCurrentTimestamp,
-                                                        cobranca: widget
-                                                            .cobranca!
-                                                            .reference,
-                                                        sincronizado: true,
-                                                        status: 'RECEBIDA',
-                                                        localizacao:
-                                                            currentUserLocationValue,
-                                                        nomeCliente: widget
-                                                            .cobranca!
-                                                            .nomeCliente,
-                                                        dataDeVencimento: widget
-                                                            .cobranca!
-                                                            .dataDeVencimento,
-                                                        numeroContrato: widget
-                                                            .cobranca!
-                                                            .numeroContrato,
-                                                        emailUser:
-                                                            currentUserEmail,
-                                                        valorParcela: widget
-                                                            .cobranca!
-                                                            .valorParcela,
-                                                        numeroParcela: widget
-                                                            .cobranca!
-                                                            .numeroParcela,
-                                                        numeroEnd: widget
-                                                            .cobranca!
-                                                            .numeroEnd,
-                                                      );
-                                                      await CobrancasRealizadasRecord
-                                                          .collection
-                                                          .doc()
-                                                          .set(
-                                                              cobrancasRealizadasCreateData);
-                                                      Navigator.pop(context);
-                                                      FFAppState().update(() {
-                                                        FFAppState()
-                                                                .CobrancaAtualizada =
-                                                            widget.cobranca!
-                                                                .reference;
-                                                      });
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(
-                                                        SnackBar(
-                                                          content: Text(
-                                                            'Cobrança Recebida com sucesso!',
-                                                            style: GoogleFonts
-                                                                .getFont(
-                                                              'Poppins',
-                                                              color:
-                                                                  Colors.white,
-                                                            ),
-                                                          ),
-                                                          duration: Duration(
-                                                              milliseconds:
-                                                                  6000),
-                                                          backgroundColor:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .secondaryColor,
-                                                        ),
-                                                      );
-                                                      await Future.delayed(
-                                                          const Duration(
-                                                              milliseconds:
-                                                                  6000));
-                                                      FFAppState().update(() {
-                                                        FFAppState()
-                                                                .CobrancaAtualizada =
-                                                            null;
-                                                      });
-                                                    } else {
-                                                      Navigator.pop(context);
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(
-                                                        SnackBar(
-                                                          content: Text(
-                                                            'Algo deu errado, por favor tente novamente mais tarde.',
-                                                            style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                            ),
-                                                          ),
-                                                          duration: Duration(
-                                                              milliseconds:
-                                                                  4000),
-                                                          backgroundColor:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .alternate,
-                                                        ),
-                                                      );
-                                                    }
+                                          onPressed: () async {
+                                            currentUserLocationValue =
+                                                await getCurrentUserLocation(
+                                                    defaultLocation:
+                                                        LatLng(0.0, 0.0));
+                                            if (true) {
+                                              apiResultReceberCobranca1 =
+                                                  await ApiProgemGroup
+                                                      .receberCobrancaCall
+                                                      .call(
+                                                id: widget.cobranca!.id,
+                                                valor: widget
+                                                    .cobranca!.valorParcela
+                                                    ?.toString(),
+                                                token: FFAppState().token,
+                                                idCaixa: simpleSearchResults
+                                                            .length <
+                                                        1
+                                                    ? containerCaixasRecordList
+                                                        .first.id
+                                                    : simpleSearchResults
+                                                        .first.id,
+                                                formaDePagamento: () {
+                                                  if (dropDownFDPValue ==
+                                                      'Boleto bancário') {
+                                                    return 'BOLETO_BANCARIO';
+                                                  } else if (dropDownFDPValue ==
+                                                      'Cartão de crédito') {
+                                                    return 'CARTAO_CREDITO';
+                                                  } else if (dropDownFDPValue ==
+                                                      'Cartão de débito') {
+                                                    return 'CARTAO_DEBITO';
+                                                  } else if (dropDownFDPValue ==
+                                                      'Dinheiro') {
+                                                    return 'DINHEIRO';
+                                                  } else if (dropDownFDPValue ==
+                                                      'PIX') {
+                                                    return 'PIX';
                                                   } else {
-                                                    final cobrancasUpdateData =
-                                                        createCobrancasRecordData(
-                                                      status: 'RECEBIDA',
-                                                    );
-                                                    await widget
-                                                        .cobranca!.reference
-                                                        .update(
-                                                            cobrancasUpdateData);
-
-                                                    final cobrancasRealizadasCreateData =
-                                                        createCobrancasRealizadasRecordData(
-                                                      user:
-                                                          currentUserReference,
-                                                      data: getCurrentTimestamp,
-                                                      idCobranca:
-                                                          widget.cobranca!.id,
-                                                      uid:
-                                                          '${random_data.randomString(
-                                                        10,
-                                                        10,
-                                                        false,
-                                                        false,
-                                                        true,
-                                                      )}x${random_data.randomString(
-                                                        10,
-                                                        10,
-                                                        false,
-                                                        false,
-                                                        true,
-                                                      )}',
-                                                      valor: widget
-                                                          .cobranca!.valor,
-                                                      idCaixa:
-                                                          simpleSearchResults
-                                                                      .length <
-                                                                  1
-                                                              ? containerCaixasRecordList
-                                                                  .first.id
-                                                              : simpleSearchResults
-                                                                  .first.id,
-                                                      formaDePagamento: 'PIX',
-                                                      cobranca: widget
-                                                          .cobranca!.reference,
-                                                      sincronizado: false,
-                                                      status: 'RECEBIDA',
-                                                      localizacao:
-                                                          currentUserLocationValue,
-                                                      nomeCliente: widget
-                                                          .cobranca!
-                                                          .nomeCliente,
-                                                      dataDeVencimento: widget
-                                                          .cobranca!
-                                                          .dataDeVencimento,
-                                                      numeroContrato: widget
-                                                          .cobranca!
-                                                          .numeroContrato,
-                                                      emailUser:
-                                                          currentUserEmail,
-                                                      valorParcela: widget
-                                                          .cobranca!
-                                                          .valorParcela,
-                                                      numeroParcela: widget
-                                                          .cobranca!
-                                                          .numeroParcela,
-                                                      numeroEnd: widget
-                                                          .cobranca!.numeroEnd,
-                                                    );
-                                                    await CobrancasRealizadasRecord
-                                                        .collection
-                                                        .doc()
-                                                        .set(
-                                                            cobrancasRealizadasCreateData);
-                                                    Navigator.pop(context);
-                                                    FFAppState().update(() {
-                                                      FFAppState()
-                                                              .CobrancaAtualizada =
-                                                          widget.cobranca!
-                                                              .reference;
-                                                    });
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                      SnackBar(
-                                                        content: Text(
-                                                          'Cobrança Recebida com sucesso!',
-                                                          style: GoogleFonts
-                                                              .getFont(
-                                                            'Poppins',
-                                                            color: Colors.white,
-                                                          ),
-                                                        ),
-                                                        duration: Duration(
-                                                            milliseconds: 6000),
-                                                        backgroundColor:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .secondaryColor,
-                                                      ),
-                                                    );
-                                                    await Future.delayed(
-                                                        const Duration(
-                                                            milliseconds:
-                                                                6000));
-                                                    FFAppState().update(() {
-                                                      FFAppState()
-                                                              .CobrancaAtualizada =
-                                                          null;
-                                                    });
+                                                    return 'DINHEIRO';
                                                   }
+                                                }(),
+                                              );
+                                              if ((apiResultReceberCobranca1
+                                                      ?.succeeded ??
+                                                  true)) {
+                                                final cobrancasUpdateData =
+                                                    createCobrancasRecordData(
+                                                  status: 'RECEBIDA',
+                                                  dataSincronia:
+                                                      getCurrentTimestamp,
+                                                );
+                                                await widget.cobranca!.reference
+                                                    .update(
+                                                        cobrancasUpdateData);
 
-                                                  setState(() {});
-                                                },
+                                                final cobrancasRealizadasCreateData =
+                                                    createCobrancasRealizadasRecordData(
+                                                  user: currentUserReference,
+                                                  data: getCurrentTimestamp,
+                                                  idCobranca:
+                                                      widget.cobranca!.id,
+                                                  uid:
+                                                      '${random_data.randomString(
+                                                    10,
+                                                    10,
+                                                    false,
+                                                    false,
+                                                    true,
+                                                  )}x${random_data.randomString(
+                                                    10,
+                                                    10,
+                                                    false,
+                                                    false,
+                                                    true,
+                                                  )}',
+                                                  valor: widget.cobranca!.valor,
+                                                  idCaixa: simpleSearchResults
+                                                              .length <
+                                                          1
+                                                      ? containerCaixasRecordList
+                                                          .first.id
+                                                      : simpleSearchResults
+                                                          .first.id,
+                                                  formaDePagamento: 'PIX',
+                                                  dataDeSincronia:
+                                                      getCurrentTimestamp,
+                                                  cobranca: widget
+                                                      .cobranca!.reference,
+                                                  sincronizado: true,
+                                                  status: 'RECEBIDA',
+                                                  localizacao:
+                                                      currentUserLocationValue,
+                                                  nomeCliente: widget
+                                                      .cobranca!.nomeCliente,
+                                                  dataDeVencimento: widget
+                                                      .cobranca!
+                                                      .dataDeVencimento,
+                                                  numeroContrato: widget
+                                                      .cobranca!.numeroContrato,
+                                                  emailUser: currentUserEmail,
+                                                  valorParcela: widget
+                                                      .cobranca!.valorParcela,
+                                                  numeroParcela: widget
+                                                      .cobranca!.numeroParcela,
+                                                  numeroEnd: widget
+                                                      .cobranca!.numeroEnd,
+                                                );
+                                                await CobrancasRealizadasRecord
+                                                    .collection
+                                                    .doc()
+                                                    .set(
+                                                        cobrancasRealizadasCreateData);
+                                                Navigator.pop(context);
+                                                FFAppState().update(() {
+                                                  FFAppState()
+                                                          .CobrancaAtualizada =
+                                                      widget
+                                                          .cobranca!.reference;
+                                                });
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      'Cobrança Recebida com sucesso!',
+                                                      style:
+                                                          GoogleFonts.getFont(
+                                                        'Poppins',
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                    duration: Duration(
+                                                        milliseconds: 6000),
+                                                    backgroundColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .secondaryColor,
+                                                  ),
+                                                );
+                                                await Future.delayed(
+                                                    const Duration(
+                                                        milliseconds: 6000));
+                                                FFAppState().update(() {
+                                                  FFAppState()
+                                                          .CobrancaAtualizada =
+                                                      null;
+                                                });
+                                              } else {
+                                                Navigator.pop(context);
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      'Algo deu errado, por favor tente novamente mais tarde.',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                    duration: Duration(
+                                                        milliseconds: 4000),
+                                                    backgroundColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .alternate,
+                                                  ),
+                                                );
+                                              }
+                                            } else {
+                                              final cobrancasUpdateData =
+                                                  createCobrancasRecordData(
+                                                status: 'RECEBIDA',
+                                              );
+                                              await widget.cobranca!.reference
+                                                  .update(cobrancasUpdateData);
+
+                                              final cobrancasRealizadasCreateData =
+                                                  createCobrancasRealizadasRecordData(
+                                                user: currentUserReference,
+                                                data: getCurrentTimestamp,
+                                                idCobranca: widget.cobranca!.id,
+                                                uid:
+                                                    '${random_data.randomString(
+                                                  10,
+                                                  10,
+                                                  false,
+                                                  false,
+                                                  true,
+                                                )}x${random_data.randomString(
+                                                  10,
+                                                  10,
+                                                  false,
+                                                  false,
+                                                  true,
+                                                )}',
+                                                valor: widget.cobranca!.valor,
+                                                idCaixa: simpleSearchResults
+                                                            .length <
+                                                        1
+                                                    ? containerCaixasRecordList
+                                                        .first.id
+                                                    : simpleSearchResults
+                                                        .first.id,
+                                                formaDePagamento: 'PIX',
+                                                cobranca:
+                                                    widget.cobranca!.reference,
+                                                sincronizado: false,
+                                                status: 'RECEBIDA',
+                                                localizacao:
+                                                    currentUserLocationValue,
+                                                nomeCliente: widget
+                                                    .cobranca!.nomeCliente,
+                                                dataDeVencimento: widget
+                                                    .cobranca!.dataDeVencimento,
+                                                numeroContrato: widget
+                                                    .cobranca!.numeroContrato,
+                                                emailUser: currentUserEmail,
+                                                valorParcela: widget
+                                                    .cobranca!.valorParcela,
+                                                numeroParcela: widget
+                                                    .cobranca!.numeroParcela,
+                                                numeroEnd:
+                                                    widget.cobranca!.numeroEnd,
+                                              );
+                                              await CobrancasRealizadasRecord
+                                                  .collection
+                                                  .doc()
+                                                  .set(
+                                                      cobrancasRealizadasCreateData);
+                                              Navigator.pop(context);
+                                              FFAppState().update(() {
+                                                FFAppState()
+                                                        .CobrancaAtualizada =
+                                                    widget.cobranca!.reference;
+                                              });
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    'Cobrança Recebida com sucesso!',
+                                                    style: GoogleFonts.getFont(
+                                                      'Poppins',
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                  duration: Duration(
+                                                      milliseconds: 6000),
+                                                  backgroundColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .secondaryColor,
+                                                ),
+                                              );
+                                              await Future.delayed(
+                                                  const Duration(
+                                                      milliseconds: 6000));
+                                              FFAppState().update(() {
+                                                FFAppState()
+                                                    .CobrancaAtualizada = null;
+                                              });
+                                            }
+
+                                            setState(() {});
+                                          },
                                           text: 'SIm',
                                           options: FFButtonOptions(
                                             width: 130,
@@ -880,10 +834,6 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                             ),
                                             borderRadius:
                                                 BorderRadius.circular(8),
-                                            disabledColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .secondaryText,
-                                            disabledTextColor: Colors.white,
                                           ),
                                         ),
                                       ],

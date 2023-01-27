@@ -7,7 +7,6 @@ import '../components/menu_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/instant_timer.dart';
-import '../custom_code/actions/index.dart' as actions;
 import '../flutter_flow/custom_functions.dart' as functions;
 import '../flutter_flow/random_data_util.dart' as random_data;
 import 'package:auto_size_text/auto_size_text.dart';
@@ -29,15 +28,12 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
   ApiCallResponse? apiReagendarCo;
   ApiCallResponse? apiReceberCo;
   InstantTimer? instantTimer3;
-  bool? net4;
   List<CobrancasRealizadasRecord> simpleSearchResults2 = [];
   ApiCallResponse? apiResultCobrancasTT;
   InstantTimer? LoopSicC;
-  bool? net2;
   InstantTimer? loop2323;
   List<CobrancasRecord> simpleSearchResults1 = [];
   ApiCallResponse? apiResultCaixas1;
-  bool? net;
   InstantTimer? LoopCaixa;
   List<CaixasRecord> simpleSearchResults3 = [];
   final _unfocusNode = FocusNode();
@@ -206,10 +202,8 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                             return InkWell(
                               onTap: () async {
                                 var _shouldSetState = false;
-                                net2 = await actions.checkInternet();
-                                _shouldSetState = true;
                                 if (containerCobrancasRecordList.length < 1) {
-                                  if (net2!) {
+                                  if (true) {
                                     if (containerCobrancasRecordList.length <
                                         1) {
                                       showModalBottomSheet(
@@ -779,8 +773,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                   },
                                 ).then((value) => setState(() {}));
 
-                                net4 = await actions.checkInternet();
-                                if (net4!) {
+                                if (true) {
                                   instantTimer3 = InstantTimer.periodic(
                                     duration: Duration(milliseconds: 1000),
                                     callback: (timer) async {
@@ -1144,8 +1137,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                             return InkWell(
                               onTap: () async {
                                 if (containerCaixasRecordList.length < 1) {
-                                  net = await actions.checkInternet();
-                                  if (net!) {
+                                  if (true) {
                                     if (containerCaixasRecordList.length < 1) {
                                       showModalBottomSheet(
                                         isScrollControlled: true,

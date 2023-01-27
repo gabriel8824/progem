@@ -7,7 +7,6 @@ import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
-import '../custom_code/actions/index.dart' as actions;
 import '../flutter_flow/custom_functions.dart' as functions;
 import '../flutter_flow/random_data_util.dart' as random_data;
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -31,7 +30,6 @@ class StatusReagendarContratoWidget extends StatefulWidget {
 class _StatusReagendarContratoWidgetState
     extends State<StatusReagendarContratoWidget> {
   ApiCallResponse? resultApi;
-  bool? net;
   DateTimeRange? calendarSelectedDay;
   TextEditingController? textController;
   LatLng? currentUserLocationValue;
@@ -308,8 +306,7 @@ class _StatusReagendarContratoWidgetState
                                                 await getCurrentUserLocation(
                                                     defaultLocation:
                                                         LatLng(0.0, 0.0));
-                                            net = await actions.checkInternet();
-                                            if (net!) {
+                                            if (true) {
                                               resultApi = await ApiProgemGroup
                                                   .reagendarCobrancaCall
                                                   .call(

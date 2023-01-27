@@ -85,7 +85,7 @@ class FFAppState extends ChangeNotifier {
     _data = _value;
   }
 
-  bool _IsConnected = false;
+  bool _IsConnected = true;
   bool get IsConnected => _IsConnected;
   set IsConnected(bool _value) {
     _IsConnected = _value;
