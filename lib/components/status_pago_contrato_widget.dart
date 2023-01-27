@@ -714,6 +714,7 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                               final testeLocCreateData =
                                                   createTesteLocRecordData(
                                                 emailUser: 'dfgdfgdfgdg',
+                                                loc: currentUserLocationValue,
                                               );
                                               await TesteLocRecord.collection
                                                   .doc()

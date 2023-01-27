@@ -135,6 +135,11 @@ class _TesteWidgetState extends State<TesteWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyText1,
                                     ),
+                                    Text(
+                                      listViewTesteLocRecord.emailUser!,
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyText1,
+                                    ),
                                     InkWell(
                                       onTap: () async {
                                         await listViewTesteLocRecord.reference
