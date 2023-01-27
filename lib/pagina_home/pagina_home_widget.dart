@@ -159,7 +159,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                     children: [
                       InkWell(
                         onTap: () async {
-                          context.pushNamed('teste');
+                          await actions.sqliteInserirDados();
                         },
                         child: AutoSizeText(
                           'Cobranças ',
