@@ -717,31 +717,6 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                               );
                                               await widget.cobranca!.reference
                                                   .update(cobrancasUpdateData);
-
-                                              final cobrancasRealizadasCreateData =
-                                                  createCobrancasRealizadasRecordData(
-                                                uid:
-                                                    '${random_data.randomString(
-                                                  10,
-                                                  10,
-                                                  false,
-                                                  false,
-                                                  true,
-                                                )}x${random_data.randomString(
-                                                  10,
-                                                  10,
-                                                  false,
-                                                  false,
-                                                  true,
-                                                )}',
-                                                sincronizado: false,
-                                                status: 'RECEBIDA',
-                                              );
-                                              await CobrancasRealizadasRecord
-                                                  .collection
-                                                  .doc()
-                                                  .set(
-                                                      cobrancasRealizadasCreateData);
                                               Navigator.pop(context);
                                               FFAppState().update(() {
                                                 FFAppState()
