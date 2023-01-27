@@ -711,15 +711,90 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                 );
                                               }
                                             } else {
-                                              final testeLocCreateData =
-                                                  createTesteLocRecordData(
-                                                emailUser: 'dfgdfgdfgdg',
-                                                loc: currentUserLocationValue,
-                                              );
-                                              await TesteLocRecord.collection
-                                                  .doc()
-                                                  .set(testeLocCreateData);
                                               Navigator.pop(context);
+                                              FFAppState().update(() {
+                                                FFAppState()
+                                                        .CobrancaAtualizada =
+                                                    widget.cobranca!.reference;
+                                              });
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    'Cobrança Recebida com sucesso!',
+                                                    style: GoogleFonts.getFont(
+                                                      'Poppins',
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                  duration: Duration(
+                                                      milliseconds: 6000),
+                                                  backgroundColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .secondaryColor,
+                                                ),
+                                              );
+
+                                              final cobrancasUpdateData =
+                                                  createCobrancasRecordData(
+                                                status: 'RECEBIDA',
+                                              );
+                                              await widget.cobranca!.reference
+                                                  .update(cobrancasUpdateData);
+
+                                              final cobrancasRealizadasCreateData =
+                                                  createCobrancasRealizadasRecordData(
+                                                data: getCurrentTimestamp,
+                                                idCobranca: widget.cobranca!.id,
+                                                uid:
+                                                    '${random_data.randomString(
+                                                  10,
+                                                  10,
+                                                  false,
+                                                  false,
+                                                  true,
+                                                )}x${random_data.randomString(
+                                                  10,
+                                                  10,
+                                                  false,
+                                                  false,
+                                                  true,
+                                                )}',
+                                                valor: widget.cobranca!.valor,
+                                                idCaixa: simpleSearchResults
+                                                            .length <
+                                                        1
+                                                    ? containerCaixasRecordList
+                                                        .first.id
+                                                    : simpleSearchResults
+                                                        .first.id,
+                                                formaDePagamento: 'PIX',
+                                                cobranca:
+                                                    widget.cobranca!.reference,
+                                                sincronizado: false,
+                                                status: 'RECEBIDA',
+                                                localizacao:
+                                                    currentUserLocationValue,
+                                                nomeCliente: widget
+                                                    .cobranca!.nomeCliente,
+                                                dataDeVencimento: widget
+                                                    .cobranca!.dataDeVencimento,
+                                                numeroContrato: widget
+                                                    .cobranca!.numeroContrato,
+                                                emailUser: currentUserEmail,
+                                                valorParcela: widget
+                                                    .cobranca!.valorParcela,
+                                                numeroParcela: widget
+                                                    .cobranca!.numeroParcela,
+                                                numeroEnd:
+                                                    widget.cobranca!.numeroEnd,
+                                              );
+                                              await CobrancasRealizadasRecord
+                                                  .collection
+                                                  .doc()
+                                                  .set(
+                                                      cobrancasRealizadasCreateData);
                                             }
 
                                             setState(() {});
