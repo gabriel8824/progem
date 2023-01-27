@@ -720,8 +720,6 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
 
                                               final cobrancasRealizadasCreateData =
                                                   createCobrancasRealizadasRecordData(
-                                                data: getCurrentTimestamp,
-                                                idCobranca: widget.cobranca!.id,
                                                 uid:
                                                     '${random_data.randomString(
                                                   10,
@@ -736,30 +734,8 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                   false,
                                                   true,
                                                 )}',
-                                                valor: widget.cobranca!.valor,
-                                                formaDePagamento: 'PIX',
                                                 sincronizado: false,
                                                 status: 'RECEBIDA',
-                                                nomeCliente: widget
-                                                    .cobranca!.nomeCliente,
-                                                dataDeVencimento: widget
-                                                    .cobranca!.dataDeVencimento,
-                                                numeroContrato: widget
-                                                    .cobranca!.numeroContrato,
-                                                emailUser: currentUserEmail,
-                                                valorParcela: widget
-                                                    .cobranca!.valorParcela,
-                                                numeroParcela: widget
-                                                    .cobranca!.numeroParcela,
-                                                numeroEnd:
-                                                    widget.cobranca!.numeroEnd,
-                                                idCaixa: simpleSearchResults
-                                                            .length <
-                                                        1
-                                                    ? containerCaixasRecordList
-                                                        .first.id
-                                                    : simpleSearchResults
-                                                        .first.id,
                                               );
                                               await CobrancasRealizadasRecord
                                                   .collection
