@@ -760,8 +760,6 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                         .first.id
                                                     : simpleSearchResults
                                                         .first.id,
-                                                localizacao:
-                                                    currentUserLocationValue,
                                               );
                                               await CobrancasRealizadasRecord
                                                   .collection
