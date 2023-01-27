@@ -46,7 +46,9 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
     super.initState();
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      if (!(FFAppState().token != null && FFAppState().token != '')) {
+      if (FFAppState().token != null && FFAppState().token != '') {
+        await actions.sqlite();
+      } else {
         GoRouter.of(context).prepareAuthEvent();
         await signOut();
 
