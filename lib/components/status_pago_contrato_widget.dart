@@ -711,6 +711,13 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                 );
                                               }
                                             } else {
+                                              final testeLocCreateData =
+                                                  createTesteLocRecordData(
+                                                emailUser: 'dfgdfgdfgdg',
+                                              );
+                                              await TesteLocRecord.collection
+                                                  .doc()
+                                                  .set(testeLocCreateData);
                                               Navigator.pop(context);
                                             }
 
