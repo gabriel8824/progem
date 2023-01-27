@@ -718,36 +718,6 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                               await widget.cobranca!.reference
                                                   .update(cobrancasUpdateData);
                                               Navigator.pop(context);
-                                              FFAppState().update(() {
-                                                FFAppState()
-                                                        .CobrancaAtualizada =
-                                                    widget.cobranca!.reference;
-                                              });
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    'Cobrança Recebida com sucesso!',
-                                                    style: GoogleFonts.getFont(
-                                                      'Poppins',
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                  duration: Duration(
-                                                      milliseconds: 6000),
-                                                  backgroundColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondaryColor,
-                                                ),
-                                              );
-                                              await Future.delayed(
-                                                  const Duration(
-                                                      milliseconds: 6000));
-                                              FFAppState().update(() {
-                                                FFAppState()
-                                                    .CobrancaAtualizada = null;
-                                              });
                                             }
 
                                             setState(() {});
