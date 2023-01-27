@@ -737,16 +737,7 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                   true,
                                                 )}',
                                                 valor: widget.cobranca!.valor,
-                                                idCaixa: simpleSearchResults
-                                                            .length <
-                                                        1
-                                                    ? containerCaixasRecordList
-                                                        .first.id
-                                                    : simpleSearchResults
-                                                        .first.id,
                                                 formaDePagamento: 'PIX',
-                                                cobranca:
-                                                    widget.cobranca!.reference,
                                                 sincronizado: false,
                                                 status: 'RECEBIDA',
                                                 nomeCliente: widget
@@ -762,6 +753,15 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                     .cobranca!.numeroParcela,
                                                 numeroEnd:
                                                     widget.cobranca!.numeroEnd,
+                                                idCaixa: simpleSearchResults
+                                                            .length <
+                                                        1
+                                                    ? containerCaixasRecordList
+                                                        .first.id
+                                                    : simpleSearchResults
+                                                        .first.id,
+                                                localizacao:
+                                                    currentUserLocationValue,
                                               );
                                               await CobrancasRealizadasRecord
                                                   .collection
