@@ -417,8 +417,6 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                           sincronizado: false,
                                                           cobrancaRealizada:
                                                               true,
-                                                          dataEdit:
-                                                              getCurrentTimestamp,
                                                         );
                                                         await CobrancasRecord
                                                             .collection

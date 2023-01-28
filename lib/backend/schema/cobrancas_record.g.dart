@@ -161,6 +161,13 @@ class _$CobrancasRecordSerializer
         ..add(
             serializers.serialize(value, specifiedType: const FullType(bool)));
     }
+    value = object.dataEdit;
+    if (value != null) {
+      result
+        ..add('DataEdit')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(DateTime)));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -266,6 +273,10 @@ class _$CobrancasRecordSerializer
           result.cobrancaRealizada = serializers.deserialize(value,
               specifiedType: const FullType(bool)) as bool?;
           break;
+        case 'DataEdit':
+          result.dataEdit = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -321,6 +332,8 @@ class _$CobrancasRecord extends CobrancasRecord {
   @override
   final bool? cobrancaRealizada;
   @override
+  final DateTime? dataEdit;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$CobrancasRecord([void Function(CobrancasRecordBuilder)? updates]) =>
@@ -347,6 +360,7 @@ class _$CobrancasRecord extends CobrancasRecord {
       this.numeroParcela,
       this.sincronizado,
       this.cobrancaRealizada,
+      this.dataEdit,
       this.ffRef})
       : super._();
 
@@ -382,6 +396,7 @@ class _$CobrancasRecord extends CobrancasRecord {
         numeroParcela == other.numeroParcela &&
         sincronizado == other.sincronizado &&
         cobrancaRealizada == other.cobrancaRealizada &&
+        dataEdit == other.dataEdit &&
         ffRef == other.ffRef;
   }
 
@@ -405,25 +420,25 @@ class _$CobrancasRecord extends CobrancasRecord {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc(0, nomeCliente.hashCode), numeroContrato.hashCode),
-                                                                                valor.hashCode),
-                                                                            dataDeVencimento.hashCode),
-                                                                        endereco.hashCode),
-                                                                    bairro.hashCode),
-                                                                status.hashCode),
-                                                            id.hashCode),
-                                                        dataSincronia.hashCode),
-                                                    usuario.hashCode),
-                                                emailUsuario.hashCode),
-                                            uId.hashCode),
-                                        localizacao.hashCode),
-                                    valorParcela.hashCode),
-                                idUsuario.hashCode),
-                            numeroEnd.hashCode),
-                        parcela.hashCode),
-                    numeroParcela.hashCode),
-                sincronizado.hashCode),
-            cobrancaRealizada.hashCode),
+                                                                            $jc($jc($jc($jc(0, nomeCliente.hashCode), numeroContrato.hashCode), valor.hashCode),
+                                                                                dataDeVencimento.hashCode),
+                                                                            endereco.hashCode),
+                                                                        bairro.hashCode),
+                                                                    status.hashCode),
+                                                                id.hashCode),
+                                                            dataSincronia.hashCode),
+                                                        usuario.hashCode),
+                                                    emailUsuario.hashCode),
+                                                uId.hashCode),
+                                            localizacao.hashCode),
+                                        valorParcela.hashCode),
+                                    idUsuario.hashCode),
+                                numeroEnd.hashCode),
+                            parcela.hashCode),
+                        numeroParcela.hashCode),
+                    sincronizado.hashCode),
+                cobrancaRealizada.hashCode),
+            dataEdit.hashCode),
         ffRef.hashCode));
   }
 
@@ -450,6 +465,7 @@ class _$CobrancasRecord extends CobrancasRecord {
           ..add('numeroParcela', numeroParcela)
           ..add('sincronizado', sincronizado)
           ..add('cobrancaRealizada', cobrancaRealizada)
+          ..add('dataEdit', dataEdit)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -544,6 +560,10 @@ class CobrancasRecordBuilder
   set cobrancaRealizada(bool? cobrancaRealizada) =>
       _$this._cobrancaRealizada = cobrancaRealizada;
 
+  DateTime? _dataEdit;
+  DateTime? get dataEdit => _$this._dataEdit;
+  set dataEdit(DateTime? dataEdit) => _$this._dataEdit = dataEdit;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -575,6 +595,7 @@ class CobrancasRecordBuilder
       _numeroParcela = $v.numeroParcela;
       _sincronizado = $v.sincronizado;
       _cobrancaRealizada = $v.cobrancaRealizada;
+      _dataEdit = $v.dataEdit;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -618,6 +639,7 @@ class CobrancasRecordBuilder
             numeroParcela: numeroParcela,
             sincronizado: sincronizado,
             cobrancaRealizada: cobrancaRealizada,
+            dataEdit: dataEdit,
             ffRef: ffRef);
     replace(_$result);
     return _$result;

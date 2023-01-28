@@ -590,7 +590,6 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                       getCurrentTimestamp,
                                                   sincronizado: true,
                                                   cobrancaRealizada: true,
-                                                  dataEdit: getCurrentTimestamp,
                                                 );
                                                 await widget.cobranca!.reference
                                                     .update(
@@ -655,7 +654,6 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                 status: 'RECEBIDA',
                                                 sincronizado: false,
                                                 cobrancaRealizada: true,
-                                                dataEdit: getCurrentTimestamp,
                                               );
                                               await widget.cobranca!.reference
                                                   .update(cobrancasUpdateData);
