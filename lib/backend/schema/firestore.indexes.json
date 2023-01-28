@@ -1,3 +1,22 @@
 {
-  "indexes": []
+  "indexes": [
+    {
+      "collectionGroup": "Cobrancas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "EmailUsuario",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "CobrancaRealizada",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "DataEdit",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ]
 }

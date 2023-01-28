@@ -650,15 +650,6 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                 );
                                               }
                                             } else {
-                                              final cobrancasUpdateData =
-                                                  createCobrancasRecordData(
-                                                status: 'RECEBIDA',
-                                                sincronizado: false,
-                                                cobrancaRealizada: true,
-                                                dataEdit: getCurrentTimestamp,
-                                              );
-                                              await widget.cobranca!.reference
-                                                  .update(cobrancasUpdateData);
                                               Navigator.pop(context);
                                               FFAppState().update(() {
                                                 FFAppState()
@@ -683,13 +674,19 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                           .secondaryColor,
                                                 ),
                                               );
-                                              await Future.delayed(
-                                                  const Duration(
-                                                      milliseconds: 6000));
-                                              FFAppState().update(() {
-                                                FFAppState()
-                                                    .CobrancaAtualizada = null;
-                                              });
+
+                                              context.pushNamed(
+                                                  'PaginaCobrancasV3Realizadas');
+
+                                              final cobrancasUpdateData =
+                                                  createCobrancasRecordData(
+                                                status: 'RECEBIDA',
+                                                sincronizado: false,
+                                                cobrancaRealizada: true,
+                                                dataEdit: getCurrentTimestamp,
+                                              );
+                                              await widget.cobranca!.reference
+                                                  .update(cobrancasUpdateData);
                                             }
 
                                             setState(() {});
