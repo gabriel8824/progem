@@ -71,8 +71,6 @@ abstract class CobrancasRecord
   @BuiltValueField(wireName: 'CobrancaRealizada')
   bool? get cobrancaRealizada;
 
-  String? get dataEdit;
-
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -93,8 +91,7 @@ abstract class CobrancasRecord
     ..parcela = ''
     ..numeroParcela = 0
     ..sincronizado = false
-    ..cobrancaRealizada = false
-    ..dataEdit = '';
+    ..cobrancaRealizada = false;
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('Cobrancas');
@@ -138,7 +135,6 @@ Map<String, dynamic> createCobrancasRecordData({
   int? numeroParcela,
   bool? sincronizado,
   bool? cobrancaRealizada,
-  String? dataEdit,
 }) {
   final firestoreData = serializers.toFirestore(
     CobrancasRecord.serializer,
@@ -163,8 +159,7 @@ Map<String, dynamic> createCobrancasRecordData({
         ..parcela = parcela
         ..numeroParcela = numeroParcela
         ..sincronizado = sincronizado
-        ..cobrancaRealizada = cobrancaRealizada
-        ..dataEdit = dataEdit,
+        ..cobrancaRealizada = cobrancaRealizada,
     ),
   );
 
