@@ -164,9 +164,9 @@ class _$CobrancasRecordSerializer
     value = object.dataEdit;
     if (value != null) {
       result
-        ..add('dataEdit')
+        ..add('DataEdit')
         ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+            specifiedType: const FullType(DateTime)));
     }
     value = object.ffRef;
     if (value != null) {
@@ -273,9 +273,9 @@ class _$CobrancasRecordSerializer
           result.cobrancaRealizada = serializers.deserialize(value,
               specifiedType: const FullType(bool)) as bool?;
           break;
-        case 'dataEdit':
+        case 'DataEdit':
           result.dataEdit = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+              specifiedType: const FullType(DateTime)) as DateTime?;
           break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
@@ -332,7 +332,7 @@ class _$CobrancasRecord extends CobrancasRecord {
   @override
   final bool? cobrancaRealizada;
   @override
-  final String? dataEdit;
+  final DateTime? dataEdit;
   @override
   final DocumentReference<Object?>? ffRef;
 
@@ -560,9 +560,9 @@ class CobrancasRecordBuilder
   set cobrancaRealizada(bool? cobrancaRealizada) =>
       _$this._cobrancaRealizada = cobrancaRealizada;
 
-  String? _dataEdit;
-  String? get dataEdit => _$this._dataEdit;
-  set dataEdit(String? dataEdit) => _$this._dataEdit = dataEdit;
+  DateTime? _dataEdit;
+  DateTime? get dataEdit => _$this._dataEdit;
+  set dataEdit(DateTime? dataEdit) => _$this._dataEdit = dataEdit;
 
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
