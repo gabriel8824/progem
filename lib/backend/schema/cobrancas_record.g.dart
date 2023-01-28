@@ -147,6 +147,20 @@ class _$CobrancasRecordSerializer
         ..add('NumeroParcela')
         ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
+    value = object.sincronizado;
+    if (value != null) {
+      result
+        ..add('Sincronizado')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
+    }
+    value = object.cobrancaRealizada;
+    if (value != null) {
+      result
+        ..add('CobrancaRealizada')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -244,6 +258,14 @@ class _$CobrancasRecordSerializer
           result.numeroParcela = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int?;
           break;
+        case 'Sincronizado':
+          result.sincronizado = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
+          break;
+        case 'CobrancaRealizada':
+          result.cobrancaRealizada = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -295,6 +317,10 @@ class _$CobrancasRecord extends CobrancasRecord {
   @override
   final int? numeroParcela;
   @override
+  final bool? sincronizado;
+  @override
+  final bool? cobrancaRealizada;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$CobrancasRecord([void Function(CobrancasRecordBuilder)? updates]) =>
@@ -319,6 +345,8 @@ class _$CobrancasRecord extends CobrancasRecord {
       this.numeroEnd,
       this.parcela,
       this.numeroParcela,
+      this.sincronizado,
+      this.cobrancaRealizada,
       this.ffRef})
       : super._();
 
@@ -352,6 +380,8 @@ class _$CobrancasRecord extends CobrancasRecord {
         numeroEnd == other.numeroEnd &&
         parcela == other.parcela &&
         numeroParcela == other.numeroParcela &&
+        sincronizado == other.sincronizado &&
+        cobrancaRealizada == other.cobrancaRealizada &&
         ffRef == other.ffRef;
   }
 
@@ -375,31 +405,25 @@ class _$CobrancasRecord extends CobrancasRecord {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc(
-                                                                                0,
-                                                                                nomeCliente
-                                                                                    .hashCode),
-                                                                            numeroContrato
-                                                                                .hashCode),
-                                                                        valor
-                                                                            .hashCode),
-                                                                    dataDeVencimento
-                                                                        .hashCode),
-                                                                endereco
-                                                                    .hashCode),
-                                                            bairro.hashCode),
-                                                        status.hashCode),
-                                                    id.hashCode),
-                                                dataSincronia.hashCode),
-                                            usuario.hashCode),
-                                        emailUsuario.hashCode),
-                                    uId.hashCode),
-                                localizacao.hashCode),
-                            valorParcela.hashCode),
-                        idUsuario.hashCode),
-                    numeroEnd.hashCode),
-                parcela.hashCode),
-            numeroParcela.hashCode),
+                                                                            $jc($jc($jc(0, nomeCliente.hashCode), numeroContrato.hashCode),
+                                                                                valor.hashCode),
+                                                                            dataDeVencimento.hashCode),
+                                                                        endereco.hashCode),
+                                                                    bairro.hashCode),
+                                                                status.hashCode),
+                                                            id.hashCode),
+                                                        dataSincronia.hashCode),
+                                                    usuario.hashCode),
+                                                emailUsuario.hashCode),
+                                            uId.hashCode),
+                                        localizacao.hashCode),
+                                    valorParcela.hashCode),
+                                idUsuario.hashCode),
+                            numeroEnd.hashCode),
+                        parcela.hashCode),
+                    numeroParcela.hashCode),
+                sincronizado.hashCode),
+            cobrancaRealizada.hashCode),
         ffRef.hashCode));
   }
 
@@ -424,6 +448,8 @@ class _$CobrancasRecord extends CobrancasRecord {
           ..add('numeroEnd', numeroEnd)
           ..add('parcela', parcela)
           ..add('numeroParcela', numeroParcela)
+          ..add('sincronizado', sincronizado)
+          ..add('cobrancaRealizada', cobrancaRealizada)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -509,6 +535,15 @@ class CobrancasRecordBuilder
   set numeroParcela(int? numeroParcela) =>
       _$this._numeroParcela = numeroParcela;
 
+  bool? _sincronizado;
+  bool? get sincronizado => _$this._sincronizado;
+  set sincronizado(bool? sincronizado) => _$this._sincronizado = sincronizado;
+
+  bool? _cobrancaRealizada;
+  bool? get cobrancaRealizada => _$this._cobrancaRealizada;
+  set cobrancaRealizada(bool? cobrancaRealizada) =>
+      _$this._cobrancaRealizada = cobrancaRealizada;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -538,6 +573,8 @@ class CobrancasRecordBuilder
       _numeroEnd = $v.numeroEnd;
       _parcela = $v.parcela;
       _numeroParcela = $v.numeroParcela;
+      _sincronizado = $v.sincronizado;
+      _cobrancaRealizada = $v.cobrancaRealizada;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -579,6 +616,8 @@ class CobrancasRecordBuilder
             numeroEnd: numeroEnd,
             parcela: parcela,
             numeroParcela: numeroParcela,
+            sincronizado: sincronizado,
+            cobrancaRealizada: cobrancaRealizada,
             ffRef: ffRef);
     replace(_$result);
     return _$result;

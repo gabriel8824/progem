@@ -9,7 +9,6 @@ import '../flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
 import '../custom_code/actions/index.dart' as actions;
 import '../flutter_flow/custom_functions.dart' as functions;
-import '../flutter_flow/random_data_util.dart' as random_data;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +35,6 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
   List<CaixasRecord> simpleSearchResults = [];
   String? dropDownCValue;
   String? dropDownFDPValue;
-  LatLng? currentUserLocationValue;
 
   @override
   Widget build(BuildContext context) {
@@ -543,10 +541,6 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                         ),
                                         FFButtonWidget(
                                           onPressed: () async {
-                                            currentUserLocationValue =
-                                                await getCurrentUserLocation(
-                                                    defaultLocation:
-                                                        LatLng(0.0, 0.0));
                                             net = await actions.checkInternet();
                                             if (net!) {
                                               apiResultReceberCobranca1 =
@@ -594,68 +588,13 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                   status: 'RECEBIDA',
                                                   dataSincronia:
                                                       getCurrentTimestamp,
+                                                  sincronizado: true,
+                                                  cobrancaRealizada: true,
+                                                  dataEdit: getCurrentTimestamp,
                                                 );
                                                 await widget.cobranca!.reference
                                                     .update(
                                                         cobrancasUpdateData);
-
-                                                final cobrancasRealizadasCreateData =
-                                                    createCobrancasRealizadasRecordData(
-                                                  user: currentUserReference,
-                                                  data: getCurrentTimestamp,
-                                                  idCobranca:
-                                                      widget.cobranca!.id,
-                                                  uid:
-                                                      '${random_data.randomString(
-                                                    10,
-                                                    10,
-                                                    false,
-                                                    false,
-                                                    true,
-                                                  )}x${random_data.randomString(
-                                                    10,
-                                                    10,
-                                                    false,
-                                                    false,
-                                                    true,
-                                                  )}',
-                                                  valor: widget.cobranca!.valor,
-                                                  idCaixa: simpleSearchResults
-                                                              .length <
-                                                          1
-                                                      ? containerCaixasRecordList
-                                                          .first.id
-                                                      : simpleSearchResults
-                                                          .first.id,
-                                                  formaDePagamento: 'PIX',
-                                                  dataDeSincronia:
-                                                      getCurrentTimestamp,
-                                                  cobranca: widget
-                                                      .cobranca!.reference,
-                                                  sincronizado: true,
-                                                  status: 'RECEBIDA',
-                                                  localizacao:
-                                                      currentUserLocationValue,
-                                                  nomeCliente: widget
-                                                      .cobranca!.nomeCliente,
-                                                  dataDeVencimento: widget
-                                                      .cobranca!
-                                                      .dataDeVencimento,
-                                                  numeroContrato: widget
-                                                      .cobranca!.numeroContrato,
-                                                  emailUser: currentUserEmail,
-                                                  valorParcela: widget
-                                                      .cobranca!.valorParcela,
-                                                  numeroParcela: widget
-                                                      .cobranca!.numeroParcela,
-                                                  numeroEnd: widget
-                                                      .cobranca!.numeroEnd,
-                                                );
-                                                await CobrancasRealizadasRecord
-                                                    .collection
-                                                    .doc()
-                                                    .set(
-                                                        cobrancasRealizadasCreateData);
                                                 Navigator.pop(context);
                                                 FFAppState().update(() {
                                                   FFAppState()
@@ -711,6 +650,15 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                 );
                                               }
                                             } else {
+                                              final cobrancasUpdateData =
+                                                  createCobrancasRecordData(
+                                                status: 'RECEBIDA',
+                                                sincronizado: false,
+                                                cobrancaRealizada: true,
+                                                dataEdit: getCurrentTimestamp,
+                                              );
+                                              await widget.cobranca!.reference
+                                                  .update(cobrancasUpdateData);
                                               Navigator.pop(context);
                                               FFAppState().update(() {
                                                 FFAppState()
@@ -735,66 +683,13 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                           .secondaryColor,
                                                 ),
                                               );
-
-                                              final cobrancasUpdateData =
-                                                  createCobrancasRecordData(
-                                                status: 'RECEBIDA',
-                                              );
-                                              await widget.cobranca!.reference
-                                                  .update(cobrancasUpdateData);
-
-                                              final cobrancasRealizadasCreateData =
-                                                  createCobrancasRealizadasRecordData(
-                                                data: getCurrentTimestamp,
-                                                idCobranca: widget.cobranca!.id,
-                                                uid:
-                                                    '${random_data.randomString(
-                                                  10,
-                                                  10,
-                                                  false,
-                                                  false,
-                                                  true,
-                                                )}x${random_data.randomString(
-                                                  10,
-                                                  10,
-                                                  false,
-                                                  false,
-                                                  true,
-                                                )}',
-                                                valor: widget.cobranca!.valor,
-                                                idCaixa: simpleSearchResults
-                                                            .length <
-                                                        1
-                                                    ? containerCaixasRecordList
-                                                        .first.id
-                                                    : simpleSearchResults
-                                                        .first.id,
-                                                formaDePagamento: 'PIX',
-                                                cobranca:
-                                                    widget.cobranca!.reference,
-                                                sincronizado: false,
-                                                status: 'RECEBIDA',
-                                                localizacao:
-                                                    currentUserLocationValue,
-                                                nomeCliente: widget
-                                                    .cobranca!.nomeCliente,
-                                                dataDeVencimento: widget
-                                                    .cobranca!.dataDeVencimento,
-                                                numeroContrato: widget
-                                                    .cobranca!.numeroContrato,
-                                                emailUser: currentUserEmail,
-                                                valorParcela: widget
-                                                    .cobranca!.valorParcela,
-                                                numeroParcela: widget
-                                                    .cobranca!.numeroParcela,
-                                                numeroEnd:
-                                                    widget.cobranca!.numeroEnd,
-                                              );
-                                              await CobrancasRealizadasRecord
-                                                  .collection
-                                                  .doc()
-                                                  .set(
-                                                      cobrancasRealizadasCreateData);
+                                              await Future.delayed(
+                                                  const Duration(
+                                                      milliseconds: 6000));
+                                              FFAppState().update(() {
+                                                FFAppState()
+                                                    .CobrancaAtualizada = null;
+                                              });
                                             }
 
                                             setState(() {});
