@@ -9,15 +9,12 @@ import 'package:flutter/material.dart';
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
 import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
 
 Future<List<String>> sqliteInserirDados() async {
   // Add your function code here!
   var db = await openDatabase('Test.db');
-  // Get a location using getDatabasesPath
-  var databasesPath = await getDatabasesPath();
-  String path = join(databasesPath, 'Test.db');
-// Insert some records in a transaction
+
+  // Insert some records in a transaction
   await db.transaction((txn) async {
     int id1 = await txn.rawInsert(
         'INSERT INTO Test(name, value, num) VALUES("some name", 1234, 456.789)');
