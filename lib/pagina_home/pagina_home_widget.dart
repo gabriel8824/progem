@@ -416,7 +416,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                           ).toString(),
                                                           sincronizado: false,
                                                           cobrancaRealizada:
-                                                              true,
+                                                              false,
                                                           dataEdit:
                                                               getCurrentTimestamp,
                                                         );
