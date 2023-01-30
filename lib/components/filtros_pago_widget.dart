@@ -98,24 +98,31 @@ class _FiltrosPagoWidgetState extends State<FiltrosPagoWidget> {
                         if (radioButtonValue == 'Pago') {
                           Navigator.pop(context);
 
-                          context.pushNamed('PaginaCobrancasV3Pagas');
+                          context.pushNamed('PaginaCobrancasPagas');
                         } else {
                           if (radioButtonValue == 'Em aberto') {
                             Navigator.pop(context);
 
-                            context.pushNamed('PaginaCobrancasV3Pendente');
+                            context.pushNamed('PaginaCobrancasPendentes');
                           } else {
                             if (radioButtonValue == 'Reagendado') {
                               Navigator.pop(context);
 
-                              context.pushNamed('PaginaCobrancasV3Reagendadas');
+                              context.pushNamed('PaginaCobrancasReagendadas');
                             } else {
                               if (radioButtonValue == 'Em atraso') {
                                 Navigator.pop(context);
 
-                                context.pushNamed('PaginaCobrancasV3Atrasadas');
+                                context.pushNamed('PaginaCobrancasAtrasadas');
                               } else {
-                                Navigator.pop(context);
+                                if (radioButtonValue == 'Nome do Cliente') {
+                                  Navigator.pop(context);
+
+                                  context
+                                      .pushNamed('PaginaCobrancasNomeCliente');
+                                } else {
+                                  Navigator.pop(context);
+                                }
                               }
                             }
                           }

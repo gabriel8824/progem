@@ -676,7 +676,7 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                               );
 
                                               context.pushNamed(
-                                                  'PaginaCobrancasV3Realizadas');
+                                                  'PaginaCobrancasRealizadas');
 
                                               final cobrancasUpdateData =
                                                   createCobrancasRecordData(

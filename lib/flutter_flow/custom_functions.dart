@@ -161,3 +161,15 @@ double somarValoresDob(List<double> valores) {
   }
   return onlyNumbers;
 }
+
+LatLng converterSctrigEmCordenadas(
+  String latitude,
+  String longitude,
+) {
+  // converter latitude e longitude em latlng
+  latitude = latitude + "";
+  longitude = longitude + "";
+  double dLat = double.parse(latitude);
+  double dLong = double.parse(longitude);
+  return LatLng(dLat, dLong);
+}

@@ -74,6 +74,7 @@ dependencies:
   sign_in_with_apple_platform_interface: 1.0.0
   sign_in_with_apple_web: 1.0.1
   sqflite: 2.2.0+2
+  substring_highlight: 1.0.33
   table_calendar: 3.0.6
   text_search: 0.0.2
   timeago: 3.2.2

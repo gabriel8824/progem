@@ -92,7 +92,7 @@ class _MenuWidgetState extends State<MenuWidget> {
               ),
               InkWell(
                 onTap: () async {
-                  context.pushNamed('PaginaCobrancasV3');
+                  context.pushNamed('PaginaCobrancas');
                 },
                 child: Container(
                   width: 50,

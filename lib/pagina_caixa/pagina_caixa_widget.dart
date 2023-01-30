@@ -170,16 +170,6 @@ class _PaginaCaixaWidgetState extends State<PaginaCaixaWidget> {
                                       lineHeight: 1,
                                     ),
                               ),
-                              Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
-                                child: Icon(
-                                  Icons.loop,
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryText,
-                                  size: 24,
-                                ),
-                              ),
                             ],
                           ),
                           Padding(

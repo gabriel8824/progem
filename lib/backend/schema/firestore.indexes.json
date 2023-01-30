@@ -5,7 +5,25 @@
       "queryScope": "COLLECTION",
       "fields": [
         {
-          "fieldPath": "EmailUsuario",
+          "fieldPath": "IdUsuario",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "Status",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "DataEdit",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Cobrancas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "IdUsuario",
           "order": "ASCENDING"
         },
         {
@@ -14,7 +32,21 @@
         },
         {
           "fieldPath": "DataEdit",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Cobrancas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "IdUsuario",
           "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "DataEdit",
+          "order": "DESCENDING"
         }
       ]
     }

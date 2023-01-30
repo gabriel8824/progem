@@ -3,7 +3,7 @@ import '../backend/api_requests/api_calls.dart';
 import '../backend/backend.dart';
 import '../components/cobrancas_vazia_widget.dart';
 import '../components/dados_cobranca_widget.dart';
-import '../components/filtros_widget.dart';
+import '../components/filtros_reagendado_widget.dart';
 import '../components/menu_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
@@ -15,8 +15,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 
-class PaginaCobrancasWidget extends StatefulWidget {
-  const PaginaCobrancasWidget({
+class PaginaCobrancasReagendadasWidget extends StatefulWidget {
+  const PaginaCobrancasReagendadasWidget({
     Key? key,
     this.filtro,
   }) : super(key: key);
@@ -24,10 +24,12 @@ class PaginaCobrancasWidget extends StatefulWidget {
   final String? filtro;
 
   @override
-  _PaginaCobrancasWidgetState createState() => _PaginaCobrancasWidgetState();
+  _PaginaCobrancasReagendadasWidgetState createState() =>
+      _PaginaCobrancasReagendadasWidgetState();
 }
 
-class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
+class _PaginaCobrancasReagendadasWidgetState
+    extends State<PaginaCobrancasReagendadasWidget> {
   ApiCallResponse? apiResultlab;
   final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -221,7 +223,8 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                   padding:
                                                       MediaQuery.of(context)
                                                           .viewInsets,
-                                                  child: FiltrosWidget(),
+                                                  child:
+                                                      FiltrosReagendadoWidget(),
                                                 );
                                               },
                                             ).then((value) => setState(() {}));
@@ -270,6 +273,8 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                             currentUserDocument
                                                                 ?.idUsuario,
                                                             ''))
+                                                    .where('Status',
+                                                        isEqualTo: 'PENDENTE')
                                                     .orderBy('DataEdit',
                                                         descending: true);
                                             if (_pagingController != null) {
@@ -297,11 +302,15 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                               queryCobrancasRecordPage(
                                                 queryBuilder: (cobrancasRecord) =>
                                                     cobrancasRecord
-                                                        .where('IdUsuario',
+                                                        .where(
+                                                            'IdUsuario',
                                                             isEqualTo: valueOrDefault(
                                                                 currentUserDocument
                                                                     ?.idUsuario,
                                                                 ''))
+                                                        .where('Status',
+                                                            isEqualTo:
+                                                                'PENDENTE')
                                                         .orderBy('DataEdit',
                                                             descending: true),
                                                 nextPageMarker: nextPageMarker,

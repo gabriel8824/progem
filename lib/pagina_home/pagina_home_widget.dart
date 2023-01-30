@@ -167,426 +167,459 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                       ),
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(0, 60, 0, 0),
-                        child: StreamBuilder<List<CobrancasRecord>>(
-                          stream: queryCobrancasRecord(
-                            queryBuilder: (cobrancasRecord) =>
-                                cobrancasRecord.where('EmailUsuario',
-                                    isEqualTo: currentUserEmail),
-                          ),
-                          builder: (context, snapshot) {
-                            // Customize what your widget looks like when it's loading.
-                            if (!snapshot.hasData) {
-                              return Center(
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      10, 10, 10, 10),
-                                  child: SizedBox(
-                                    width: 25,
-                                    height: 25,
-                                    child: CircularProgressIndicator(
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryColor,
+                        child: AuthUserStreamWidget(
+                          builder: (context) =>
+                              StreamBuilder<List<CobrancasRecord>>(
+                            stream: queryCobrancasRecord(
+                              queryBuilder: (cobrancasRecord) =>
+                                  cobrancasRecord.where('IdUsuario',
+                                      isEqualTo: valueOrDefault(
+                                          currentUserDocument?.idUsuario, '')),
+                            ),
+                            builder: (context, snapshot) {
+                              // Customize what your widget looks like when it's loading.
+                              if (!snapshot.hasData) {
+                                return Center(
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        10, 10, 10, 10),
+                                    child: SizedBox(
+                                      width: 25,
+                                      height: 25,
+                                      child: CircularProgressIndicator(
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryColor,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                            }
-                            List<CobrancasRecord> containerCobrancasRecordList =
-                                snapshot.data!;
-                            return InkWell(
-                              onTap: () async {
-                                var _shouldSetState = false;
-                                net = await actions.checkInternet();
-                                _shouldSetState = true;
-                                if (containerCobrancasRecordList.length < 1) {
-                                  if (net!) {
-                                    if (containerCobrancasRecordList.length <
-                                        1) {
-                                      showModalBottomSheet(
-                                        isScrollControlled: true,
-                                        backgroundColor: Colors.transparent,
-                                        isDismissible: false,
-                                        enableDrag: false,
-                                        context: context,
-                                        builder: (context) {
-                                          return Padding(
-                                            padding: MediaQuery.of(context)
-                                                .viewInsets,
-                                            child: LoadSicWidget(),
-                                          );
-                                        },
-                                      ).then((value) => setState(() {}));
-
-                                      FFAppState().update(() {
-                                        FFAppState().PaginaAtual = 1;
-                                      });
-                                      LoopSicC = InstantTimer.periodic(
-                                        duration: Duration(milliseconds: 3000),
-                                        callback: (timer) async {
-                                          if (!LoopCaixa.isActive) {
-                                            apiResultCobrancasTT =
-                                                await ApiProgemGroup
-                                                    .listarCobrancasCall
-                                                    .call(
-                                              token: FFAppState().token,
-                                              pagina: valueOrDefault<int>(
-                                                FFAppState().PaginaAtual,
-                                                1,
-                                              ),
+                                );
+                              }
+                              List<CobrancasRecord>
+                                  containerCobrancasRecordList = snapshot.data!;
+                              return InkWell(
+                                onTap: () async {
+                                  var _shouldSetState = false;
+                                  net = await actions.checkInternet();
+                                  _shouldSetState = true;
+                                  if (containerCobrancasRecordList.length < 1) {
+                                    if (net!) {
+                                      if (containerCobrancasRecordList.length <
+                                          1) {
+                                        showModalBottomSheet(
+                                          isScrollControlled: true,
+                                          backgroundColor: Colors.transparent,
+                                          isDismissible: false,
+                                          enableDrag: false,
+                                          context: context,
+                                          builder: (context) {
+                                            return Padding(
+                                              padding: MediaQuery.of(context)
+                                                  .viewInsets,
+                                              child: LoadSicWidget(),
                                             );
-                                            _shouldSetState = true;
-                                            FFAppState().update(() {
-                                              FFAppState().PaginaAtual =
-                                                  valueOrDefault<int>(
-                                                FFAppState().PaginaAtual + 1,
-                                                1,
-                                              );
-                                            });
-                                            if ((apiResultCobrancasTT
-                                                    ?.succeeded ??
-                                                true)) {
-                                              if (FFAppState().PaginaAtual <=
-                                                  ApiProgemGroup
+                                          },
+                                        ).then((value) => setState(() {}));
+
+                                        FFAppState().update(() {
+                                          FFAppState().PaginaAtual = 1;
+                                        });
+                                        LoopSicC = InstantTimer.periodic(
+                                          duration:
+                                              Duration(milliseconds: 3000),
+                                          callback: (timer) async {
+                                            if (!LoopCaixa.isActive) {
+                                              apiResultCobrancasTT =
+                                                  await ApiProgemGroup
                                                       .listarCobrancasCall
-                                                      .quantidadeDePagina(
-                                                    (apiResultCobrancasTT
-                                                            ?.jsonBody ??
-                                                        ''),
-                                                  )) {
-                                                FFAppState().update(() {
-                                                  FFAppState().CobrancasOffV2 =
-                                                      ApiProgemGroup
-                                                          .listarCobrancasCall
-                                                          .dados(
-                                                            (apiResultCobrancasTT
-                                                                    ?.jsonBody ??
-                                                                ''),
-                                                          )!
-                                                          .toList();
-                                                });
-                                                LoopCC = InstantTimer.periodic(
-                                                  duration: Duration(
-                                                      milliseconds: 1000),
-                                                  callback: (timer) async {
-                                                    if (FFAppState()
-                                                            .CobrancasOffV2
-                                                            .length >=
-                                                        1) {
-                                                      FFAppState().update(() {
-                                                        FFAppState()
-                                                                .CobrancaAtual =
-                                                            FFAppState()
-                                                                .CobrancasOffV2
-                                                                .first;
-                                                      });
-                                                      setState(() {
-                                                        simpleSearchResults1 =
-                                                            TextSearch(
-                                                          containerCobrancasRecordList
-                                                              .map(
-                                                                (record) =>
-                                                                    TextSearchItem(
-                                                                        record,
-                                                                        [
-                                                                      record.id!
-                                                                    ]),
-                                                              )
-                                                              .toList(),
-                                                        )
-                                                                .search(
-                                                                    getJsonField(
-                                                                  FFAppState()
-                                                                      .CobrancaAtual,
-                                                                  r'''$.id''',
-                                                                ).toString())
-                                                                .map((r) =>
-                                                                    r.object)
-                                                                .toList();
-                                                      });
-                                                      if (simpleSearchResults1
+                                                      .call(
+                                                token: FFAppState().token,
+                                                pagina: valueOrDefault<int>(
+                                                  FFAppState().PaginaAtual,
+                                                  1,
+                                                ),
+                                              );
+                                              _shouldSetState = true;
+                                              FFAppState().update(() {
+                                                FFAppState().PaginaAtual =
+                                                    valueOrDefault<int>(
+                                                  FFAppState().PaginaAtual + 1,
+                                                  1,
+                                                );
+                                              });
+                                              if ((apiResultCobrancasTT
+                                                      ?.succeeded ??
+                                                  true)) {
+                                                if (FFAppState().PaginaAtual <=
+                                                    ApiProgemGroup
+                                                        .listarCobrancasCall
+                                                        .quantidadeDePagina(
+                                                      (apiResultCobrancasTT
+                                                              ?.jsonBody ??
+                                                          ''),
+                                                    )) {
+                                                  FFAppState().update(() {
+                                                    FFAppState()
+                                                            .CobrancasOffV2 =
+                                                        ApiProgemGroup
+                                                            .listarCobrancasCall
+                                                            .dados(
+                                                              (apiResultCobrancasTT
+                                                                      ?.jsonBody ??
+                                                                  ''),
+                                                            )!
+                                                            .toList();
+                                                  });
+                                                  LoopCC =
+                                                      InstantTimer.periodic(
+                                                    duration: Duration(
+                                                        milliseconds: 1000),
+                                                    callback: (timer) async {
+                                                      if (FFAppState()
+                                                              .CobrancasOffV2
                                                               .length >=
                                                           1) {
                                                         FFAppState().update(() {
                                                           FFAppState()
-                                                              .removeFromCobrancasOffV2(
-                                                                  FFAppState()
-                                                                      .CobrancaAtual);
-                                                        });
-                                                        FFAppState().update(() {
-                                                          FFAppState()
                                                                   .CobrancaAtual =
-                                                              null;
+                                                              FFAppState()
+                                                                  .CobrancasOffV2
+                                                                  .first;
                                                         });
-                                                      } else {
-                                                        final cobrancasCreateData =
-                                                            createCobrancasRecordData(
-                                                          nomeCliente:
-                                                              getJsonField(
+                                                        setState(() {
+                                                          simpleSearchResults1 =
+                                                              TextSearch(
+                                                            containerCobrancasRecordList
+                                                                .map(
+                                                                  (record) =>
+                                                                      TextSearchItem(
+                                                                          record,
+                                                                          [
+                                                                        record
+                                                                            .id!
+                                                                      ]),
+                                                                )
+                                                                .toList(),
+                                                          )
+                                                                  .search(
+                                                                      getJsonField(
+                                                                    FFAppState()
+                                                                        .CobrancaAtual,
+                                                                    r'''$.id''',
+                                                                  ).toString())
+                                                                  .map((r) =>
+                                                                      r.object)
+                                                                  .toList();
+                                                        });
+                                                        if (simpleSearchResults1
+                                                                .length >=
+                                                            1) {
+                                                          FFAppState()
+                                                              .update(() {
                                                             FFAppState()
-                                                                .CobrancaAtual,
-                                                            r'''$.cliente.nome''',
-                                                          ).toString(),
-                                                          numeroContrato:
-                                                              getJsonField(
+                                                                .removeFromCobrancasOffV2(
+                                                                    FFAppState()
+                                                                        .CobrancaAtual);
+                                                          });
+                                                          FFAppState()
+                                                              .update(() {
                                                             FFAppState()
-                                                                .CobrancaAtual,
-                                                            r'''$.contrato.numero''',
-                                                          ).toString(),
-                                                          valor: valueOrDefault<
-                                                              double>(
-                                                            functions
-                                                                .converStringEmDouble(
-                                                                    getJsonField(
+                                                                    .CobrancaAtual =
+                                                                null;
+                                                          });
+                                                        } else {
+                                                          final cobrancasCreateData =
+                                                              createCobrancasRecordData(
+                                                            nomeCliente:
+                                                                getJsonField(
                                                               FFAppState()
                                                                   .CobrancaAtual,
-                                                              r'''$.contrato.valorTotal''',
-                                                            ).toString()),
-                                                            0.0,
-                                                          ),
-                                                          dataDeVencimento:
+                                                              r'''$.cliente.nome''',
+                                                            ).toString(),
+                                                            numeroContrato:
+                                                                getJsonField(
+                                                              FFAppState()
+                                                                  .CobrancaAtual,
+                                                              r'''$.contrato.numero''',
+                                                            ).toString(),
+                                                            valor:
+                                                                valueOrDefault<
+                                                                    double>(
                                                               functions
-                                                                  .formatarData(
+                                                                  .converStringEmDouble(
                                                                       getJsonField(
-                                                            FFAppState()
-                                                                .CobrancaAtual,
-                                                            r'''$.dataVencimento''',
-                                                          ).toString()),
-                                                          endereco:
-                                                              getJsonField(
-                                                            FFAppState()
-                                                                .CobrancaAtual,
-                                                            r'''$.cliente.endereco.logradouro''',
-                                                          ).toString(),
-                                                          bairro: getJsonField(
-                                                            FFAppState()
-                                                                .CobrancaAtual,
-                                                            r'''$.cliente.endereco.bairro''',
-                                                          ).toString(),
-                                                          status: getJsonField(
-                                                            FFAppState()
-                                                                .CobrancaAtual,
-                                                            r'''$.status''',
-                                                          ).toString(),
-                                                          id: getJsonField(
-                                                            FFAppState()
-                                                                .CobrancaAtual,
-                                                            r'''$.id''',
-                                                          ).toString(),
-                                                          dataSincronia:
-                                                              getCurrentTimestamp,
-                                                          usuario:
-                                                              currentUserReference,
-                                                          emailUsuario:
-                                                              currentUserEmail,
-                                                          uId:
-                                                              '${random_data.randomString(
-                                                            10,
-                                                            10,
-                                                            false,
-                                                            false,
-                                                            true,
-                                                          )}x${random_data.randomString(
-                                                            10,
-                                                            10,
-                                                            false,
-                                                            false,
-                                                            true,
-                                                          )}',
-                                                          valorParcela:
-                                                              getJsonField(
-                                                            FFAppState()
-                                                                .CobrancaAtual,
-                                                            r'''$.valor''',
-                                                          ),
-                                                          parcela: getJsonField(
-                                                            FFAppState()
-                                                                .CobrancaAtual,
-                                                            r'''$.numero''',
-                                                          ).toString(),
-                                                          numeroParcela: 1,
-                                                          idUsuario: valueOrDefault(
-                                                              currentUserDocument
-                                                                  ?.idUsuario,
-                                                              ''),
-                                                          numeroEnd:
-                                                              getJsonField(
-                                                            FFAppState()
-                                                                .CobrancaAtual,
-                                                            r'''$.cliente.endereco.numero''',
-                                                          ).toString(),
-                                                          sincronizado: false,
-                                                          cobrancaRealizada:
+                                                                FFAppState()
+                                                                    .CobrancaAtual,
+                                                                r'''$.contrato.valorTotal''',
+                                                              ).toString()),
+                                                              0.0,
+                                                            ),
+                                                            dataDeVencimento:
+                                                                functions
+                                                                    .formatarData(
+                                                                        getJsonField(
+                                                              FFAppState()
+                                                                  .CobrancaAtual,
+                                                              r'''$.dataVencimento''',
+                                                            ).toString()),
+                                                            endereco:
+                                                                getJsonField(
+                                                              FFAppState()
+                                                                  .CobrancaAtual,
+                                                              r'''$.cliente.endereco.logradouro''',
+                                                            ).toString(),
+                                                            bairro:
+                                                                getJsonField(
+                                                              FFAppState()
+                                                                  .CobrancaAtual,
+                                                              r'''$.cliente.endereco.bairro''',
+                                                            ).toString(),
+                                                            status:
+                                                                getJsonField(
+                                                              FFAppState()
+                                                                  .CobrancaAtual,
+                                                              r'''$.status''',
+                                                            ).toString(),
+                                                            id: getJsonField(
+                                                              FFAppState()
+                                                                  .CobrancaAtual,
+                                                              r'''$.id''',
+                                                            ).toString(),
+                                                            dataSincronia:
+                                                                getCurrentTimestamp,
+                                                            usuario:
+                                                                currentUserReference,
+                                                            emailUsuario:
+                                                                currentUserEmail,
+                                                            uId:
+                                                                '${random_data.randomString(
+                                                              10,
+                                                              10,
                                                               false,
-                                                          dataEdit:
-                                                              getCurrentTimestamp,
-                                                        );
-                                                        await CobrancasRecord
-                                                            .collection
-                                                            .doc()
-                                                            .set(
-                                                                cobrancasCreateData);
-                                                        FFAppState().update(() {
+                                                              false,
+                                                              true,
+                                                            )}x${random_data.randomString(
+                                                              10,
+                                                              10,
+                                                              false,
+                                                              false,
+                                                              true,
+                                                            )}',
+                                                            valorParcela:
+                                                                getJsonField(
+                                                              FFAppState()
+                                                                  .CobrancaAtual,
+                                                              r'''$.valor''',
+                                                            ),
+                                                            parcela:
+                                                                getJsonField(
+                                                              FFAppState()
+                                                                  .CobrancaAtual,
+                                                              r'''$.numero''',
+                                                            ).toString(),
+                                                            numeroParcela: 1,
+                                                            idUsuario: valueOrDefault(
+                                                                currentUserDocument
+                                                                    ?.idUsuario,
+                                                                ''),
+                                                            numeroEnd:
+                                                                getJsonField(
+                                                              FFAppState()
+                                                                  .CobrancaAtual,
+                                                              r'''$.cliente.endereco.numero''',
+                                                            ).toString(),
+                                                            sincronizado: false,
+                                                            cobrancaRealizada:
+                                                                false,
+                                                            dataEdit:
+                                                                getCurrentTimestamp,
+                                                            localizacao: functions
+                                                                .converterSctrigEmCordenadas(
+                                                                    getJsonField(
+                                                                      FFAppState()
+                                                                          .CobrancaAtual,
+                                                                      r'''$.cliente.coordenadas.latitude''',
+                                                                    ).toString(),
+                                                                    getJsonField(
+                                                                      FFAppState()
+                                                                          .CobrancaAtual,
+                                                                      r'''$.cliente.coordenadas.longitude''',
+                                                                    ).toString()),
+                                                          );
+                                                          await CobrancasRecord
+                                                              .collection
+                                                              .doc()
+                                                              .set(
+                                                                  cobrancasCreateData);
                                                           FFAppState()
-                                                              .removeFromCobrancasOffV2(
-                                                                  FFAppState()
-                                                                      .CobrancaAtual);
-                                                        });
-                                                        FFAppState().update(() {
+                                                              .update(() {
+                                                            FFAppState()
+                                                                .removeFromCobrancasOffV2(
+                                                                    FFAppState()
+                                                                        .CobrancaAtual);
+                                                          });
                                                           FFAppState()
-                                                                  .CobrancaAtual =
-                                                              null;
-                                                        });
-                                                      }
+                                                              .update(() {
+                                                            FFAppState()
+                                                                    .CobrancaAtual =
+                                                                null;
+                                                          });
+                                                        }
 
-                                                      return;
-                                                    } else {
-                                                      LoopCC?.cancel();
-                                                    }
-                                                  },
-                                                  startImmediately: false,
-                                                );
+                                                        return;
+                                                      } else {
+                                                        LoopCC?.cancel();
+                                                      }
+                                                    },
+                                                    startImmediately: false,
+                                                  );
+                                                } else {
+                                                  LoopSicC?.cancel();
+                                                  FFAppState().update(() {
+                                                    FFAppState().PaginaAtual =
+                                                        1;
+                                                  });
+                                                  Navigator.pop(context);
+
+                                                  context.pushNamed(
+                                                      'PaginaCobrancas');
+                                                }
                                               } else {
-                                                LoopSicC?.cancel();
-                                                FFAppState().update(() {
-                                                  FFAppState().PaginaAtual = 1;
-                                                });
                                                 Navigator.pop(context);
 
                                                 context.pushNamed(
-                                                    'PaginaCobrancasV3');
+                                                    'PaginaCobrancas');
+
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      'Algo deu errado',
+                                                      style: TextStyle(
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .primaryBackground,
+                                                      ),
+                                                    ),
+                                                    duration: Duration(
+                                                        milliseconds: 4000),
+                                                    backgroundColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .alternate,
+                                                  ),
+                                                );
                                               }
                                             } else {
-                                              Navigator.pop(context);
-
-                                              context.pushNamed(
-                                                  'PaginaCobrancasV3');
-
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    'Algo deu errado',
-                                                    style: TextStyle(
-                                                      color: FlutterFlowTheme
-                                                              .of(context)
-                                                          .primaryBackground,
-                                                    ),
-                                                  ),
-                                                  duration: Duration(
-                                                      milliseconds: 4000),
-                                                  backgroundColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .alternate,
-                                                ),
-                                              );
+                                              await Future.delayed(
+                                                  const Duration(
+                                                      milliseconds: 3000));
                                             }
-                                          } else {
-                                            await Future.delayed(const Duration(
-                                                milliseconds: 3000));
-                                          }
-                                        },
-                                        startImmediately: false,
-                                      );
+                                          },
+                                          startImmediately: false,
+                                        );
+                                      } else {
+                                        Navigator.pop(context);
+
+                                        context.pushNamed('PaginaCobrancas');
+                                      }
                                     } else {
                                       Navigator.pop(context);
 
-                                      context.pushNamed('PaginaCobrancasV3');
+                                      context.pushNamed('PaginaCobrancas');
                                     }
                                   } else {
                                     Navigator.pop(context);
 
-                                    context.pushNamed('PaginaCobrancasV3');
+                                    context.pushNamed('PaginaCobrancas');
                                   }
-                                } else {
-                                  Navigator.pop(context);
 
-                                  context.pushNamed('PaginaCobrancasV3');
-                                }
-
-                                if (_shouldSetState) setState(() {});
-                              },
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 50,
-                                decoration: BoxDecoration(),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  5, 0, 0, 0),
-                                          child: Container(
-                                            height: 40,
-                                            decoration: BoxDecoration(),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Image.asset(
-                                                  'assets/images/Group_(1).png',
-                                                  width: 25,
-                                                  height: 25,
-                                                  fit: BoxFit.contain,
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(12, 0, 0, 0),
-                                                  child: AutoSizeText(
-                                                    'Cobrador',
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyText1
-                                                        .override(
-                                                          fontFamily: 'Roboto',
-                                                          fontSize: 18,
-                                                          useGoogleFonts: GoogleFonts
-                                                                  .asMap()
-                                                              .containsKey(
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyText1Family),
-                                                          lineHeight: 1,
-                                                        ),
+                                  if (_shouldSetState) setState(() {});
+                                },
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 50,
+                                  decoration: BoxDecoration(),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    5, 0, 0, 0),
+                                            child: Container(
+                                              height: 40,
+                                              decoration: BoxDecoration(),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Image.asset(
+                                                    'assets/images/Group_(1).png',
+                                                    width: 25,
+                                                    height: 25,
+                                                    fit: BoxFit.contain,
                                                   ),
-                                                ),
-                                              ],
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                12, 0, 0, 0),
+                                                    child: AutoSizeText(
+                                                      'Cobrador',
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText1
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Roboto',
+                                                                fontSize: 18,
+                                                                useGoogleFonts: GoogleFonts
+                                                                        .asMap()
+                                                                    .containsKey(
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .bodyText1Family),
+                                                                lineHeight: 1,
+                                                              ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Icon(
-                                          Icons.arrow_forward_ios,
-                                          color: Colors.black,
-                                          size: 24,
-                                        ),
-                                      ],
-                                    ),
-                                    Divider(
-                                      height: 1,
-                                      thickness: 1,
-                                      indent: 1,
-                                      endIndent: 1,
-                                      color: Color(0xFF545353),
-                                    ),
-                                  ],
+                                          Icon(
+                                            Icons.arrow_forward_ios,
+                                            color: Colors.black,
+                                            size: 24,
+                                          ),
+                                        ],
+                                      ),
+                                      Divider(
+                                        height: 1,
+                                        thickness: 1,
+                                        indent: 1,
+                                        endIndent: 1,
+                                        color: Color(0xFF545353),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
+                              );
+                            },
+                          ),
                         ),
                       ),
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
                         child: InkWell(
                           onTap: () async {
-                            context.pushNamed('PaginaCobrancasV3Realizadas');
+                            context.pushNamed('PaginaCobrancasRealizadas');
                           },
                           child: Container(
                             width: MediaQuery.of(context).size.width,
@@ -1117,275 +1150,296 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                       ),
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                        child: StreamBuilder<List<CaixasRecord>>(
-                          stream: queryCaixasRecord(
-                            queryBuilder: (caixasRecord) => caixasRecord.where(
-                                'EmailUsuario',
-                                isEqualTo: currentUserEmail),
-                          ),
-                          builder: (context, snapshot) {
-                            // Customize what your widget looks like when it's loading.
-                            if (!snapshot.hasData) {
-                              return Center(
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      10, 10, 10, 10),
-                                  child: SizedBox(
-                                    width: 25,
-                                    height: 25,
-                                    child: CircularProgressIndicator(
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryColor,
+                        child: AuthUserStreamWidget(
+                          builder: (context) =>
+                              StreamBuilder<List<CaixasRecord>>(
+                            stream: queryCaixasRecord(
+                              queryBuilder: (caixasRecord) =>
+                                  caixasRecord.where('IdUsuario',
+                                      isEqualTo: valueOrDefault(
+                                          currentUserDocument?.idUsuario, '')),
+                            ),
+                            builder: (context, snapshot) {
+                              // Customize what your widget looks like when it's loading.
+                              if (!snapshot.hasData) {
+                                return Center(
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        10, 10, 10, 10),
+                                    child: SizedBox(
+                                      width: 25,
+                                      height: 25,
+                                      child: CircularProgressIndicator(
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryColor,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                            }
-                            List<CaixasRecord> containerCaixasRecordList =
-                                snapshot.data!;
-                            return InkWell(
-                              onTap: () async {
-                                if (containerCaixasRecordList.length < 1) {
-                                  if (true) {
-                                    if (containerCaixasRecordList.length < 1) {
-                                      showModalBottomSheet(
+                                );
+                              }
+                              List<CaixasRecord> containerCaixasRecordList =
+                                  snapshot.data!;
+                              return InkWell(
+                                onTap: () async {
+                                  if (containerCaixasRecordList.length < 1) {
+                                    if (true) {
+                                      if (containerCaixasRecordList.length <
+                                          1) {
+                                        showModalBottomSheet(
+                                          isScrollControlled: true,
+                                          backgroundColor: Colors.transparent,
+                                          isDismissible: false,
+                                          enableDrag: false,
+                                          context: context,
+                                          builder: (context) {
+                                            return Padding(
+                                              padding: MediaQuery.of(context)
+                                                  .viewInsets,
+                                              child: LoadSicWidget(),
+                                            );
+                                          },
+                                        ).then((value) => setState(() {}));
+
+                                        apiResultCaixas1 = await ApiProgemGroup
+                                            .caixasCall
+                                            .call(
+                                          token: FFAppState().token,
+                                        );
+                                        if ((apiResultCaixas1?.succeeded ??
+                                            true)) {
+                                          FFAppState().update(() {
+                                            FFAppState().Caixas = ApiProgemGroup
+                                                .caixasCall
+                                                .body(
+                                                  (apiResultCaixas1?.jsonBody ??
+                                                      ''),
+                                                )!
+                                                .toList();
+                                          });
+                                          LoopCaixa = InstantTimer.periodic(
+                                            duration:
+                                                Duration(milliseconds: 1000),
+                                            callback: (timer) async {
+                                              if (FFAppState().Caixas.length >=
+                                                  1) {
+                                                FFAppState().update(() {
+                                                  FFAppState().CaixaAtual =
+                                                      FFAppState().Caixas.first;
+                                                });
+                                                setState(() {
+                                                  simpleSearchResults3 =
+                                                      TextSearch(
+                                                    containerCaixasRecordList
+                                                        .map(
+                                                          (record) =>
+                                                              TextSearchItem(
+                                                                  record,
+                                                                  [record.id!]),
+                                                        )
+                                                        .toList(),
+                                                  )
+                                                          .search(getJsonField(
+                                                            FFAppState()
+                                                                .CaixaAtual,
+                                                            r'''$.id''',
+                                                          ).toString())
+                                                          .map((r) => r.object)
+                                                          .toList();
+                                                });
+                                                if (simpleSearchResults3
+                                                        .length <
+                                                    1) {
+                                                  final caixasCreateData =
+                                                      createCaixasRecordData(
+                                                    descricao: getJsonField(
+                                                      FFAppState().CaixaAtual,
+                                                      r'''$.descricao''',
+                                                    ).toString(),
+                                                    id: getJsonField(
+                                                      FFAppState().CaixaAtual,
+                                                      r'''$.id''',
+                                                    ).toString(),
+                                                    uid: valueOrDefault<String>(
+                                                      '${random_data.randomString(
+                                                        10,
+                                                        10,
+                                                        false,
+                                                        false,
+                                                        true,
+                                                      )}x${random_data.randomString(
+                                                        10,
+                                                        10,
+                                                        false,
+                                                        false,
+                                                        true,
+                                                      )}',
+                                                      '0',
+                                                    ),
+                                                    saldo: getJsonField(
+                                                      FFAppState().CaixaAtual,
+                                                      r'''$.saldo''',
+                                                    ),
+                                                    status: getJsonField(
+                                                      FFAppState().CaixaAtual,
+                                                      r'''$.status''',
+                                                    ).toString(),
+                                                    usuario:
+                                                        currentUserReference,
+                                                    emailUsuario:
+                                                        currentUserEmail,
+                                                    idUsuario: valueOrDefault(
+                                                        currentUserDocument
+                                                            ?.idUsuario,
+                                                        ''),
+                                                  );
+                                                  await CaixasRecord.collection
+                                                      .doc()
+                                                      .set(caixasCreateData);
+                                                  FFAppState().update(() {
+                                                    FFAppState()
+                                                        .removeFromCaixas(
+                                                            FFAppState()
+                                                                .CaixaAtual);
+                                                  });
+                                                  FFAppState().update(() {
+                                                    FFAppState().CaixaAtual =
+                                                        null;
+                                                  });
+                                                } else {
+                                                  FFAppState().update(() {
+                                                    FFAppState()
+                                                        .removeFromCaixas(
+                                                            FFAppState()
+                                                                .CaixaAtual);
+                                                  });
+                                                  FFAppState().update(() {
+                                                    FFAppState().CaixaAtual =
+                                                        null;
+                                                  });
+                                                }
+                                              } else {
+                                                LoopCaixa?.cancel();
+                                                Navigator.pop(context);
+                                              }
+                                            },
+                                            startImmediately: false,
+                                          );
+                                        } else {
+                                          FFAppState().update(() {
+                                            FFAppState().token = '';
+                                          });
+                                          GoRouter.of(context)
+                                              .prepareAuthEvent();
+                                          await signOut();
+                                          Navigator.pop(context);
+
+                                          context.pushNamedAuth(
+                                              'PaginaLogin', mounted);
+                                        }
+                                      } else {
+                                        context.pushNamedAuth(
+                                            'PaginaCaixa', mounted);
+                                      }
+                                    } else {
+                                      await showModalBottomSheet(
                                         isScrollControlled: true,
                                         backgroundColor: Colors.transparent,
-                                        isDismissible: false,
                                         enableDrag: false,
                                         context: context,
                                         builder: (context) {
                                           return Padding(
                                             padding: MediaQuery.of(context)
                                                 .viewInsets,
-                                            child: LoadSicWidget(),
+                                            child: ConnectedOffWidget(),
                                           );
                                         },
                                       ).then((value) => setState(() {}));
-
-                                      apiResultCaixas1 =
-                                          await ApiProgemGroup.caixasCall.call(
-                                        token: FFAppState().token,
-                                      );
-                                      if ((apiResultCaixas1?.succeeded ??
-                                          true)) {
-                                        FFAppState().update(() {
-                                          FFAppState().Caixas = ApiProgemGroup
-                                              .caixasCall
-                                              .body(
-                                                (apiResultCaixas1?.jsonBody ??
-                                                    ''),
-                                              )!
-                                              .toList();
-                                        });
-                                        LoopCaixa = InstantTimer.periodic(
-                                          duration:
-                                              Duration(milliseconds: 1000),
-                                          callback: (timer) async {
-                                            if (FFAppState().Caixas.length >=
-                                                1) {
-                                              FFAppState().update(() {
-                                                FFAppState().CaixaAtual =
-                                                    FFAppState().Caixas.first;
-                                              });
-                                              setState(() {
-                                                simpleSearchResults3 =
-                                                    TextSearch(
-                                                  containerCaixasRecordList
-                                                      .map(
-                                                        (record) =>
-                                                            TextSearchItem(
-                                                                record,
-                                                                [record.id!]),
-                                                      )
-                                                      .toList(),
-                                                )
-                                                        .search(getJsonField(
-                                                          FFAppState()
-                                                              .CaixaAtual,
-                                                          r'''$.id''',
-                                                        ).toString())
-                                                        .map((r) => r.object)
-                                                        .toList();
-                                              });
-                                              if (simpleSearchResults3.length <
-                                                  1) {
-                                                final caixasCreateData =
-                                                    createCaixasRecordData(
-                                                  descricao: getJsonField(
-                                                    FFAppState().CaixaAtual,
-                                                    r'''$.descricao''',
-                                                  ).toString(),
-                                                  id: getJsonField(
-                                                    FFAppState().CaixaAtual,
-                                                    r'''$.id''',
-                                                  ).toString(),
-                                                  uid: valueOrDefault<String>(
-                                                    '${random_data.randomString(
-                                                      10,
-                                                      10,
-                                                      false,
-                                                      false,
-                                                      true,
-                                                    )}x${random_data.randomString(
-                                                      10,
-                                                      10,
-                                                      false,
-                                                      false,
-                                                      true,
-                                                    )}',
-                                                    '0',
-                                                  ),
-                                                  saldo: getJsonField(
-                                                    FFAppState().CaixaAtual,
-                                                    r'''$.saldo''',
-                                                  ),
-                                                  status: getJsonField(
-                                                    FFAppState().CaixaAtual,
-                                                    r'''$.status''',
-                                                  ).toString(),
-                                                  usuario: currentUserReference,
-                                                  emailUsuario:
-                                                      currentUserEmail,
-                                                );
-                                                await CaixasRecord.collection
-                                                    .doc()
-                                                    .set(caixasCreateData);
-                                                FFAppState().update(() {
-                                                  FFAppState().removeFromCaixas(
-                                                      FFAppState().CaixaAtual);
-                                                });
-                                                FFAppState().update(() {
-                                                  FFAppState().CaixaAtual =
-                                                      null;
-                                                });
-                                              } else {
-                                                FFAppState().update(() {
-                                                  FFAppState().removeFromCaixas(
-                                                      FFAppState().CaixaAtual);
-                                                });
-                                                FFAppState().update(() {
-                                                  FFAppState().CaixaAtual =
-                                                      null;
-                                                });
-                                              }
-                                            } else {
-                                              LoopCaixa?.cancel();
-                                              Navigator.pop(context);
-                                            }
-                                          },
-                                          startImmediately: false,
-                                        );
-                                      } else {
-                                        FFAppState().update(() {
-                                          FFAppState().token = '';
-                                        });
-                                        GoRouter.of(context).prepareAuthEvent();
-                                        await signOut();
-                                        Navigator.pop(context);
-
-                                        context.pushNamedAuth(
-                                            'PaginaLogin', mounted);
-                                      }
-                                    } else {
-                                      context.pushNamedAuth(
-                                          'PaginaCaixa', mounted);
                                     }
                                   } else {
-                                    await showModalBottomSheet(
-                                      isScrollControlled: true,
-                                      backgroundColor: Colors.transparent,
-                                      enableDrag: false,
-                                      context: context,
-                                      builder: (context) {
-                                        return Padding(
-                                          padding:
-                                              MediaQuery.of(context).viewInsets,
-                                          child: ConnectedOffWidget(),
-                                        );
-                                      },
-                                    ).then((value) => setState(() {}));
+                                    context.pushNamedAuth(
+                                        'PaginaCaixa', mounted);
                                   }
-                                } else {
-                                  context.pushNamedAuth('PaginaCaixa', mounted);
-                                }
 
-                                setState(() {});
-                              },
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 50,
-                                decoration: BoxDecoration(),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  5, 0, 0, 0),
-                                          child: Container(
-                                            height: 40,
-                                            decoration: BoxDecoration(),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Image.asset(
-                                                  'assets/images/arcticons_material-calculator.png',
-                                                  width: 25,
-                                                  height: 25,
-                                                  fit: BoxFit.contain,
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(12, 0, 0, 0),
-                                                  child: AutoSizeText(
-                                                    'Caixa / Saldo',
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyText1
-                                                        .override(
-                                                          fontFamily: 'Roboto',
-                                                          fontSize: 18,
-                                                          useGoogleFonts: GoogleFonts
-                                                                  .asMap()
-                                                              .containsKey(
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyText1Family),
-                                                          lineHeight: 1,
-                                                        ),
+                                  setState(() {});
+                                },
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 50,
+                                  decoration: BoxDecoration(),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    5, 0, 0, 0),
+                                            child: Container(
+                                              height: 40,
+                                              decoration: BoxDecoration(),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Image.asset(
+                                                    'assets/images/arcticons_material-calculator.png',
+                                                    width: 25,
+                                                    height: 25,
+                                                    fit: BoxFit.contain,
                                                   ),
-                                                ),
-                                              ],
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                12, 0, 0, 0),
+                                                    child: AutoSizeText(
+                                                      'Caixa / Saldo',
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText1
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Roboto',
+                                                                fontSize: 18,
+                                                                useGoogleFonts: GoogleFonts
+                                                                        .asMap()
+                                                                    .containsKey(
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .bodyText1Family),
+                                                                lineHeight: 1,
+                                                              ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Icon(
-                                          Icons.arrow_forward_ios,
-                                          color: Colors.black,
-                                          size: 24,
-                                        ),
-                                      ],
-                                    ),
-                                    Divider(
-                                      height: 1,
-                                      thickness: 1,
-                                      indent: 1,
-                                      endIndent: 1,
-                                      color: Color(0xFF545353),
-                                    ),
-                                  ],
+                                          Icon(
+                                            Icons.arrow_forward_ios,
+                                            color: Colors.black,
+                                            size: 24,
+                                          ),
+                                        ],
+                                      ),
+                                      Divider(
+                                        height: 1,
+                                        thickness: 1,
+                                        indent: 1,
+                                        endIndent: 1,
+                                        color: Color(0xFF545353),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
+                              );
+                            },
+                          ),
                         ),
                       ),
                     ],

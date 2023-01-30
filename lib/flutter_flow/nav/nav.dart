@@ -84,21 +84,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => PaginaHomeWidget(),
             ),
             FFRoute(
-              name: 'PaginaCobrancasRealizadas',
-              path: 'paginaCobrancasRealizadas',
-              builder: (context, params) => PaginaCobrancasRealizadasWidget(),
-            ),
-            FFRoute(
               name: 'PaginaLogin',
               path: 'paginaLogin',
               builder: (context, params) => PaginaLoginWidget(),
-            ),
-            FFRoute(
-              name: 'PaginaCobrancas',
-              path: 'paginaCobrancas',
-              builder: (context, params) => PaginaCobrancasWidget(
-                filtro: params.getParam('filtro', ParamType.String),
-              ),
             ),
             FFRoute(
               name: 'PaginaPerfil',
@@ -119,65 +107,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => PaginaMapWidget(),
             ),
             FFRoute(
-              name: 'PaginaCobrancasReagendads',
-              path: 'paginaCobrancasReagendads',
-              builder: (context, params) => PaginaCobrancasReagendadsWidget(
-                filtro: params.getParam('filtro', ParamType.String),
-              ),
-            ),
-            FFRoute(
-              name: 'PaginaCobrancasBuscarNome',
-              path: 'paginaCobrancasBuscarNome',
-              builder: (context, params) => PaginaCobrancasBuscarNomeWidget(
-                filtro: params.getParam('filtro', ParamType.String),
-              ),
-            ),
-            FFRoute(
               name: 'PaginaCaixa',
               path: 'paginaCaixa',
               builder: (context, params) => PaginaCaixaWidget(),
-            ),
-            FFRoute(
-              name: 'PaginaCobrancasV3',
-              path: 'paginaCobrancasV3',
-              builder: (context, params) => PaginaCobrancasV3Widget(
-                filtro: params.getParam('filtro', ParamType.String),
-              ),
-            ),
-            FFRoute(
-              name: 'PaginaCobrancasV3Reagendadas',
-              path: 'paginaCobrancasV3Reagendadas',
-              builder: (context, params) => PaginaCobrancasV3ReagendadasWidget(
-                filtro: params.getParam('filtro', ParamType.String),
-              ),
-            ),
-            FFRoute(
-              name: 'PaginaCobrancasV3Pagas',
-              path: 'paginaCobrancasV3Pagas',
-              builder: (context, params) => PaginaCobrancasV3PagasWidget(
-                filtro: params.getParam('filtro', ParamType.String),
-              ),
-            ),
-            FFRoute(
-              name: 'PaginaCobrancasV3Atrasadas',
-              path: 'paginaCobrancasV3Atrasadas',
-              builder: (context, params) => PaginaCobrancasV3AtrasadasWidget(
-                filtro: params.getParam('filtro', ParamType.String),
-              ),
-            ),
-            FFRoute(
-              name: 'PaginaCobrancasV3Pendente',
-              path: 'paginaCobrancasV3Pendente',
-              builder: (context, params) => PaginaCobrancasV3PendenteWidget(
-                filtro: params.getParam('filtro', ParamType.String),
-              ),
-            ),
-            FFRoute(
-              name: 'PaginaCobrancasV3BucarNome',
-              path: 'paginaCobrancasV3BucarNome',
-              builder: (context, params) => PaginaCobrancasV3BucarNomeWidget(
-                filtro: params.getParam('filtro', ParamType.String),
-              ),
             ),
             FFRoute(
               name: 'teste',
@@ -185,9 +117,51 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => TesteWidget(),
             ),
             FFRoute(
-              name: 'PaginaCobrancasV3Realizadas',
-              path: 'paginaCobrancasV3Realizadas',
-              builder: (context, params) => PaginaCobrancasV3RealizadasWidget(
+              name: 'PaginaCobrancas',
+              path: 'paginaCobrancas',
+              builder: (context, params) => PaginaCobrancasWidget(
+                filtro: params.getParam('filtro', ParamType.String),
+              ),
+            ),
+            FFRoute(
+              name: 'PaginaCobrancasRealizadas',
+              path: 'paginaCobrancasRealizadas',
+              builder: (context, params) => PaginaCobrancasRealizadasWidget(
+                filtro: params.getParam('filtro', ParamType.String),
+              ),
+            ),
+            FFRoute(
+              name: 'PaginaCobrancasNomeCliente',
+              path: 'paginaCobrancasNomeCliente',
+              builder: (context, params) => PaginaCobrancasNomeClienteWidget(
+                filtro: params.getParam('filtro', ParamType.String),
+              ),
+            ),
+            FFRoute(
+              name: 'PaginaCobrancasPagas',
+              path: 'paginaCobrancasPagas',
+              builder: (context, params) => PaginaCobrancasPagasWidget(
+                filtro: params.getParam('filtro', ParamType.String),
+              ),
+            ),
+            FFRoute(
+              name: 'PaginaCobrancasAtrasadas',
+              path: 'paginaCobrancasAtrasadas',
+              builder: (context, params) => PaginaCobrancasAtrasadasWidget(
+                filtro: params.getParam('filtro', ParamType.String),
+              ),
+            ),
+            FFRoute(
+              name: 'PaginaCobrancasReagendadas',
+              path: 'paginaCobrancasReagendadas',
+              builder: (context, params) => PaginaCobrancasReagendadasWidget(
+                filtro: params.getParam('filtro', ParamType.String),
+              ),
+            ),
+            FFRoute(
+              name: 'PaginaCobrancasPendentes',
+              path: 'paginaCobrancasPendentes',
+              builder: (context, params) => PaginaCobrancasPendentesWidget(
                 filtro: params.getParam('filtro', ParamType.String),
               ),
             )
