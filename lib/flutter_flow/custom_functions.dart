@@ -144,6 +144,11 @@ String conveterListaDeStringEmJson(dynamic body) {
   return json.encode(body);
 }
 
+String pegarLogitude(LatLng cor) {
+  // pergar a logitude de uma latlng
+  return cor.longitude.toString();
+}
+
 LatLng converterStringEmLocalizacao(String loc1) {
   // converter string em localizaçao
   List<String> tmp = loc1.split(",");
@@ -172,4 +177,9 @@ LatLng converterSctrigEmCordenadas(
   double dLat = double.parse(latitude);
   double dLong = double.parse(longitude);
   return LatLng(dLat, dLong);
+}
+
+String pegarLatitude(LatLng cor) {
+  // pergar a latitude de uma latlng
+  return cor.latitude.toString().substring(0, 10);
 }

@@ -7,8 +7,8 @@ import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
+import '../custom_code/actions/index.dart' as actions;
 import '../flutter_flow/custom_functions.dart' as functions;
-import '../flutter_flow/random_data_util.dart' as random_data;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -29,7 +29,8 @@ class StatusReagendarContratoWidget extends StatefulWidget {
 
 class _StatusReagendarContratoWidgetState
     extends State<StatusReagendarContratoWidget> {
-  ApiCallResponse? resultApi;
+  ApiCallResponse? apiResultReagendarCobranca1;
+  bool? net;
   DateTimeRange? calendarSelectedDay;
   TextEditingController? textController;
   LatLng? currentUserLocationValue;
@@ -306,47 +307,86 @@ class _StatusReagendarContratoWidgetState
                                                 await getCurrentUserLocation(
                                                     defaultLocation:
                                                         LatLng(0.0, 0.0));
-                                            if (true) {
-                                              resultApi = await ApiProgemGroup
-                                                  .reagendarCobrancaCall
-                                                  .call(
-                                                id: widget.cobranca!.id,
+                                            net = await actions.checkInternet();
+                                            if (net!) {
+                                              apiResultReagendarCobranca1 =
+                                                  await ApiProgemGroup
+                                                      .reagendarCobrancaCall
+                                                      .call(
                                                 token: FFAppState().token,
-                                                dataReagendamento:
-                                                    '${functions.converterdata(calendarSelectedDay!.end)}T10:00:00-03:00',
                                                 obs: textController!.text,
+                                                id: widget.cobranca!.id,
+                                                latitude: functions.pegarLatitude(
+                                                    currentUserLocationValue!),
+                                                longitude: functions.pegarLogitude(
+                                                    currentUserLocationValue!),
+                                                dataReagendamento:
+                                                    '${functions.converterdata(calendarSelectedDay!.end)}:00:00-03:00\"',
                                               );
-                                              if (ApiProgemGroup
-                                                          .reagendarCobrancaCall
-                                                          .erro(
-                                                            (resultApi
-                                                                    ?.jsonBody ??
-                                                                ''),
-                                                          )
-                                                          .toString() ==
-                                                      null ||
-                                                  ApiProgemGroup
-                                                          .reagendarCobrancaCall
-                                                          .erro(
-                                                            (resultApi
-                                                                    ?.jsonBody ??
-                                                                ''),
-                                                          )
-                                                          .toString() ==
-                                                      '') {
+                                              if ((apiResultReagendarCobranca1
+                                                      ?.succeeded ??
+                                                  true)) {
+                                                final cobrancasUpdateData =
+                                                    createCobrancasRecordData(
+                                                  status: 'REAGENDADA',
+                                                  dataSincronia:
+                                                      getCurrentTimestamp,
+                                                  sincronizado: true,
+                                                  cobrancaRealizada: true,
+                                                  dataEdit: getCurrentTimestamp,
+                                                  locCobranca:
+                                                      currentUserLocationValue,
+                                                  nomeCliente: '',
+                                                  dataReagendamentoS:
+                                                      '${functions.converterdata(calendarSelectedDay!.end)}:00:00-03:00\"',
+                                                  numeroContrato:
+                                                      calendarSelectedDay?.end
+                                                          ?.toString(),
+                                                );
+                                                await widget.cobranca!.reference
+                                                    .update(
+                                                        cobrancasUpdateData);
+                                                Navigator.pop(context);
+                                                FFAppState().update(() {
+                                                  FFAppState()
+                                                          .CobrancaAtualizada =
+                                                      widget
+                                                          .cobranca!.reference;
+                                                });
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      'Cobrança reagendada com sucesso!',
+                                                      style:
+                                                          GoogleFonts.getFont(
+                                                        'Poppins',
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                    duration: Duration(
+                                                        milliseconds: 6000),
+                                                    backgroundColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .secondaryColor,
+                                                  ),
+                                                );
+                                                await Future.delayed(
+                                                    const Duration(
+                                                        milliseconds: 6000));
+                                                FFAppState().update(() {
+                                                  FFAppState()
+                                                          .CobrancaAtualizada =
+                                                      null;
+                                                });
+                                              } else {
                                                 Navigator.pop(context);
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
                                                   SnackBar(
                                                     content: Text(
-                                                      ApiProgemGroup
-                                                          .reagendarCobrancaCall
-                                                          .erro(
-                                                            (resultApi
-                                                                    ?.jsonBody ??
-                                                                ''),
-                                                          )
-                                                          .toString(),
+                                                      'Algo deu errado, por favor tente novamente mais tarde.',
                                                       style: TextStyle(
                                                         color: Colors.white,
                                                       ),
@@ -359,144 +399,52 @@ class _StatusReagendarContratoWidgetState
                                                             .alternate,
                                                   ),
                                                 );
-                                              } else {
-                                                if ((resultApi?.succeeded ??
-                                                    true)) {
-                                                  final cobrancasUpdateData =
-                                                      createCobrancasRecordData(
-                                                    status: 'REAGENDADA',
-                                                    dataSincronia:
-                                                        getCurrentTimestamp,
-                                                  );
-                                                  await widget
-                                                      .cobranca!.reference
-                                                      .update(
-                                                          cobrancasUpdateData);
-
-                                                  final cobrancasRealizadasCreateData =
-                                                      createCobrancasRealizadasRecordData(
-                                                    user: currentUserReference,
-                                                    data: getCurrentTimestamp,
-                                                    idCobranca:
-                                                        widget.cobranca!.id,
-                                                    uid:
-                                                        '${random_data.randomString(
-                                                      10,
-                                                      10,
-                                                      false,
-                                                      false,
-                                                      true,
-                                                    )}x${random_data.randomString(
-                                                      10,
-                                                      10,
-                                                      false,
-                                                      false,
-                                                      true,
-                                                    )}',
-                                                    valor:
-                                                        widget.cobranca!.valor,
-                                                    dataDeSincronia:
-                                                        getCurrentTimestamp,
-                                                    cobranca: widget
-                                                        .cobranca!.reference,
-                                                    sincronizado: true,
-                                                    status: 'REAGENDADA',
-                                                    localizacao:
-                                                        currentUserLocationValue,
-                                                    dataDeVencimento: widget
-                                                        .cobranca!
-                                                        .dataDeVencimento,
-                                                    nomeCliente: widget
-                                                        .cobranca!.nomeCliente,
-                                                    numeroContrato: widget
-                                                        .cobranca!
-                                                        .numeroContrato,
-                                                    emailUser: currentUserEmail,
-                                                    obs: textController!.text,
-                                                    dataReagendamentoS:
-                                                        '${functions.converterdata(calendarSelectedDay!.end)}T10:00:00-03:00',
-                                                    dataRagendamento:
-                                                        calendarSelectedDay
-                                                            ?.end,
-                                                  );
-                                                  await CobrancasRealizadasRecord
-                                                      .collection
-                                                      .doc()
-                                                      .set(
-                                                          cobrancasRealizadasCreateData);
-                                                  Navigator.pop(context);
-                                                } else {
-                                                  Navigator.pop(context);
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    SnackBar(
-                                                      content: Text(
-                                                        'Algo deu errado, por favor tente novamente mais tarde.',
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                        ),
-                                                      ),
-                                                      duration: Duration(
-                                                          milliseconds: 4000),
-                                                      backgroundColor:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .alternate,
-                                                    ),
-                                                  );
-                                                }
                                               }
                                             } else {
+                                              Navigator.pop(context);
+                                              FFAppState().update(() {
+                                                FFAppState()
+                                                        .CobrancaAtualizada =
+                                                    widget.cobranca!.reference;
+                                              });
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    'Cobrança reagendada com sucesso!',
+                                                    style: GoogleFonts.getFont(
+                                                      'Poppins',
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                  duration: Duration(
+                                                      milliseconds: 6000),
+                                                  backgroundColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .secondaryColor,
+                                                ),
+                                              );
+
+                                              context.pushNamed(
+                                                  'PaginaCobrancasRealizadas');
+
                                               final cobrancasUpdateData =
                                                   createCobrancasRecordData(
                                                 status: 'REAGENDADA',
+                                                sincronizado: false,
+                                                cobrancaRealizada: true,
+                                                dataEdit: getCurrentTimestamp,
+                                                locCobranca:
+                                                    currentUserLocationValue,
+                                                dataReagendamento:
+                                                    calendarSelectedDay?.end,
+                                                dataReagendamentoS:
+                                                    '${functions.converterdata(calendarSelectedDay!.end)}:00:00-03:00\"',
+                                                nomeCliente: '',
                                               );
                                               await widget.cobranca!.reference
                                                   .update(cobrancasUpdateData);
-
-                                              final cobrancasRealizadasCreateData =
-                                                  createCobrancasRealizadasRecordData(
-                                                user: currentUserReference,
-                                                data: getCurrentTimestamp,
-                                                idCobranca: widget.cobranca!.id,
-                                                uid:
-                                                    '${random_data.randomString(
-                                                  10,
-                                                  10,
-                                                  false,
-                                                  false,
-                                                  true,
-                                                )}x${random_data.randomString(
-                                                  10,
-                                                  10,
-                                                  false,
-                                                  false,
-                                                  true,
-                                                )}',
-                                                valor: widget.cobranca!.valor,
-                                                cobranca:
-                                                    widget.cobranca!.reference,
-                                                sincronizado: false,
-                                                status: 'REAGENDADA',
-                                                nomeCliente: widget
-                                                    .cobranca!.nomeCliente,
-                                                dataDeVencimento: widget
-                                                    .cobranca!.dataDeVencimento,
-                                                numeroContrato: widget
-                                                    .cobranca!.numeroContrato,
-                                                emailUser: currentUserEmail,
-                                                obs: textController!.text,
-                                                dataReagendamentoS:
-                                                    '${functions.converterdata(calendarSelectedDay!.end)}T10:00:00-03:00',
-                                                dataRagendamento:
-                                                    calendarSelectedDay?.end,
-                                              );
-                                              await CobrancasRealizadasRecord
-                                                  .collection
-                                                  .doc()
-                                                  .set(
-                                                      cobrancasRealizadasCreateData);
-                                              Navigator.pop(context);
                                             }
 
                                             setState(() {});

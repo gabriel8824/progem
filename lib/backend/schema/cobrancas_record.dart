@@ -74,6 +74,15 @@ abstract class CobrancasRecord
   @BuiltValueField(wireName: 'DataEdit')
   DateTime? get dataEdit;
 
+  @BuiltValueField(wireName: 'LocCobranca')
+  LatLng? get locCobranca;
+
+  @BuiltValueField(wireName: 'DataReagendamento')
+  DateTime? get dataReagendamento;
+
+  @BuiltValueField(wireName: 'DataReagendamentoS')
+  String? get dataReagendamentoS;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -94,7 +103,8 @@ abstract class CobrancasRecord
     ..parcela = ''
     ..numeroParcela = 0
     ..sincronizado = false
-    ..cobrancaRealizada = false;
+    ..cobrancaRealizada = false
+    ..dataReagendamentoS = '';
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('Cobrancas');
@@ -139,6 +149,9 @@ Map<String, dynamic> createCobrancasRecordData({
   bool? sincronizado,
   bool? cobrancaRealizada,
   DateTime? dataEdit,
+  LatLng? locCobranca,
+  DateTime? dataReagendamento,
+  String? dataReagendamentoS,
 }) {
   final firestoreData = serializers.toFirestore(
     CobrancasRecord.serializer,
@@ -164,7 +177,10 @@ Map<String, dynamic> createCobrancasRecordData({
         ..numeroParcela = numeroParcela
         ..sincronizado = sincronizado
         ..cobrancaRealizada = cobrancaRealizada
-        ..dataEdit = dataEdit,
+        ..dataEdit = dataEdit
+        ..locCobranca = locCobranca
+        ..dataReagendamento = dataReagendamento
+        ..dataReagendamentoS = dataReagendamentoS,
     ),
   );
 

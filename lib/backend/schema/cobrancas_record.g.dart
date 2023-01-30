@@ -168,6 +168,27 @@ class _$CobrancasRecordSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(DateTime)));
     }
+    value = object.locCobranca;
+    if (value != null) {
+      result
+        ..add('LocCobranca')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(LatLng)));
+    }
+    value = object.dataReagendamento;
+    if (value != null) {
+      result
+        ..add('DataReagendamento')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(DateTime)));
+    }
+    value = object.dataReagendamentoS;
+    if (value != null) {
+      result
+        ..add('DataReagendamentoS')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -277,6 +298,18 @@ class _$CobrancasRecordSerializer
           result.dataEdit = serializers.deserialize(value,
               specifiedType: const FullType(DateTime)) as DateTime?;
           break;
+        case 'LocCobranca':
+          result.locCobranca = serializers.deserialize(value,
+              specifiedType: const FullType(LatLng)) as LatLng?;
+          break;
+        case 'DataReagendamento':
+          result.dataReagendamento = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime?;
+          break;
+        case 'DataReagendamentoS':
+          result.dataReagendamentoS = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -334,6 +367,12 @@ class _$CobrancasRecord extends CobrancasRecord {
   @override
   final DateTime? dataEdit;
   @override
+  final LatLng? locCobranca;
+  @override
+  final DateTime? dataReagendamento;
+  @override
+  final String? dataReagendamentoS;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$CobrancasRecord([void Function(CobrancasRecordBuilder)? updates]) =>
@@ -361,6 +400,9 @@ class _$CobrancasRecord extends CobrancasRecord {
       this.sincronizado,
       this.cobrancaRealizada,
       this.dataEdit,
+      this.locCobranca,
+      this.dataReagendamento,
+      this.dataReagendamentoS,
       this.ffRef})
       : super._();
 
@@ -397,6 +439,9 @@ class _$CobrancasRecord extends CobrancasRecord {
         sincronizado == other.sincronizado &&
         cobrancaRealizada == other.cobrancaRealizada &&
         dataEdit == other.dataEdit &&
+        locCobranca == other.locCobranca &&
+        dataReagendamento == other.dataReagendamento &&
+        dataReagendamentoS == other.dataReagendamentoS &&
         ffRef == other.ffRef;
   }
 
@@ -420,25 +465,25 @@ class _$CobrancasRecord extends CobrancasRecord {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc(0, nomeCliente.hashCode), numeroContrato.hashCode), valor.hashCode),
-                                                                                dataDeVencimento.hashCode),
-                                                                            endereco.hashCode),
-                                                                        bairro.hashCode),
-                                                                    status.hashCode),
-                                                                id.hashCode),
-                                                            dataSincronia.hashCode),
-                                                        usuario.hashCode),
-                                                    emailUsuario.hashCode),
-                                                uId.hashCode),
-                                            localizacao.hashCode),
-                                        valorParcela.hashCode),
-                                    idUsuario.hashCode),
-                                numeroEnd.hashCode),
-                            parcela.hashCode),
-                        numeroParcela.hashCode),
-                    sincronizado.hashCode),
-                cobrancaRealizada.hashCode),
-            dataEdit.hashCode),
+                                                                            $jc($jc($jc($jc($jc($jc($jc(0, nomeCliente.hashCode), numeroContrato.hashCode), valor.hashCode), dataDeVencimento.hashCode), endereco.hashCode), bairro.hashCode),
+                                                                                status.hashCode),
+                                                                            id.hashCode),
+                                                                        dataSincronia.hashCode),
+                                                                    usuario.hashCode),
+                                                                emailUsuario.hashCode),
+                                                            uId.hashCode),
+                                                        localizacao.hashCode),
+                                                    valorParcela.hashCode),
+                                                idUsuario.hashCode),
+                                            numeroEnd.hashCode),
+                                        parcela.hashCode),
+                                    numeroParcela.hashCode),
+                                sincronizado.hashCode),
+                            cobrancaRealizada.hashCode),
+                        dataEdit.hashCode),
+                    locCobranca.hashCode),
+                dataReagendamento.hashCode),
+            dataReagendamentoS.hashCode),
         ffRef.hashCode));
   }
 
@@ -466,6 +511,9 @@ class _$CobrancasRecord extends CobrancasRecord {
           ..add('sincronizado', sincronizado)
           ..add('cobrancaRealizada', cobrancaRealizada)
           ..add('dataEdit', dataEdit)
+          ..add('locCobranca', locCobranca)
+          ..add('dataReagendamento', dataReagendamento)
+          ..add('dataReagendamentoS', dataReagendamentoS)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -564,6 +612,20 @@ class CobrancasRecordBuilder
   DateTime? get dataEdit => _$this._dataEdit;
   set dataEdit(DateTime? dataEdit) => _$this._dataEdit = dataEdit;
 
+  LatLng? _locCobranca;
+  LatLng? get locCobranca => _$this._locCobranca;
+  set locCobranca(LatLng? locCobranca) => _$this._locCobranca = locCobranca;
+
+  DateTime? _dataReagendamento;
+  DateTime? get dataReagendamento => _$this._dataReagendamento;
+  set dataReagendamento(DateTime? dataReagendamento) =>
+      _$this._dataReagendamento = dataReagendamento;
+
+  String? _dataReagendamentoS;
+  String? get dataReagendamentoS => _$this._dataReagendamentoS;
+  set dataReagendamentoS(String? dataReagendamentoS) =>
+      _$this._dataReagendamentoS = dataReagendamentoS;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -596,6 +658,9 @@ class CobrancasRecordBuilder
       _sincronizado = $v.sincronizado;
       _cobrancaRealizada = $v.cobrancaRealizada;
       _dataEdit = $v.dataEdit;
+      _locCobranca = $v.locCobranca;
+      _dataReagendamento = $v.dataReagendamento;
+      _dataReagendamentoS = $v.dataReagendamentoS;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -640,6 +705,9 @@ class CobrancasRecordBuilder
             sincronizado: sincronizado,
             cobrancaRealizada: cobrancaRealizada,
             dataEdit: dataEdit,
+            locCobranca: locCobranca,
+            dataReagendamento: dataReagendamento,
+            dataReagendamentoS: dataReagendamentoS,
             ffRef: ffRef);
     replace(_$result);
     return _$result;

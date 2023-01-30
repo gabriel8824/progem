@@ -11,6 +11,20 @@
         {
           "fieldPath": "Status",
           "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Cobrancas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "IdUsuario",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "Status",
+          "order": "ASCENDING"
         },
         {
           "fieldPath": "DataEdit",

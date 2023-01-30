@@ -86,8 +86,10 @@ class _PaginaMapWidgetState extends State<PaginaMapWidget> {
     return AuthUserStreamWidget(
       builder: (context) => StreamBuilder<List<CobrancasRecord>>(
         stream: queryCobrancasRecord(
-          queryBuilder: (cobrancasRecord) => cobrancasRecord.where('IdUsuario',
-              isEqualTo: valueOrDefault(currentUserDocument?.idUsuario, '')),
+          queryBuilder: (cobrancasRecord) => cobrancasRecord
+              .where('IdUsuario',
+                  isEqualTo: valueOrDefault(currentUserDocument?.idUsuario, ''))
+              .where('Status', isNotEqualTo: 'RECEBIDA'),
         ),
         builder: (context, snapshot) {
           // Customize what your widget looks like when it's loading.
@@ -208,7 +210,7 @@ class _PaginaMapWidgetState extends State<PaginaMapWidget> {
                               ),
                             )
                             .toList(),
-                        markerColor: GoogleMarkerColor.violet,
+                        markerColor: GoogleMarkerColor.red,
                         mapType: MapType.normal,
                         style: GoogleMapStyle.standard,
                         initialZoom: 14,

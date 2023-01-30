@@ -26,18 +26,15 @@ class PaginaHomeWidget extends StatefulWidget {
 }
 
 class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
-  ApiCallResponse? apiReagendarCo;
-  ApiCallResponse? apiReceberCo;
-  InstantTimer? instantTimer3;
-  List<CobrancasRealizadasRecord> simpleSearchResults2 = [];
+  ApiCallResponse? apiResultCaixas1;
+  bool? net44;
+  InstantTimer? LoopCaixa;
+  List<CaixasRecord> simpleSearchResults2 = [];
   ApiCallResponse? apiResultCobrancasTT;
   InstantTimer? LoopSicC;
   bool? net;
   InstantTimer? LoopCC;
   List<CobrancasRecord> simpleSearchResults1 = [];
-  ApiCallResponse? apiResultCaixas1;
-  InstantTimer? LoopCaixa;
-  List<CaixasRecord> simpleSearchResults3 = [];
   final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -59,7 +56,6 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
   void dispose() {
     LoopCC?.cancel();
     LoopSicC?.cancel();
-    instantTimer3?.cancel();
     LoopCaixa?.cancel();
     _unfocusNode.dispose();
     super.dispose();
@@ -769,310 +765,38 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                       ),
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                        child: StreamBuilder<List<CobrancasRealizadasRecord>>(
-                          stream: queryCobrancasRealizadasRecord(
-                            queryBuilder: (cobrancasRealizadasRecord) =>
-                                cobrancasRealizadasRecord
-                                    .where('EmailUser',
-                                        isEqualTo: currentUserEmail)
-                                    .where('Sincronizado', isEqualTo: false),
-                          ),
-                          builder: (context, snapshot) {
-                            // Customize what your widget looks like when it's loading.
-                            if (!snapshot.hasData) {
-                              return Center(
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      10, 10, 10, 10),
-                                  child: SizedBox(
-                                    width: 25,
-                                    height: 25,
-                                    child: CircularProgressIndicator(
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryColor,
+                        child: AuthUserStreamWidget(
+                          builder: (context) =>
+                              StreamBuilder<List<CobrancasRecord>>(
+                            stream: queryCobrancasRecord(
+                              queryBuilder: (cobrancasRecord) => cobrancasRecord
+                                  .where('Sincronizado', isEqualTo: false)
+                                  .where('CobrancaRealizada', isEqualTo: true)
+                                  .where('IdUsuario',
+                                      isEqualTo: valueOrDefault(
+                                          currentUserDocument?.idUsuario, '')),
+                            ),
+                            builder: (context, snapshot) {
+                              // Customize what your widget looks like when it's loading.
+                              if (!snapshot.hasData) {
+                                return Center(
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        10, 10, 10, 10),
+                                    child: SizedBox(
+                                      width: 25,
+                                      height: 25,
+                                      child: CircularProgressIndicator(
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryColor,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                            }
-                            List<CobrancasRealizadasRecord>
-                                containerCobrancasRealizadasRecordList =
-                                snapshot.data!;
-                            return InkWell(
-                              onTap: () async {
-                                showModalBottomSheet(
-                                  isScrollControlled: true,
-                                  backgroundColor: Colors.transparent,
-                                  isDismissible: false,
-                                  enableDrag: false,
-                                  context: context,
-                                  builder: (context) {
-                                    return Padding(
-                                      padding:
-                                          MediaQuery.of(context).viewInsets,
-                                      child: LoadSicWidget(),
-                                    );
-                                  },
-                                ).then((value) => setState(() {}));
-
-                                if (true) {
-                                  instantTimer3 = InstantTimer.periodic(
-                                    duration: Duration(milliseconds: 1000),
-                                    callback: (timer) async {
-                                      if (containerCobrancasRealizadasRecordList
-                                              .length <
-                                          1) {
-                                        instantTimer3?.cancel();
-                                        Navigator.pop(context);
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              'Sincronia finalizada com sucesso!',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            duration:
-                                                Duration(milliseconds: 4000),
-                                            backgroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .secondaryColor,
-                                          ),
-                                        );
-                                      } else {
-                                        setState(() {
-                                          simpleSearchResults2 = TextSearch(
-                                            containerCobrancasRealizadasRecordList
-                                                .map(
-                                                  (record) => TextSearchItem(
-                                                      record, [record.uid!]),
-                                                )
-                                                .toList(),
-                                          )
-                                              .search(
-                                                  containerCobrancasRealizadasRecordList
-                                                      .first.uid!)
-                                              .map((r) => r.object)
-                                              .take(1)
-                                              .toList();
-                                        });
-                                        if (simpleSearchResults2
-                                                    .first.idCaixa !=
-                                                null &&
-                                            simpleSearchResults2
-                                                    .first.idCaixa !=
-                                                '') {
-                                          if (simpleSearchResults2
-                                                  .first.sincronizado ==
-                                              false) {
-                                            apiReceberCo = await ApiProgemGroup
-                                                .receberCobrancaCall
-                                                .call(
-                                              token: FFAppState().token,
-                                              id: simpleSearchResults2
-                                                  .first.idCobranca,
-                                              valor: simpleSearchResults2
-                                                  .first.valor
-                                                  ?.toString(),
-                                              formaDePagamento:
-                                                  simpleSearchResults2
-                                                      .first.formaDePagamento,
-                                              idCaixa: simpleSearchResults2
-                                                  .first.idCaixa,
-                                            );
-                                            if ((apiReceberCo?.succeeded ??
-                                                true)) {
-                                              final cobrancasRealizadasUpdateData =
-                                                  createCobrancasRealizadasRecordData(
-                                                dataDeSincronia:
-                                                    getCurrentTimestamp,
-                                                sincronizado: true,
-                                              );
-                                              await simpleSearchResults2
-                                                  .first.reference
-                                                  .update(
-                                                      cobrancasRealizadasUpdateData);
-
-                                              final cobrancasUpdateData =
-                                                  createCobrancasRecordData(
-                                                dataSincronia:
-                                                    getCurrentTimestamp,
-                                              );
-                                              await simpleSearchResults2
-                                                  .first.cobranca!
-                                                  .update(cobrancasUpdateData);
-                                            } else {
-                                              instantTimer3?.cancel();
-                                              Navigator.pop(context);
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    'Algo deu errado',
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                  duration: Duration(
-                                                      milliseconds: 4000),
-                                                  backgroundColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .alternate,
-                                                ),
-                                              );
-                                            }
-                                          } else {
-                                            instantTimer3?.cancel();
-                                            Navigator.pop(context);
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              SnackBar(
-                                                content: Text(
-                                                  'Algo deu errado',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                                duration: Duration(
-                                                    milliseconds: 4000),
-                                                backgroundColor:
-                                                    FlutterFlowTheme.of(context)
-                                                        .alternate,
-                                              ),
-                                            );
-                                          }
-                                        } else {
-                                          if (simpleSearchResults2
-                                                  .first.dataRagendamento !=
-                                              null) {
-                                            if (simpleSearchResults2
-                                                    .first.sincronizado ==
-                                                false) {
-                                              apiReagendarCo =
-                                                  await ApiProgemGroup
-                                                      .reagendarCobrancaCall
-                                                      .call(
-                                                token: FFAppState().token,
-                                                dataReagendamento:
-                                                    simpleSearchResults2.first
-                                                        .dataReagendamentoS,
-                                                obs: simpleSearchResults2
-                                                    .first.obs,
-                                                id: simpleSearchResults2
-                                                    .first.idCobranca,
-                                              );
-                                              if ((apiReagendarCo?.succeeded ??
-                                                  true)) {
-                                                final cobrancasRealizadasUpdateData =
-                                                    createCobrancasRealizadasRecordData(
-                                                  dataDeSincronia:
-                                                      getCurrentTimestamp,
-                                                  sincronizado: true,
-                                                );
-                                                await simpleSearchResults2
-                                                    .first.reference
-                                                    .update(
-                                                        cobrancasRealizadasUpdateData);
-
-                                                final cobrancasUpdateData =
-                                                    createCobrancasRecordData(
-                                                  dataSincronia:
-                                                      getCurrentTimestamp,
-                                                );
-                                                await simpleSearchResults2
-                                                    .first.cobranca!
-                                                    .update(
-                                                        cobrancasUpdateData);
-                                              } else {
-                                                instantTimer3?.cancel();
-                                                Navigator.pop(context);
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  SnackBar(
-                                                    content: Text(
-                                                      'Algo deu errado',
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                      ),
-                                                    ),
-                                                    duration: Duration(
-                                                        milliseconds: 4000),
-                                                    backgroundColor:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .alternate,
-                                                  ),
-                                                );
-                                              }
-                                            } else {
-                                              instantTimer3?.cancel();
-                                              Navigator.pop(context);
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    'Algo deu errado',
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                  duration: Duration(
-                                                      milliseconds: 4000),
-                                                  backgroundColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .alternate,
-                                                ),
-                                              );
-                                            }
-                                          } else {
-                                            instantTimer3?.cancel();
-                                            Navigator.pop(context);
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              SnackBar(
-                                                content: Text(
-                                                  'Algo deu errado',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                                duration: Duration(
-                                                    milliseconds: 4000),
-                                                backgroundColor:
-                                                    FlutterFlowTheme.of(context)
-                                                        .alternate,
-                                              ),
-                                            );
-                                          }
-                                        }
-                                      }
-                                    },
-                                    startImmediately: false,
-                                  );
-                                } else {
-                                  Navigator.pop(context);
-                                  showModalBottomSheet(
-                                    isScrollControlled: true,
-                                    backgroundColor: Colors.transparent,
-                                    isDismissible: false,
-                                    enableDrag: false,
-                                    context: context,
-                                    builder: (context) {
-                                      return Padding(
-                                        padding:
-                                            MediaQuery.of(context).viewInsets,
-                                        child: ConnectedOffWidget(),
-                                      );
-                                    },
-                                  ).then((value) => setState(() {}));
-                                }
-
-                                setState(() {});
-                              },
-                              child: Container(
+                                );
+                              }
+                              List<CobrancasRecord>
+                                  containerCobrancasRecordList = snapshot.data!;
+                              return Container(
                                 width: MediaQuery.of(context).size.width,
                                 height: 50,
                                 decoration: BoxDecoration(),
@@ -1143,9 +867,9 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                     ),
                                   ],
                                 ),
-                              ),
-                            );
-                          },
+                              );
+                            },
+                          ),
                         ),
                       ),
                       Padding(
@@ -1181,8 +905,9 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                   snapshot.data!;
                               return InkWell(
                                 onTap: () async {
+                                  net44 = await actions.checkInternet();
                                   if (containerCaixasRecordList.length < 1) {
-                                    if (true) {
+                                    if (net44!) {
                                       if (containerCaixasRecordList.length <
                                           1) {
                                         showModalBottomSheet(
@@ -1227,7 +952,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                       FFAppState().Caixas.first;
                                                 });
                                                 setState(() {
-                                                  simpleSearchResults3 =
+                                                  simpleSearchResults2 =
                                                       TextSearch(
                                                     containerCaixasRecordList
                                                         .map(
@@ -1246,7 +971,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                           .map((r) => r.object)
                                                           .toList();
                                                 });
-                                                if (simpleSearchResults3
+                                                if (simpleSearchResults2
                                                         .length <
                                                     1) {
                                                   final caixasCreateData =

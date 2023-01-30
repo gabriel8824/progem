@@ -195,7 +195,7 @@ class _PaginaCobrancasPagasWidgetState
                                           alignment:
                                               AlignmentDirectional(-1, 0),
                                           child: AutoSizeText(
-                                            'Cobranças',
+                                            'Cobranças pagas',
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyText1
                                                 .override(

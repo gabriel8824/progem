@@ -195,7 +195,7 @@ class _PaginaCobrancasReagendadasWidgetState
                                           alignment:
                                               AlignmentDirectional(-1, 0),
                                           child: AutoSizeText(
-                                            'Cobranças',
+                                            'Cobranças reagendadas',
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyText1
                                                 .override(

@@ -690,6 +690,8 @@ class ReceberCobrancaCall {
     String? valor = '',
     String? formaDePagamento = '',
     String? idCaixa = '',
+    String? latitude = '',
+    String? longitude = '',
   }) {
     final body = '''
 {
@@ -699,8 +701,8 @@ class ReceberCobrancaCall {
     "id": "${idCaixa}"
   },
   "checkin": {
-    "latitude": "3.05582",
-    "longitude": "-60.72712"
+    "latitude": "${latitude}",
+    "longitude": "${longitude}"
   }
 }''';
     return ApiManager.instance.makeApiCall(
@@ -796,14 +798,16 @@ class ReagendarCobrancaCall {
     String? dataReagendamento = '',
     String? obs = '',
     String? id = '',
+    String? latitude = '',
+    String? longitude = '',
   }) {
     final body = '''
 {
   "dataReagendamento": "${dataReagendamento}",
   "observacao": "${obs}",
   "checkin": {
-    "latitude": "-25.8672164",
-    "longitude": "-52.9013566"
+    "latitude": "${latitude}",
+    "longitude": "${longitude}"
   }
 }''';
     return ApiManager.instance.makeApiCall(

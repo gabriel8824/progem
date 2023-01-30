@@ -35,6 +35,7 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
   List<CaixasRecord> simpleSearchResults = [];
   String? dropDownCValue;
   String? dropDownFDPValue;
+  LatLng? currentUserLocationValue;
 
   @override
   Widget build(BuildContext context) {
@@ -541,6 +542,10 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                         ),
                                         FFButtonWidget(
                                           onPressed: () async {
+                                            currentUserLocationValue =
+                                                await getCurrentUserLocation(
+                                                    defaultLocation:
+                                                        LatLng(0.0, 0.0));
                                             net = await actions.checkInternet();
                                             if (net!) {
                                               apiResultReceberCobranca1 =
@@ -579,6 +584,10 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                     return 'DINHEIRO';
                                                   }
                                                 }(),
+                                                latitude: functions.pegarLatitude(
+                                                    currentUserLocationValue!),
+                                                longitude: functions.pegarLogitude(
+                                                    currentUserLocationValue!),
                                               );
                                               if ((apiResultReceberCobranca1
                                                       ?.succeeded ??
@@ -591,6 +600,8 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                   sincronizado: true,
                                                   cobrancaRealizada: true,
                                                   dataEdit: getCurrentTimestamp,
+                                                  locCobranca:
+                                                      currentUserLocationValue,
                                                 );
                                                 await widget.cobranca!.reference
                                                     .update(
@@ -684,6 +695,8 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                 sincronizado: false,
                                                 cobrancaRealizada: true,
                                                 dataEdit: getCurrentTimestamp,
+                                                locCobranca:
+                                                    currentUserLocationValue,
                                               );
                                               await widget.cobranca!.reference
                                                   .update(cobrancasUpdateData);
