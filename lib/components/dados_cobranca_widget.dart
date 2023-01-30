@@ -445,6 +445,7 @@ class _DadosCobrancaWidgetState extends State<DadosCobrancaWidget> {
                                               if (containerCaixasRecordList
                                                       .length <
                                                   1) {
+                                                Navigator.pop(context);
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
                                                   SnackBar(
@@ -523,6 +524,7 @@ class _DadosCobrancaWidgetState extends State<DadosCobrancaWidget> {
                                               if (containerCaixasRecordList
                                                       .length <
                                                   1) {
+                                                Navigator.pop(context);
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
                                                   SnackBar(
