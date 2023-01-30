@@ -832,8 +832,7 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                             milliseconds: 3000),
                                                         callback:
                                                             (timer) async {
-                                                          if (!instantTimer1
-                                                              .isActive) {
+                                                          if (true) {
                                                             apiResultCobrancasTT =
                                                                 await ApiProgemGroup
                                                                     .listarCobrancasCall
