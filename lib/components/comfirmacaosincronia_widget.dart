@@ -87,7 +87,7 @@ class _ComfirmacaosincroniaWidgetState
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Sincronia offline',
+                        containerCobrancasRecordList.length.toString(),
                         style: FlutterFlowTheme.of(context).bodyText1.override(
                               fontFamily:
                                   FlutterFlowTheme.of(context).bodyText1Family,
