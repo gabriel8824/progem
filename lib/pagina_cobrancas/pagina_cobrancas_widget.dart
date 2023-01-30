@@ -924,7 +924,7 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                                             .map((r) => r.object)
                                                                             .toList();
                                                                       });
-                                                                      if (simpleSearchResults1
+                                                                      if (simpleSearchResults
                                                                               .length >=
                                                                           1) {
                                                                         FFAppState()
