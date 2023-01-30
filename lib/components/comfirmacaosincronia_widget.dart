@@ -177,8 +177,7 @@ class _ComfirmacaosincroniaWidgetState
                                     SicOff = InstantTimer.periodic(
                                       duration: Duration(milliseconds: 3000),
                                       callback: (timer) async {
-                                        if (FFAppState()
-                                                .CobrancasSicOff
+                                        if (containerCobrancasRecordList
                                                 .length >=
                                             1) {
                                           if (containerCobrancasRecordList
