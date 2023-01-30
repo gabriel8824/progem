@@ -1,6 +1,7 @@
 import '../auth/auth_util.dart';
 import '../backend/api_requests/api_calls.dart';
 import '../backend/backend.dart';
+import '../components/comfirmacaosincronia_widget.dart';
 import '../components/connected_off_widget.dart';
 import '../components/load_sic_widget.dart';
 import '../components/menu_widget.dart';
@@ -35,6 +36,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
   bool? net;
   InstantTimer? LoopCC;
   List<CobrancasRecord> simpleSearchResults1 = [];
+  bool? net423;
   final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -796,76 +798,115 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                               }
                               List<CobrancasRecord>
                                   containerCobrancasRecordList = snapshot.data!;
-                              return Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 50,
-                                decoration: BoxDecoration(),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Padding(
+                              return InkWell(
+                                onTap: () async {
+                                  net423 = await actions.checkInternet();
+                                  if (net423!) {
+                                    await showModalBottomSheet(
+                                      isScrollControlled: true,
+                                      backgroundColor: Colors.transparent,
+                                      enableDrag: false,
+                                      context: context,
+                                      builder: (context) {
+                                        return Padding(
                                           padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  5, 0, 0, 0),
-                                          child: Container(
-                                            height: 40,
-                                            decoration: BoxDecoration(),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Image.asset(
-                                                  'assets/images/radix-icons_update.png',
-                                                  width: 25,
-                                                  height: 25,
-                                                  fit: BoxFit.contain,
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(12, 0, 0, 0),
-                                                  child: AutoSizeText(
-                                                    'Sincronizar',
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyText1
-                                                        .override(
-                                                          fontFamily: 'Roboto',
-                                                          fontSize: 18,
-                                                          useGoogleFonts: GoogleFonts
-                                                                  .asMap()
-                                                              .containsKey(
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyText1Family),
-                                                          lineHeight: 1,
-                                                        ),
+                                              MediaQuery.of(context).viewInsets,
+                                          child: ComfirmacaosincroniaWidget(),
+                                        );
+                                      },
+                                    ).then((value) => setState(() {}));
+                                  } else {
+                                    await showModalBottomSheet(
+                                      isScrollControlled: true,
+                                      backgroundColor: Colors.transparent,
+                                      enableDrag: false,
+                                      context: context,
+                                      builder: (context) {
+                                        return Padding(
+                                          padding:
+                                              MediaQuery.of(context).viewInsets,
+                                          child: ConnectedOffWidget(),
+                                        );
+                                      },
+                                    ).then((value) => setState(() {}));
+                                  }
+
+                                  setState(() {});
+                                },
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 50,
+                                  decoration: BoxDecoration(),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    5, 0, 0, 0),
+                                            child: Container(
+                                              height: 40,
+                                              decoration: BoxDecoration(),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Image.asset(
+                                                    'assets/images/radix-icons_update.png',
+                                                    width: 25,
+                                                    height: 25,
+                                                    fit: BoxFit.contain,
                                                   ),
-                                                ),
-                                              ],
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                12, 0, 0, 0),
+                                                    child: AutoSizeText(
+                                                      'Sincronizar',
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText1
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Roboto',
+                                                                fontSize: 18,
+                                                                useGoogleFonts: GoogleFonts
+                                                                        .asMap()
+                                                                    .containsKey(
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .bodyText1Family),
+                                                                lineHeight: 1,
+                                                              ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Icon(
-                                          Icons.arrow_forward_ios,
-                                          color: Colors.black,
-                                          size: 24,
-                                        ),
-                                      ],
-                                    ),
-                                    Divider(
-                                      height: 1,
-                                      thickness: 1,
-                                      indent: 1,
-                                      endIndent: 1,
-                                      color: Color(0xFF545353),
-                                    ),
-                                  ],
+                                          Icon(
+                                            Icons.arrow_forward_ios,
+                                            color: Colors.black,
+                                            size: 24,
+                                          ),
+                                        ],
+                                      ),
+                                      Divider(
+                                        height: 1,
+                                        thickness: 1,
+                                        indent: 1,
+                                        endIndent: 1,
+                                        color: Color(0xFF545353),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               );
                             },
