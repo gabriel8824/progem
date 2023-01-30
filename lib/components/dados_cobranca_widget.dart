@@ -1,22 +1,15 @@
 import '../auth/auth_util.dart';
-import '../backend/api_requests/api_calls.dart';
 import '../backend/backend.dart';
-import '../components/load_sic_widget.dart';
 import '../components/status_pago_contrato_widget.dart';
 import '../components/status_reagendar_contrato_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
-import '../flutter_flow/instant_timer.dart';
 import 'dart:ui';
-import '../custom_code/actions/index.dart' as actions;
 import '../flutter_flow/custom_functions.dart' as functions;
-import '../flutter_flow/random_data_util.dart' as random_data;
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:text_search/text_search.dart';
 
 class DadosCobrancaWidget extends StatefulWidget {
   const DadosCobrancaWidget({
@@ -31,22 +24,6 @@ class DadosCobrancaWidget extends StatefulWidget {
 }
 
 class _DadosCobrancaWidgetState extends State<DadosCobrancaWidget> {
-  ApiCallResponse? apiResultCaixas1;
-  bool? net;
-  InstantTimer? LoopCaixa;
-  List<CaixasRecord> simpleSearchResults1 = [];
-  ApiCallResponse? apiResultCaixas2;
-  bool? net3;
-  InstantTimer? LoopCaixa2;
-  List<CaixasRecord> simpleSearchResults2 = [];
-
-  @override
-  void dispose() {
-    LoopCaixa2?.cancel();
-    LoopCaixa?.cancel();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
@@ -465,272 +442,26 @@ class _DadosCobrancaWidgetState extends State<DadosCobrancaWidget> {
                                         children: [
                                           FFButtonWidget(
                                             onPressed: () async {
-                                              Navigator.pop(context);
-                                              net =
-                                                  await actions.checkInternet();
                                               if (containerCaixasRecordList
                                                       .length <
                                                   1) {
-                                                if (net!) {
-                                                  if (containerCaixasRecordList
-                                                          .length <
-                                                      1) {
-                                                    showModalBottomSheet(
-                                                      isScrollControlled: true,
-                                                      backgroundColor:
-                                                          Colors.transparent,
-                                                      isDismissible: false,
-                                                      enableDrag: false,
-                                                      context: context,
-                                                      builder: (context) {
-                                                        return Padding(
-                                                          padding:
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .viewInsets,
-                                                          child:
-                                                              LoadSicWidget(),
-                                                        );
-                                                      },
-                                                    ).then((value) =>
-                                                        setState(() {}));
-
-                                                    apiResultCaixas1 =
-                                                        await ApiProgemGroup
-                                                            .caixasCall
-                                                            .call(
-                                                      token: FFAppState().token,
-                                                    );
-                                                    if ((apiResultCaixas1
-                                                            ?.succeeded ??
-                                                        true)) {
-                                                      FFAppState().update(() {
-                                                        FFAppState().Caixas =
-                                                            ApiProgemGroup
-                                                                .caixasCall
-                                                                .body(
-                                                                  (apiResultCaixas1
-                                                                          ?.jsonBody ??
-                                                                      ''),
-                                                                )!
-                                                                .toList();
-                                                      });
-                                                      LoopCaixa =
-                                                          InstantTimer.periodic(
-                                                        duration: Duration(
-                                                            milliseconds: 1000),
-                                                        callback:
-                                                            (timer) async {
-                                                          if (FFAppState()
-                                                                  .Caixas
-                                                                  .length >=
-                                                              1) {
-                                                            FFAppState()
-                                                                .update(() {
-                                                              FFAppState()
-                                                                      .CaixaAtual =
-                                                                  FFAppState()
-                                                                      .Caixas
-                                                                      .first;
-                                                            });
-                                                            setState(() {
-                                                              simpleSearchResults1 =
-                                                                  TextSearch(
-                                                                containerCaixasRecordList
-                                                                    .map(
-                                                                      (record) =>
-                                                                          TextSearchItem(
-                                                                              record,
-                                                                              [
-                                                                            record.id!
-                                                                          ]),
-                                                                    )
-                                                                    .toList(),
-                                                              )
-                                                                      .search(
-                                                                          getJsonField(
-                                                                        FFAppState()
-                                                                            .CaixaAtual,
-                                                                        r'''$.id''',
-                                                                      ).toString())
-                                                                      .map((r) => r.object)
-                                                                      .toList();
-                                                            });
-                                                            if (simpleSearchResults2
-                                                                    .length <
-                                                                1) {
-                                                              final caixasCreateData =
-                                                                  createCaixasRecordData(
-                                                                descricao:
-                                                                    getJsonField(
-                                                                  FFAppState()
-                                                                      .CaixaAtual,
-                                                                  r'''$.descricao''',
-                                                                ).toString(),
-                                                                id: getJsonField(
-                                                                  FFAppState()
-                                                                      .CaixaAtual,
-                                                                  r'''$.id''',
-                                                                ).toString(),
-                                                                uid:
-                                                                    valueOrDefault<
-                                                                        String>(
-                                                                  '${random_data.randomString(
-                                                                    10,
-                                                                    10,
-                                                                    false,
-                                                                    false,
-                                                                    true,
-                                                                  )}x${random_data.randomString(
-                                                                    10,
-                                                                    10,
-                                                                    false,
-                                                                    false,
-                                                                    true,
-                                                                  )}',
-                                                                  '0',
-                                                                ),
-                                                                saldo:
-                                                                    getJsonField(
-                                                                  FFAppState()
-                                                                      .CaixaAtual,
-                                                                  r'''$.saldo''',
-                                                                ),
-                                                                status:
-                                                                    getJsonField(
-                                                                  FFAppState()
-                                                                      .CaixaAtual,
-                                                                  r'''$.status''',
-                                                                ).toString(),
-                                                                usuario:
-                                                                    currentUserReference,
-                                                                emailUsuario:
-                                                                    currentUserEmail,
-                                                                idUsuario: valueOrDefault(
-                                                                    currentUserDocument
-                                                                        ?.idUsuario,
-                                                                    ''),
-                                                              );
-                                                              await CaixasRecord
-                                                                  .collection
-                                                                  .doc()
-                                                                  .set(
-                                                                      caixasCreateData);
-                                                              FFAppState()
-                                                                  .update(() {
-                                                                FFAppState().removeFromCaixas(
-                                                                    FFAppState()
-                                                                        .CaixaAtual);
-                                                              });
-                                                              FFAppState()
-                                                                  .update(() {
-                                                                FFAppState()
-                                                                        .CaixaAtual =
-                                                                    null;
-                                                              });
-                                                            } else {
-                                                              FFAppState()
-                                                                  .update(() {
-                                                                FFAppState().removeFromCaixas(
-                                                                    FFAppState()
-                                                                        .CaixaAtual);
-                                                              });
-                                                              FFAppState()
-                                                                  .update(() {
-                                                                FFAppState()
-                                                                        .CaixaAtual =
-                                                                    null;
-                                                              });
-                                                            }
-                                                          } else {
-                                                            LoopCaixa?.cancel();
-                                                            Navigator.pop(
-                                                                context);
-                                                            await showModalBottomSheet(
-                                                              isScrollControlled:
-                                                                  true,
-                                                              backgroundColor:
-                                                                  Colors
-                                                                      .transparent,
-                                                              enableDrag: false,
-                                                              context: context,
-                                                              builder:
-                                                                  (context) {
-                                                                return Padding(
-                                                                  padding: MediaQuery.of(
-                                                                          context)
-                                                                      .viewInsets,
-                                                                  child:
-                                                                      StatusPagoContratoWidget(
-                                                                    cobranca: widget
-                                                                        .cobrancas,
-                                                                  ),
-                                                                );
-                                                              },
-                                                            ).then((value) =>
-                                                                setState(
-                                                                    () {}));
-                                                          }
-                                                        },
-                                                        startImmediately: false,
-                                                      );
-                                                    } else {
-                                                      FFAppState().update(() {
-                                                        FFAppState().token = '';
-                                                      });
-                                                      GoRouter.of(context)
-                                                          .prepareAuthEvent();
-                                                      await signOut();
-                                                      Navigator.pop(context);
-
-                                                      context.pushNamedAuth(
-                                                          'PaginaLogin',
-                                                          mounted);
-                                                    }
-                                                  } else {
-                                                    Navigator.pop(context);
-                                                    await showModalBottomSheet(
-                                                      isScrollControlled: true,
-                                                      backgroundColor:
-                                                          Colors.transparent,
-                                                      enableDrag: false,
-                                                      context: context,
-                                                      builder: (context) {
-                                                        return Padding(
-                                                          padding:
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .viewInsets,
-                                                          child:
-                                                              StatusPagoContratoWidget(
-                                                            cobranca: widget
-                                                                .cobrancas,
-                                                          ),
-                                                        );
-                                                      },
-                                                    ).then((value) =>
-                                                        setState(() {}));
-                                                  }
-                                                } else {
-                                                  Navigator.pop(context);
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    SnackBar(
-                                                      content: Text(
-                                                        'Você não possui nenhum caixa!',
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                        ),
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      'Você não possui nenhum caixa sincronizado!',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
                                                       ),
-                                                      duration: Duration(
-                                                          milliseconds: 4000),
-                                                      backgroundColor:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .alternate,
                                                     ),
-                                                  );
-                                                }
+                                                    duration: Duration(
+                                                        milliseconds: 4000),
+                                                    backgroundColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .alternate,
+                                                  ),
+                                                );
                                               } else {
                                                 Navigator.pop(context);
                                                 await showModalBottomSheet(
@@ -754,8 +485,6 @@ class _DadosCobrancaWidgetState extends State<DadosCobrancaWidget> {
                                                 ).then(
                                                     (value) => setState(() {}));
                                               }
-
-                                              setState(() {});
                                             },
                                             text: 'Receber',
                                             options: FFButtonOptions(
@@ -791,273 +520,26 @@ class _DadosCobrancaWidgetState extends State<DadosCobrancaWidget> {
                                           ),
                                           FFButtonWidget(
                                             onPressed: () async {
-                                              Navigator.pop(context);
-                                              net3 =
-                                                  await actions.checkInternet();
                                               if (containerCaixasRecordList
                                                       .length <
                                                   1) {
-                                                if (net3!) {
-                                                  if (containerCaixasRecordList
-                                                          .length <
-                                                      1) {
-                                                    showModalBottomSheet(
-                                                      isScrollControlled: true,
-                                                      backgroundColor:
-                                                          Colors.transparent,
-                                                      isDismissible: false,
-                                                      enableDrag: false,
-                                                      context: context,
-                                                      builder: (context) {
-                                                        return Padding(
-                                                          padding:
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .viewInsets,
-                                                          child:
-                                                              LoadSicWidget(),
-                                                        );
-                                                      },
-                                                    ).then((value) =>
-                                                        setState(() {}));
-
-                                                    apiResultCaixas2 =
-                                                        await ApiProgemGroup
-                                                            .caixasCall
-                                                            .call(
-                                                      token: FFAppState().token,
-                                                    );
-                                                    if ((apiResultCaixas2
-                                                            ?.succeeded ??
-                                                        true)) {
-                                                      FFAppState().update(() {
-                                                        FFAppState().Caixas =
-                                                            ApiProgemGroup
-                                                                .caixasCall
-                                                                .body(
-                                                                  (apiResultCaixas1
-                                                                          ?.jsonBody ??
-                                                                      ''),
-                                                                )!
-                                                                .toList();
-                                                      });
-                                                      LoopCaixa2 =
-                                                          InstantTimer.periodic(
-                                                        duration: Duration(
-                                                            milliseconds: 1000),
-                                                        callback:
-                                                            (timer) async {
-                                                          if (FFAppState()
-                                                                  .Caixas
-                                                                  .length >=
-                                                              1) {
-                                                            FFAppState()
-                                                                .update(() {
-                                                              FFAppState()
-                                                                      .CaixaAtual =
-                                                                  FFAppState()
-                                                                      .Caixas
-                                                                      .first;
-                                                            });
-                                                            setState(() {
-                                                              simpleSearchResults2 =
-                                                                  TextSearch(
-                                                                containerCaixasRecordList
-                                                                    .map(
-                                                                      (record) =>
-                                                                          TextSearchItem(
-                                                                              record,
-                                                                              [
-                                                                            record.id!
-                                                                          ]),
-                                                                    )
-                                                                    .toList(),
-                                                              )
-                                                                      .search(
-                                                                          getJsonField(
-                                                                        FFAppState()
-                                                                            .CaixaAtual,
-                                                                        r'''$.id''',
-                                                                      ).toString())
-                                                                      .map((r) => r.object)
-                                                                      .toList();
-                                                            });
-                                                            if (simpleSearchResults2
-                                                                    .length <
-                                                                1) {
-                                                              final caixasCreateData =
-                                                                  createCaixasRecordData(
-                                                                descricao:
-                                                                    getJsonField(
-                                                                  FFAppState()
-                                                                      .CaixaAtual,
-                                                                  r'''$.descricao''',
-                                                                ).toString(),
-                                                                id: getJsonField(
-                                                                  FFAppState()
-                                                                      .CaixaAtual,
-                                                                  r'''$.id''',
-                                                                ).toString(),
-                                                                uid:
-                                                                    valueOrDefault<
-                                                                        String>(
-                                                                  '${random_data.randomString(
-                                                                    10,
-                                                                    10,
-                                                                    false,
-                                                                    false,
-                                                                    true,
-                                                                  )}x${random_data.randomString(
-                                                                    10,
-                                                                    10,
-                                                                    false,
-                                                                    false,
-                                                                    true,
-                                                                  )}',
-                                                                  '0',
-                                                                ),
-                                                                saldo:
-                                                                    getJsonField(
-                                                                  FFAppState()
-                                                                      .CaixaAtual,
-                                                                  r'''$.saldo''',
-                                                                ),
-                                                                status:
-                                                                    getJsonField(
-                                                                  FFAppState()
-                                                                      .CaixaAtual,
-                                                                  r'''$.status''',
-                                                                ).toString(),
-                                                                usuario:
-                                                                    currentUserReference,
-                                                                emailUsuario:
-                                                                    currentUserEmail,
-                                                                idUsuario: valueOrDefault(
-                                                                    currentUserDocument
-                                                                        ?.idUsuario,
-                                                                    ''),
-                                                              );
-                                                              await CaixasRecord
-                                                                  .collection
-                                                                  .doc()
-                                                                  .set(
-                                                                      caixasCreateData);
-                                                              FFAppState()
-                                                                  .update(() {
-                                                                FFAppState().removeFromCaixas(
-                                                                    FFAppState()
-                                                                        .CaixaAtual);
-                                                              });
-                                                              FFAppState()
-                                                                  .update(() {
-                                                                FFAppState()
-                                                                        .CaixaAtual =
-                                                                    null;
-                                                              });
-                                                            } else {
-                                                              FFAppState()
-                                                                  .update(() {
-                                                                FFAppState().removeFromCaixas(
-                                                                    FFAppState()
-                                                                        .CaixaAtual);
-                                                              });
-                                                              FFAppState()
-                                                                  .update(() {
-                                                                FFAppState()
-                                                                        .CaixaAtual =
-                                                                    null;
-                                                              });
-                                                            }
-                                                          } else {
-                                                            LoopCaixa2
-                                                                ?.cancel();
-                                                            Navigator.pop(
-                                                                context);
-                                                            await showModalBottomSheet(
-                                                              isScrollControlled:
-                                                                  true,
-                                                              backgroundColor:
-                                                                  Colors
-                                                                      .transparent,
-                                                              enableDrag: false,
-                                                              context: context,
-                                                              builder:
-                                                                  (context) {
-                                                                return Padding(
-                                                                  padding: MediaQuery.of(
-                                                                          context)
-                                                                      .viewInsets,
-                                                                  child:
-                                                                      StatusReagendarContratoWidget(
-                                                                    cobranca: widget
-                                                                        .cobrancas,
-                                                                  ),
-                                                                );
-                                                              },
-                                                            ).then((value) =>
-                                                                setState(
-                                                                    () {}));
-                                                          }
-                                                        },
-                                                        startImmediately: false,
-                                                      );
-                                                    } else {
-                                                      FFAppState().update(() {
-                                                        FFAppState().token = '';
-                                                      });
-                                                      GoRouter.of(context)
-                                                          .prepareAuthEvent();
-                                                      await signOut();
-                                                      Navigator.pop(context);
-
-                                                      context.pushNamedAuth(
-                                                          'PaginaLogin',
-                                                          mounted);
-                                                    }
-                                                  } else {
-                                                    Navigator.pop(context);
-                                                    await showModalBottomSheet(
-                                                      isScrollControlled: true,
-                                                      backgroundColor:
-                                                          Colors.transparent,
-                                                      enableDrag: false,
-                                                      context: context,
-                                                      builder: (context) {
-                                                        return Padding(
-                                                          padding:
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .viewInsets,
-                                                          child:
-                                                              StatusReagendarContratoWidget(
-                                                            cobranca: widget
-                                                                .cobrancas,
-                                                          ),
-                                                        );
-                                                      },
-                                                    ).then((value) =>
-                                                        setState(() {}));
-                                                  }
-                                                } else {
-                                                  Navigator.pop(context);
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    SnackBar(
-                                                      content: Text(
-                                                        'Você não possui nenhum caixa!',
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                        ),
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      'Você não possui nenhum caixa sincronizado!',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
                                                       ),
-                                                      duration: Duration(
-                                                          milliseconds: 4000),
-                                                      backgroundColor:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .alternate,
                                                     ),
-                                                  );
-                                                }
+                                                    duration: Duration(
+                                                        milliseconds: 4000),
+                                                    backgroundColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .alternate,
+                                                  ),
+                                                );
                                               } else {
                                                 Navigator.pop(context);
                                                 await showModalBottomSheet(
@@ -1081,8 +563,6 @@ class _DadosCobrancaWidgetState extends State<DadosCobrancaWidget> {
                                                 ).then(
                                                     (value) => setState(() {}));
                                               }
-
-                                              setState(() {});
                                             },
                                             text: 'Reagendar',
                                             options: FFButtonOptions(
