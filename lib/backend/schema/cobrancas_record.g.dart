@@ -189,6 +189,27 @@ class _$CobrancasRecordSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.formaDePagameto;
+    if (value != null) {
+      result
+        ..add('FormaDePagameto')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.idCaixa;
+    if (value != null) {
+      result
+        ..add('IdCaixa')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.obs;
+    if (value != null) {
+      result
+        ..add('Obs')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -310,6 +331,18 @@ class _$CobrancasRecordSerializer
           result.dataReagendamentoS = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
+        case 'FormaDePagameto':
+          result.formaDePagameto = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'IdCaixa':
+          result.idCaixa = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'Obs':
+          result.obs = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -373,6 +406,12 @@ class _$CobrancasRecord extends CobrancasRecord {
   @override
   final String? dataReagendamentoS;
   @override
+  final String? formaDePagameto;
+  @override
+  final String? idCaixa;
+  @override
+  final String? obs;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$CobrancasRecord([void Function(CobrancasRecordBuilder)? updates]) =>
@@ -403,6 +442,9 @@ class _$CobrancasRecord extends CobrancasRecord {
       this.locCobranca,
       this.dataReagendamento,
       this.dataReagendamentoS,
+      this.formaDePagameto,
+      this.idCaixa,
+      this.obs,
       this.ffRef})
       : super._();
 
@@ -442,6 +484,9 @@ class _$CobrancasRecord extends CobrancasRecord {
         locCobranca == other.locCobranca &&
         dataReagendamento == other.dataReagendamento &&
         dataReagendamentoS == other.dataReagendamentoS &&
+        formaDePagameto == other.formaDePagameto &&
+        idCaixa == other.idCaixa &&
+        obs == other.obs &&
         ffRef == other.ffRef;
   }
 
@@ -465,25 +510,25 @@ class _$CobrancasRecord extends CobrancasRecord {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc($jc($jc(0, nomeCliente.hashCode), numeroContrato.hashCode), valor.hashCode), dataDeVencimento.hashCode), endereco.hashCode), bairro.hashCode),
-                                                                                status.hashCode),
-                                                                            id.hashCode),
-                                                                        dataSincronia.hashCode),
-                                                                    usuario.hashCode),
-                                                                emailUsuario.hashCode),
-                                                            uId.hashCode),
-                                                        localizacao.hashCode),
-                                                    valorParcela.hashCode),
-                                                idUsuario.hashCode),
-                                            numeroEnd.hashCode),
-                                        parcela.hashCode),
-                                    numeroParcela.hashCode),
-                                sincronizado.hashCode),
-                            cobrancaRealizada.hashCode),
-                        dataEdit.hashCode),
-                    locCobranca.hashCode),
-                dataReagendamento.hashCode),
-            dataReagendamentoS.hashCode),
+                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, nomeCliente.hashCode), numeroContrato.hashCode), valor.hashCode), dataDeVencimento.hashCode), endereco.hashCode), bairro.hashCode), status.hashCode), id.hashCode), dataSincronia.hashCode),
+                                                                                usuario.hashCode),
+                                                                            emailUsuario.hashCode),
+                                                                        uId.hashCode),
+                                                                    localizacao.hashCode),
+                                                                valorParcela.hashCode),
+                                                            idUsuario.hashCode),
+                                                        numeroEnd.hashCode),
+                                                    parcela.hashCode),
+                                                numeroParcela.hashCode),
+                                            sincronizado.hashCode),
+                                        cobrancaRealizada.hashCode),
+                                    dataEdit.hashCode),
+                                locCobranca.hashCode),
+                            dataReagendamento.hashCode),
+                        dataReagendamentoS.hashCode),
+                    formaDePagameto.hashCode),
+                idCaixa.hashCode),
+            obs.hashCode),
         ffRef.hashCode));
   }
 
@@ -514,6 +559,9 @@ class _$CobrancasRecord extends CobrancasRecord {
           ..add('locCobranca', locCobranca)
           ..add('dataReagendamento', dataReagendamento)
           ..add('dataReagendamentoS', dataReagendamentoS)
+          ..add('formaDePagameto', formaDePagameto)
+          ..add('idCaixa', idCaixa)
+          ..add('obs', obs)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -626,6 +674,19 @@ class CobrancasRecordBuilder
   set dataReagendamentoS(String? dataReagendamentoS) =>
       _$this._dataReagendamentoS = dataReagendamentoS;
 
+  String? _formaDePagameto;
+  String? get formaDePagameto => _$this._formaDePagameto;
+  set formaDePagameto(String? formaDePagameto) =>
+      _$this._formaDePagameto = formaDePagameto;
+
+  String? _idCaixa;
+  String? get idCaixa => _$this._idCaixa;
+  set idCaixa(String? idCaixa) => _$this._idCaixa = idCaixa;
+
+  String? _obs;
+  String? get obs => _$this._obs;
+  set obs(String? obs) => _$this._obs = obs;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -661,6 +722,9 @@ class CobrancasRecordBuilder
       _locCobranca = $v.locCobranca;
       _dataReagendamento = $v.dataReagendamento;
       _dataReagendamentoS = $v.dataReagendamentoS;
+      _formaDePagameto = $v.formaDePagameto;
+      _idCaixa = $v.idCaixa;
+      _obs = $v.obs;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -708,6 +772,9 @@ class CobrancasRecordBuilder
             locCobranca: locCobranca,
             dataReagendamento: dataReagendamento,
             dataReagendamentoS: dataReagendamentoS,
+            formaDePagameto: formaDePagameto,
+            idCaixa: idCaixa,
+            obs: obs,
             ffRef: ffRef);
     replace(_$result);
     return _$result;

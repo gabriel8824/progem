@@ -602,6 +602,33 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                   dataEdit: getCurrentTimestamp,
                                                   locCobranca:
                                                       currentUserLocationValue,
+                                                  formaDePagameto: () {
+                                                    if (dropDownFDPValue ==
+                                                        'Boleto bancário') {
+                                                      return 'BOLETO_BANCARIO';
+                                                    } else if (dropDownFDPValue ==
+                                                        'Cartão de crédito') {
+                                                      return 'CARTAO_CREDITO';
+                                                    } else if (dropDownFDPValue ==
+                                                        'Cartão de débito') {
+                                                      return 'CARTAO_DEBITO';
+                                                    } else if (dropDownFDPValue ==
+                                                        'Dinheiro') {
+                                                      return 'DINHEIRO';
+                                                    } else if (dropDownFDPValue ==
+                                                        'PIX') {
+                                                      return 'PIX';
+                                                    } else {
+                                                      return 'DINHEIRO';
+                                                    }
+                                                  }(),
+                                                  idCaixa: simpleSearchResults
+                                                              .length <
+                                                          1
+                                                      ? containerCaixasRecordList
+                                                          .first.id
+                                                      : simpleSearchResults
+                                                          .first.id,
                                                 );
                                                 await widget.cobranca!.reference
                                                     .update(
@@ -697,6 +724,33 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                 dataEdit: getCurrentTimestamp,
                                                 locCobranca:
                                                     currentUserLocationValue,
+                                                formaDePagameto: () {
+                                                  if (dropDownFDPValue ==
+                                                      'Boleto bancário') {
+                                                    return 'BOLETO_BANCARIO';
+                                                  } else if (dropDownFDPValue ==
+                                                      'Cartão de crédito') {
+                                                    return 'CARTAO_CREDITO';
+                                                  } else if (dropDownFDPValue ==
+                                                      'Cartão de débito') {
+                                                    return 'CARTAO_DEBITO';
+                                                  } else if (dropDownFDPValue ==
+                                                      'Dinheiro') {
+                                                    return 'DINHEIRO';
+                                                  } else if (dropDownFDPValue ==
+                                                      'PIX') {
+                                                    return 'PIX';
+                                                  } else {
+                                                    return 'DINHEIRO';
+                                                  }
+                                                }(),
+                                                idCaixa: simpleSearchResults
+                                                            .length <
+                                                        1
+                                                    ? containerCaixasRecordList
+                                                        .first.id
+                                                    : simpleSearchResults
+                                                        .first.id,
                                               );
                                               await widget.cobranca!.reference
                                                   .update(cobrancasUpdateData);

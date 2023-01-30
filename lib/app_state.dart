@@ -235,6 +235,26 @@ class FFAppState extends ChangeNotifier {
   set CobrancaAtualizada(DocumentReference? _value) {
     _CobrancaAtualizada = _value;
   }
+
+  List<DocumentReference> _CobrancasSicOff = [];
+  List<DocumentReference> get CobrancasSicOff => _CobrancasSicOff;
+  set CobrancasSicOff(List<DocumentReference> _value) {
+    _CobrancasSicOff = _value;
+  }
+
+  void addToCobrancasSicOff(DocumentReference _value) {
+    _CobrancasSicOff.add(_value);
+  }
+
+  void removeFromCobrancasSicOff(DocumentReference _value) {
+    _CobrancasSicOff.remove(_value);
+  }
+
+  DocumentReference? _CobrancaAtualSicOff;
+  DocumentReference? get CobrancaAtualSicOff => _CobrancaAtualSicOff;
+  set CobrancaAtualSicOff(DocumentReference? _value) {
+    _CobrancaAtualSicOff = _value;
+  }
 }
 
 LatLng? _latLngFromString(String? val) {

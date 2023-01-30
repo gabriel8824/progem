@@ -42,6 +42,10 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       if (FFAppState().token == null || FFAppState().token == '') {
         context.pushNamed('PaginaLogin');
+
+        FFAppState().update(() {
+          FFAppState().CobrancaAtualizada = null;
+        });
       } else {
         apiResultlab = await ApiProgemGroup.dadosCall.call(
           token: FFAppState().token,

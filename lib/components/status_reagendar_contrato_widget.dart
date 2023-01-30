@@ -336,11 +336,11 @@ class _StatusReagendarContratoWidgetState
                                                   dataEdit: getCurrentTimestamp,
                                                   locCobranca:
                                                       currentUserLocationValue,
-                                                  nomeCliente: '',
                                                   dataReagendamentoS:
                                                       '${functions.converterdata(calendarSelectedDay!.end)}T10:00:00-03:00',
                                                   dataReagendamento:
                                                       calendarSelectedDay?.end,
+                                                  obs: textController!.text,
                                                 );
                                                 await widget.cobranca!.reference
                                                     .update(
@@ -440,7 +440,7 @@ class _StatusReagendarContratoWidgetState
                                                     calendarSelectedDay?.end,
                                                 dataReagendamentoS:
                                                     '${functions.converterdata(calendarSelectedDay!.end)}T10:00:00-03:00',
-                                                nomeCliente: '',
+                                                obs: textController!.text,
                                               );
                                               await widget.cobranca!.reference
                                                   .update(cobrancasUpdateData);
