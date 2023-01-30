@@ -321,7 +321,7 @@ class _StatusReagendarContratoWidgetState
                                                 longitude: functions.pegarLogitude(
                                                     currentUserLocationValue!),
                                                 dataReagendamento:
-                                                    '2023-01-15T10:00:00-03:00',
+                                                    '${functions.converterdata(calendarSelectedDay!.end)}T10:00:00-03:00',
                                               );
                                               if ((apiResultReagendarCobranca1
                                                       ?.succeeded ??
@@ -338,10 +338,9 @@ class _StatusReagendarContratoWidgetState
                                                       currentUserLocationValue,
                                                   nomeCliente: '',
                                                   dataReagendamentoS:
-                                                      '${functions.converterdata(calendarSelectedDay!.end)}:00:00-03:00\"',
-                                                  numeroContrato:
-                                                      calendarSelectedDay?.end
-                                                          ?.toString(),
+                                                      '${functions.converterdata(calendarSelectedDay!.end)}T10:00:00-03:00',
+                                                  dataReagendamento:
+                                                      calendarSelectedDay?.end,
                                                 );
                                                 await widget.cobranca!.reference
                                                     .update(
@@ -440,7 +439,7 @@ class _StatusReagendarContratoWidgetState
                                                 dataReagendamento:
                                                     calendarSelectedDay?.end,
                                                 dataReagendamentoS:
-                                                    '${functions.converterdata(calendarSelectedDay!.end)}:00:00-03:00\"',
+                                                    '${functions.converterdata(calendarSelectedDay!.end)}T10:00:00-03:00',
                                                 nomeCliente: '',
                                               );
                                               await widget.cobranca!.reference
