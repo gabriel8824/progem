@@ -159,7 +159,6 @@ class _ComfirmacaosincroniaWidgetState
                                 if (net!) {
                                   if (containerCobrancasRecordList.length >=
                                       1) {
-                                    Navigator.pop(context);
                                     showModalBottomSheet(
                                       isScrollControlled: true,
                                       backgroundColor: Colors.transparent,
@@ -222,6 +221,7 @@ class _ComfirmacaosincroniaWidgetState
                                             } else {
                                               SicOff?.cancel();
                                               Navigator.pop(context);
+                                              Navigator.pop(context);
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
                                                 SnackBar(
@@ -281,6 +281,7 @@ class _ComfirmacaosincroniaWidgetState
                                               } else {
                                                 SicOff?.cancel();
                                                 Navigator.pop(context);
+                                                Navigator.pop(context);
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
                                                   SnackBar(
@@ -304,6 +305,7 @@ class _ComfirmacaosincroniaWidgetState
                                             } else {
                                               SicOff?.cancel();
                                               Navigator.pop(context);
+                                              Navigator.pop(context);
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
                                                 SnackBar(
@@ -326,6 +328,7 @@ class _ComfirmacaosincroniaWidgetState
                                           }
                                         } else {
                                           SicOff?.cancel();
+                                          Navigator.pop(context);
                                           Navigator.pop(context);
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
