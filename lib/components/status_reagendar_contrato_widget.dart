@@ -321,7 +321,7 @@ class _StatusReagendarContratoWidgetState
                                                 longitude: functions.pegarLogitude(
                                                     currentUserLocationValue!),
                                                 dataReagendamento:
-                                                    '${functions.converterdata(calendarSelectedDay!.end)}:00:00-03:00',
+                                                    '2023-03-03T10:00:00-03:00',
                                               );
                                               if ((apiResultReagendarCobranca1
                                                       ?.succeeded ??
