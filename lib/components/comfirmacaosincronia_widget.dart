@@ -173,9 +173,7 @@ class _ComfirmacaosincroniaWidgetState
                                     ),
                                   FFButtonWidget(
                                     onPressed: () async {
-                                      var _shouldSetState = false;
                                       net = await actions.checkInternet();
-                                      _shouldSetState = true;
                                       if (net!) {
                                         if (containerCobrancasRecordList
                                                 .length >=
@@ -219,7 +217,6 @@ class _ComfirmacaosincroniaWidgetState
                                                                 .first
                                                                 .locCobranca!),
                                                   );
-                                                  _shouldSetState = true;
                                                   if ((apiResultp1e
                                                           ?.succeeded ??
                                                       true)) {
@@ -262,28 +259,34 @@ class _ComfirmacaosincroniaWidgetState
                                                       );
                                                     }
                                                   } else {
-                                                    SicOff?.cancel();
-                                                    Navigator.pop(context);
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                      SnackBar(
-                                                        content: Text(
-                                                          'Algo deu errado, por favor entre em contato com o suporte.',
-                                                          style: GoogleFonts
-                                                              .getFont(
-                                                            'Poppins',
-                                                            color: Colors.white,
+                                                    if (containerCobrancasRecordList
+                                                            .length ==
+                                                        0) {
+                                                      SicOff?.cancel();
+                                                      Navigator.pop(context);
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        SnackBar(
+                                                          content: Text(
+                                                            'Sincronia finalizada com sucesso!',
+                                                            style: GoogleFonts
+                                                                .getFont(
+                                                              'Poppins',
+                                                              color:
+                                                                  Colors.white,
+                                                            ),
                                                           ),
+                                                          duration: Duration(
+                                                              milliseconds:
+                                                                  4000),
+                                                          backgroundColor:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .secondaryColor,
                                                         ),
-                                                        duration: Duration(
-                                                            milliseconds: 4000),
-                                                        backgroundColor:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .alternate,
-                                                      ),
-                                                    );
+                                                      );
+                                                    }
                                                   }
                                                 } else {
                                                   if (containerCobrancasRecordList
@@ -314,7 +317,6 @@ class _ComfirmacaosincroniaWidgetState
                                                                   .first
                                                                   .locCobranca!),
                                                     );
-                                                    _shouldSetState = true;
                                                     if ((apiResultvly
                                                             ?.succeeded ??
                                                         true)) {
@@ -357,30 +359,34 @@ class _ComfirmacaosincroniaWidgetState
                                                         );
                                                       }
                                                     } else {
-                                                      SicOff?.cancel();
-                                                      Navigator.pop(context);
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(
-                                                        SnackBar(
-                                                          content: Text(
-                                                            'Algo deu errado, por favor entre em contato com o suporte.',
-                                                            style: GoogleFonts
-                                                                .getFont(
-                                                              'Poppins',
-                                                              color:
-                                                                  Colors.white,
+                                                      if (containerCobrancasRecordList
+                                                              .length ==
+                                                          0) {
+                                                        SicOff?.cancel();
+                                                        Navigator.pop(context);
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                          SnackBar(
+                                                            content: Text(
+                                                              'Sincronia finalizada com sucesso!',
+                                                              style: GoogleFonts
+                                                                  .getFont(
+                                                                'Poppins',
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
                                                             ),
+                                                            duration: Duration(
+                                                                milliseconds:
+                                                                    4000),
+                                                            backgroundColor:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .secondaryColor,
                                                           ),
-                                                          duration: Duration(
-                                                              milliseconds:
-                                                                  4000),
-                                                          backgroundColor:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .alternate,
-                                                        ),
-                                                      );
+                                                        );
+                                                      }
                                                     }
                                                   } else {
                                                     SicOff?.cancel();
@@ -407,10 +413,6 @@ class _ComfirmacaosincroniaWidgetState
                                                     );
                                                   }
                                                 }
-
-                                                if (_shouldSetState)
-                                                  setState(() {});
-                                                return;
                                               } else {
                                                 SicOff?.cancel();
                                                 Navigator.pop(context);
@@ -474,7 +476,7 @@ class _ComfirmacaosincroniaWidgetState
                                         ).then((value) => setState(() {}));
                                       }
 
-                                      if (_shouldSetState) setState(() {});
+                                      setState(() {});
                                     },
                                     text: 'SIm',
                                     options: FFButtonOptions(
