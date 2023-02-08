@@ -2,7 +2,6 @@ import '../auth/auth_util.dart';
 import '../backend/api_requests/api_calls.dart';
 import '../backend/backend.dart';
 import '../components/connected_off_widget.dart';
-import '../components/load_sic_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
@@ -159,21 +158,6 @@ class _ComfirmacaosincroniaWidgetState
                                 if (net!) {
                                   if (containerCobrancasRecordList.length >=
                                       1) {
-                                    showModalBottomSheet(
-                                      isScrollControlled: true,
-                                      backgroundColor: Colors.transparent,
-                                      isDismissible: false,
-                                      enableDrag: false,
-                                      context: context,
-                                      builder: (context) {
-                                        return Padding(
-                                          padding:
-                                              MediaQuery.of(context).viewInsets,
-                                          child: LoadSicWidget(),
-                                        );
-                                      },
-                                    ).then((value) => setState(() {}));
-
                                     SicOff = InstantTimer.periodic(
                                       duration: Duration(milliseconds: 3000),
                                       callback: (timer) async {

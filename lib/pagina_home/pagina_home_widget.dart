@@ -392,9 +392,8 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
                         child: AuthUserStreamWidget(
-                          builder: (context) =>
-                              StreamBuilder<List<CobrancasRecord>>(
-                            stream: queryCobrancasRecord(
+                          builder: (context) => FutureBuilder<int>(
+                            future: queryCobrancasRecordCount(
                               queryBuilder: (cobrancasRecord) => cobrancasRecord
                                   .where('Sincronizado', isEqualTo: false)
                                   .where('CobrancaRealizada', isEqualTo: true)
@@ -420,8 +419,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                   ),
                                 );
                               }
-                              List<CobrancasRecord>
-                                  containerCobrancasRecordList = snapshot.data!;
+                              int containerCount = snapshot.data!;
                               return InkWell(
                                 onTap: () async {
                                   net423 = await actions.checkInternet();
