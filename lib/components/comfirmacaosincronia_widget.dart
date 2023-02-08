@@ -173,7 +173,9 @@ class _ComfirmacaosincroniaWidgetState
                                     ),
                                   FFButtonWidget(
                                     onPressed: () async {
+                                      var _shouldSetState = false;
                                       net = await actions.checkInternet();
+                                      _shouldSetState = true;
                                       if (net!) {
                                         if (containerCobrancasRecordList
                                                 .length >=
@@ -217,6 +219,7 @@ class _ComfirmacaosincroniaWidgetState
                                                                 .first
                                                                 .locCobranca!),
                                                   );
+                                                  _shouldSetState = true;
                                                   if ((apiResultp1e
                                                           ?.succeeded ??
                                                       true)) {
@@ -317,6 +320,7 @@ class _ComfirmacaosincroniaWidgetState
                                                                   .first
                                                                   .locCobranca!),
                                                     );
+                                                    _shouldSetState = true;
                                                     if ((apiResultvly
                                                             ?.succeeded ??
                                                         true)) {
@@ -436,6 +440,10 @@ class _ComfirmacaosincroniaWidgetState
                                                   ),
                                                 );
                                               }
+
+                                              if (_shouldSetState)
+                                                setState(() {});
+                                              return;
                                             },
                                             startImmediately: false,
                                           );
@@ -476,7 +484,7 @@ class _ComfirmacaosincroniaWidgetState
                                         ).then((value) => setState(() {}));
                                       }
 
-                                      setState(() {});
+                                      if (_shouldSetState) setState(() {});
                                     },
                                     text: 'SIm',
                                     options: FFButtonOptions(
