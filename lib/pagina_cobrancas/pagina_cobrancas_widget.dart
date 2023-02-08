@@ -791,9 +791,7 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                           .listarCobrancasCall
                                                           .call(
                                                     token: FFAppState().token,
-                                                    pagina: FFAppState()
-                                                            .PaginaAtual +
-                                                        1,
+                                                    pagina: 1,
                                                   );
                                                   FFAppState().update(() {
                                                     FFAppState().PaginaAtual =
