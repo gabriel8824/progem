@@ -182,7 +182,7 @@ class _ComfirmacaosincroniaWidgetState
                                             1) {
                                           SicOff = InstantTimer.periodic(
                                             duration:
-                                                Duration(milliseconds: 1000),
+                                                Duration(milliseconds: 3000),
                                             callback: (timer) async {
                                               if (containerCobrancasRecordList
                                                       .length >=
@@ -445,7 +445,7 @@ class _ComfirmacaosincroniaWidgetState
                                                 setState(() {});
                                               return;
                                             },
-                                            startImmediately: false,
+                                            startImmediately: true,
                                           );
                                         } else {
                                           Navigator.pop(context);
