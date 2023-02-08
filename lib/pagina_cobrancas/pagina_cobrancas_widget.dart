@@ -5,6 +5,7 @@ import '../components/cobrancas_vazia_widget.dart';
 import '../components/connected_off_widget.dart';
 import '../components/dados_cobranca_widget.dart';
 import '../components/filtros_widget.dart';
+import '../components/load_sic_widget.dart';
 import '../components/menu_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
@@ -802,6 +803,23 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                             .alternate,
                                                   ),
                                                 );
+                                                await showModalBottomSheet(
+                                                  isScrollControlled: true,
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  enableDrag: false,
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return Padding(
+                                                      padding:
+                                                          MediaQuery.of(context)
+                                                              .viewInsets,
+                                                      child: LoadSicWidget(),
+                                                    );
+                                                  },
+                                                ).then(
+                                                    (value) => setState(() {}));
+
                                                 net1 = await actions
                                                     .checkInternet();
                                                 if (net1!) {
@@ -976,6 +994,102 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                                     .CobrancaAtual,
                                                                 r'''$.cliente.nome''',
                                                               ).toString(),
+                                                              numeroContrato:
+                                                                  getJsonField(
+                                                                FFAppState()
+                                                                    .CobrancaAtual,
+                                                                r'''$.contrato.numero''',
+                                                              ).toString(),
+                                                              valor:
+                                                                  valueOrDefault<
+                                                                      double>(
+                                                                functions
+                                                                    .converStringEmDouble(
+                                                                        getJsonField(
+                                                                  FFAppState()
+                                                                      .CobrancaAtual,
+                                                                  r'''$.contrato.valorTotal''',
+                                                                ).toString()),
+                                                                0.0,
+                                                              ),
+                                                              dataDeVencimento:
+                                                                  functions
+                                                                      .formatarData(
+                                                                          getJsonField(
+                                                                FFAppState()
+                                                                    .CobrancaAtual,
+                                                                r'''$.dataVencimento''',
+                                                              ).toString()),
+                                                              endereco:
+                                                                  getJsonField(
+                                                                FFAppState()
+                                                                    .CobrancaAtual,
+                                                                r'''$.cliente.endereco.logradouro''',
+                                                              ).toString(),
+                                                              bairro:
+                                                                  getJsonField(
+                                                                FFAppState()
+                                                                    .CobrancaAtual,
+                                                                r'''$.cliente.endereco.bairro''',
+                                                              ).toString(),
+                                                              status:
+                                                                  getJsonField(
+                                                                FFAppState()
+                                                                    .CobrancaAtual,
+                                                                r'''$.status''',
+                                                              ).toString(),
+                                                              id: getJsonField(
+                                                                FFAppState()
+                                                                    .CobrancaAtual,
+                                                                r'''$.id''',
+                                                              ).toString(),
+                                                              usuario:
+                                                                  currentUserReference,
+                                                              emailUsuario:
+                                                                  currentUserEmail,
+                                                              uId:
+                                                                  '${random_data.randomString(
+                                                                10,
+                                                                10,
+                                                                false,
+                                                                false,
+                                                                true,
+                                                              )}x${random_data.randomString(
+                                                                10,
+                                                                10,
+                                                                false,
+                                                                false,
+                                                                true,
+                                                              )}',
+                                                              valorParcela:
+                                                                  getJsonField(
+                                                                FFAppState()
+                                                                    .CobrancaAtual,
+                                                                r'''$.valor''',
+                                                              ),
+                                                              parcela:
+                                                                  getJsonField(
+                                                                FFAppState()
+                                                                    .CobrancaAtual,
+                                                                r'''$.numero''',
+                                                              ).toString(),
+                                                              numeroParcela: 1,
+                                                              idUsuario: valueOrDefault(
+                                                                  currentUserDocument
+                                                                      ?.idUsuario,
+                                                                  ''),
+                                                              numeroEnd:
+                                                                  getJsonField(
+                                                                FFAppState()
+                                                                    .CobrancaAtual,
+                                                                r'''$.cliente.endereco.numero''',
+                                                              ).toString(),
+                                                              sincronizado:
+                                                                  false,
+                                                              cobrancaRealizada:
+                                                                  false,
+                                                              dataEdit:
+                                                                  getCurrentTimestamp,
                                                             );
                                                             await CobrancasRecord
                                                                 .collection
