@@ -790,10 +790,7 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                       await ApiProgemGroup
                                                           .listarCobrancasCall
                                                           .call(
-                                                    token: valueOrDefault(
-                                                        currentUserDocument
-                                                            ?.token,
-                                                        ''),
+                                                    token: FFAppState().token,
                                                     pagina: FFAppState()
                                                             .PaginaAtual +
                                                         1,
