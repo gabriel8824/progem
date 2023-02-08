@@ -395,9 +395,10 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                           onTap: () async {
                             net423 = await actions.checkInternet();
                             if (net423!) {
-                              await showModalBottomSheet(
+                              showModalBottomSheet(
                                 isScrollControlled: true,
                                 backgroundColor: Colors.transparent,
+                                isDismissible: false,
                                 enableDrag: false,
                                 context: context,
                                 builder: (context) {

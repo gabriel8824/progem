@@ -11,6 +11,7 @@ import '../flutter_flow/custom_functions.dart' as functions;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class ComfirmacaosincroniaWidget extends StatefulWidget {
@@ -85,187 +86,272 @@ class _ComfirmacaosincroniaWidgetState
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        'Sincronia offline',
-                        style: FlutterFlowTheme.of(context).bodyText1.override(
-                              fontFamily:
-                                  FlutterFlowTheme.of(context).bodyText1Family,
-                              color: FlutterFlowTheme.of(context).primaryText,
-                              fontSize: 18,
-                              useGoogleFonts: GoogleFonts.asMap().containsKey(
-                                  FlutterFlowTheme.of(context).bodyText1Family),
-                            ),
-                      ),
-                      Align(
-                        alignment: AlignmentDirectional(0, 0),
-                        child: Padding(
-                          padding:
-                              EdgeInsetsDirectional.fromSTEB(20, 20, 20, 0),
-                          child: Text(
-                            'Tem certeza com deseja fazer a sincronia das cobranças realizada no modo offline?',
-                            textAlign: TextAlign.center,
-                            style: FlutterFlowTheme.of(context)
-                                .bodyText1
-                                .override(
-                                  fontFamily: FlutterFlowTheme.of(context)
-                                      .bodyText1Family,
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryText,
-                                  fontWeight: FontWeight.w500,
-                                  useGoogleFonts: GoogleFonts.asMap()
-                                      .containsKey(FlutterFlowTheme.of(context)
-                                          .bodyText1Family),
-                                ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 0),
-                        child: Row(
+                      if (!SicOff.isActive)
+                        Column(
                           mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            if (!SicOff.isActive)
-                              FFButtonWidget(
-                                onPressed: () async {
-                                  Navigator.pop(context);
-                                },
-                                text: 'Não',
-                                options: FFButtonOptions(
-                                  width: 110,
-                                  height: 40,
-                                  color: FlutterFlowTheme.of(context).alternate,
-                                  textStyle: FlutterFlowTheme.of(context)
-                                      .subtitle2
+                            Text(
+                              'Sincronia offline',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyText1
+                                  .override(
+                                    fontFamily: FlutterFlowTheme.of(context)
+                                        .bodyText1Family,
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                    fontSize: 18,
+                                    useGoogleFonts: GoogleFonts.asMap()
+                                        .containsKey(
+                                            FlutterFlowTheme.of(context)
+                                                .bodyText1Family),
+                                  ),
+                            ),
+                            Align(
+                              alignment: AlignmentDirectional(0, 0),
+                              child: Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    20, 20, 20, 0),
+                                child: Text(
+                                  'Tem certeza com deseja fazer a sincronia das cobranças realizada no modo offline?',
+                                  textAlign: TextAlign.center,
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyText1
                                       .override(
                                         fontFamily: FlutterFlowTheme.of(context)
-                                            .subtitle2Family,
-                                        color: Colors.white,
+                                            .bodyText1Family,
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                        fontWeight: FontWeight.w500,
                                         useGoogleFonts: GoogleFonts.asMap()
                                             .containsKey(
                                                 FlutterFlowTheme.of(context)
-                                                    .subtitle2Family),
+                                                    .bodyText1Family),
                                       ),
-                                  borderSide: BorderSide(
-                                    color: Colors.transparent,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
                                 ),
                               ),
-                            FFButtonWidget(
-                              onPressed: () async {
-                                net = await actions.checkInternet();
-                                if (net!) {
-                                  if (containerCobrancasRecordList.length >=
-                                      1) {
-                                    SicOff = InstantTimer.periodic(
-                                      duration: Duration(milliseconds: 1000),
-                                      callback: (timer) async {
+                            ),
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(20, 20, 20, 0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  if (!SicOff.isActive)
+                                    FFButtonWidget(
+                                      onPressed: () async {
+                                        Navigator.pop(context);
+                                      },
+                                      text: 'Não',
+                                      options: FFButtonOptions(
+                                        width: 110,
+                                        height: 40,
+                                        color: FlutterFlowTheme.of(context)
+                                            .alternate,
+                                        textStyle: FlutterFlowTheme.of(context)
+                                            .subtitle2
+                                            .override(
+                                              fontFamily:
+                                                  FlutterFlowTheme.of(context)
+                                                      .subtitle2Family,
+                                              color: Colors.white,
+                                              useGoogleFonts:
+                                                  GoogleFonts.asMap()
+                                                      .containsKey(
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .subtitle2Family),
+                                            ),
+                                        borderSide: BorderSide(
+                                          color: Colors.transparent,
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                    ),
+                                  FFButtonWidget(
+                                    onPressed: () async {
+                                      net = await actions.checkInternet();
+                                      if (net!) {
                                         if (containerCobrancasRecordList
                                                 .length >=
                                             1) {
-                                          if (containerCobrancasRecordList
-                                                  .first.status ==
-                                              'RECEBIDA') {
-                                            apiResultp1e = await ApiProgemGroup
-                                                .receberCobrancaCall
-                                                .call(
-                                              id: containerCobrancasRecordList
-                                                  .first.id,
-                                              token: FFAppState().token,
-                                              valor:
-                                                  containerCobrancasRecordList
-                                                      .first.valorParcela
-                                                      ?.toString(),
-                                              formaDePagamento:
-                                                  containerCobrancasRecordList
-                                                      .first.formaDePagameto,
-                                              idCaixa:
-                                                  containerCobrancasRecordList
-                                                      .first.idCaixa,
-                                              latitude: functions.pegarLatitude(
-                                                  containerCobrancasRecordList
-                                                      .first.locCobranca!),
-                                              longitude: functions.pegarLogitude(
-                                                  containerCobrancasRecordList
-                                                      .first.locCobranca!),
-                                            );
-                                            if ((apiResultp1e?.succeeded ??
-                                                true)) {
-                                              final cobrancasUpdateData =
-                                                  createCobrancasRecordData(
-                                                dataSincronia:
-                                                    getCurrentTimestamp,
-                                                sincronizado: true,
-                                              );
-                                              await containerCobrancasRecordList
-                                                  .first.reference
-                                                  .update(cobrancasUpdateData);
-                                            }
-                                          } else {
-                                            if (containerCobrancasRecordList
-                                                    .first.status ==
-                                                'REAGENDADA') {
-                                              apiResultvly =
-                                                  await ApiProgemGroup
-                                                      .reagendarCobrancaCall
-                                                      .call(
-                                                token: FFAppState().token,
-                                                id: containerCobrancasRecordList
-                                                    .first.id,
-                                                dataReagendamento:
-                                                    containerCobrancasRecordList
-                                                        .first
-                                                        .dataReagendamentoS,
-                                                obs:
-                                                    containerCobrancasRecordList
-                                                        .first.obs,
-                                                latitude: functions.pegarLatitude(
-                                                    containerCobrancasRecordList
-                                                        .first.locCobranca!),
-                                                longitude: functions.pegarLogitude(
-                                                    containerCobrancasRecordList
-                                                        .first.locCobranca!),
-                                              );
-                                              if ((apiResultvly?.succeeded ??
-                                                  true)) {
-                                                final cobrancasUpdateData =
-                                                    createCobrancasRecordData(
-                                                  dataSincronia:
-                                                      getCurrentTimestamp,
-                                                  sincronizado: true,
-                                                );
-                                                await containerCobrancasRecordList
-                                                    .first.reference
-                                                    .update(
-                                                        cobrancasUpdateData);
-                                              }
-                                            } else {
-                                              SicOff?.cancel();
-                                              Navigator.pop(context);
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    'Algo deu errado, por favor entre em contato com o suporte.',
-                                                    style: GoogleFonts.getFont(
-                                                      'Poppins',
-                                                      color: Colors.white,
+                                          SicOff = InstantTimer.periodic(
+                                            duration:
+                                                Duration(milliseconds: 1000),
+                                            callback: (timer) async {
+                                              if (containerCobrancasRecordList
+                                                      .length >=
+                                                  1) {
+                                                if (containerCobrancasRecordList
+                                                        .first.status ==
+                                                    'RECEBIDA') {
+                                                  apiResultp1e =
+                                                      await ApiProgemGroup
+                                                          .receberCobrancaCall
+                                                          .call(
+                                                    id: containerCobrancasRecordList
+                                                        .first.id,
+                                                    token: FFAppState().token,
+                                                    valor:
+                                                        containerCobrancasRecordList
+                                                            .first.valorParcela
+                                                            ?.toString(),
+                                                    formaDePagamento:
+                                                        containerCobrancasRecordList
+                                                            .first
+                                                            .formaDePagameto,
+                                                    idCaixa:
+                                                        containerCobrancasRecordList
+                                                            .first.idCaixa,
+                                                    latitude:
+                                                        functions.pegarLatitude(
+                                                            containerCobrancasRecordList
+                                                                .first
+                                                                .locCobranca!),
+                                                    longitude:
+                                                        functions.pegarLogitude(
+                                                            containerCobrancasRecordList
+                                                                .first
+                                                                .locCobranca!),
+                                                  );
+                                                  if ((apiResultp1e
+                                                          ?.succeeded ??
+                                                      true)) {
+                                                    final cobrancasUpdateData =
+                                                        createCobrancasRecordData(
+                                                      dataSincronia:
+                                                          getCurrentTimestamp,
+                                                      sincronizado: true,
+                                                    );
+                                                    await containerCobrancasRecordList
+                                                        .first.reference
+                                                        .update(
+                                                            cobrancasUpdateData);
+                                                  }
+                                                } else {
+                                                  if (containerCobrancasRecordList
+                                                          .first.status ==
+                                                      'REAGENDADA') {
+                                                    apiResultvly =
+                                                        await ApiProgemGroup
+                                                            .reagendarCobrancaCall
+                                                            .call(
+                                                      token: FFAppState().token,
+                                                      id: containerCobrancasRecordList
+                                                          .first.id,
+                                                      dataReagendamento:
+                                                          containerCobrancasRecordList
+                                                              .first
+                                                              .dataReagendamentoS,
+                                                      obs:
+                                                          containerCobrancasRecordList
+                                                              .first.obs,
+                                                      latitude: functions
+                                                          .pegarLatitude(
+                                                              containerCobrancasRecordList
+                                                                  .first
+                                                                  .locCobranca!),
+                                                      longitude: functions
+                                                          .pegarLogitude(
+                                                              containerCobrancasRecordList
+                                                                  .first
+                                                                  .locCobranca!),
+                                                    );
+                                                    if ((apiResultvly
+                                                            ?.succeeded ??
+                                                        true)) {
+                                                      final cobrancasUpdateData =
+                                                          createCobrancasRecordData(
+                                                        dataSincronia:
+                                                            getCurrentTimestamp,
+                                                        sincronizado: true,
+                                                      );
+                                                      await containerCobrancasRecordList
+                                                          .first.reference
+                                                          .update(
+                                                              cobrancasUpdateData);
+                                                    }
+                                                  } else {
+                                                    SicOff?.cancel();
+                                                    Navigator.pop(context);
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                        content: Text(
+                                                          'Algo deu errado, por favor entre em contato com o suporte.',
+                                                          style: GoogleFonts
+                                                              .getFont(
+                                                            'Poppins',
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                        duration: Duration(
+                                                            milliseconds: 4000),
+                                                        backgroundColor:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .alternate,
+                                                      ),
+                                                    );
+                                                  }
+                                                }
+                                              } else {
+                                                SicOff?.cancel();
+                                                Navigator.pop(context);
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      'Sincronia finalizada com sucesso!',
+                                                      style:
+                                                          GoogleFonts.getFont(
+                                                        'Poppins',
+                                                        color: Colors.white,
+                                                      ),
                                                     ),
+                                                    duration: Duration(
+                                                        milliseconds: 4000),
+                                                    backgroundColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .secondaryColor,
                                                   ),
-                                                  duration: Duration(
-                                                      milliseconds: 4000),
-                                                  backgroundColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .alternate,
-                                                ),
-                                              );
-                                            }
-                                          }
+                                                );
+                                              }
+
+                                              if (containerCobrancasRecordList
+                                                      .length ==
+                                                  0) {
+                                                SicOff?.cancel();
+                                                Navigator.pop(context);
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      'Sincronia finalizada com sucesso!',
+                                                      style:
+                                                          GoogleFonts.getFont(
+                                                        'Poppins',
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                    duration: Duration(
+                                                        milliseconds: 4000),
+                                                    backgroundColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .secondaryColor,
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                            startImmediately: false,
+                                          );
                                         } else {
-                                          SicOff?.cancel();
                                           Navigator.pop(context);
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
@@ -285,97 +371,111 @@ class _ComfirmacaosincroniaWidgetState
                                             ),
                                           );
                                         }
+                                      } else {
+                                        Navigator.pop(context);
+                                        await showModalBottomSheet(
+                                          isScrollControlled: true,
+                                          backgroundColor: Colors.transparent,
+                                          enableDrag: false,
+                                          context: context,
+                                          builder: (context) {
+                                            return Padding(
+                                              padding: MediaQuery.of(context)
+                                                  .viewInsets,
+                                              child: ConnectedOffWidget(),
+                                            );
+                                          },
+                                        ).then((value) => setState(() {}));
+                                      }
 
-                                        if (containerCobrancasRecordList
-                                                .length ==
-                                            0) {
-                                          SicOff?.cancel();
-                                          Navigator.pop(context);
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                'Sincronia finalizada com sucesso!',
-                                                style: GoogleFonts.getFont(
-                                                  'Poppins',
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                              duration:
-                                                  Duration(milliseconds: 4000),
-                                              backgroundColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .secondaryColor,
-                                            ),
-                                          );
-                                        }
-                                      },
-                                      startImmediately: false,
-                                    );
-                                  } else {
-                                    Navigator.pop(context);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          'Sincronia finalizada com sucesso!',
-                                          style: GoogleFonts.getFont(
-                                            'Poppins',
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        duration: Duration(milliseconds: 4000),
-                                        backgroundColor:
-                                            FlutterFlowTheme.of(context)
-                                                .secondaryColor,
-                                      ),
-                                    );
-                                  }
-                                } else {
-                                  Navigator.pop(context);
-                                  await showModalBottomSheet(
-                                    isScrollControlled: true,
-                                    backgroundColor: Colors.transparent,
-                                    enableDrag: false,
-                                    context: context,
-                                    builder: (context) {
-                                      return Padding(
-                                        padding:
-                                            MediaQuery.of(context).viewInsets,
-                                        child: ConnectedOffWidget(),
-                                      );
+                                      setState(() {});
                                     },
-                                  ).then((value) => setState(() {}));
-                                }
-
-                                setState(() {});
-                              },
-                              text: 'SIm',
-                              options: FFButtonOptions(
-                                width: 110,
-                                height: 40,
-                                color: FlutterFlowTheme.of(context).cor1,
-                                textStyle: FlutterFlowTheme.of(context)
-                                    .subtitle2
-                                    .override(
-                                      fontFamily: FlutterFlowTheme.of(context)
-                                          .subtitle2Family,
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryBtnText,
-                                      useGoogleFonts: GoogleFonts.asMap()
-                                          .containsKey(
-                                              FlutterFlowTheme.of(context)
-                                                  .subtitle2Family),
+                                    text: 'SIm',
+                                    options: FFButtonOptions(
+                                      width: 110,
+                                      height: 40,
+                                      color: FlutterFlowTheme.of(context).cor1,
+                                      textStyle: FlutterFlowTheme.of(context)
+                                          .subtitle2
+                                          .override(
+                                            fontFamily:
+                                                FlutterFlowTheme.of(context)
+                                                    .subtitle2Family,
+                                            color: FlutterFlowTheme.of(context)
+                                                .primaryBtnText,
+                                            useGoogleFonts: GoogleFonts.asMap()
+                                                .containsKey(
+                                                    FlutterFlowTheme.of(context)
+                                                        .subtitle2Family),
+                                          ),
+                                      borderSide: BorderSide(
+                                        color: Colors.transparent,
+                                        width: 1,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8),
                                     ),
-                                borderSide: BorderSide(
-                                  color: Colors.transparent,
-                                  width: 1,
-                                ),
-                                borderRadius: BorderRadius.circular(8),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
                         ),
-                      ),
+                      if (SicOff.isActive)
+                        Column(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Lottie.asset(
+                              'assets/lottie_animations/lf30_editor_gmwigpasdaoi.json',
+                              width: 150,
+                              height: 130,
+                              fit: BoxFit.cover,
+                              animate: true,
+                            ),
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(20, 10, 20, 0),
+                              child: Text(
+                                'Sincronizando',
+                                textAlign: TextAlign.center,
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyText1
+                                    .override(
+                                      fontFamily: FlutterFlowTheme.of(context)
+                                          .bodyText1Family,
+                                      color: Color(0xFF05055A),
+                                      fontSize: 16,
+                                      useGoogleFonts: GoogleFonts.asMap()
+                                          .containsKey(
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyText1Family),
+                                    ),
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(10, 10, 10, 0),
+                              child: Text(
+                                'Isso pode demorar alguns segundos.',
+                                textAlign: TextAlign.center,
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyText1
+                                    .override(
+                                      fontFamily: FlutterFlowTheme.of(context)
+                                          .bodyText1Family,
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryText,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                      useGoogleFonts: GoogleFonts.asMap()
+                                          .containsKey(
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyText1Family),
+                                    ),
+                              ),
+                            ),
+                          ],
+                        ),
                     ],
                   ),
                 );
