@@ -217,28 +217,6 @@ class _ComfirmacaosincroniaWidgetState
                                               await containerCobrancasRecordList
                                                   .first.reference
                                                   .update(cobrancasUpdateData);
-                                            } else {
-                                              SicOff?.cancel();
-                                              Navigator.pop(context);
-                                              Navigator.pop(context);
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    'Algo deu errado, por favor entre em contato com o suporte.',
-                                                    style: GoogleFonts.getFont(
-                                                      'Poppins',
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                  duration: Duration(
-                                                      milliseconds: 4000),
-                                                  backgroundColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .alternate,
-                                                ),
-                                              );
                                             }
                                           } else {
                                             if (containerCobrancasRecordList
@@ -277,29 +255,6 @@ class _ComfirmacaosincroniaWidgetState
                                                     .first.reference
                                                     .update(
                                                         cobrancasUpdateData);
-                                              } else {
-                                                SicOff?.cancel();
-                                                Navigator.pop(context);
-                                                Navigator.pop(context);
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  SnackBar(
-                                                    content: Text(
-                                                      'Algo deu errado, por favor entre em contato com o suporte.',
-                                                      style:
-                                                          GoogleFonts.getFont(
-                                                        'Poppins',
-                                                        color: Colors.white,
-                                                      ),
-                                                    ),
-                                                    duration: Duration(
-                                                        milliseconds: 4000),
-                                                    backgroundColor:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .alternate,
-                                                  ),
-                                                );
                                               }
                                             } else {
                                               SicOff?.cancel();

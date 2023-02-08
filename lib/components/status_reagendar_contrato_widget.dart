@@ -125,7 +125,7 @@ class _StatusReagendarContratoWidgetState
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
                               child: Text(
-                                'Tem certeza que deseja reagendar essa \n cobrança?',
+                                'Tem certeza que deseja reagendar a parcela ${widget.cobranca!.parcela} de  ${widget.cobranca!.nomeCliente}?',
                                 textAlign: TextAlign.center,
                                 style: FlutterFlowTheme.of(context)
                                     .bodyText1
@@ -345,13 +345,17 @@ class _StatusReagendarContratoWidgetState
                                                 await widget.cobranca!.reference
                                                     .update(
                                                         cobrancasUpdateData);
-                                                Navigator.pop(context);
                                                 FFAppState().update(() {
                                                   FFAppState()
                                                           .CobrancaAtualizada =
                                                       widget
                                                           .cobranca!.reference;
                                                 });
+
+                                                context.pushNamed(
+                                                    'PaginaCobrancasRealizadas');
+
+                                                Navigator.pop(context);
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
                                                   SnackBar(
@@ -371,14 +375,6 @@ class _StatusReagendarContratoWidgetState
                                                             .secondaryColor,
                                                   ),
                                                 );
-                                                await Future.delayed(
-                                                    const Duration(
-                                                        milliseconds: 6000));
-                                                FFAppState().update(() {
-                                                  FFAppState()
-                                                          .CobrancaAtualizada =
-                                                      null;
-                                                });
                                               } else {
                                                 Navigator.pop(context);
                                                 ScaffoldMessenger.of(context)

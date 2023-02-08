@@ -131,7 +131,7 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0, 20, 0, 0),
                                   child: Text(
-                                    'Tem certeza que deseja alterar o status do contrato ${widget.cobranca!.numeroContrato} para Pago?',
+                                    'Tem certeza que deseja receber a parcela ${widget.cobranca!.parcela} de ${widget.cobranca!.nomeCliente}?',
                                     textAlign: TextAlign.center,
                                     style: FlutterFlowTheme.of(context)
                                         .bodyText1
@@ -633,13 +633,17 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                 await widget.cobranca!.reference
                                                     .update(
                                                         cobrancasUpdateData);
-                                                Navigator.pop(context);
                                                 FFAppState().update(() {
                                                   FFAppState()
                                                           .CobrancaAtualizada =
                                                       widget
                                                           .cobranca!.reference;
                                                 });
+
+                                                context.pushNamed(
+                                                    'PaginaCobrancasRealizadas');
+
+                                                Navigator.pop(context);
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
                                                   SnackBar(
@@ -659,14 +663,6 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                             .secondaryColor,
                                                   ),
                                                 );
-                                                await Future.delayed(
-                                                    const Duration(
-                                                        milliseconds: 6000));
-                                                FFAppState().update(() {
-                                                  FFAppState()
-                                                          .CobrancaAtualizada =
-                                                      null;
-                                                });
                                               } else {
                                                 Navigator.pop(context);
                                                 ScaffoldMessenger.of(context)
