@@ -5,7 +5,6 @@ import '../components/cobrancas_vazia_widget.dart';
 import '../components/connected_off_widget.dart';
 import '../components/dados_cobranca_widget.dart';
 import '../components/filtros_widget.dart';
-import '../components/load_sic_widget.dart';
 import '../components/menu_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
@@ -803,23 +802,6 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                             .alternate,
                                                   ),
                                                 );
-                                                await showModalBottomSheet(
-                                                  isScrollControlled: true,
-                                                  backgroundColor:
-                                                      Colors.transparent,
-                                                  enableDrag: false,
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return Padding(
-                                                      padding:
-                                                          MediaQuery.of(context)
-                                                              .viewInsets,
-                                                      child: LoadSicWidget(),
-                                                    );
-                                                  },
-                                                ).then(
-                                                    (value) => setState(() {}));
-
                                                 net1 = await actions
                                                     .checkInternet();
                                                 if (net1!) {
@@ -1178,7 +1160,6 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                       startImmediately: false,
                                                     );
                                                   } else {
-                                                    Navigator.pop(context);
                                                     ScaffoldMessenger.of(
                                                             context)
                                                         .showSnackBar(
@@ -1201,7 +1182,6 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                     );
                                                   }
                                                 } else {
-                                                  Navigator.pop(context);
                                                   await showModalBottomSheet(
                                                     isScrollControlled: true,
                                                     backgroundColor:
