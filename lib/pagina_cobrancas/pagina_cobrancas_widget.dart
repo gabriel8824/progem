@@ -857,7 +857,7 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                     LoopCriarCobrancas =
                                                         InstantTimer.periodic(
                                                       duration: Duration(
-                                                          milliseconds: 1000),
+                                                          milliseconds: 2000),
                                                       callback: (timer) async {
                                                         ScaffoldMessenger.of(
                                                                 context)
