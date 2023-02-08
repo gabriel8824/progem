@@ -438,10 +438,7 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                 noItemsFoundIndicatorBuilder:
                                                     (_) => Center(
                                                   child: Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
+                                                    height: 280,
                                                     child:
                                                         CobrancasVaziaWidget(),
                                                   ),
@@ -801,6 +798,12 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                             .PaginaAtual +
                                                         1,
                                                   );
+                                                  FFAppState().update(() {
+                                                    FFAppState().PaginaAtual =
+                                                        FFAppState()
+                                                                .PaginaAtual +
+                                                            1;
+                                                  });
                                                   if ((apiResultthr
                                                           ?.succeeded ??
                                                       true)) {
@@ -1017,6 +1020,21 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                         } else {
                                                           LoopCriarCobrancas
                                                               ?.cancel();
+                                                          if (FFAppState()
+                                                                  .PaginaAtual >
+                                                              ApiProgemGroup
+                                                                  .listarCobrancasCall
+                                                                  .quantidadeDePagina(
+                                                                (apiResultthr
+                                                                        ?.jsonBody ??
+                                                                    ''),
+                                                              )) {
+                                                            FFAppState()
+                                                                .update(() {
+                                                              FFAppState()
+                                                                  .PaginaAtual = 0;
+                                                            });
+                                                          }
                                                           Navigator.pop(
                                                               context);
                                                         }
