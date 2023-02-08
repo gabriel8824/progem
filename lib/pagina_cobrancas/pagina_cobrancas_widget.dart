@@ -801,6 +801,25 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                 net1 = await actions
                                                     .checkInternet();
                                                 if (net1!) {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                        '6',
+                                                        style: TextStyle(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryBackground,
+                                                        ),
+                                                      ),
+                                                      duration: Duration(
+                                                          milliseconds: 4000),
+                                                      backgroundColor:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .alternate,
+                                                    ),
+                                                  );
                                                   apiResultthr =
                                                       await ApiProgemGroup
                                                           .listarCobrancasCall
@@ -808,15 +827,15 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                     token: FFAppState().token,
                                                     pagina: 1,
                                                   );
-                                                  FFAppState().update(() {
-                                                    FFAppState().PaginaAtual =
-                                                        FFAppState()
-                                                                .PaginaAtual +
-                                                            1;
-                                                  });
                                                   if ((apiResultthr
                                                           ?.succeeded ??
                                                       true)) {
+                                                    FFAppState().update(() {
+                                                      FFAppState().PaginaAtual =
+                                                          FFAppState()
+                                                                  .PaginaAtual +
+                                                              1;
+                                                    });
                                                     FFAppState().update(() {
                                                       FFAppState()
                                                               .CobrancasOffV2 =
