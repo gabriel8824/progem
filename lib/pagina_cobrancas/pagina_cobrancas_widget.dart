@@ -438,6 +438,10 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                 noItemsFoundIndicatorBuilder:
                                                     (_) => Center(
                                                   child: Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
                                                     height: 280,
                                                     child:
                                                         CobrancasVaziaWidget(),
