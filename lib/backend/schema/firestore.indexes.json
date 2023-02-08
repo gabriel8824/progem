@@ -49,20 +49,6 @@
           "order": "DESCENDING"
         }
       ]
-    },
-    {
-      "collectionGroup": "Cobrancas",
-      "queryScope": "COLLECTION",
-      "fields": [
-        {
-          "fieldPath": "IdUsuario",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "DataEdit",
-          "order": "DESCENDING"
-        }
-      ]
     }
   ]
 }
