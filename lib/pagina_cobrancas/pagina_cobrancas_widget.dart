@@ -666,6 +666,7 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                     0, 0, 0, 80),
                                             child: InkWell(
                                               onTap: () async {
+                                                var _shouldSetState = false;
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
                                                   SnackBar(
@@ -687,6 +688,7 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                 );
                                                 net1 = await actions
                                                     .checkInternet();
+                                                _shouldSetState = true;
                                                 if (net1!) {
                                                   ScaffoldMessenger.of(context)
                                                       .showSnackBar(
@@ -717,6 +719,7 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                             .PaginaAtual +
                                                         1,
                                                   );
+                                                  _shouldSetState = true;
                                                   if ((apiResultthr
                                                           ?.succeeded ??
                                                       true)) {
@@ -741,7 +744,7 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                     LoopCriarCobrancas =
                                                         InstantTimer.periodic(
                                                       duration: Duration(
-                                                          milliseconds: 2000),
+                                                          milliseconds: 1000),
                                                       callback: (timer) async {
                                                         ScaffoldMessenger.of(
                                                                 context)
@@ -1011,33 +1014,11 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                                   null;
                                                             });
                                                           }
+
+                                                          return;
                                                         } else {
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                            SnackBar(
-                                                              content: Text(
-                                                                '5',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .primaryBackground,
-                                                                ),
-                                                              ),
-                                                              duration: Duration(
-                                                                  milliseconds:
-                                                                      4000),
-                                                              backgroundColor:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .alternate,
-                                                            ),
-                                                          );
                                                           LoopCriarCobrancas
                                                               ?.cancel();
-                                                          Navigator.pop(
-                                                              context);
                                                         }
                                                       },
                                                       startImmediately: false,
@@ -1084,7 +1065,8 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                       setState(() {}));
                                                 }
 
-                                                setState(() {});
+                                                if (_shouldSetState)
+                                                  setState(() {});
                                               },
                                               child: Container(
                                                 width: 210,
