@@ -883,8 +883,8 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                         );
                                                         if (FFAppState()
                                                                 .CobrancasOffV2
-                                                                .length >=
-                                                            1) {
+                                                                .length !=
+                                                            0) {
                                                           ScaffoldMessenger.of(
                                                                   context)
                                                               .showSnackBar(
