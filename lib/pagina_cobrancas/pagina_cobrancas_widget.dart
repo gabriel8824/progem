@@ -932,11 +932,10 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                                             .toString())
                                                                     .map((r) =>
                                                                         r.object)
+                                                                    .take(1)
                                                                     .toList();
                                                           });
-                                                          if (simpleSearchResults
-                                                                  .length <
-                                                              1) {
+                                                          if (true) {
                                                             ScaffoldMessenger
                                                                     .of(context)
                                                                 .showSnackBar(
@@ -1159,21 +1158,6 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                           );
                                                           LoopCriarCobrancas
                                                               ?.cancel();
-                                                          if (FFAppState()
-                                                                  .PaginaAtual >
-                                                              ApiProgemGroup
-                                                                  .listarCobrancasCall
-                                                                  .quantidadeDePagina(
-                                                                (apiResultthr
-                                                                        ?.jsonBody ??
-                                                                    ''),
-                                                              )) {
-                                                            FFAppState()
-                                                                .update(() {
-                                                              FFAppState()
-                                                                  .PaginaAtual = 0;
-                                                            });
-                                                          }
                                                           Navigator.pop(
                                                               context);
                                                         }
