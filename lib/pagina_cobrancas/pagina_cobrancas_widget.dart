@@ -836,10 +836,53 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                       duration: Duration(
                                                           milliseconds: 1000),
                                                       callback: (timer) async {
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                          SnackBar(
+                                                            content: Text(
+                                                              '1',
+                                                              style: TextStyle(
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryBackground,
+                                                              ),
+                                                            ),
+                                                            duration: Duration(
+                                                                milliseconds:
+                                                                    4000),
+                                                            backgroundColor:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .alternate,
+                                                          ),
+                                                        );
                                                         if (FFAppState()
                                                                 .CobrancasOffV2
                                                                 .length >=
                                                             1) {
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                            SnackBar(
+                                                              content: Text(
+                                                                '2',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primaryBackground,
+                                                                ),
+                                                              ),
+                                                              duration: Duration(
+                                                                  milliseconds:
+                                                                      4000),
+                                                              backgroundColor:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .alternate,
+                                                            ),
+                                                          );
                                                           FFAppState()
                                                               .update(() {
                                                             FFAppState()
@@ -877,6 +920,29 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                           if (simpleSearchResults
                                                                   .length <
                                                               1) {
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(
+                                                              SnackBar(
+                                                                content: Text(
+                                                                  '3',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .primaryBackground,
+                                                                  ),
+                                                                ),
+                                                                duration: Duration(
+                                                                    milliseconds:
+                                                                        4000),
+                                                                backgroundColor:
+                                                                    FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .alternate,
+                                                              ),
+                                                            );
+
                                                             final cobrancasCreateData =
                                                                 createCobrancasRecordData(
                                                               nomeCliente:
@@ -1015,6 +1081,28 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                                   null;
                                                             });
                                                           } else {
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(
+                                                              SnackBar(
+                                                                content: Text(
+                                                                  '4',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .primaryBackground,
+                                                                  ),
+                                                                ),
+                                                                duration: Duration(
+                                                                    milliseconds:
+                                                                        4000),
+                                                                backgroundColor:
+                                                                    FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .alternate,
+                                                              ),
+                                                            );
                                                             FFAppState()
                                                                 .update(() {
                                                               FFAppState()
@@ -1030,6 +1118,28 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                             });
                                                           }
                                                         } else {
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                            SnackBar(
+                                                              content: Text(
+                                                                '5',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primaryBackground,
+                                                                ),
+                                                              ),
+                                                              duration: Duration(
+                                                                  milliseconds:
+                                                                      4000),
+                                                              backgroundColor:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .alternate,
+                                                            ),
+                                                          );
                                                           LoopCriarCobrancas
                                                               ?.cancel();
                                                           if (FFAppState()
