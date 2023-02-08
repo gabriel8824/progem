@@ -125,33 +125,34 @@ class _ComfirmacaosincroniaWidgetState
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            FFButtonWidget(
-                              onPressed: () async {
-                                Navigator.pop(context);
-                              },
-                              text: 'Não',
-                              options: FFButtonOptions(
-                                width: 110,
-                                height: 40,
-                                color: FlutterFlowTheme.of(context).alternate,
-                                textStyle: FlutterFlowTheme.of(context)
-                                    .subtitle2
-                                    .override(
-                                      fontFamily: FlutterFlowTheme.of(context)
-                                          .subtitle2Family,
-                                      color: Colors.white,
-                                      useGoogleFonts: GoogleFonts.asMap()
-                                          .containsKey(
-                                              FlutterFlowTheme.of(context)
-                                                  .subtitle2Family),
-                                    ),
-                                borderSide: BorderSide(
-                                  color: Colors.transparent,
-                                  width: 1,
+                            if (!SicOff.isActive)
+                              FFButtonWidget(
+                                onPressed: () async {
+                                  Navigator.pop(context);
+                                },
+                                text: 'Não',
+                                options: FFButtonOptions(
+                                  width: 110,
+                                  height: 40,
+                                  color: FlutterFlowTheme.of(context).alternate,
+                                  textStyle: FlutterFlowTheme.of(context)
+                                      .subtitle2
+                                      .override(
+                                        fontFamily: FlutterFlowTheme.of(context)
+                                            .subtitle2Family,
+                                        color: Colors.white,
+                                        useGoogleFonts: GoogleFonts.asMap()
+                                            .containsKey(
+                                                FlutterFlowTheme.of(context)
+                                                    .subtitle2Family),
+                                      ),
+                                  borderSide: BorderSide(
+                                    color: Colors.transparent,
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
-                                borderRadius: BorderRadius.circular(8),
                               ),
-                            ),
                             FFButtonWidget(
                               onPressed: () async {
                                 net = await actions.checkInternet();
@@ -159,7 +160,7 @@ class _ComfirmacaosincroniaWidgetState
                                   if (containerCobrancasRecordList.length >=
                                       1) {
                                     SicOff = InstantTimer.periodic(
-                                      duration: Duration(milliseconds: 3000),
+                                      duration: Duration(milliseconds: 1000),
                                       callback: (timer) async {
                                         if (containerCobrancasRecordList
                                                 .length >=
@@ -243,7 +244,6 @@ class _ComfirmacaosincroniaWidgetState
                                             } else {
                                               SicOff?.cancel();
                                               Navigator.pop(context);
-                                              Navigator.pop(context);
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
                                                 SnackBar(
@@ -267,6 +267,29 @@ class _ComfirmacaosincroniaWidgetState
                                         } else {
                                           SicOff?.cancel();
                                           Navigator.pop(context);
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                'Sincronia finalizada com sucesso!',
+                                                style: GoogleFonts.getFont(
+                                                  'Poppins',
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              duration:
+                                                  Duration(milliseconds: 4000),
+                                              backgroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryColor,
+                                            ),
+                                          );
+                                        }
+
+                                        if (containerCobrancasRecordList
+                                                .length ==
+                                            0) {
+                                          SicOff?.cancel();
                                           Navigator.pop(context);
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
