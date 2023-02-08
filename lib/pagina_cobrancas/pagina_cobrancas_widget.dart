@@ -315,15 +315,13 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                 final Query<Object?> Function(
                                                         Query<Object?>)
                                                     queryBuilder =
-                                                    (cobrancasRecord) => cobrancasRecord
-                                                        .where('IdUsuario',
+                                                    (cobrancasRecord) =>
+                                                        cobrancasRecord.where(
+                                                            'IdUsuario',
                                                             isEqualTo: valueOrDefault(
                                                                 currentUserDocument
                                                                     ?.idUsuario,
-                                                                ''))
-                                                        .where('Status',
-                                                            isNotEqualTo:
-                                                                'RECEBIDA');
+                                                                ''));
                                                 if (_pagingController != null) {
                                                   final query = queryBuilder(
                                                       CobrancasRecord
@@ -352,17 +350,12 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                         (nextPageMarker) {
                                                   queryCobrancasRecordPage(
                                                     queryBuilder: (cobrancasRecord) =>
-                                                        cobrancasRecord
-                                                            .where(
-                                                                'IdUsuario',
-                                                                isEqualTo: valueOrDefault(
-                                                                    currentUserDocument
-                                                                        ?.idUsuario,
-                                                                    ''))
-                                                            .where(
-                                                                'Status',
-                                                                isNotEqualTo:
-                                                                    'RECEBIDA'),
+                                                        cobrancasRecord.where(
+                                                            'IdUsuario',
+                                                            isEqualTo: valueOrDefault(
+                                                                currentUserDocument
+                                                                    ?.idUsuario,
+                                                                '')),
                                                     nextPageMarker:
                                                         nextPageMarker,
                                                     pageSize: 25,
