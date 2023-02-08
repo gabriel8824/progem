@@ -40,7 +40,6 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
   final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   ApiCallResponse? apiResultthr;
-  bool? net1;
   InstantTimer? LoopCriarCobrancas;
   List<CobrancasRecord> simpleSearchResults = [];
   PagingController<DocumentSnapshot?, CobrancasRecord>? _pagingController;
@@ -798,9 +797,7 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                 ).then(
                                                     (value) => setState(() {}));
 
-                                                net1 = await actions
-                                                    .checkInternet();
-                                                if (net1!) {
+                                                if (true) {
                                                   ScaffoldMessenger.of(context)
                                                       .showSnackBar(
                                                     SnackBar(
