@@ -40,7 +40,6 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
   final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   ApiCallResponse? apiResultthr;
-  bool? net2;
   InstantTimer? LoopCriarCobrancas;
   List<CobrancasRecord> simpleSearchResults = [];
   PagingController<DocumentSnapshot?, CobrancasRecord>? _pagingController;
@@ -798,9 +797,7 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                 ).then(
                                                     (value) => setState(() {}));
 
-                                                net2 = await actions
-                                                    .checkInternet();
-                                                if (net2!) {
+                                                if (true) {
                                                   apiResultthr =
                                                       await ApiProgemGroup
                                                           .listarCobrancasCall
