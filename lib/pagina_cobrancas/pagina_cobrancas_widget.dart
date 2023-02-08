@@ -236,7 +236,10 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                 alignment:
                                                     AlignmentDirectional(-1, 0),
                                                 child: AutoSizeText(
-                                                  'Cobranças',
+                                                  '${paginaCobrancasCobrancasRecordList.length.toString()} - ${FFAppState().CobrancasOffV2.length.toString()} - ${getJsonField(
+                                                    FFAppState().CobrancaAtual,
+                                                    r'''$.id''',
+                                                  ).toString()}',
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodyText1
