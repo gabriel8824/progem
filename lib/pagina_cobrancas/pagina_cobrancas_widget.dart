@@ -824,6 +824,7 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                               .alternate,
                                                     ),
                                                   );
+                                                  LoopCriarCobrancas?.cancel();
                                                   apiResultthr =
                                                       await ApiProgemGroup
                                                           .listarCobrancasCall
@@ -975,116 +976,6 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                                     .CobrancaAtual,
                                                                 r'''$.cliente.nome''',
                                                               ).toString(),
-                                                              numeroContrato:
-                                                                  getJsonField(
-                                                                FFAppState()
-                                                                    .CobrancaAtual,
-                                                                r'''$.contrato.numero''',
-                                                              ).toString(),
-                                                              valor:
-                                                                  valueOrDefault<
-                                                                      double>(
-                                                                functions
-                                                                    .converStringEmDouble(
-                                                                        getJsonField(
-                                                                  FFAppState()
-                                                                      .CobrancaAtual,
-                                                                  r'''$.contrato.valorTotal''',
-                                                                ).toString()),
-                                                                0.0,
-                                                              ),
-                                                              dataDeVencimento:
-                                                                  functions
-                                                                      .formatarData(
-                                                                          getJsonField(
-                                                                FFAppState()
-                                                                    .CobrancaAtual,
-                                                                r'''$.dataVencimento''',
-                                                              ).toString()),
-                                                              endereco:
-                                                                  getJsonField(
-                                                                FFAppState()
-                                                                    .CobrancaAtual,
-                                                                r'''$.cliente.endereco.logradouro''',
-                                                              ).toString(),
-                                                              bairro:
-                                                                  getJsonField(
-                                                                FFAppState()
-                                                                    .CobrancaAtual,
-                                                                r'''$.cliente.endereco.bairro''',
-                                                              ).toString(),
-                                                              status:
-                                                                  getJsonField(
-                                                                FFAppState()
-                                                                    .CobrancaAtual,
-                                                                r'''$.status''',
-                                                              ).toString(),
-                                                              id: getJsonField(
-                                                                FFAppState()
-                                                                    .CobrancaAtual,
-                                                                r'''$.id''',
-                                                              ).toString(),
-                                                              dataSincronia:
-                                                                  getCurrentTimestamp,
-                                                              usuario:
-                                                                  currentUserReference,
-                                                              emailUsuario:
-                                                                  currentUserEmail,
-                                                              uId:
-                                                                  '${random_data.randomString(
-                                                                10,
-                                                                10,
-                                                                false,
-                                                                false,
-                                                                true,
-                                                              )}x${random_data.randomString(
-                                                                10,
-                                                                10,
-                                                                false,
-                                                                false,
-                                                                true,
-                                                              )}',
-                                                              valorParcela:
-                                                                  getJsonField(
-                                                                FFAppState()
-                                                                    .CobrancaAtual,
-                                                                r'''$.valor''',
-                                                              ),
-                                                              parcela:
-                                                                  getJsonField(
-                                                                FFAppState()
-                                                                    .CobrancaAtual,
-                                                                r'''$.numero''',
-                                                              ).toString(),
-                                                              numeroParcela: 1,
-                                                              idUsuario: valueOrDefault(
-                                                                  currentUserDocument
-                                                                      ?.idUsuario,
-                                                                  ''),
-                                                              numeroEnd:
-                                                                  getJsonField(
-                                                                FFAppState()
-                                                                    .CobrancaAtual,
-                                                                r'''$.cliente.endereco.numero''',
-                                                              ).toString(),
-                                                              sincronizado:
-                                                                  false,
-                                                              cobrancaRealizada:
-                                                                  false,
-                                                              dataEdit:
-                                                                  getCurrentTimestamp,
-                                                              localizacao: functions
-                                                                  .converterSctrigEmCordenadas(
-                                                                      getJsonField(
-                                                                        FFAppState()
-                                                                            .CobrancaAtual,
-                                                                        r'''$.cliente.coordenadas.latitude''',
-                                                                      ).toString(),
-                                                                      getJsonField(
-                                                                        FFAppState()
-                                                                            .CobrancaAtual,
-                                                                        r'''$.cliente.coordenadas.longitude''',
-                                                                      ).toString()),
                                                             );
                                                             await CobrancasRecord
                                                                 .collection
@@ -1236,31 +1127,154 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                               .cor1,
                                                       size: 80,
                                                     ),
-                                                    Text(
-                                                      paginaCobrancasCobrancasRecordList
-                                                                  .length >=
-                                                              1
-                                                          ? 'Carregar mais cobranças'
-                                                          : 'Sincronizar cobranças',
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyText1
-                                                              .override(
-                                                                fontFamily: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyText1Family,
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .cor1,
-                                                                useGoogleFonts: GoogleFonts
-                                                                        .asMap()
-                                                                    .containsKey(
-                                                                        FlutterFlowTheme.of(context)
-                                                                            .bodyText1Family),
-                                                              ),
+                                                    InkWell(
+                                                      onTap: () async {
+                                                        final cobrancasCreateData =
+                                                            createCobrancasRecordData(
+                                                          nomeCliente:
+                                                              getJsonField(
+                                                            FFAppState()
+                                                                .CobrancaAtual,
+                                                            r'''$.cliente.nome''',
+                                                          ).toString(),
+                                                          numeroContrato:
+                                                              getJsonField(
+                                                            FFAppState()
+                                                                .CobrancaAtual,
+                                                            r'''$.contrato.numero''',
+                                                          ).toString(),
+                                                          valor: valueOrDefault<
+                                                              double>(
+                                                            functions
+                                                                .converStringEmDouble(
+                                                                    getJsonField(
+                                                              FFAppState()
+                                                                  .CobrancaAtual,
+                                                              r'''$.contrato.valorTotal''',
+                                                            ).toString()),
+                                                            0.0,
+                                                          ),
+                                                          dataDeVencimento:
+                                                              functions
+                                                                  .formatarData(
+                                                                      getJsonField(
+                                                            FFAppState()
+                                                                .CobrancaAtual,
+                                                            r'''$.dataVencimento''',
+                                                          ).toString()),
+                                                          endereco:
+                                                              getJsonField(
+                                                            FFAppState()
+                                                                .CobrancaAtual,
+                                                            r'''$.cliente.endereco.logradouro''',
+                                                          ).toString(),
+                                                          bairro: getJsonField(
+                                                            FFAppState()
+                                                                .CobrancaAtual,
+                                                            r'''$.cliente.endereco.bairro''',
+                                                          ).toString(),
+                                                          status: getJsonField(
+                                                            FFAppState()
+                                                                .CobrancaAtual,
+                                                            r'''$.status''',
+                                                          ).toString(),
+                                                          id: getJsonField(
+                                                            FFAppState()
+                                                                .CobrancaAtual,
+                                                            r'''$.id''',
+                                                          ).toString(),
+                                                          dataSincronia:
+                                                              getCurrentTimestamp,
+                                                          usuario:
+                                                              currentUserReference,
+                                                          emailUsuario:
+                                                              currentUserEmail,
+                                                          uId:
+                                                              '${random_data.randomString(
+                                                            10,
+                                                            10,
+                                                            false,
+                                                            false,
+                                                            true,
+                                                          )}x${random_data.randomString(
+                                                            10,
+                                                            10,
+                                                            false,
+                                                            false,
+                                                            true,
+                                                          )}',
+                                                          valorParcela:
+                                                              getJsonField(
+                                                            FFAppState()
+                                                                .CobrancaAtual,
+                                                            r'''$.valor''',
+                                                          ),
+                                                          parcela: getJsonField(
+                                                            FFAppState()
+                                                                .CobrancaAtual,
+                                                            r'''$.numero''',
+                                                          ).toString(),
+                                                          numeroParcela: 1,
+                                                          idUsuario: valueOrDefault(
+                                                              currentUserDocument
+                                                                  ?.idUsuario,
+                                                              ''),
+                                                          numeroEnd:
+                                                              getJsonField(
+                                                            FFAppState()
+                                                                .CobrancaAtual,
+                                                            r'''$.cliente.endereco.numero''',
+                                                          ).toString(),
+                                                          sincronizado: false,
+                                                          cobrancaRealizada:
+                                                              false,
+                                                          dataEdit:
+                                                              getCurrentTimestamp,
+                                                          localizacao: functions
+                                                              .converterSctrigEmCordenadas(
+                                                                  getJsonField(
+                                                                    FFAppState()
+                                                                        .CobrancaAtual,
+                                                                    r'''$.cliente.coordenadas.latitude''',
+                                                                  ).toString(),
+                                                                  getJsonField(
+                                                                    FFAppState()
+                                                                        .CobrancaAtual,
+                                                                    r'''$.cliente.coordenadas.longitude''',
+                                                                  ).toString()),
+                                                        );
+                                                        await CobrancasRecord
+                                                            .collection
+                                                            .doc()
+                                                            .set(
+                                                                cobrancasCreateData);
+                                                      },
+                                                      child: Text(
+                                                        paginaCobrancasCobrancasRecordList
+                                                                    .length >=
+                                                                1
+                                                            ? 'Carregar mais cobranças'
+                                                            : 'Sincronizar cobranças',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyText1
+                                                                .override(
+                                                                  fontFamily: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyText1Family,
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .cor1,
+                                                                  useGoogleFonts: GoogleFonts
+                                                                          .asMap()
+                                                                      .containsKey(
+                                                                          FlutterFlowTheme.of(context)
+                                                                              .bodyText1Family),
+                                                                ),
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
