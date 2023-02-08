@@ -5,7 +5,6 @@ import '../components/cobrancas_vazia_widget.dart';
 import '../components/connected_off_widget.dart';
 import '../components/dados_cobranca_widget.dart';
 import '../components/filtros_widget.dart';
-import '../components/load_sic_widget.dart';
 import '../components/menu_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
@@ -780,23 +779,6 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                     0, 0, 0, 80),
                                             child: InkWell(
                                               onTap: () async {
-                                                await showModalBottomSheet(
-                                                  isScrollControlled: true,
-                                                  backgroundColor:
-                                                      Colors.transparent,
-                                                  enableDrag: false,
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return Padding(
-                                                      padding:
-                                                          MediaQuery.of(context)
-                                                              .viewInsets,
-                                                      child: LoadSicWidget(),
-                                                    );
-                                                  },
-                                                ).then(
-                                                    (value) => setState(() {}));
-
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
                                                   SnackBar(
