@@ -17,7 +17,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 import 'package:text_search/text_search.dart';
 
@@ -42,9 +41,6 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
   bool? net1;
   InstantTimer? LoopCriarCobrancas;
   List<CobrancasRecord> simpleSearchResults = [];
-  PagingController<DocumentSnapshot?, CobrancasRecord>? _pagingController;
-  Query? _pagingQuery;
-  List<StreamSubscription?> _streamSubscriptions = [];
 
   @override
   void initState() {
@@ -81,7 +77,6 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
   @override
   void dispose() {
     LoopCriarCobrancas?.cancel();
-    _streamSubscriptions.forEach((s) => s?.cancel());
     _unfocusNode.dispose();
     super.dispose();
   }
@@ -310,274 +305,266 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                             padding:
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     20, 20, 20, 0),
-                                            child: PagedListView<
-                                                DocumentSnapshot<Object?>?,
-                                                CobrancasRecord>(
-                                              pagingController: () {
-                                                final Query<Object?> Function(
-                                                        Query<Object?>)
-                                                    queryBuilder =
-                                                    (cobrancasRecord) =>
-                                                        cobrancasRecord.where(
-                                                            'IdUsuario',
-                                                            isEqualTo: valueOrDefault(
-                                                                currentUserDocument
-                                                                    ?.idUsuario,
-                                                                ''));
-                                                if (_pagingController != null) {
-                                                  final query = queryBuilder(
-                                                      CobrancasRecord
-                                                          .collection);
-                                                  if (query != _pagingQuery) {
-                                                    // The query has changed
-                                                    _pagingQuery = query;
-                                                    _streamSubscriptions
-                                                        .forEach(
-                                                            (s) => s?.cancel());
-                                                    _streamSubscriptions
-                                                        .clear();
-                                                    _pagingController!
-                                                        .refresh();
-                                                  }
-                                                  return _pagingController!;
-                                                }
-
-                                                _pagingController =
-                                                    PagingController(
-                                                        firstPageKey: null);
-                                                _pagingQuery = queryBuilder(
-                                                    CobrancasRecord.collection);
-                                                _pagingController!
-                                                    .addPageRequestListener(
-                                                        (nextPageMarker) {
-                                                  queryCobrancasRecordPage(
-                                                    queryBuilder: (cobrancasRecord) =>
-                                                        cobrancasRecord.where(
-                                                            'IdUsuario',
-                                                            isEqualTo: valueOrDefault(
-                                                                currentUserDocument
-                                                                    ?.idUsuario,
-                                                                '')),
-                                                    nextPageMarker:
-                                                        nextPageMarker,
-                                                    pageSize: 25,
-                                                    isStream: true,
-                                                  ).then((page) {
-                                                    _pagingController!
-                                                        .appendPage(
-                                                      page.data,
-                                                      page.nextPageMarker,
-                                                    );
-                                                    final streamSubscription =
-                                                        page.dataStream
-                                                            ?.listen((data) {
-                                                      data.forEach((item) {
-                                                        final itemIndexes =
-                                                            _pagingController!
-                                                                .itemList!
-                                                                .asMap()
-                                                                .map((k, v) =>
-                                                                    MapEntry(
-                                                                        v.reference
-                                                                            .id,
-                                                                        k));
-                                                        final index =
-                                                            itemIndexes[item
-                                                                .reference.id];
-                                                        final items =
-                                                            _pagingController!
-                                                                .itemList!;
-                                                        if (index != null) {
-                                                          items.replaceRange(
-                                                              index,
-                                                              index + 1,
-                                                              [item]);
-                                                          _pagingController!
-                                                              .itemList = {
-                                                            for (var item
-                                                                in items)
-                                                              item.reference:
-                                                                  item
-                                                          }.values.toList();
-                                                        }
-                                                      });
-                                                      setState(() {});
-                                                    });
-                                                    _streamSubscriptions.add(
-                                                        streamSubscription);
-                                                  });
-                                                });
-                                                return _pagingController!;
-                                              }(),
-                                              padding: EdgeInsets.zero,
-                                              primary: false,
-                                              shrinkWrap: true,
-                                              scrollDirection: Axis.vertical,
-                                              builderDelegate:
-                                                  PagedChildBuilderDelegate<
-                                                      CobrancasRecord>(
-                                                // Customize what your widget looks like when it's loading the first page.
-                                                firstPageProgressIndicatorBuilder:
-                                                    (_) => Center(
-                                                  child: SizedBox(
-                                                    width: 50,
-                                                    height: 50,
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .primaryColor,
+                                            child: Builder(
+                                              builder: (context) {
+                                                final cobrancas =
+                                                    paginaCobrancasCobrancasRecordList
+                                                        .toList();
+                                                if (cobrancas.isEmpty) {
+                                                  return Center(
+                                                    child: Container(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width,
+                                                      height: 280,
+                                                      child:
+                                                          CobrancasVaziaWidget(),
                                                     ),
-                                                  ),
-                                                ),
-                                                noItemsFoundIndicatorBuilder:
-                                                    (_) => Center(
-                                                  child: Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
-                                                    height: 280,
-                                                    child:
-                                                        CobrancasVaziaWidget(),
-                                                  ),
-                                                ),
-                                                itemBuilder: (context, _,
-                                                    listViewIndex) {
-                                                  final listViewCobrancasRecord =
-                                                      _pagingController!
-                                                              .itemList![
-                                                          listViewIndex];
-                                                  return Align(
-                                                    alignment:
-                                                        AlignmentDirectional(
-                                                            0, 0),
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  0, 0, 0, 20),
-                                                      child: InkWell(
-                                                        onTap: () async {
-                                                          await showModalBottomSheet(
-                                                            isScrollControlled:
-                                                                true,
-                                                            backgroundColor:
-                                                                Colors
-                                                                    .transparent,
-                                                            enableDrag: false,
-                                                            context: context,
-                                                            builder: (context) {
-                                                              return Padding(
-                                                                padding: MediaQuery.of(
-                                                                        context)
-                                                                    .viewInsets,
-                                                                child:
-                                                                    DadosCobrancaWidget(
-                                                                  cobrancas:
-                                                                      listViewCobrancasRecord,
-                                                                ),
-                                                              );
-                                                            },
-                                                          ).then((value) =>
-                                                              setState(() {}));
-                                                        },
-                                                        child: ClipRRect(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
-                                                          child:
-                                                              AnimatedContainer(
-                                                            duration: Duration(
-                                                                milliseconds:
-                                                                    100),
-                                                            curve:
-                                                                Curves.easeIn,
-                                                            width:
-                                                                MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color:
-                                                                  Colors.white,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10),
-                                                              border:
-                                                                  Border.all(
-                                                                color:
-                                                                    valueOrDefault<
-                                                                        Color>(
-                                                                  FFAppState().CobrancaAtualizada ==
-                                                                          listViewCobrancasRecord
-                                                                              .reference
-                                                                      ? FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .alternate
-                                                                      : FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .lineColor,
-                                                                  FlutterFlowTheme.of(
+                                                  );
+                                                }
+                                                return ListView.builder(
+                                                  padding: EdgeInsets.zero,
+                                                  primary: false,
+                                                  shrinkWrap: true,
+                                                  scrollDirection:
+                                                      Axis.vertical,
+                                                  itemCount: cobrancas.length,
+                                                  itemBuilder: (context,
+                                                      cobrancasIndex) {
+                                                    final cobrancasItem =
+                                                        cobrancas[
+                                                            cobrancasIndex];
+                                                    return Align(
+                                                      alignment:
+                                                          AlignmentDirectional(
+                                                              0, 0),
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(0, 0,
+                                                                    0, 20),
+                                                        child: InkWell(
+                                                          onTap: () async {
+                                                            await showModalBottomSheet(
+                                                              isScrollControlled:
+                                                                  true,
+                                                              backgroundColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                              enableDrag: false,
+                                                              context: context,
+                                                              builder:
+                                                                  (context) {
+                                                                return Padding(
+                                                                  padding: MediaQuery.of(
                                                                           context)
-                                                                      .lineColor,
-                                                                ),
-                                                                width: 1,
-                                                              ),
-                                                            ),
-                                                            child: Align(
-                                                              alignment:
-                                                                  AlignmentDirectional(
-                                                                      0, 0),
-                                                              child: Padding(
-                                                                padding:
-                                                                    EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            10,
-                                                                            10,
-                                                                            10,
+                                                                      .viewInsets,
+                                                                  child:
+                                                                      DadosCobrancaWidget(
+                                                                    cobrancas:
+                                                                        cobrancasItem,
+                                                                  ),
+                                                                );
+                                                              },
+                                                            ).then((value) =>
+                                                                setState(
+                                                                    () {}));
+                                                          },
+                                                          child: ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                            child:
+                                                                AnimatedContainer(
+                                                              duration: Duration(
+                                                                  milliseconds:
+                                                                      100),
+                                                              curve:
+                                                                  Curves.easeIn,
+                                                              width:
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: Colors
+                                                                    .white,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
                                                                             10),
-                                                                child: Row(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .max,
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceBetween,
-                                                                  children: [
-                                                                    Expanded(
-                                                                      child:
-                                                                          Container(
-                                                                        width: MediaQuery.of(context).size.width *
-                                                                            0.8,
-                                                                        decoration:
-                                                                            BoxDecoration(),
+                                                                border:
+                                                                    Border.all(
+                                                                  color:
+                                                                      valueOrDefault<
+                                                                          Color>(
+                                                                    FFAppState().CobrancaAtualizada ==
+                                                                            cobrancasItem
+                                                                                .reference
+                                                                        ? FlutterFlowTheme.of(context)
+                                                                            .alternate
+                                                                        : FlutterFlowTheme.of(context)
+                                                                            .lineColor,
+                                                                    FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .lineColor,
+                                                                  ),
+                                                                  width: 1,
+                                                                ),
+                                                              ),
+                                                              child: Align(
+                                                                alignment:
+                                                                    AlignmentDirectional(
+                                                                        0, 0),
+                                                                child: Padding(
+                                                                  padding: EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          10,
+                                                                          10,
+                                                                          10,
+                                                                          10),
+                                                                  child: Row(
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .max,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    children: [
+                                                                      Expanded(
                                                                         child:
-                                                                            Column(
-                                                                          mainAxisSize:
-                                                                              MainAxisSize.min,
-                                                                          mainAxisAlignment:
-                                                                              MainAxisAlignment.spaceBetween,
-                                                                          crossAxisAlignment:
-                                                                              CrossAxisAlignment.start,
-                                                                          children: [
-                                                                            Align(
-                                                                              alignment: AlignmentDirectional(-1, 0),
-                                                                              child: Row(
-                                                                                mainAxisSize: MainAxisSize.min,
+                                                                            Container(
+                                                                          width:
+                                                                              MediaQuery.of(context).size.width * 0.8,
+                                                                          decoration:
+                                                                              BoxDecoration(),
+                                                                          child:
+                                                                              Column(
+                                                                            mainAxisSize:
+                                                                                MainAxisSize.min,
+                                                                            mainAxisAlignment:
+                                                                                MainAxisAlignment.spaceBetween,
+                                                                            crossAxisAlignment:
+                                                                                CrossAxisAlignment.start,
+                                                                            children: [
+                                                                              Align(
+                                                                                alignment: AlignmentDirectional(-1, 0),
+                                                                                child: Row(
+                                                                                  mainAxisSize: MainAxisSize.min,
+                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                  children: [
+                                                                                    Text(
+                                                                                      'Nome: ',
+                                                                                      style: FlutterFlowTheme.of(context).bodyText1,
+                                                                                    ),
+                                                                                    Align(
+                                                                                      alignment: AlignmentDirectional(0, 0),
+                                                                                      child: Text(
+                                                                                        cobrancasItem.nomeCliente!.maybeHandleOverflow(maxChars: 35),
+                                                                                        textAlign: TextAlign.start,
+                                                                                        maxLines: 1,
+                                                                                        style: FlutterFlowTheme.of(context).bodyText1.override(
+                                                                                              fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
+                                                                                              color: Color(0xFF545353),
+                                                                                              fontWeight: FontWeight.w500,
+                                                                                              useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
+                                                                                            ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                              Row(
+                                                                                mainAxisSize: MainAxisSize.max,
                                                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                                                 children: [
                                                                                   Text(
-                                                                                    'Nome: ',
+                                                                                    'N° do Contrato: ',
+                                                                                    style: FlutterFlowTheme.of(context).bodyText1,
+                                                                                  ),
+                                                                                  Text(
+                                                                                    cobrancasItem.numeroContrato!,
+                                                                                    style: FlutterFlowTheme.of(context).bodyText1.override(
+                                                                                          fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
+                                                                                          color: Color(0xFF545353),
+                                                                                          fontWeight: FontWeight.w500,
+                                                                                          useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
+                                                                                        ),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                              Row(
+                                                                                mainAxisSize: MainAxisSize.max,
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                children: [
+                                                                                  Text(
+                                                                                    'N° da Parcela: ',
+                                                                                    style: FlutterFlowTheme.of(context).bodyText1,
+                                                                                  ),
+                                                                                  Text(
+                                                                                    cobrancasItem.parcela!,
+                                                                                    style: FlutterFlowTheme.of(context).bodyText1.override(
+                                                                                          fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
+                                                                                          color: Color(0xFF545353),
+                                                                                          fontWeight: FontWeight.w500,
+                                                                                          useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
+                                                                                        ),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                              Row(
+                                                                                mainAxisSize: MainAxisSize.max,
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                children: [
+                                                                                  Text(
+                                                                                    'Valor: ',
+                                                                                    style: FlutterFlowTheme.of(context).bodyText1,
+                                                                                  ),
+                                                                                  Text(
+                                                                                    functions.formatarValorEmRealBrasileiro(cobrancasItem.valorParcela!),
+                                                                                    style: FlutterFlowTheme.of(context).bodyText1.override(
+                                                                                          fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
+                                                                                          color: Color(0xFF545353),
+                                                                                          fontWeight: FontWeight.w500,
+                                                                                          useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
+                                                                                        ),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                              Row(
+                                                                                mainAxisSize: MainAxisSize.max,
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                children: [
+                                                                                  Text(
+                                                                                    'Data Vencimento: ',
+                                                                                    style: FlutterFlowTheme.of(context).bodyText1,
+                                                                                  ),
+                                                                                  Text(
+                                                                                    cobrancasItem.dataDeVencimento!.toString(),
+                                                                                    style: FlutterFlowTheme.of(context).bodyText1.override(
+                                                                                          fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
+                                                                                          color: Color(0xFF545353),
+                                                                                          fontWeight: FontWeight.w500,
+                                                                                          useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
+                                                                                        ),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                              Row(
+                                                                                mainAxisSize: MainAxisSize.max,
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                children: [
+                                                                                  Text(
+                                                                                    'Endereço: ',
                                                                                     style: FlutterFlowTheme.of(context).bodyText1,
                                                                                   ),
                                                                                   Align(
                                                                                     alignment: AlignmentDirectional(0, 0),
                                                                                     child: Text(
-                                                                                      listViewCobrancasRecord.nomeCliente!.maybeHandleOverflow(maxChars: 35),
+                                                                                      '${cobrancasItem.endereco} N° ${cobrancasItem.numeroEnd}'.maybeHandleOverflow(maxChars: 35),
                                                                                       textAlign: TextAlign.start,
                                                                                       maxLines: 1,
                                                                                       style: FlutterFlowTheme.of(context).bodyText1.override(
@@ -590,189 +577,85 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                                                   ),
                                                                                 ],
                                                                               ),
-                                                                            ),
-                                                                            Row(
-                                                                              mainAxisSize: MainAxisSize.max,
-                                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                                              children: [
-                                                                                Text(
-                                                                                  'N° do Contrato: ',
-                                                                                  style: FlutterFlowTheme.of(context).bodyText1,
-                                                                                ),
-                                                                                Text(
-                                                                                  listViewCobrancasRecord.numeroContrato!,
-                                                                                  style: FlutterFlowTheme.of(context).bodyText1.override(
-                                                                                        fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
-                                                                                        color: Color(0xFF545353),
-                                                                                        fontWeight: FontWeight.w500,
-                                                                                        useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
-                                                                                      ),
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                            Row(
-                                                                              mainAxisSize: MainAxisSize.max,
-                                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                                              children: [
-                                                                                Text(
-                                                                                  'N° da Parcela: ',
-                                                                                  style: FlutterFlowTheme.of(context).bodyText1,
-                                                                                ),
-                                                                                Text(
-                                                                                  listViewCobrancasRecord.parcela!,
-                                                                                  style: FlutterFlowTheme.of(context).bodyText1.override(
-                                                                                        fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
-                                                                                        color: Color(0xFF545353),
-                                                                                        fontWeight: FontWeight.w500,
-                                                                                        useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
-                                                                                      ),
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                            Row(
-                                                                              mainAxisSize: MainAxisSize.max,
-                                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                                              children: [
-                                                                                Text(
-                                                                                  'Valor: ',
-                                                                                  style: FlutterFlowTheme.of(context).bodyText1,
-                                                                                ),
-                                                                                Text(
-                                                                                  functions.formatarValorEmRealBrasileiro(listViewCobrancasRecord.valorParcela!),
-                                                                                  style: FlutterFlowTheme.of(context).bodyText1.override(
-                                                                                        fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
-                                                                                        color: Color(0xFF545353),
-                                                                                        fontWeight: FontWeight.w500,
-                                                                                        useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
-                                                                                      ),
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                            Row(
-                                                                              mainAxisSize: MainAxisSize.max,
-                                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                                              children: [
-                                                                                Text(
-                                                                                  'Data Vencimento: ',
-                                                                                  style: FlutterFlowTheme.of(context).bodyText1,
-                                                                                ),
-                                                                                Text(
-                                                                                  dateTimeFormat(
-                                                                                    'd/M/y',
-                                                                                    listViewCobrancasRecord.dataDeVencimento!,
-                                                                                    locale: FFLocalizations.of(context).languageCode,
-                                                                                  ),
-                                                                                  style: FlutterFlowTheme.of(context).bodyText1.override(
-                                                                                        fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
-                                                                                        color: Color(0xFF545353),
-                                                                                        fontWeight: FontWeight.w500,
-                                                                                        useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
-                                                                                      ),
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                            Row(
-                                                                              mainAxisSize: MainAxisSize.max,
-                                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                                              children: [
-                                                                                Text(
-                                                                                  'Endereço: ',
-                                                                                  style: FlutterFlowTheme.of(context).bodyText1,
-                                                                                ),
-                                                                                Align(
-                                                                                  alignment: AlignmentDirectional(0, 0),
-                                                                                  child: Text(
-                                                                                    '${listViewCobrancasRecord.endereco} N° ${listViewCobrancasRecord.numeroEnd}'.maybeHandleOverflow(maxChars: 35),
-                                                                                    textAlign: TextAlign.start,
-                                                                                    maxLines: 1,
-                                                                                    style: FlutterFlowTheme.of(context).bodyText1.override(
-                                                                                          fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
-                                                                                          color: Color(0xFF545353),
-                                                                                          fontWeight: FontWeight.w500,
-                                                                                          useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
-                                                                                        ),
-                                                                                  ),
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                    Container(
-                                                                      height:
-                                                                          30,
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        color:
-                                                                            () {
-                                                                          if (listViewCobrancasRecord.status ==
-                                                                              'RECEBIDA') {
-                                                                            return Color(0x6542C500);
-                                                                          } else if (listViewCobrancasRecord.status ==
-                                                                              'PENDENTE') {
-                                                                            return Color(0x6725A4FF);
-                                                                          } else if (listViewCobrancasRecord.status ==
-                                                                              'REAGENDADA') {
-                                                                            return Color(0x80ED6923);
-                                                                          } else if (listViewCobrancasRecord.status ==
-                                                                              'ATRASADA') {
-                                                                            return Color(0x80DD2829);
-                                                                          } else {
-                                                                            return FlutterFlowTheme.of(context).cor1;
-                                                                          }
-                                                                        }(),
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(20),
-                                                                      ),
-                                                                      child:
-                                                                          Align(
-                                                                        alignment: AlignmentDirectional(
-                                                                            0,
-                                                                            0),
-                                                                        child:
-                                                                            Padding(
-                                                                          padding: EdgeInsetsDirectional.fromSTEB(
-                                                                              5,
-                                                                              0,
-                                                                              5,
-                                                                              0),
-                                                                          child:
-                                                                              Text(
-                                                                            () {
-                                                                              if (listViewCobrancasRecord.status == 'RECEBIDA') {
-                                                                                return 'Pago';
-                                                                              } else if (listViewCobrancasRecord.status == 'PENDENTE') {
-                                                                                return 'Em aberto';
-                                                                              } else if (listViewCobrancasRecord.status == 'REAGENDADA') {
-                                                                                return 'Reagendado';
-                                                                              } else if (listViewCobrancasRecord.status == 'ATRASADA') {
-                                                                                return 'Em atraso';
-                                                                              } else {
-                                                                                return 'Texto';
-                                                                              }
-                                                                            }(),
-                                                                            style: FlutterFlowTheme.of(context).bodyText1.override(
-                                                                                  fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
-                                                                                  color: Color(0xFF274E00),
-                                                                                  fontWeight: FontWeight.normal,
-                                                                                  useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
-                                                                                ),
+                                                                            ],
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                    ),
-                                                                  ],
+                                                                      Container(
+                                                                        height:
+                                                                            30,
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          color:
+                                                                              () {
+                                                                            if (cobrancasItem.status ==
+                                                                                'RECEBIDA') {
+                                                                              return Color(0x6542C500);
+                                                                            } else if (cobrancasItem.status ==
+                                                                                'PENDENTE') {
+                                                                              return Color(0x6725A4FF);
+                                                                            } else if (cobrancasItem.status ==
+                                                                                'REAGENDADA') {
+                                                                              return Color(0x80ED6923);
+                                                                            } else if (cobrancasItem.status ==
+                                                                                'ATRASADA') {
+                                                                              return Color(0x80DD2829);
+                                                                            } else {
+                                                                              return FlutterFlowTheme.of(context).cor1;
+                                                                            }
+                                                                          }(),
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(20),
+                                                                        ),
+                                                                        child:
+                                                                            Align(
+                                                                          alignment: AlignmentDirectional(
+                                                                              0,
+                                                                              0),
+                                                                          child:
+                                                                              Padding(
+                                                                            padding: EdgeInsetsDirectional.fromSTEB(
+                                                                                5,
+                                                                                0,
+                                                                                5,
+                                                                                0),
+                                                                            child:
+                                                                                Text(
+                                                                              () {
+                                                                                if (cobrancasItem.status == 'RECEBIDA') {
+                                                                                  return 'Pago';
+                                                                                } else if (cobrancasItem.status == 'PENDENTE') {
+                                                                                  return 'Em aberto';
+                                                                                } else if (cobrancasItem.status == 'REAGENDADA') {
+                                                                                  return 'Reagendado';
+                                                                                } else if (cobrancasItem.status == 'ATRASADA') {
+                                                                                  return 'Em atraso';
+                                                                                } else {
+                                                                                  return 'Texto';
+                                                                                }
+                                                                              }(),
+                                                                              style: FlutterFlowTheme.of(context).bodyText1.override(
+                                                                                    fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
+                                                                                    color: Color(0xFF274E00),
+                                                                                    fontWeight: FontWeight.normal,
+                                                                                    useGoogleFonts: GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyText1Family),
+                                                                                  ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),
                                                           ),
                                                         ),
                                                       ),
-                                                    ),
-                                                  );
-                                                },
-                                              ),
+                                                    );
+                                                  },
+                                                );
+                                              },
                                             ),
                                           ),
                                         ),
