@@ -797,6 +797,25 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                 ).then(
                                                     (value) => setState(() {}));
 
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      '7',
+                                                      style: TextStyle(
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .primaryBackground,
+                                                      ),
+                                                    ),
+                                                    duration: Duration(
+                                                        milliseconds: 4000),
+                                                    backgroundColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .alternate,
+                                                  ),
+                                                );
                                                 if (true) {
                                                   ScaffoldMessenger.of(context)
                                                       .showSnackBar(
