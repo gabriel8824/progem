@@ -174,9 +174,7 @@ class _ComfirmacaosincroniaWidgetState
                                       net = await actions.checkInternet();
                                       _shouldSetState = true;
                                       if (net!) {
-                                        if (containerCobrancasRecordList
-                                                .length >=
-                                            1) {
+                                        if (true) {
                                           SicOff = InstantTimer.periodic(
                                             duration:
                                                 Duration(milliseconds: 1000),
@@ -221,9 +219,36 @@ class _ComfirmacaosincroniaWidgetState
                                                         .update(
                                                             cobrancasUpdateData);
                                                   }
-                                                  if (_shouldSetState)
-                                                    setState(() {});
-                                                  return;
+                                                  if (containerCobrancasRecordList
+                                                          .length ==
+                                                      0) {
+                                                    SicOff?.cancel();
+                                                    Navigator.pop(context);
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                        content: Text(
+                                                          'Sincronia finalizada com sucesso!',
+                                                          style: GoogleFonts
+                                                              .getFont(
+                                                            'Poppins',
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                        duration: Duration(
+                                                            milliseconds: 4000),
+                                                        backgroundColor:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .secondaryColor,
+                                                      ),
+                                                    );
+                                                  } else {
+                                                    if (_shouldSetState)
+                                                      setState(() {});
+                                                    return;
+                                                  }
                                                 } else {
                                                   if (containerCobrancasRecordList
                                                           .first.status ==
@@ -266,9 +291,38 @@ class _ComfirmacaosincroniaWidgetState
                                                           .update(
                                                               cobrancasUpdateData);
                                                     }
-                                                    if (_shouldSetState)
-                                                      setState(() {});
-                                                    return;
+                                                    if (containerCobrancasRecordList
+                                                            .length ==
+                                                        0) {
+                                                      SicOff?.cancel();
+                                                      Navigator.pop(context);
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        SnackBar(
+                                                          content: Text(
+                                                            'Sincronia finalizada com sucesso!',
+                                                            style: GoogleFonts
+                                                                .getFont(
+                                                              'Poppins',
+                                                              color:
+                                                                  Colors.white,
+                                                            ),
+                                                          ),
+                                                          duration: Duration(
+                                                              milliseconds:
+                                                                  4000),
+                                                          backgroundColor:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .secondaryColor,
+                                                        ),
+                                                      );
+                                                    } else {
+                                                      if (_shouldSetState)
+                                                        setState(() {});
+                                                      return;
+                                                    }
                                                   } else {
                                                     SicOff?.cancel();
                                                     Navigator.pop(context);
