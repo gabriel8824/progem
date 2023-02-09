@@ -230,11 +230,10 @@ class _ComfirmacaosincroniaWidgetState
                                                         .first.reference
                                                         .update(
                                                             cobrancasUpdateData);
-                                                  } else {
-                                                    if (_shouldSetState)
-                                                      setState(() {});
-                                                    return;
                                                   }
+                                                  if (_shouldSetState)
+                                                    setState(() {});
+                                                  return;
                                                 } else {
                                                   if (containerCobrancasRecordList
                                                           .first.status ==
@@ -278,11 +277,10 @@ class _ComfirmacaosincroniaWidgetState
                                                           .first.reference
                                                           .update(
                                                               cobrancasUpdateData);
-                                                    } else {
-                                                      if (_shouldSetState)
-                                                        setState(() {});
-                                                      return;
                                                     }
+                                                    if (_shouldSetState)
+                                                      setState(() {});
+                                                    return;
                                                   } else {
                                                     SicOff?.cancel();
                                                     Navigator.pop(context);
@@ -307,6 +305,10 @@ class _ComfirmacaosincroniaWidgetState
                                                       ),
                                                     );
                                                   }
+
+                                                  if (_shouldSetState)
+                                                    setState(() {});
+                                                  return;
                                                 }
                                               } else {
                                                 SicOff?.cancel();
