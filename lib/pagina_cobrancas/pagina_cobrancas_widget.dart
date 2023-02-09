@@ -540,11 +540,7 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                                                     style: FlutterFlowTheme.of(context).bodyText1,
                                                                                   ),
                                                                                   Text(
-                                                                                    dateTimeFormat(
-                                                                                      'd/M/y',
-                                                                                      cobrancasItem.dataDeVencimento!,
-                                                                                      locale: FFLocalizations.of(context).languageCode,
-                                                                                    ),
+                                                                                    functions.databr(cobrancasItem.dataDeVencimento!),
                                                                                     style: FlutterFlowTheme.of(context).bodyText1.override(
                                                                                           fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
                                                                                           color: Color(0xFF545353),

@@ -183,3 +183,9 @@ String pegarLatitude(LatLng cor) {
   // pergar a latitude de uma latlng
   return cor.latitude.toString().substring(0, 10);
 }
+
+String databr(DateTime data) {
+  // formatar data para br
+  var formatador = new DateFormat('dd/MM/yyyy');
+  return formatador.format(data);
+}

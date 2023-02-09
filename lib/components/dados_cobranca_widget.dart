@@ -413,12 +413,8 @@ class _DadosCobrancaWidgetState extends State<DadosCobrancaWidget> {
                                     ),
                                   ),
                                   Text(
-                                    dateTimeFormat(
-                                      'd/M/y',
-                                      widget.cobrancas!.dataDeVencimento!,
-                                      locale: FFLocalizations.of(context)
-                                          .languageCode,
-                                    ),
+                                    functions.databr(
+                                        widget.cobrancas!.dataDeVencimento!),
                                     style: FlutterFlowTheme.of(context)
                                         .bodyText1
                                         .override(

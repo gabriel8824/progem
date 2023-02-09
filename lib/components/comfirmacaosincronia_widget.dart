@@ -451,7 +451,7 @@ class _ComfirmacaosincroniaWidgetState
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(10, 10, 10, 0),
                               child: Text(
-                                containerCobrancasRecordList.length.toString(),
+                                'Isso pode demorar alguns segundos.',
                                 textAlign: TextAlign.center,
                                 style: FlutterFlowTheme.of(context)
                                     .bodyText1

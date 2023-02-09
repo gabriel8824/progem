@@ -622,11 +622,7 @@ class _PaginaCobrancasPendentesWidgetState
                                                                                 style: FlutterFlowTheme.of(context).bodyText1,
                                                                               ),
                                                                               Text(
-                                                                                dateTimeFormat(
-                                                                                  'd/M/y',
-                                                                                  listViewCobrancasRecord.dataDeVencimento!,
-                                                                                  locale: FFLocalizations.of(context).languageCode,
-                                                                                ),
+                                                                                functions.databr(listViewCobrancasRecord.dataDeVencimento!),
                                                                                 style: FlutterFlowTheme.of(context).bodyText1.override(
                                                                                       fontFamily: FlutterFlowTheme.of(context).bodyText1Family,
                                                                                       color: Color(0xFF545353),
