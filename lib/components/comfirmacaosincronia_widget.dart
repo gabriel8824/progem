@@ -205,16 +205,8 @@ class _ComfirmacaosincroniaWidgetState
                                                     idCaixa:
                                                         containerCobrancasRecordList
                                                             .first.idCaixa,
-                                                    latitude:
-                                                        functions.pegarLatitude(
-                                                            containerCobrancasRecordList
-                                                                .first
-                                                                .locCobranca!),
-                                                    longitude:
-                                                        functions.pegarLogitude(
-                                                            containerCobrancasRecordList
-                                                                .first
-                                                                .locCobranca!),
+                                                    latitude: '-25.8672164',
+                                                    longitude: '-52.9013566',
                                                   );
                                                   _shouldSetState = true;
                                                   if ((apiResultp1e
