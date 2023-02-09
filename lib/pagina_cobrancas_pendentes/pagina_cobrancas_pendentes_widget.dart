@@ -179,7 +179,7 @@ class _PaginaCobrancasPendentesWidgetState
                                             20, 10, 0, 0),
                                         child: InkWell(
                                           onTap: () async {
-                                            context.pushNamed('PaginaHome');
+                                            context.pop();
                                           },
                                           child: Image.asset(
                                             'assets/images/Vector_(5).png',

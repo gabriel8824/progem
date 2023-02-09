@@ -92,7 +92,7 @@ class _ComfirmacaosincroniaWidgetState
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              containerCobrancasRecordList.length.toString(),
+                              'Sincronia offline',
                               style: FlutterFlowTheme.of(context)
                                   .bodyText1
                                   .override(
@@ -172,7 +172,9 @@ class _ComfirmacaosincroniaWidgetState
                                     onPressed: () async {
                                       net = await actions.checkInternet();
                                       if (net!) {
-                                        if (true) {
+                                        if (containerCobrancasRecordList
+                                                .length >=
+                                            1) {
                                           SicOff = InstantTimer.periodic(
                                             duration:
                                                 Duration(milliseconds: 3000),
@@ -201,8 +203,16 @@ class _ComfirmacaosincroniaWidgetState
                                                     idCaixa:
                                                         containerCobrancasRecordList
                                                             .first.idCaixa,
-                                                    latitude: '-25.8672164',
-                                                    longitude: '-52.9013566',
+                                                    latitude:
+                                                        functions.pegarLatitude(
+                                                            containerCobrancasRecordList
+                                                                .first
+                                                                .locCobranca!),
+                                                    longitude:
+                                                        functions.pegarLogitude(
+                                                            containerCobrancasRecordList
+                                                                .first
+                                                                .locCobranca!),
                                                   );
                                                   if ((apiResultp1e
                                                           ?.succeeded ??
@@ -210,6 +220,8 @@ class _ComfirmacaosincroniaWidgetState
                                                     final cobrancasUpdateData =
                                                         createCobrancasRecordData(
                                                       sincronizado: true,
+                                                      dataSincronia:
+                                                          getCurrentTimestamp,
                                                     );
                                                     await containerCobrancasRecordList
                                                         .first.reference
@@ -251,6 +263,8 @@ class _ComfirmacaosincroniaWidgetState
                                                       final cobrancasUpdateData =
                                                           createCobrancasRecordData(
                                                         sincronizado: true,
+                                                        dataSincronia:
+                                                            getCurrentTimestamp,
                                                       );
                                                       await containerCobrancasRecordList
                                                           .first.reference
@@ -308,7 +322,7 @@ class _ComfirmacaosincroniaWidgetState
 
                                               await Future.delayed(
                                                   const Duration(
-                                                      milliseconds: 50000));
+                                                      milliseconds: 40000));
                                               SicOff?.cancel();
                                               Navigator.pop(context);
                                               ScaffoldMessenger.of(context)

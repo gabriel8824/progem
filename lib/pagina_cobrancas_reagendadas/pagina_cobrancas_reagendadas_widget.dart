@@ -179,7 +179,7 @@ class _PaginaCobrancasReagendadasWidgetState
                                             20, 10, 0, 0),
                                         child: InkWell(
                                           onTap: () async {
-                                            context.pushNamed('PaginaHome');
+                                            context.pop();
                                           },
                                           child: Image.asset(
                                             'assets/images/Vector_(5).png',
@@ -283,7 +283,8 @@ class _PaginaCobrancasReagendadasWidgetState
                                                                   ?.idUsuario,
                                                               ''))
                                                       .where('Status',
-                                                          isEqualTo: 'PENDENTE')
+                                                          isEqualTo:
+                                                              'REAGENDADA')
                                                       .orderBy('DataEdit',
                                                           descending: true);
                                               if (_pagingController != null) {
@@ -319,7 +320,7 @@ class _PaginaCobrancasReagendadasWidgetState
                                                                       ''))
                                                           .where('Status',
                                                               isEqualTo:
-                                                                  'PENDENTE')
+                                                                  'REAGENDADA')
                                                           .orderBy('DataEdit',
                                                               descending: true),
                                                   nextPageMarker:
