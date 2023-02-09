@@ -214,8 +214,6 @@ class _ComfirmacaosincroniaWidgetState
                                                       true)) {
                                                     final cobrancasUpdateData =
                                                         createCobrancasRecordData(
-                                                      dataSincronia:
-                                                          getCurrentTimestamp,
                                                       sincronizado: true,
                                                     );
                                                     await containerCobrancasRecordList
@@ -261,8 +259,6 @@ class _ComfirmacaosincroniaWidgetState
                                                         true)) {
                                                       final cobrancasUpdateData =
                                                           createCobrancasRecordData(
-                                                        dataSincronia:
-                                                            getCurrentTimestamp,
                                                         sincronizado: true,
                                                       );
                                                       await containerCobrancasRecordList
