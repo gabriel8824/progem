@@ -17,6 +17,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:text_search/text_search.dart';
+import 'pagina_cobrancas_nome_cliente_model.dart';
+export 'pagina_cobrancas_nome_cliente_model.dart';
 
 class PaginaCobrancasNomeClienteWidget extends StatefulWidget {
   const PaginaCobrancasNomeClienteWidget({
@@ -33,27 +35,25 @@ class PaginaCobrancasNomeClienteWidget extends StatefulWidget {
 
 class _PaginaCobrancasNomeClienteWidgetState
     extends State<PaginaCobrancasNomeClienteWidget> {
-  ApiCallResponse? apiResultlab;
-  bool? net;
-  final _unfocusNode = FocusNode();
+  late PaginaCobrancasNomeClienteModel _model;
+
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  List<CobrancasRecord> simpleSearchResults = [];
-  final textFieldKey = GlobalKey();
-  TextEditingController? textController;
-  String? textFieldSelectedOption;
+  final _unfocusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
+    _model = createModel(context, () => PaginaCobrancasNomeClienteModel());
+
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       if (FFAppState().token == null || FFAppState().token == '') {
         context.pushNamed('PaginaLogin');
       } else {
-        apiResultlab = await ApiProgemGroup.dadosCall.call(
+        _model.apiResultlab = await ApiProgemGroup.dadosCall.call(
           token: FFAppState().token,
         );
-        if ((apiResultlab?.succeeded ?? true)) {
+        if ((_model.apiResultlab?.succeeded ?? true)) {
           FFAppState().update(() {
             FFAppState().filtro = '';
           });
@@ -66,14 +66,16 @@ class _PaginaCobrancasNomeClienteWidgetState
         }
       }
 
-      net = await actions.checkInternet();
+      _model.net = await actions.checkInternet();
     });
 
-    textController = TextEditingController();
+    _model.textController = TextEditingController();
   }
 
   @override
   void dispose() {
+    _model.dispose();
+
     _unfocusNode.dispose();
     super.dispose();
   }
@@ -328,9 +330,10 @@ class _PaginaCobrancasNomeClienteWidgetState
                                               optionsViewBuilder: (context,
                                                   onSelected, options) {
                                                 return AutocompleteOptionsList(
-                                                  textFieldKey: textFieldKey,
+                                                  textFieldKey:
+                                                      _model.textFieldKey,
                                                   textController:
-                                                      textController!,
+                                                      _model.textController!,
                                                   options: options.toList(),
                                                   onSelected: onSelected,
                                                   textStyle:
@@ -352,9 +355,9 @@ class _PaginaCobrancasNomeClienteWidgetState
                                                 );
                                               },
                                               onSelected: (String selection) {
-                                                setState(() =>
-                                                    textFieldSelectedOption =
-                                                        selection);
+                                                setState(() => _model
+                                                        .textFieldSelectedOption =
+                                                    selection);
                                                 FocusScope.of(context)
                                                     .unfocus();
                                               },
@@ -364,10 +367,10 @@ class _PaginaCobrancasNomeClienteWidgetState
                                                 focusNode,
                                                 onEditingComplete,
                                               ) {
-                                                textController =
+                                                _model.textController =
                                                     textEditingController;
                                                 return TextFormField(
-                                                  key: textFieldKey,
+                                                  key: _model.textFieldKey,
                                                   controller:
                                                       textEditingController,
                                                   focusNode: focusNode,
@@ -375,12 +378,12 @@ class _PaginaCobrancasNomeClienteWidgetState
                                                       onEditingComplete,
                                                   onChanged: (_) =>
                                                       EasyDebounce.debounce(
-                                                    'textController',
+                                                    '_model.textController',
                                                     Duration(
                                                         milliseconds: 2000),
                                                     () async {
                                                       setState(() {
-                                                        simpleSearchResults =
+                                                        _model.simpleSearchResults =
                                                             TextSearch(
                                                           paginaCobrancasNomeClienteCobrancasRecordList
                                                               .map(
@@ -394,9 +397,9 @@ class _PaginaCobrancasNomeClienteWidgetState
                                                               )
                                                               .toList(),
                                                         )
-                                                                .search(
-                                                                    textController!
-                                                                        .text)
+                                                                .search(_model
+                                                                    .textController
+                                                                    .text)
                                                                 .map((r) =>
                                                                     r.object)
                                                                 .toList();
@@ -457,14 +460,17 @@ class _PaginaCobrancasNomeClienteWidgetState
                                                           BorderRadius.circular(
                                                               10),
                                                     ),
-                                                    suffixIcon: textController!
-                                                            .text.isNotEmpty
+                                                    suffixIcon: _model
+                                                            .textController!
+                                                            .text
+                                                            .isNotEmpty
                                                         ? InkWell(
                                                             onTap: () async {
-                                                              textController
+                                                              _model
+                                                                  .textController
                                                                   ?.clear();
                                                               setState(() {
-                                                                simpleSearchResults =
+                                                                _model.simpleSearchResults =
                                                                     TextSearch(
                                                                   paginaCobrancasNomeClienteCobrancasRecordList
                                                                       .map(
@@ -476,7 +482,8 @@ class _PaginaCobrancasNomeClienteWidgetState
                                                                       )
                                                                       .toList(),
                                                                 )
-                                                                        .search(textController!
+                                                                        .search(_model
+                                                                            .textController
                                                                             .text)
                                                                         .map((r) =>
                                                                             r.object)
@@ -509,6 +516,9 @@ class _PaginaCobrancasNomeClienteWidgetState
                                                                     .bodyText1Family),
                                                         lineHeight: 1,
                                                       ),
+                                                  validator: _model
+                                                      .textControllerValidator
+                                                      .asValidator(context),
                                                 );
                                               },
                                             ),
@@ -521,9 +531,9 @@ class _PaginaCobrancasNomeClienteWidgetState
                                                   .fromSTEB(20, 20, 20, 0),
                                               child: Builder(
                                                 builder: (context) {
-                                                  final dados =
-                                                      simpleSearchResults
-                                                          .toList();
+                                                  final dados = _model
+                                                      .simpleSearchResults
+                                                      .toList();
                                                   if (dados.isEmpty) {
                                                     return Center(
                                                       child: Container(
@@ -878,8 +888,12 @@ class _PaginaCobrancasNomeClienteWidgetState
                           child: Padding(
                             padding:
                                 EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
-                            child: MenuWidget(
-                              tela: 2,
+                            child: wrapWithModel(
+                              model: _model.menuModel,
+                              updateCallback: () => setState(() {}),
+                              child: MenuWidget(
+                                tela: 2,
+                              ),
                             ),
                           ),
                         ),

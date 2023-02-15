@@ -5,6 +5,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'menu_model.dart';
+export 'menu_model.dart';
 
 class MenuWidget extends StatefulWidget {
   const MenuWidget({
@@ -19,7 +21,26 @@ class MenuWidget extends StatefulWidget {
 }
 
 class _MenuWidgetState extends State<MenuWidget> {
-  ApiCallResponse? apiResulta6a;
+  late MenuModel _model;
+
+  @override
+  void setState(VoidCallback callback) {
+    super.setState(callback);
+    _model.onUpdate();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _model = createModel(context, () => MenuModel());
+  }
+
+  @override
+  void dispose() {
+    _model.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -190,58 +211,58 @@ class _MenuWidgetState extends State<MenuWidget> {
               ),
               InkWell(
                 onTap: () async {
-                  apiResulta6a = await ApiProgemGroup.dadosCall.call(
+                  _model.apiResulta6a = await ApiProgemGroup.dadosCall.call(
                     token: FFAppState().token,
                   );
-                  if ((apiResulta6a?.succeeded ?? true)) {
+                  if ((_model.apiResulta6a?.succeeded ?? true)) {
                     context.pushNamed(
                       'PaginaPerfil',
                       queryParams: {
                         'foto': serializeParam(
                           getJsonField(
-                            (apiResulta6a?.jsonBody ?? ''),
+                            (_model.apiResulta6a?.jsonBody ?? ''),
                             r'''$.empresa.logo''',
                           ),
                           ParamType.String,
                         ),
                         'nome': serializeParam(
                           getJsonField(
-                            (apiResulta6a?.jsonBody ?? ''),
+                            (_model.apiResulta6a?.jsonBody ?? ''),
                             r'''$.nome''',
                           ).toString(),
                           ParamType.String,
                         ),
                         'email': serializeParam(
                           getJsonField(
-                            (apiResulta6a?.jsonBody ?? ''),
+                            (_model.apiResulta6a?.jsonBody ?? ''),
                             r'''$.email''',
                           ).toString(),
                           ParamType.String,
                         ),
                         'celular': serializeParam(
                           getJsonField(
-                            (apiResulta6a?.jsonBody ?? ''),
+                            (_model.apiResulta6a?.jsonBody ?? ''),
                             r'''$.empresa.contato.celular''',
                           ).toString(),
                           ParamType.String,
                         ),
                         'cep': serializeParam(
                           getJsonField(
-                            (apiResulta6a?.jsonBody ?? ''),
+                            (_model.apiResulta6a?.jsonBody ?? ''),
                             r'''$.empresa.endereco.cep''',
                           ).toString(),
                           ParamType.String,
                         ),
                         'end': serializeParam(
                           getJsonField(
-                            (apiResulta6a?.jsonBody ?? ''),
+                            (_model.apiResulta6a?.jsonBody ?? ''),
                             r'''$.empresa.endereco.logradouro''',
                           ).toString(),
                           ParamType.String,
                         ),
                         'numero1': serializeParam(
                           getJsonField(
-                            (apiResulta6a?.jsonBody ?? ''),
+                            (_model.apiResulta6a?.jsonBody ?? ''),
                             r'''$.empresa.endereco.numero''',
                           ).toString(),
                           ParamType.String,

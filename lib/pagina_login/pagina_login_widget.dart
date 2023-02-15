@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'pagina_login_model.dart';
+export 'pagina_login_model.dart';
 
 class PaginaLoginWidget extends StatefulWidget {
   const PaginaLoginWidget({Key? key}) : super(key: key);
@@ -21,46 +23,42 @@ class PaginaLoginWidget extends StatefulWidget {
 }
 
 class _PaginaLoginWidgetState extends State<PaginaLoginWidget> {
-  ApiCallResponse? apiResultD;
-  ApiCallResponse? resLogin;
-  TextEditingController? textController1;
-  TextEditingController? textController2;
-  late bool passwordVisibility;
-  InstantTimer? instantTimer4;
-  final _unfocusNode = FocusNode();
+  late PaginaLoginModel _model;
+
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final _unfocusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
+    _model = createModel(context, () => PaginaLoginModel());
+
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      instantTimer4 = InstantTimer.periodic(
+      _model.instantTimer4 = InstantTimer.periodic(
         duration: Duration(milliseconds: 1000),
         callback: (timer) async {
           if (FFAppState().token != null && FFAppState().token != '') {
             context.pushNamed('PaginaHome');
 
-            instantTimer4?.cancel();
+            _model.instantTimer4?.cancel();
           } else {
-            instantTimer4?.cancel();
+            _model.instantTimer4?.cancel();
           }
         },
         startImmediately: true,
       );
     });
 
-    textController1 = TextEditingController();
-    textController2 = TextEditingController();
-    passwordVisibility = false;
+    _model.textController1 = TextEditingController();
+    _model.textController2 = TextEditingController();
   }
 
   @override
   void dispose() {
+    _model.dispose();
+
     _unfocusNode.dispose();
-    instantTimer4?.cancel();
-    textController1?.dispose();
-    textController2?.dispose();
     super.dispose();
   }
 
@@ -141,9 +139,9 @@ class _PaginaLoginWidgetState extends State<PaginaLoginWidget> {
                               ),
                             ),
                             TextFormField(
-                              controller: textController1,
+                              controller: _model.textController1,
                               onChanged: (_) => EasyDebounce.debounce(
-                                'textController1',
+                                '_model.textController1',
                                 Duration(milliseconds: 2000),
                                 () => setState(() {}),
                               ),
@@ -183,19 +181,20 @@ class _PaginaLoginWidgetState extends State<PaginaLoginWidget> {
                                 ),
                                 contentPadding: EdgeInsetsDirectional.fromSTEB(
                                     10, 10, 10, 10),
-                                suffixIcon: textController1!.text.isNotEmpty
-                                    ? InkWell(
-                                        onTap: () async {
-                                          textController1?.clear();
-                                          setState(() {});
-                                        },
-                                        child: Icon(
-                                          Icons.clear,
-                                          color: Color(0xFF57636C),
-                                          size: 22,
-                                        ),
-                                      )
-                                    : null,
+                                suffixIcon:
+                                    _model.textController1!.text.isNotEmpty
+                                        ? InkWell(
+                                            onTap: () async {
+                                              _model.textController1?.clear();
+                                              setState(() {});
+                                            },
+                                            child: Icon(
+                                              Icons.clear,
+                                              color: Color(0xFF57636C),
+                                              size: 22,
+                                            ),
+                                          )
+                                        : null,
                               ),
                               style: FlutterFlowTheme.of(context)
                                   .bodyText1
@@ -210,6 +209,8 @@ class _PaginaLoginWidgetState extends State<PaginaLoginWidget> {
                                                 .bodyText1Family),
                                   ),
                               keyboardType: TextInputType.emailAddress,
+                              validator: _model.textController1Validator
+                                  .asValidator(context),
                             ),
                             Padding(
                               padding:
@@ -245,8 +246,8 @@ class _PaginaLoginWidgetState extends State<PaginaLoginWidget> {
                                       ),
                                     ),
                                     TextFormField(
-                                      controller: textController2,
-                                      obscureText: !passwordVisibility,
+                                      controller: _model.textController2,
+                                      obscureText: !_model.passwordVisibility,
                                       decoration: InputDecoration(
                                         hintText: '*******',
                                         hintStyle: FlutterFlowTheme.of(context)
@@ -288,13 +289,13 @@ class _PaginaLoginWidgetState extends State<PaginaLoginWidget> {
                                                 10, 10, 10, 10),
                                         suffixIcon: InkWell(
                                           onTap: () => setState(
-                                            () => passwordVisibility =
-                                                !passwordVisibility,
+                                            () => _model.passwordVisibility =
+                                                !_model.passwordVisibility,
                                           ),
                                           focusNode:
                                               FocusNode(skipTraversal: true),
                                           child: Icon(
-                                            passwordVisibility
+                                            _model.passwordVisibility
                                                 ? Icons.visibility_outlined
                                                 : Icons.visibility_off_outlined,
                                             color: Color(0xFF57636C),
@@ -317,6 +318,8 @@ class _PaginaLoginWidgetState extends State<PaginaLoginWidget> {
                                           ),
                                       keyboardType:
                                           TextInputType.visiblePassword,
+                                      validator: _model.textController2Validator
+                                          .asValidator(context),
                                     ),
                                   ],
                                 ),
@@ -353,28 +356,30 @@ class _PaginaLoginWidgetState extends State<PaginaLoginWidget> {
                         child: FFButtonWidget(
                           onPressed: () async {
                             var _shouldSetState = false;
-                            resLogin = await ApiProgemGroup.loginCall.call(
-                              email: textController1!.text,
-                              senha: textController2!.text,
+                            _model.resLogin =
+                                await ApiProgemGroup.loginCall.call(
+                              email: _model.textController1.text,
+                              senha: _model.textController2.text,
                             );
                             _shouldSetState = true;
-                            if ((resLogin?.succeeded ?? true)) {
+                            if ((_model.resLogin?.succeeded ?? true)) {
                               FFAppState().update(() {
                                 FFAppState().token = ApiProgemGroup.loginCall
                                     .token(
-                                      (resLogin?.jsonBody ?? ''),
+                                      (_model.resLogin?.jsonBody ?? ''),
                                     )
                                     .toString();
                               });
-                              apiResultD = await ApiProgemGroup.dadosCall.call(
+                              _model.apiResultD =
+                                  await ApiProgemGroup.dadosCall.call(
                                 token: ApiProgemGroup.loginCall
                                     .token(
-                                      (resLogin?.jsonBody ?? ''),
+                                      (_model.resLogin?.jsonBody ?? ''),
                                     )
                                     .toString(),
                               );
                               _shouldSetState = true;
-                              if ((apiResultD?.succeeded ?? true)) {
+                              if ((_model.apiResultD?.succeeded ?? true)) {
                                 GoRouter.of(context).prepareAuthEvent();
                                 final user = await signInAnonymously(context);
                                 if (user == null) {
@@ -383,11 +388,11 @@ class _PaginaLoginWidgetState extends State<PaginaLoginWidget> {
 
                                 final usuarioUpdateData =
                                     createUsuarioRecordData(
-                                  email: textController1!.text,
+                                  email: _model.textController1.text,
                                   token: FFAppState().token,
                                   idUsuario: ApiProgemGroup.dadosCall
                                       .id(
-                                        (apiResultD?.jsonBody ?? ''),
+                                        (_model.apiResultD?.jsonBody ?? ''),
                                       )
                                       .toString(),
                                 );

@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'pagina_perfil_model.dart';
+export 'pagina_perfil_model.dart';
 
 class PaginaPerfilWidget extends StatefulWidget {
   const PaginaPerfilWidget({
@@ -34,29 +36,29 @@ class PaginaPerfilWidget extends StatefulWidget {
 }
 
 class _PaginaPerfilWidgetState extends State<PaginaPerfilWidget> {
-  ApiCallResponse? apiResultlab;
-  ApiCallResponse? resultApiDados;
-  final _unfocusNode = FocusNode();
+  late PaginaPerfilModel _model;
+
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  ApiCallResponse? apiResulttjk;
-  TextEditingController? textController;
+  final _unfocusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
+    _model = createModel(context, () => PaginaPerfilModel());
+
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       if (FFAppState().token == null || FFAppState().token == '') {
         context.pushNamed('PaginaLogin');
       } else {
-        apiResultlab = await ApiProgemGroup.dadosCall.call(
+        _model.apiResultlab = await ApiProgemGroup.dadosCall.call(
           token: FFAppState().token,
         );
-        if ((apiResultlab?.succeeded ?? true)) {
-          resultApiDados = await ApiProgemGroup.dadosCall.call(
+        if ((_model.apiResultlab?.succeeded ?? true)) {
+          _model.resultApiDados = await ApiProgemGroup.dadosCall.call(
             token: FFAppState().token,
           );
-          if (!(resultApiDados?.succeeded ?? true)) {
+          if (!(_model.resultApiDados?.succeeded ?? true)) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
@@ -80,13 +82,14 @@ class _PaginaPerfilWidgetState extends State<PaginaPerfilWidget> {
       }
     });
 
-    textController = TextEditingController(text: widget.nome);
+    _model.textController = TextEditingController(text: widget.nome);
   }
 
   @override
   void dispose() {
+    _model.dispose();
+
     _unfocusNode.dispose();
-    textController?.dispose();
     super.dispose();
   }
 
@@ -329,7 +332,7 @@ class _PaginaPerfilWidgetState extends State<PaginaPerfilWidget> {
                                       ),
                                     ),
                                     TextFormField(
-                                      controller: textController,
+                                      controller: _model.textController,
                                       obscureText: false,
                                       decoration: InputDecoration(
                                         hintText: 'Nome',
@@ -380,6 +383,8 @@ class _PaginaPerfilWidgetState extends State<PaginaPerfilWidget> {
                                                         .bodyText1Family),
                                             lineHeight: 1,
                                           ),
+                                      validator: _model.textControllerValidator
+                                          .asValidator(context),
                                     ),
                                   ],
                                 ),
@@ -1030,12 +1035,12 @@ class _PaginaPerfilWidgetState extends State<PaginaPerfilWidget> {
                     padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 30),
                     child: FFButtonWidget(
                       onPressed: () async {
-                        apiResulttjk =
+                        _model.apiResulttjk =
                             await ApiProgemGroup.alteraUsuarioCall.call(
                           token: FFAppState().token,
-                          nome: textController!.text,
+                          nome: _model.textController.text,
                         );
-                        if ((apiResulttjk?.succeeded ?? true)) {
+                        if ((_model.apiResulttjk?.succeeded ?? true)) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(

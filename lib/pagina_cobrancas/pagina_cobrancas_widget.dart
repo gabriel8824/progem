@@ -19,6 +19,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:text_search/text_search.dart';
+import 'pagina_cobrancas_model.dart';
+export 'pagina_cobrancas_model.dart';
 
 class PaginaCobrancasWidget extends StatefulWidget {
   const PaginaCobrancasWidget({
@@ -33,18 +35,16 @@ class PaginaCobrancasWidget extends StatefulWidget {
 }
 
 class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
-  ApiCallResponse? apiResultlab;
-  bool? net;
-  final _unfocusNode = FocusNode();
+  late PaginaCobrancasModel _model;
+
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  ApiCallResponse? apiResultthr;
-  bool? net1;
-  InstantTimer? LoopCriarCobrancas;
-  List<CobrancasRecord> simpleSearchResults = [];
+  final _unfocusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
+    _model = createModel(context, () => PaginaCobrancasModel());
+
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       if (FFAppState().token == null || FFAppState().token == '') {
@@ -54,10 +54,10 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
           FFAppState().CobrancaAtualizada = null;
         });
       } else {
-        apiResultlab = await ApiProgemGroup.dadosCall.call(
+        _model.apiResultlab = await ApiProgemGroup.dadosCall.call(
           token: FFAppState().token,
         );
-        if ((apiResultlab?.succeeded ?? true)) {
+        if ((_model.apiResultlab?.succeeded ?? true)) {
           FFAppState().update(() {
             FFAppState().filtro = '';
           });
@@ -70,13 +70,14 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
         }
       }
 
-      net = await actions.checkInternet();
+      _model.net = await actions.checkInternet();
     });
   }
 
   @override
   void dispose() {
-    LoopCriarCobrancas?.cancel();
+    _model.dispose();
+
     _unfocusNode.dispose();
     super.dispose();
   }
@@ -656,7 +657,7 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                             ),
                                           ),
                                         ),
-                                        if (net ?? true)
+                                        if (_model.net ?? true)
                                           Padding(
                                             padding:
                                                 EdgeInsetsDirectional.fromSTEB(
@@ -664,12 +665,13 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                             child: InkWell(
                                               onTap: () async {
                                                 var _shouldSetState = false;
-                                                net1 = await actions
+                                                _model.net1 = await actions
                                                     .checkInternet();
                                                 _shouldSetState = true;
-                                                if (net1!) {
-                                                  LoopCriarCobrancas?.cancel();
-                                                  apiResultthr =
+                                                if (_model.net1!) {
+                                                  _model.LoopCriarCobrancas
+                                                      ?.cancel();
+                                                  _model.apiResultthr =
                                                       await ApiProgemGroup
                                                           .listarCobrancasCall
                                                           .call(
@@ -679,7 +681,7 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                         1,
                                                   );
                                                   _shouldSetState = true;
-                                                  if ((apiResultthr
+                                                  if ((_model.apiResultthr
                                                           ?.succeeded ??
                                                       true)) {
                                                     FFAppState().update(() {
@@ -694,13 +696,13 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                           ApiProgemGroup
                                                               .listarCobrancasCall
                                                               .dados(
-                                                                (apiResultthr
+                                                                (_model.apiResultthr
                                                                         ?.jsonBody ??
                                                                     ''),
                                                               )!
                                                               .toList();
                                                     });
-                                                    LoopCriarCobrancas =
+                                                    _model.LoopCriarCobrancas =
                                                         InstantTimer.periodic(
                                                       duration: Duration(
                                                           milliseconds: 1000),
@@ -718,7 +720,7 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                                     .first;
                                                           });
                                                           setState(() {
-                                                            simpleSearchResults =
+                                                            _model.simpleSearchResults =
                                                                 TextSearch(
                                                               paginaCobrancasCobrancasRecordList
                                                                   .map(
@@ -744,7 +746,8 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                                     .take(1)
                                                                     .toList();
                                                           });
-                                                          if (simpleSearchResults
+                                                          if (_model
+                                                                  .simpleSearchResults
                                                                   .length <=
                                                               1) {
                                                             final cobrancasCreateData =
@@ -886,7 +889,7 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                             });
                                                           }
                                                         } else {
-                                                          LoopCriarCobrancas
+                                                          _model.LoopCriarCobrancas
                                                               ?.cancel();
                                                         }
 
@@ -894,7 +897,7 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                                                                 .CobrancasOffV2
                                                                 .length ==
                                                             0) {
-                                                          LoopCriarCobrancas
+                                                          _model.LoopCriarCobrancas
                                                               ?.cancel();
                                                         }
                                                         return;
@@ -1136,8 +1139,12 @@ class _PaginaCobrancasWidgetState extends State<PaginaCobrancasWidget> {
                           child: Padding(
                             padding:
                                 EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
-                            child: MenuWidget(
-                              tela: 2,
+                            child: wrapWithModel(
+                              model: _model.menuModel,
+                              updateCallback: () => setState(() {}),
+                              child: MenuWidget(
+                                tela: 2,
+                              ),
                             ),
                           ),
                         ),

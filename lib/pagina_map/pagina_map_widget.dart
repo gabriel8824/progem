@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'pagina_map_model.dart';
+export 'pagina_map_model.dart';
 
 class PaginaMapWidget extends StatefulWidget {
   const PaginaMapWidget({Key? key}) : super(key: key);
@@ -19,30 +21,30 @@ class PaginaMapWidget extends StatefulWidget {
 }
 
 class _PaginaMapWidgetState extends State<PaginaMapWidget> {
-  ApiCallResponse? apiResultlab;
-  ApiCallResponse? resultMaps;
-  LatLng? currentUserLocationValue;
-  final _unfocusNode = FocusNode();
+  late PaginaMapModel _model;
+
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  LatLng? googleMapsCenter;
-  final googleMapsController = Completer<GoogleMapController>();
+  final _unfocusNode = FocusNode();
+  LatLng? currentUserLocationValue;
 
   @override
   void initState() {
     super.initState();
+    _model = createModel(context, () => PaginaMapModel());
+
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       if (FFAppState().token == null || FFAppState().token == '') {
         context.pushNamed('PaginaLogin');
       } else {
-        apiResultlab = await ApiProgemGroup.dadosCall.call(
+        _model.apiResultlab = await ApiProgemGroup.dadosCall.call(
           token: FFAppState().token,
         );
-        if ((apiResultlab?.succeeded ?? true)) {
-          resultMaps = await ApiProgemGroup.listarCobrancasCall.call(
+        if ((_model.apiResultlab?.succeeded ?? true)) {
+          _model.resultMaps = await ApiProgemGroup.listarCobrancasCall.call(
             token: FFAppState().token,
           );
-          if ((resultMaps?.succeeded ?? true)) {
+          if ((_model.resultMaps?.succeeded ?? true)) {
             FFAppState().update(() {});
           }
         } else {
@@ -61,6 +63,8 @@ class _PaginaMapWidgetState extends State<PaginaMapWidget> {
 
   @override
   void dispose() {
+    _model.dispose();
+
     _unfocusNode.dispose();
     super.dispose();
   }
@@ -181,9 +185,10 @@ class _PaginaMapWidgetState extends State<PaginaMapWidget> {
                   child: Stack(
                     children: [
                       FlutterFlowGoogleMap(
-                        controller: googleMapsController,
-                        onCameraIdle: (latLng) => googleMapsCenter = latLng,
-                        initialLocation: googleMapsCenter ??=
+                        controller: _model.googleMapsController,
+                        onCameraIdle: (latLng) =>
+                            _model.googleMapsCenter = latLng,
+                        initialLocation: _model.googleMapsCenter ??=
                             currentUserLocationValue!,
                         markers: paginaMapCobrancasRecordList
                             .map(
@@ -232,8 +237,12 @@ class _PaginaMapWidgetState extends State<PaginaMapWidget> {
                           child: Padding(
                             padding:
                                 EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
-                            child: MenuWidget(
-                              tela: 3,
+                            child: wrapWithModel(
+                              model: _model.menuModel,
+                              updateCallback: () => setState(() {}),
+                              child: MenuWidget(
+                                tela: 3,
+                              ),
                             ),
                           ),
                         ),

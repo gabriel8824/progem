@@ -15,6 +15,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
+import 'pagina_cobrancas_pagas_model.dart';
+export 'pagina_cobrancas_pagas_model.dart';
 
 class PaginaCobrancasPagasWidget extends StatefulWidget {
   const PaginaCobrancasPagasWidget({
@@ -31,26 +33,25 @@ class PaginaCobrancasPagasWidget extends StatefulWidget {
 
 class _PaginaCobrancasPagasWidgetState
     extends State<PaginaCobrancasPagasWidget> {
-  ApiCallResponse? apiResultlab;
-  bool? net;
-  final _unfocusNode = FocusNode();
+  late PaginaCobrancasPagasModel _model;
+
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  PagingController<DocumentSnapshot?, CobrancasRecord>? _pagingController;
-  Query? _pagingQuery;
-  List<StreamSubscription?> _streamSubscriptions = [];
+  final _unfocusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
+    _model = createModel(context, () => PaginaCobrancasPagasModel());
+
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       if (FFAppState().token == null || FFAppState().token == '') {
         context.pushNamed('PaginaLogin');
       } else {
-        apiResultlab = await ApiProgemGroup.dadosCall.call(
+        _model.apiResultlab = await ApiProgemGroup.dadosCall.call(
           token: FFAppState().token,
         );
-        if ((apiResultlab?.succeeded ?? true)) {
+        if ((_model.apiResultlab?.succeeded ?? true)) {
           FFAppState().update(() {
             FFAppState().filtro = '';
           });
@@ -63,13 +64,14 @@ class _PaginaCobrancasPagasWidgetState
         }
       }
 
-      net = await actions.checkInternet();
+      _model.net = await actions.checkInternet();
     });
   }
 
   @override
   void dispose() {
-    _streamSubscriptions.forEach((s) => s?.cancel());
+    _model.dispose();
+
     _unfocusNode.dispose();
     super.dispose();
   }
@@ -285,26 +287,31 @@ class _PaginaCobrancasPagasWidgetState
                                                           isEqualTo: 'RECEBIDA')
                                                       .orderBy('DataEdit',
                                                           descending: true);
-                                              if (_pagingController != null) {
+                                              if (_model.pagingController !=
+                                                  null) {
                                                 final query = queryBuilder(
                                                     CobrancasRecord.collection);
-                                                if (query != _pagingQuery) {
+                                                if (query !=
+                                                    _model.pagingQuery) {
                                                   // The query has changed
-                                                  _pagingQuery = query;
-                                                  _streamSubscriptions.forEach(
-                                                      (s) => s?.cancel());
-                                                  _streamSubscriptions.clear();
-                                                  _pagingController!.refresh();
+                                                  _model.pagingQuery = query;
+                                                  _model.streamSubscriptions
+                                                      .forEach(
+                                                          (s) => s?.cancel());
+                                                  _model.streamSubscriptions
+                                                      .clear();
+                                                  _model.pagingController!
+                                                      .refresh();
                                                 }
-                                                return _pagingController!;
+                                                return _model.pagingController!;
                                               }
 
-                                              _pagingController =
+                                              _model.pagingController =
                                                   PagingController(
                                                       firstPageKey: null);
-                                              _pagingQuery = queryBuilder(
+                                              _model.pagingQuery = queryBuilder(
                                                   CobrancasRecord.collection);
-                                              _pagingController!
+                                              _model.pagingController!
                                                   .addPageRequestListener(
                                                       (nextPageMarker) {
                                                 queryCobrancasRecordPage(
@@ -326,7 +333,8 @@ class _PaginaCobrancasPagasWidgetState
                                                   pageSize: 25,
                                                   isStream: true,
                                                 ).then((page) {
-                                                  _pagingController!.appendPage(
+                                                  _model.pagingController!
+                                                      .appendPage(
                                                     page.data,
                                                     page.nextPageMarker,
                                                   );
@@ -334,26 +342,26 @@ class _PaginaCobrancasPagasWidgetState
                                                       page.dataStream
                                                           ?.listen((data) {
                                                     data.forEach((item) {
-                                                      final itemIndexes =
-                                                          _pagingController!
-                                                              .itemList!
-                                                              .asMap()
-                                                              .map((k, v) =>
-                                                                  MapEntry(
-                                                                      v.reference
-                                                                          .id,
-                                                                      k));
+                                                      final itemIndexes = _model
+                                                          .pagingController!
+                                                          .itemList!
+                                                          .asMap()
+                                                          .map((k, v) =>
+                                                              MapEntry(
+                                                                  v.reference
+                                                                      .id,
+                                                                  k));
                                                       final index = itemIndexes[
                                                           item.reference.id];
-                                                      final items =
-                                                          _pagingController!
-                                                              .itemList!;
+                                                      final items = _model
+                                                          .pagingController!
+                                                          .itemList!;
                                                       if (index != null) {
                                                         items.replaceRange(
                                                             index,
                                                             index + 1,
                                                             [item]);
-                                                        _pagingController!
+                                                        _model.pagingController!
                                                             .itemList = {
                                                           for (var item
                                                               in items)
@@ -363,11 +371,11 @@ class _PaginaCobrancasPagasWidgetState
                                                     });
                                                     setState(() {});
                                                   });
-                                                  _streamSubscriptions
+                                                  _model.streamSubscriptions
                                                       .add(streamSubscription);
                                                 });
                                               });
-                                              return _pagingController!;
+                                              return _model.pagingController!;
                                             }(),
                                             padding: EdgeInsets.zero,
                                             primary: false,
@@ -402,7 +410,7 @@ class _PaginaCobrancasPagasWidgetState
                                               itemBuilder:
                                                   (context, _, listViewIndex) {
                                                 final listViewCobrancasRecord =
-                                                    _pagingController!
+                                                    _model.pagingController!
                                                             .itemList![
                                                         listViewIndex];
                                                 return Align(
@@ -769,8 +777,12 @@ class _PaginaCobrancasPagasWidgetState
                     decoration: BoxDecoration(),
                     child: Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
-                      child: MenuWidget(
-                        tela: 2,
+                      child: wrapWithModel(
+                        model: _model.menuModel,
+                        updateCallback: () => setState(() {}),
+                        child: MenuWidget(
+                          tela: 2,
+                        ),
                       ),
                     ),
                   ),

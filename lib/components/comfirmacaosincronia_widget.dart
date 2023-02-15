@@ -13,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'comfirmacaosincronia_model.dart';
+export 'comfirmacaosincronia_model.dart';
 
 class ComfirmacaosincroniaWidget extends StatefulWidget {
   const ComfirmacaosincroniaWidget({Key? key}) : super(key: key);
@@ -24,14 +26,24 @@ class ComfirmacaosincroniaWidget extends StatefulWidget {
 
 class _ComfirmacaosincroniaWidgetState
     extends State<ComfirmacaosincroniaWidget> {
-  ApiCallResponse? apiResultp1e;
-  InstantTimer? SicOff;
-  bool? net;
-  ApiCallResponse? apiResultvly;
+  late ComfirmacaosincroniaModel _model;
+
+  @override
+  void setState(VoidCallback callback) {
+    super.setState(callback);
+    _model.onUpdate();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _model = createModel(context, () => ComfirmacaosincroniaModel());
+  }
 
   @override
   void dispose() {
-    SicOff?.cancel();
+    _model.dispose();
+
     super.dispose();
   }
 
@@ -86,7 +98,7 @@ class _ComfirmacaosincroniaWidgetState
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      if (!SicOff.isActive)
+                      if (!_model.SicOff.isActive)
                         Column(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -170,12 +182,13 @@ class _ComfirmacaosincroniaWidgetState
                                   ),
                                   FFButtonWidget(
                                     onPressed: () async {
-                                      net = await actions.checkInternet();
-                                      if (net!) {
+                                      _model.net =
+                                          await actions.checkInternet();
+                                      if (_model.net!) {
                                         if (containerCobrancasRecordList
                                                 .length >=
                                             1) {
-                                          SicOff = InstantTimer.periodic(
+                                          _model.SicOff = InstantTimer.periodic(
                                             duration:
                                                 Duration(milliseconds: 3000),
                                             callback: (timer) async {
@@ -185,7 +198,7 @@ class _ComfirmacaosincroniaWidgetState
                                                 if (containerCobrancasRecordList
                                                         .first.status ==
                                                     'RECEBIDA') {
-                                                  apiResultp1e =
+                                                  _model.apiResultp1e =
                                                       await ApiProgemGroup
                                                           .receberCobrancaCall
                                                           .call(
@@ -214,10 +227,10 @@ class _ComfirmacaosincroniaWidgetState
                                                                 .first
                                                                 .locCobranca!),
                                                   );
-                                                  if ((apiResultp1e
+                                                  if ((_model.apiResultp1e
                                                           ?.succeeded ??
                                                       true)) {
-                                                    final cobrancasUpdateData =
+                                                    final cobrancasUpdateData1 =
                                                         createCobrancasRecordData(
                                                       sincronizado: true,
                                                       dataSincronia:
@@ -226,13 +239,13 @@ class _ComfirmacaosincroniaWidgetState
                                                     await containerCobrancasRecordList
                                                         .first.reference
                                                         .update(
-                                                            cobrancasUpdateData);
+                                                            cobrancasUpdateData1);
                                                   }
                                                 } else {
                                                   if (containerCobrancasRecordList
                                                           .first.status ==
                                                       'REAGENDADA') {
-                                                    apiResultvly =
+                                                    _model.apiResultvly =
                                                         await ApiProgemGroup
                                                             .reagendarCobrancaCall
                                                             .call(
@@ -257,10 +270,10 @@ class _ComfirmacaosincroniaWidgetState
                                                                   .first
                                                                   .locCobranca!),
                                                     );
-                                                    if ((apiResultvly
+                                                    if ((_model.apiResultvly
                                                             ?.succeeded ??
                                                         true)) {
-                                                      final cobrancasUpdateData =
+                                                      final cobrancasUpdateData2 =
                                                           createCobrancasRecordData(
                                                         sincronizado: true,
                                                         dataSincronia:
@@ -269,10 +282,10 @@ class _ComfirmacaosincroniaWidgetState
                                                       await containerCobrancasRecordList
                                                           .first.reference
                                                           .update(
-                                                              cobrancasUpdateData);
+                                                              cobrancasUpdateData2);
                                                     }
                                                   } else {
-                                                    SicOff?.cancel();
+                                                    _model.SicOff?.cancel();
                                                     Navigator.pop(context);
                                                     ScaffoldMessenger.of(
                                                             context)
@@ -297,7 +310,7 @@ class _ComfirmacaosincroniaWidgetState
                                                   }
                                                 }
                                               } else {
-                                                SicOff?.cancel();
+                                                _model.SicOff?.cancel();
                                                 Navigator.pop(context);
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
@@ -323,7 +336,7 @@ class _ComfirmacaosincroniaWidgetState
                                               await Future.delayed(
                                                   const Duration(
                                                       milliseconds: 40000));
-                                              SicOff?.cancel();
+                                              _model.SicOff?.cancel();
                                               Navigator.pop(context);
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
@@ -415,7 +428,7 @@ class _ComfirmacaosincroniaWidgetState
                             ),
                           ],
                         ),
-                      if (SicOff.isActive)
+                      if (_model.SicOff.isActive)
                         Column(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.center,

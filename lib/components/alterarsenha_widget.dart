@@ -7,6 +7,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'alterarsenha_model.dart';
+export 'alterarsenha_model.dart';
 
 class AlterarsenhaWidget extends StatefulWidget {
   const AlterarsenhaWidget({
@@ -35,30 +37,28 @@ class AlterarsenhaWidget extends StatefulWidget {
 }
 
 class _AlterarsenhaWidgetState extends State<AlterarsenhaWidget> {
-  ApiCallResponse? apiResultchi;
-  TextEditingController? novasenhaController;
-  late bool novasenhaVisibility;
-  TextEditingController? senhaatualController;
-  late bool senhaatualVisibility;
-  TextEditingController? senha2Controller;
-  late bool senha2Visibility;
+  late AlterarsenhaModel _model;
+
+  @override
+  void setState(VoidCallback callback) {
+    super.setState(callback);
+    _model.onUpdate();
+  }
 
   @override
   void initState() {
     super.initState();
-    novasenhaController = TextEditingController();
-    novasenhaVisibility = false;
-    senhaatualController = TextEditingController();
-    senhaatualVisibility = false;
-    senha2Controller = TextEditingController();
-    senha2Visibility = false;
+    _model = createModel(context, () => AlterarsenhaModel());
+
+    _model.senhaatualController = TextEditingController();
+    _model.novasenhaController = TextEditingController();
+    _model.senha2Controller = TextEditingController();
   }
 
   @override
   void dispose() {
-    novasenhaController?.dispose();
-    senhaatualController?.dispose();
-    senha2Controller?.dispose();
+    _model.dispose();
+
     super.dispose();
   }
 
@@ -176,8 +176,10 @@ class _AlterarsenhaWidgetState extends State<AlterarsenhaWidget> {
                                           ),
                                         ),
                                         TextFormField(
-                                          controller: senhaatualController,
-                                          obscureText: !senhaatualVisibility,
+                                          controller:
+                                              _model.senhaatualController,
+                                          obscureText:
+                                              !_model.senhaatualVisibility,
                                           decoration: InputDecoration(
                                             hintText: 'Senha',
                                             hintStyle:
@@ -218,13 +220,15 @@ class _AlterarsenhaWidgetState extends State<AlterarsenhaWidget> {
                                             ),
                                             suffixIcon: InkWell(
                                               onTap: () => setState(
-                                                () => senhaatualVisibility =
-                                                    !senhaatualVisibility,
+                                                () => _model
+                                                        .senhaatualVisibility =
+                                                    !_model
+                                                        .senhaatualVisibility,
                                               ),
                                               focusNode: FocusNode(
                                                   skipTraversal: true),
                                               child: Icon(
-                                                senhaatualVisibility
+                                                _model.senhaatualVisibility
                                                     ? Icons.visibility_outlined
                                                     : Icons
                                                         .visibility_off_outlined,
@@ -247,6 +251,9 @@ class _AlterarsenhaWidgetState extends State<AlterarsenhaWidget> {
                                                             .bodyText1Family),
                                                 lineHeight: 1,
                                               ),
+                                          validator: _model
+                                              .senhaatualControllerValidator
+                                              .asValidator(context),
                                         ),
                                       ],
                                     ),
@@ -301,8 +308,10 @@ class _AlterarsenhaWidgetState extends State<AlterarsenhaWidget> {
                                           ),
                                         ),
                                         TextFormField(
-                                          controller: novasenhaController,
-                                          obscureText: !novasenhaVisibility,
+                                          controller:
+                                              _model.novasenhaController,
+                                          obscureText:
+                                              !_model.novasenhaVisibility,
                                           decoration: InputDecoration(
                                             hintText: 'Senha',
                                             hintStyle:
@@ -343,13 +352,14 @@ class _AlterarsenhaWidgetState extends State<AlterarsenhaWidget> {
                                             ),
                                             suffixIcon: InkWell(
                                               onTap: () => setState(
-                                                () => novasenhaVisibility =
-                                                    !novasenhaVisibility,
+                                                () => _model
+                                                        .novasenhaVisibility =
+                                                    !_model.novasenhaVisibility,
                                               ),
                                               focusNode: FocusNode(
                                                   skipTraversal: true),
                                               child: Icon(
-                                                novasenhaVisibility
+                                                _model.novasenhaVisibility
                                                     ? Icons.visibility_outlined
                                                     : Icons
                                                         .visibility_off_outlined,
@@ -372,6 +382,9 @@ class _AlterarsenhaWidgetState extends State<AlterarsenhaWidget> {
                                                             .bodyText1Family),
                                                 lineHeight: 1,
                                               ),
+                                          validator: _model
+                                              .novasenhaControllerValidator
+                                              .asValidator(context),
                                         ),
                                       ],
                                     ),
@@ -426,8 +439,8 @@ class _AlterarsenhaWidgetState extends State<AlterarsenhaWidget> {
                                           ),
                                         ),
                                         TextFormField(
-                                          controller: senha2Controller,
-                                          obscureText: !senha2Visibility,
+                                          controller: _model.senha2Controller,
+                                          obscureText: !_model.senha2Visibility,
                                           decoration: InputDecoration(
                                             hintText: 'Senha',
                                             hintStyle:
@@ -468,13 +481,13 @@ class _AlterarsenhaWidgetState extends State<AlterarsenhaWidget> {
                                             ),
                                             suffixIcon: InkWell(
                                               onTap: () => setState(
-                                                () => senha2Visibility =
-                                                    !senha2Visibility,
+                                                () => _model.senha2Visibility =
+                                                    !_model.senha2Visibility,
                                               ),
                                               focusNode: FocusNode(
                                                   skipTraversal: true),
                                               child: Icon(
-                                                senha2Visibility
+                                                _model.senha2Visibility
                                                     ? Icons.visibility_outlined
                                                     : Icons
                                                         .visibility_off_outlined,
@@ -497,6 +510,9 @@ class _AlterarsenhaWidgetState extends State<AlterarsenhaWidget> {
                                                             .bodyText1Family),
                                                 lineHeight: 1,
                                               ),
+                                          validator: _model
+                                              .senha2ControllerValidator
+                                              .asValidator(context),
                                         ),
                                       ],
                                     ),
@@ -509,14 +525,16 @@ class _AlterarsenhaWidgetState extends State<AlterarsenhaWidget> {
                                   EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
                               child: FFButtonWidget(
                                 onPressed: () async {
-                                  apiResultchi = await ApiProgemGroup
+                                  _model.apiResultchi = await ApiProgemGroup
                                       .alterarSenhaCall
                                       .call(
                                     token: FFAppState().token,
-                                    senhaAtual: senhaatualController!.text,
-                                    senhaNova: novasenhaController!.text,
+                                    senhaAtual:
+                                        _model.senhaatualController.text,
+                                    senhaNova: _model.novasenhaController.text,
                                   );
-                                  if ((apiResultchi?.succeeded ?? true)) {
+                                  if ((_model.apiResultchi?.succeeded ??
+                                      true)) {
                                     Navigator.pop(context);
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(

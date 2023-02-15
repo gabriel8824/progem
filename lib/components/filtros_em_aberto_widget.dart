@@ -5,6 +5,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'filtros_em_aberto_model.dart';
+export 'filtros_em_aberto_model.dart';
 
 class FiltrosEmAbertoWidget extends StatefulWidget {
   const FiltrosEmAbertoWidget({
@@ -19,7 +21,26 @@ class FiltrosEmAbertoWidget extends StatefulWidget {
 }
 
 class _FiltrosEmAbertoWidgetState extends State<FiltrosEmAbertoWidget> {
-  String? radioButtonValue;
+  late FiltrosEmAbertoModel _model;
+
+  @override
+  void setState(VoidCallback callback) {
+    super.setState(callback);
+    _model.onUpdate();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _model = createModel(context, () => FiltrosEmAbertoModel());
+  }
+
+  @override
+  void dispose() {
+    _model.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,28 +115,29 @@ class _FiltrosEmAbertoWidgetState extends State<FiltrosEmAbertoWidget> {
                       ].toList(),
                       initialValue: 'Em aberto',
                       onChanged: (val) async {
-                        setState(() => radioButtonValue = val);
-                        if (radioButtonValue == 'Pago') {
+                        setState(() => _model.radioButtonValue = val);
+                        if (_model.radioButtonValue == 'Pago') {
                           Navigator.pop(context);
 
                           context.pushNamed('PaginaCobrancasPagas');
                         } else {
-                          if (radioButtonValue == 'Em aberto') {
+                          if (_model.radioButtonValue == 'Em aberto') {
                             Navigator.pop(context);
 
                             context.pushNamed('PaginaCobrancasPendentes');
                           } else {
-                            if (radioButtonValue == 'Reagendado') {
+                            if (_model.radioButtonValue == 'Reagendado') {
                               Navigator.pop(context);
 
                               context.pushNamed('PaginaCobrancasReagendadas');
                             } else {
-                              if (radioButtonValue == 'Em atraso') {
+                              if (_model.radioButtonValue == 'Em atraso') {
                                 Navigator.pop(context);
 
                                 context.pushNamed('PaginaCobrancasAtrasadas');
                               } else {
-                                if (radioButtonValue == 'Nome do Cliente') {
+                                if (_model.radioButtonValue ==
+                                    'Nome do Cliente') {
                                   Navigator.pop(context);
 
                                   context

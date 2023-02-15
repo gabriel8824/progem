@@ -13,6 +13,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'status_reagendar_contrato_model.dart';
+export 'status_reagendar_contrato_model.dart';
 
 class StatusReagendarContratoWidget extends StatefulWidget {
   const StatusReagendarContratoWidget({
@@ -29,25 +31,28 @@ class StatusReagendarContratoWidget extends StatefulWidget {
 
 class _StatusReagendarContratoWidgetState
     extends State<StatusReagendarContratoWidget> {
-  ApiCallResponse? apiResultReagendarCobranca1;
-  bool? net;
-  DateTimeRange? calendarSelectedDay;
-  TextEditingController? textController;
+  late StatusReagendarContratoModel _model;
+
   LatLng? currentUserLocationValue;
+
+  @override
+  void setState(VoidCallback callback) {
+    super.setState(callback);
+    _model.onUpdate();
+  }
 
   @override
   void initState() {
     super.initState();
-    calendarSelectedDay = DateTimeRange(
-      start: DateTime.now().startOfDay,
-      end: DateTime.now().endOfDay,
-    );
-    textController = TextEditingController();
+    _model = createModel(context, () => StatusReagendarContratoModel());
+
+    _model.textController = TextEditingController();
   }
 
   @override
   void dispose() {
-    textController?.dispose();
+    _model.dispose();
+
     super.dispose();
   }
 
@@ -150,10 +155,10 @@ class _StatusReagendarContratoWidgetState
                                 initialDate: getCurrentTimestamp,
                                 onChange:
                                     (DateTimeRange? newSelectedDate) async {
-                                  calendarSelectedDay = newSelectedDate;
+                                  _model.calendarSelectedDay = newSelectedDate;
                                   FFAppState().update(() {
                                     FFAppState().data =
-                                        calendarSelectedDay?.end;
+                                        _model.calendarSelectedDay?.end;
                                   });
                                   setState(() {});
                                 },
@@ -189,7 +194,7 @@ class _StatusReagendarContratoWidgetState
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
                               child: TextFormField(
-                                controller: textController,
+                                controller: _model.textController,
                                 autofocus: true,
                                 obscureText: false,
                                 decoration: InputDecoration(
@@ -242,6 +247,8 @@ class _StatusReagendarContratoWidgetState
                                     ),
                                 maxLines: 4,
                                 keyboardType: TextInputType.multiline,
+                                validator: _model.textControllerValidator
+                                    .asValidator(context),
                               ),
                             ),
                             Padding(
@@ -297,9 +304,11 @@ class _StatusReagendarContratoWidgetState
                                     ),
                                   ),
                                   FFButtonWidget(
-                                    onPressed: (textController!.text == null ||
-                                                textController!.text == '') ||
-                                            (calendarSelectedDay!.end <=
+                                    onPressed: (_model.textController.text ==
+                                                    null ||
+                                                _model.textController.text ==
+                                                    '') ||
+                                            (_model.calendarSelectedDay!.end <=
                                                 getCurrentTimestamp)
                                         ? null
                                         : () async {
@@ -307,26 +316,28 @@ class _StatusReagendarContratoWidgetState
                                                 await getCurrentUserLocation(
                                                     defaultLocation:
                                                         LatLng(0.0, 0.0));
-                                            net = await actions.checkInternet();
-                                            if (net!) {
-                                              apiResultReagendarCobranca1 =
+                                            _model.net =
+                                                await actions.checkInternet();
+                                            if (_model.net!) {
+                                              _model.apiResultReagendarCobranca1 =
                                                   await ApiProgemGroup
                                                       .reagendarCobrancaCall
                                                       .call(
                                                 token: FFAppState().token,
-                                                obs: textController!.text,
+                                                obs: _model.textController.text,
                                                 id: widget.cobranca!.id,
                                                 latitude: functions.pegarLatitude(
                                                     currentUserLocationValue!),
                                                 longitude: functions.pegarLogitude(
                                                     currentUserLocationValue!),
                                                 dataReagendamento:
-                                                    '${functions.converterdata(calendarSelectedDay!.end)}T10:00:00-03:00',
+                                                    '${functions.converterdata(_model.calendarSelectedDay!.end)}T10:00:00-03:00',
                                               );
-                                              if ((apiResultReagendarCobranca1
+                                              if ((_model
+                                                      .apiResultReagendarCobranca1
                                                       ?.succeeded ??
                                                   true)) {
-                                                final cobrancasUpdateData =
+                                                final cobrancasUpdateData1 =
                                                     createCobrancasRecordData(
                                                   status: 'REAGENDADA',
                                                   dataSincronia:
@@ -337,14 +348,15 @@ class _StatusReagendarContratoWidgetState
                                                   locCobranca:
                                                       currentUserLocationValue,
                                                   dataReagendamentoS:
-                                                      '${functions.converterdata(calendarSelectedDay!.end)}T10:00:00-03:00',
-                                                  dataReagendamento:
-                                                      calendarSelectedDay?.end,
-                                                  obs: textController!.text,
+                                                      '${functions.converterdata(_model.calendarSelectedDay!.end)}T10:00:00-03:00',
+                                                  dataReagendamento: _model
+                                                      .calendarSelectedDay?.end,
+                                                  obs: _model
+                                                      .textController.text,
                                                 );
                                                 await widget.cobranca!.reference
                                                     .update(
-                                                        cobrancasUpdateData);
+                                                        cobrancasUpdateData1);
                                                 FFAppState().update(() {
                                                   FFAppState()
                                                           .CobrancaAtualizada =
@@ -424,7 +436,7 @@ class _StatusReagendarContratoWidgetState
                                               context.pushNamed(
                                                   'PaginaCobrancasRealizadas');
 
-                                              final cobrancasUpdateData =
+                                              final cobrancasUpdateData2 =
                                                   createCobrancasRecordData(
                                                 status: 'REAGENDADA',
                                                 sincronizado: false,
@@ -432,14 +444,14 @@ class _StatusReagendarContratoWidgetState
                                                 dataEdit: getCurrentTimestamp,
                                                 locCobranca:
                                                     currentUserLocationValue,
-                                                dataReagendamento:
-                                                    calendarSelectedDay?.end,
+                                                dataReagendamento: _model
+                                                    .calendarSelectedDay?.end,
                                                 dataReagendamentoS:
-                                                    '${functions.converterdata(calendarSelectedDay!.end)}T10:00:00-03:00',
-                                                obs: textController!.text,
+                                                    '${functions.converterdata(_model.calendarSelectedDay!.end)}T10:00:00-03:00',
+                                                obs: _model.textController.text,
                                               );
                                               await widget.cobranca!.reference
-                                                  .update(cobrancasUpdateData);
+                                                  .update(cobrancasUpdateData2);
                                             }
 
                                             setState(() {});

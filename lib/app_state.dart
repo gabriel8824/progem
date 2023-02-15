@@ -73,6 +73,10 @@ class FFAppState extends ChangeNotifier {
     _Maps.remove(_value);
   }
 
+  void removeAtIndexFromMaps(int _index) {
+    _Maps.removeAt(_index);
+  }
+
   String _filtro = '';
   String get filtro => _filtro;
   set filtro(String _value) {
@@ -124,6 +128,12 @@ class FFAppState extends ChangeNotifier {
         _CobrancasOffV2.map((x) => jsonEncode(x)).toList());
   }
 
+  void removeAtIndexFromCobrancasOffV2(int _index) {
+    _CobrancasOffV2.removeAt(_index);
+    prefs.setStringList('ff_CobrancasOffV2',
+        _CobrancasOffV2.map((x) => jsonEncode(x)).toList());
+  }
+
   List<String> _CobrancasOffv3 = [];
   List<String> get CobrancasOffv3 => _CobrancasOffv3;
   set CobrancasOffv3(List<String> _value) {
@@ -138,6 +148,11 @@ class FFAppState extends ChangeNotifier {
 
   void removeFromCobrancasOffv3(String _value) {
     _CobrancasOffv3.remove(_value);
+    prefs.setStringList('ff_CobrancasOffv3', _CobrancasOffv3);
+  }
+
+  void removeAtIndexFromCobrancasOffv3(int _index) {
+    _CobrancasOffv3.removeAt(_index);
     prefs.setStringList('ff_CobrancasOffv3', _CobrancasOffv3);
   }
 
@@ -161,6 +176,10 @@ class FFAppState extends ChangeNotifier {
     _Caixas.remove(_value);
   }
 
+  void removeAtIndexFromCaixas(int _index) {
+    _Caixas.removeAt(_index);
+  }
+
   dynamic _CaixaAtual;
   dynamic get CaixaAtual => _CaixaAtual;
   set CaixaAtual(dynamic _value) {
@@ -182,6 +201,12 @@ class FFAppState extends ChangeNotifier {
 
   void removeFromCaixasDados(DocumentReference _value) {
     _CaixasDados.remove(_value);
+    prefs.setStringList(
+        'ff_CaixasDados', _CaixasDados.map((x) => x.path).toList());
+  }
+
+  void removeAtIndexFromCaixasDados(int _index) {
+    _CaixasDados.removeAt(_index);
     prefs.setStringList(
         'ff_CaixasDados', _CaixasDados.map((x) => x.path).toList());
   }
@@ -224,6 +249,10 @@ class FFAppState extends ChangeNotifier {
     _CobrancaReaAtual.remove(_value);
   }
 
+  void removeAtIndexFromCobrancaReaAtual(int _index) {
+    _CobrancaReaAtual.removeAt(_index);
+  }
+
   double _PorcentagemAtual = 0.0;
   double get PorcentagemAtual => _PorcentagemAtual;
   set PorcentagemAtual(double _value) {
@@ -248,6 +277,10 @@ class FFAppState extends ChangeNotifier {
 
   void removeFromCobrancasSicOff(DocumentReference _value) {
     _CobrancasSicOff.remove(_value);
+  }
+
+  void removeAtIndexFromCobrancasSicOff(int _index) {
+    _CobrancasSicOff.removeAt(_index);
   }
 
   DocumentReference? _CobrancaAtualSicOff;

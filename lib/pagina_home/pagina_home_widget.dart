@@ -17,6 +17,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:text_search/text_search.dart';
+import 'pagina_home_model.dart';
+export 'pagina_home_model.dart';
 
 class PaginaHomeWidget extends StatefulWidget {
   const PaginaHomeWidget({Key? key}) : super(key: key);
@@ -26,17 +28,16 @@ class PaginaHomeWidget extends StatefulWidget {
 }
 
 class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
-  ApiCallResponse? apiResultCaixas1;
-  bool? net44;
-  InstantTimer? LoopCaixa;
-  List<CaixasRecord> simpleSearchResults = [];
-  bool? net423;
-  final _unfocusNode = FocusNode();
+  late PaginaHomeModel _model;
+
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final _unfocusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
+    _model = createModel(context, () => PaginaHomeModel());
+
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       if (!(FFAppState().token != null && FFAppState().token != '')) {
@@ -50,7 +51,8 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
 
   @override
   void dispose() {
-    LoopCaixa?.cancel();
+    _model.dispose();
+
     _unfocusNode.dispose();
     super.dispose();
   }
@@ -393,8 +395,8 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                         padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
                         child: InkWell(
                           onTap: () async {
-                            net423 = await actions.checkInternet();
-                            if (net423!) {
+                            _model.net423 = await actions.checkInternet();
+                            if (_model.net423!) {
                               showModalBottomSheet(
                                 isScrollControlled: true,
                                 backgroundColor: Colors.transparent,
@@ -530,9 +532,9 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                   snapshot.data!;
                               return InkWell(
                                 onTap: () async {
-                                  net44 = await actions.checkInternet();
+                                  _model.net44 = await actions.checkInternet();
                                   if (containerCaixasRecordList.length < 1) {
-                                    if (net44!) {
+                                    if (_model.net44!) {
                                       if (containerCaixasRecordList.length <
                                           1) {
                                         showModalBottomSheet(
@@ -550,23 +552,26 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                           },
                                         ).then((value) => setState(() {}));
 
-                                        apiResultCaixas1 = await ApiProgemGroup
-                                            .caixasCall
-                                            .call(
+                                        _model.apiResultCaixas1 =
+                                            await ApiProgemGroup.caixasCall
+                                                .call(
                                           token: FFAppState().token,
                                         );
-                                        if ((apiResultCaixas1?.succeeded ??
+                                        if ((_model
+                                                .apiResultCaixas1?.succeeded ??
                                             true)) {
                                           FFAppState().update(() {
-                                            FFAppState().Caixas = ApiProgemGroup
-                                                .caixasCall
-                                                .body(
-                                                  (apiResultCaixas1?.jsonBody ??
-                                                      ''),
-                                                )!
-                                                .toList();
+                                            FFAppState().Caixas =
+                                                ApiProgemGroup.caixasCall
+                                                    .body(
+                                                      (_model.apiResultCaixas1
+                                                              ?.jsonBody ??
+                                                          ''),
+                                                    )!
+                                                    .toList();
                                           });
-                                          LoopCaixa = InstantTimer.periodic(
+                                          _model.LoopCaixa =
+                                              InstantTimer.periodic(
                                             duration:
                                                 Duration(milliseconds: 1000),
                                             callback: (timer) async {
@@ -577,7 +582,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                       FFAppState().Caixas.first;
                                                 });
                                                 setState(() {
-                                                  simpleSearchResults =
+                                                  _model.simpleSearchResults =
                                                       TextSearch(
                                                     containerCaixasRecordList
                                                         .map(
@@ -596,7 +601,8 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                           .map((r) => r.object)
                                                           .toList();
                                                 });
-                                                if (simpleSearchResults.length <
+                                                if (_model.simpleSearchResults
+                                                        .length <
                                                     1) {
                                                   final caixasCreateData =
                                                       createCaixasRecordData(
@@ -667,7 +673,7 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                                                   });
                                                 }
                                               } else {
-                                                LoopCaixa?.cancel();
+                                                _model.LoopCaixa?.cancel();
                                                 Navigator.pop(context);
                                               }
                                             },
@@ -800,8 +806,12 @@ class _PaginaHomeWidgetState extends State<PaginaHomeWidget> {
                   alignment: AlignmentDirectional(0, 0),
                   child: Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
-                    child: MenuWidget(
-                      tela: 1,
+                    child: wrapWithModel(
+                      model: _model.menuModel,
+                      updateCallback: () => setState(() {}),
+                      child: MenuWidget(
+                        tela: 1,
+                      ),
                     ),
                   ),
                 ),

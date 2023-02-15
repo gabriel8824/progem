@@ -7,6 +7,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'teste_model.dart';
+export 'teste_model.dart';
 
 class TesteWidget extends StatefulWidget {
   const TesteWidget({Key? key}) : super(key: key);
@@ -16,12 +18,22 @@ class TesteWidget extends StatefulWidget {
 }
 
 class _TesteWidgetState extends State<TesteWidget> {
-  LatLng? currentUserLocationValue;
-  final _unfocusNode = FocusNode();
+  late TesteModel _model;
+
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final _unfocusNode = FocusNode();
+  LatLng? currentUserLocationValue;
+
+  @override
+  void initState() {
+    super.initState();
+    _model = createModel(context, () => TesteModel());
+  }
 
   @override
   void dispose() {
+    _model.dispose();
+
     _unfocusNode.dispose();
     super.dispose();
   }

@@ -10,6 +10,8 @@ import '../flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'dados_cobranca_model.dart';
+export 'dados_cobranca_model.dart';
 
 class DadosCobrancaWidget extends StatefulWidget {
   const DadosCobrancaWidget({
@@ -24,6 +26,27 @@ class DadosCobrancaWidget extends StatefulWidget {
 }
 
 class _DadosCobrancaWidgetState extends State<DadosCobrancaWidget> {
+  late DadosCobrancaModel _model;
+
+  @override
+  void setState(VoidCallback callback) {
+    super.setState(callback);
+    _model.onUpdate();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _model = createModel(context, () => DadosCobrancaModel());
+  }
+
+  @override
+  void dispose() {
+    _model.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     context.watch<FFAppState>();

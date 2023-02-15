@@ -15,6 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:text_search/text_search.dart';
+import 'status_pago_contrato_model.dart';
+export 'status_pago_contrato_model.dart';
 
 class StatusPagoContratoWidget extends StatefulWidget {
   const StatusPagoContratoWidget({
@@ -30,12 +32,28 @@ class StatusPagoContratoWidget extends StatefulWidget {
 }
 
 class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
-  ApiCallResponse? apiResultReceberCobranca1;
-  bool? net;
-  List<CaixasRecord> simpleSearchResults = [];
-  String? dropDownCValue;
-  String? dropDownFDPValue;
+  late StatusPagoContratoModel _model;
+
   LatLng? currentUserLocationValue;
+
+  @override
+  void setState(VoidCallback callback) {
+    super.setState(callback);
+    _model.onUpdate();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _model = createModel(context, () => StatusPagoContratoModel());
+  }
+
+  @override
+  void dispose() {
+    _model.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -204,19 +222,20 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                               ],
                                             ),
                                             FlutterFlowDropDown<String>(
-                                              initialOption: dropDownCValue ??=
-                                                  containerCaixasRecordList
-                                                      .first.descricao,
+                                              initialOption:
+                                                  _model.dropDownCValue ??=
+                                                      containerCaixasRecordList
+                                                          .first.descricao,
                                               options: containerCaixasRecordList
                                                   .map((e) => e.descricao)
                                                   .withoutNulls
                                                   .toList()
                                                   .toList(),
                                               onChanged: (val) async {
-                                                setState(
-                                                    () => dropDownCValue = val);
+                                                setState(() => _model
+                                                    .dropDownCValue = val);
                                                 setState(() {
-                                                  simpleSearchResults =
+                                                  _model.simpleSearchResults =
                                                       TextSearch(
                                                     containerCaixasRecordList
                                                         .map(
@@ -228,8 +247,8 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                         )
                                                         .toList(),
                                                   )
-                                                          .search(
-                                                              dropDownCValue!)
+                                                          .search(_model
+                                                              .dropDownCValue!)
                                                           .map((r) => r.object)
                                                           .toList();
                                                 });
@@ -327,7 +346,7 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                             ),
                                             FlutterFlowDropDown<String>(
                                               initialOption:
-                                                  dropDownFDPValue ??=
+                                                  _model.dropDownFDPValue ??=
                                                       'Dinheiro',
                                               options: [
                                                 'Boleto bancário',
@@ -336,8 +355,9 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                 'Dinheiro',
                                                 'PIX'
                                               ],
-                                              onChanged: (val) => setState(
-                                                  () => dropDownFDPValue = val),
+                                              onChanged: (val) => setState(() =>
+                                                  _model.dropDownFDPValue =
+                                                      val),
                                               width: double.infinity,
                                               height: 50,
                                               textStyle:
@@ -546,9 +566,10 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                 await getCurrentUserLocation(
                                                     defaultLocation:
                                                         LatLng(0.0, 0.0));
-                                            net = await actions.checkInternet();
-                                            if (net!) {
-                                              apiResultReceberCobranca1 =
+                                            _model.net =
+                                                await actions.checkInternet();
+                                            if (_model.net!) {
+                                              _model.apiResultReceberCobranca1 =
                                                   await ApiProgemGroup
                                                       .receberCobrancaCall
                                                       .call(
@@ -557,27 +578,32 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                     .cobranca!.valorParcela
                                                     ?.toString(),
                                                 token: FFAppState().token,
-                                                idCaixa: simpleSearchResults
+                                                idCaixa: _model
+                                                            .simpleSearchResults
                                                             .length <
                                                         1
                                                     ? containerCaixasRecordList
                                                         .first.id
-                                                    : simpleSearchResults
+                                                    : _model.simpleSearchResults
                                                         .first.id,
                                                 formaDePagamento: () {
-                                                  if (dropDownFDPValue ==
+                                                  if (_model.dropDownFDPValue ==
                                                       'Boleto bancário') {
                                                     return 'BOLETO_BANCARIO';
-                                                  } else if (dropDownFDPValue ==
+                                                  } else if (_model
+                                                          .dropDownFDPValue ==
                                                       'Cartão de crédito') {
                                                     return 'CARTAO_CREDITO';
-                                                  } else if (dropDownFDPValue ==
+                                                  } else if (_model
+                                                          .dropDownFDPValue ==
                                                       'Cartão de débito') {
                                                     return 'CARTAO_DEBITO';
-                                                  } else if (dropDownFDPValue ==
+                                                  } else if (_model
+                                                          .dropDownFDPValue ==
                                                       'Dinheiro') {
                                                     return 'DINHEIRO';
-                                                  } else if (dropDownFDPValue ==
+                                                  } else if (_model
+                                                          .dropDownFDPValue ==
                                                       'PIX') {
                                                     return 'PIX';
                                                   } else {
@@ -589,10 +615,11 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                 longitude: functions.pegarLogitude(
                                                     currentUserLocationValue!),
                                               );
-                                              if ((apiResultReceberCobranca1
+                                              if ((_model
+                                                      .apiResultReceberCobranca1
                                                       ?.succeeded ??
                                                   true)) {
-                                                final cobrancasUpdateData =
+                                                final cobrancasUpdateData1 =
                                                     createCobrancasRecordData(
                                                   status: 'RECEBIDA',
                                                   dataSincronia:
@@ -603,36 +630,44 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                   locCobranca:
                                                       currentUserLocationValue,
                                                   formaDePagameto: () {
-                                                    if (dropDownFDPValue ==
+                                                    if (_model
+                                                            .dropDownFDPValue ==
                                                         'Boleto bancário') {
                                                       return 'BOLETO_BANCARIO';
-                                                    } else if (dropDownFDPValue ==
+                                                    } else if (_model
+                                                            .dropDownFDPValue ==
                                                         'Cartão de crédito') {
                                                       return 'CARTAO_CREDITO';
-                                                    } else if (dropDownFDPValue ==
+                                                    } else if (_model
+                                                            .dropDownFDPValue ==
                                                         'Cartão de débito') {
                                                       return 'CARTAO_DEBITO';
-                                                    } else if (dropDownFDPValue ==
+                                                    } else if (_model
+                                                            .dropDownFDPValue ==
                                                         'Dinheiro') {
                                                       return 'DINHEIRO';
-                                                    } else if (dropDownFDPValue ==
+                                                    } else if (_model
+                                                            .dropDownFDPValue ==
                                                         'PIX') {
                                                       return 'PIX';
                                                     } else {
                                                       return 'DINHEIRO';
                                                     }
                                                   }(),
-                                                  idCaixa: simpleSearchResults
+                                                  idCaixa: _model
+                                                              .simpleSearchResults
                                                               .length <
                                                           1
                                                       ? containerCaixasRecordList
                                                           .first.id
-                                                      : simpleSearchResults
-                                                          .first.id,
+                                                      : _model
+                                                          .simpleSearchResults
+                                                          .first
+                                                          .id,
                                                 );
                                                 await widget.cobranca!.reference
                                                     .update(
-                                                        cobrancasUpdateData);
+                                                        cobrancasUpdateData1);
                                                 FFAppState().update(() {
                                                   FFAppState()
                                                           .CobrancaAtualizada =
@@ -712,7 +747,7 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                               context.pushNamed(
                                                   'PaginaCobrancasRealizadas');
 
-                                              final cobrancasUpdateData =
+                                              final cobrancasUpdateData2 =
                                                   createCobrancasRecordData(
                                                 status: 'RECEBIDA',
                                                 sincronizado: false,
@@ -721,35 +756,40 @@ class _StatusPagoContratoWidgetState extends State<StatusPagoContratoWidget> {
                                                 locCobranca:
                                                     currentUserLocationValue,
                                                 formaDePagameto: () {
-                                                  if (dropDownFDPValue ==
+                                                  if (_model.dropDownFDPValue ==
                                                       'Boleto bancário') {
                                                     return 'BOLETO_BANCARIO';
-                                                  } else if (dropDownFDPValue ==
+                                                  } else if (_model
+                                                          .dropDownFDPValue ==
                                                       'Cartão de crédito') {
                                                     return 'CARTAO_CREDITO';
-                                                  } else if (dropDownFDPValue ==
+                                                  } else if (_model
+                                                          .dropDownFDPValue ==
                                                       'Cartão de débito') {
                                                     return 'CARTAO_DEBITO';
-                                                  } else if (dropDownFDPValue ==
+                                                  } else if (_model
+                                                          .dropDownFDPValue ==
                                                       'Dinheiro') {
                                                     return 'DINHEIRO';
-                                                  } else if (dropDownFDPValue ==
+                                                  } else if (_model
+                                                          .dropDownFDPValue ==
                                                       'PIX') {
                                                     return 'PIX';
                                                   } else {
                                                     return 'DINHEIRO';
                                                   }
                                                 }(),
-                                                idCaixa: simpleSearchResults
+                                                idCaixa: _model
+                                                            .simpleSearchResults
                                                             .length <
                                                         1
                                                     ? containerCaixasRecordList
                                                         .first.id
-                                                    : simpleSearchResults
+                                                    : _model.simpleSearchResults
                                                         .first.id,
                                               );
                                               await widget.cobranca!.reference
-                                                  .update(cobrancasUpdateData);
+                                                  .update(cobrancasUpdateData2);
                                             }
 
                                             setState(() {});

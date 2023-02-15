@@ -12,6 +12,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:text_search/text_search.dart';
+import 'pagina_caixa_model.dart';
+export 'pagina_caixa_model.dart';
 
 class PaginaCaixaWidget extends StatefulWidget {
   const PaginaCaixaWidget({Key? key}) : super(key: key);
@@ -21,14 +23,16 @@ class PaginaCaixaWidget extends StatefulWidget {
 }
 
 class _PaginaCaixaWidgetState extends State<PaginaCaixaWidget> {
-  List<CaixasRecord> simpleSearchResults = [];
-  String? dropDownCValue;
-  final _unfocusNode = FocusNode();
+  late PaginaCaixaModel _model;
+
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final _unfocusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
+    _model = createModel(context, () => PaginaCaixaModel());
+
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       if (!(FFAppState().token != null && FFAppState().token != '')) {
@@ -42,6 +46,8 @@ class _PaginaCaixaWidgetState extends State<PaginaCaixaWidget> {
 
   @override
   void dispose() {
+    _model.dispose();
+
     _unfocusNode.dispose();
     super.dispose();
   }
@@ -190,7 +196,7 @@ class _PaginaCaixaWidgetState extends State<PaginaCaixaWidget> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0, 20, 0, 0),
                                       child: FlutterFlowDropDown<String>(
-                                        initialOption: dropDownCValue ??=
+                                        initialOption: _model.dropDownCValue ??=
                                             paginaCaixaCaixasRecordList
                                                 .first.descricao,
                                         options: paginaCaixaCaixasRecordList
@@ -199,9 +205,11 @@ class _PaginaCaixaWidgetState extends State<PaginaCaixaWidget> {
                                             .toList()
                                             .toList(),
                                         onChanged: (val) async {
-                                          setState(() => dropDownCValue = val);
+                                          setState(() =>
+                                              _model.dropDownCValue = val);
                                           setState(() {
-                                            simpleSearchResults = TextSearch(
+                                            _model.simpleSearchResults =
+                                                TextSearch(
                                               paginaCaixaCaixasRecordList
                                                   .map(
                                                     (record) => TextSearchItem(
@@ -210,9 +218,10 @@ class _PaginaCaixaWidgetState extends State<PaginaCaixaWidget> {
                                                   )
                                                   .toList(),
                                             )
-                                                .search(dropDownCValue!)
-                                                .map((r) => r.object)
-                                                .toList();
+                                                    .search(
+                                                        _model.dropDownCValue!)
+                                                    .map((r) => r.object)
+                                                    .toList();
                                           });
                                         },
                                         width: double.infinity,
@@ -291,7 +300,9 @@ class _PaginaCaixaWidgetState extends State<PaginaCaixaWidget> {
                                                 padding: EdgeInsetsDirectional
                                                     .fromSTEB(0, 20, 0, 0),
                                                 child: AutoSizeText(
-                                                  simpleSearchResults.length < 1
+                                                  _model.simpleSearchResults
+                                                              .length <
+                                                          1
                                                       ? formatNumber(
                                                           paginaCaixaCaixasRecordList
                                                               .first.saldo!,
@@ -303,8 +314,10 @@ class _PaginaCaixaWidgetState extends State<PaginaCaixaWidget> {
                                                           currency: 'R\$ ',
                                                         )
                                                       : formatNumber(
-                                                          simpleSearchResults
-                                                              .first.saldo!,
+                                                          _model
+                                                              .simpleSearchResults
+                                                              .first
+                                                              .saldo!,
                                                           formatType: FormatType
                                                               .decimal,
                                                           decimalType:
@@ -890,8 +903,12 @@ class _PaginaCaixaWidgetState extends State<PaginaCaixaWidget> {
                             child: Padding(
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
-                              child: MenuWidget(
-                                tela: 0,
+                              child: wrapWithModel(
+                                model: _model.menuModel,
+                                updateCallback: () => setState(() {}),
+                                child: MenuWidget(
+                                  tela: 0,
+                                ),
                               ),
                             ),
                           ),

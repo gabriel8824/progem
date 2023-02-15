@@ -4,6 +4,8 @@ import '../flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'connected_off_model.dart';
+export 'connected_off_model.dart';
 
 class ConnectedOffWidget extends StatefulWidget {
   const ConnectedOffWidget({Key? key}) : super(key: key);
@@ -13,6 +15,27 @@ class ConnectedOffWidget extends StatefulWidget {
 }
 
 class _ConnectedOffWidgetState extends State<ConnectedOffWidget> {
+  late ConnectedOffModel _model;
+
+  @override
+  void setState(VoidCallback callback) {
+    super.setState(callback);
+    _model.onUpdate();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _model = createModel(context, () => ConnectedOffModel());
+  }
+
+  @override
+  void dispose() {
+    _model.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
