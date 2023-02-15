@@ -213,8 +213,8 @@ class _ComfirmacaosincroniaWidgetState
                                                     id: _model
                                                         .cobrancaAtual!.id,
                                                     token: FFAppState().token,
-                                                    valor: _model
-                                                        .cobrancaAtual!.valor
+                                                    valor: _model.cobrancaAtual!
+                                                        .valorParcela
                                                         ?.toString(),
                                                     formaDePagamento: _model
                                                         .cobrancaAtual!
