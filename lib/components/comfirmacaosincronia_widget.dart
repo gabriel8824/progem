@@ -182,52 +182,56 @@ class _ComfirmacaosincroniaWidgetState
                                   ),
                                   FFButtonWidget(
                                     onPressed: () async {
+                                      var _shouldSetState = false;
                                       _model.net =
                                           await actions.checkInternet();
+                                      _shouldSetState = true;
                                       if (_model.net!) {
-                                        if (containerCobrancasRecordList
-                                                .length >=
-                                            1) {
+                                        setState(() {
+                                          _model.cobrancas =
+                                              containerCobrancasRecordList
+                                                  .toList();
+                                        });
+                                        if (_model.cobrancas.length >= 1) {
                                           _model.SicOff = InstantTimer.periodic(
                                             duration:
-                                                Duration(milliseconds: 3000),
+                                                Duration(milliseconds: 1000),
                                             callback: (timer) async {
-                                              if (containerCobrancasRecordList
-                                                      .length >=
+                                              if (_model.cobrancas.length >=
                                                   1) {
-                                                if (containerCobrancasRecordList
-                                                        .first.status ==
+                                                setState(() {
+                                                  _model.cobrancaAtual =
+                                                      _model.cobrancas.first;
+                                                });
+                                                if (_model.cobrancaAtual!
+                                                        .status ==
                                                     'RECEBIDA') {
-                                                  _model.apiResultp1e =
+                                                  _model.apiResultReceber =
                                                       await ApiProgemGroup
                                                           .receberCobrancaCall
                                                           .call(
-                                                    id: containerCobrancasRecordList
-                                                        .first.id,
+                                                    id: _model
+                                                        .cobrancaAtual!.id,
                                                     token: FFAppState().token,
-                                                    valor:
-                                                        containerCobrancasRecordList
-                                                            .first.valorParcela
-                                                            ?.toString(),
-                                                    formaDePagamento:
-                                                        containerCobrancasRecordList
-                                                            .first
-                                                            .formaDePagameto,
-                                                    idCaixa:
-                                                        containerCobrancasRecordList
-                                                            .first.idCaixa,
-                                                    latitude:
-                                                        functions.pegarLatitude(
-                                                            containerCobrancasRecordList
-                                                                .first
-                                                                .locCobranca!),
-                                                    longitude:
-                                                        functions.pegarLogitude(
-                                                            containerCobrancasRecordList
-                                                                .first
-                                                                .locCobranca!),
+                                                    valor: _model
+                                                        .cobrancaAtual!.valor
+                                                        ?.toString(),
+                                                    formaDePagamento: _model
+                                                        .cobrancaAtual!
+                                                        .formaDePagameto,
+                                                    idCaixa: _model
+                                                        .cobrancaAtual!.idCaixa,
+                                                    latitude: functions
+                                                        .pegarLatitude(_model
+                                                            .cobrancaAtual!
+                                                            .locCobranca!),
+                                                    longitude: functions
+                                                        .pegarLogitude(_model
+                                                            .cobrancaAtual!
+                                                            .locCobranca!),
                                                   );
-                                                  if ((_model.apiResultp1e
+                                                  _shouldSetState = true;
+                                                  if ((_model.apiResultReceber
                                                           ?.succeeded ??
                                                       true)) {
                                                     final cobrancasUpdateData1 =
@@ -236,41 +240,48 @@ class _ComfirmacaosincroniaWidgetState
                                                       dataSincronia:
                                                           getCurrentTimestamp,
                                                     );
-                                                    await containerCobrancasRecordList
-                                                        .first.reference
+                                                    await _model.cobrancaAtual!
+                                                        .reference
                                                         .update(
                                                             cobrancasUpdateData1);
+                                                    setState(() {
+                                                      _model.removeFromCobrancas(
+                                                          _model
+                                                              .cobrancaAtual!);
+                                                    });
+                                                    setState(() {
+                                                      _model.cobrancaAtual =
+                                                          null;
+                                                    });
                                                   }
                                                 } else {
-                                                  if (containerCobrancasRecordList
-                                                          .first.status ==
+                                                  if (_model.cobrancaAtual!
+                                                          .status ==
                                                       'REAGENDADA') {
-                                                    _model.apiResultvly =
+                                                    _model.apiResultReagendamento =
                                                         await ApiProgemGroup
                                                             .reagendarCobrancaCall
                                                             .call(
                                                       token: FFAppState().token,
-                                                      id: containerCobrancasRecordList
-                                                          .first.id,
-                                                      dataReagendamento:
-                                                          containerCobrancasRecordList
-                                                              .first
-                                                              .dataReagendamentoS,
-                                                      obs:
-                                                          containerCobrancasRecordList
-                                                              .first.obs,
+                                                      id: _model
+                                                          .cobrancaAtual!.id,
+                                                      dataReagendamento: _model
+                                                          .cobrancaAtual!
+                                                          .dataReagendamentoS,
+                                                      obs: _model
+                                                          .cobrancaAtual!.obs,
                                                       latitude: functions
-                                                          .pegarLatitude(
-                                                              containerCobrancasRecordList
-                                                                  .first
-                                                                  .locCobranca!),
+                                                          .pegarLatitude(_model
+                                                              .cobrancaAtual!
+                                                              .locCobranca!),
                                                       longitude: functions
-                                                          .pegarLogitude(
-                                                              containerCobrancasRecordList
-                                                                  .first
-                                                                  .locCobranca!),
+                                                          .pegarLogitude(_model
+                                                              .cobrancaAtual!
+                                                              .locCobranca!),
                                                     );
-                                                    if ((_model.apiResultvly
+                                                    _shouldSetState = true;
+                                                    if ((_model
+                                                            .apiResultReagendamento
                                                             ?.succeeded ??
                                                         true)) {
                                                       final cobrancasUpdateData2 =
@@ -279,10 +290,20 @@ class _ComfirmacaosincroniaWidgetState
                                                         dataSincronia:
                                                             getCurrentTimestamp,
                                                       );
-                                                      await containerCobrancasRecordList
-                                                          .first.reference
+                                                      await _model
+                                                          .cobrancaAtual!
+                                                          .reference
                                                           .update(
                                                               cobrancasUpdateData2);
+                                                      setState(() {
+                                                        _model.removeFromCobrancas(
+                                                            _model
+                                                                .cobrancaAtual!);
+                                                      });
+                                                      setState(() {
+                                                        _model.cobrancaAtual =
+                                                            null;
+                                                      });
                                                     }
                                                   } else {
                                                     _model.SicOff?.cancel();
@@ -333,29 +354,9 @@ class _ComfirmacaosincroniaWidgetState
                                                 );
                                               }
 
-                                              await Future.delayed(
-                                                  const Duration(
-                                                      milliseconds: 40000));
-                                              _model.SicOff?.cancel();
-                                              Navigator.pop(context);
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    'Sincronia finalizada com sucesso!',
-                                                    style: GoogleFonts.getFont(
-                                                      'Poppins',
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                  duration: Duration(
-                                                      milliseconds: 4000),
-                                                  backgroundColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondaryColor,
-                                                ),
-                                              );
+                                              if (_shouldSetState)
+                                                setState(() {});
+                                              return;
                                             },
                                             startImmediately: false,
                                           );
@@ -396,7 +397,7 @@ class _ComfirmacaosincroniaWidgetState
                                         ).then((value) => setState(() {}));
                                       }
 
-                                      setState(() {});
+                                      if (_shouldSetState) setState(() {});
                                     },
                                     text: 'SIm',
                                     options: FFButtonOptions(

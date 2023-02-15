@@ -15,15 +15,24 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class ComfirmacaosincroniaModel extends FlutterFlowModel {
+  ///  Local state fields for this component.
+
+  List<CobrancasRecord> cobrancas = [];
+  void addToCobrancas(CobrancasRecord item) => cobrancas.add(item);
+  void removeFromCobrancas(CobrancasRecord item) => cobrancas.remove(item);
+  void removeAtIndexFromCobrancas(int index) => cobrancas.removeAt(index);
+
+  CobrancasRecord? cobrancaAtual;
+
   ///  State fields for stateful widgets in this component.
 
   // Stores action output result for [Custom Action - checkInternet] action in Button widget.
   bool? net;
   InstantTimer? SicOff;
   // Stores action output result for [Backend Call - API (Receber cobranca)] action in Button widget.
-  ApiCallResponse? apiResultp1e;
+  ApiCallResponse? apiResultReceber;
   // Stores action output result for [Backend Call - API (Reagendar cobranca)] action in Button widget.
-  ApiCallResponse? apiResultvly;
+  ApiCallResponse? apiResultReagendamento;
 
   /// Initialization and disposal methods.
 
